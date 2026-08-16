@@ -202,7 +202,7 @@ export function WorkspacePage() {
 
   // ─── No, Not Now flow ───────────────────────────────────────────────────
   const handleNoThanksFirst = useCallback(() => {
-    appendBlock({ id: createBlockId(), type: 'confirm_no_thanks_buttons' });
+    appendBlock({ id: createBlockId(), type: 'waiting_message' });
   }, [appendBlock]);
 
   const handleNoThanksConfirm = useCallback(() => {
