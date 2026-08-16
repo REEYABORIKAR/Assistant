@@ -6,7 +6,7 @@ import { projectService } from '../services/projectService';
 import { chatService } from '../services/chatService';
 import { aiService, type GenerationAction } from '../services/aiService';
 import { documentService } from '../services/documentService';
-import { SupervisorAgent, type ConversationEvent } from '../components/SupervisorAgent';
+import { SupervisorAgent, type ChatBlock, createBlockId } from '../components/SupervisorAgent';
 import { EntityActionMenu } from '../components/EntityActionMenu';
 
 function retrievalText(response: Awaited<ReturnType<typeof aiService.search>>) {
@@ -35,15 +35,21 @@ export function WorkspacePage() {
   const [recording, setRecording] = useState(false);
   const [renamingId, setRenamingId] = useState<string | null>(null);
   const [renameText, setRenameText] = useState('');
-  
-  // Conversation history - accumulates all events, never replaces
-  const [conversationHistory, setConversationHistory] = useState<ConversationEvent[]>([]);
+
+  // Append-only block timeline
+  const [blocks, setBlocks] = useState<ChatBlock[]>([]);
+
+  const appendBlock = useCallback((block: ChatBlock) => {
+    setBlocks(prev => [...prev, block]);
+  }, []);
 
   const open = async (conversation: Conversation) => {
     setActive(conversation);
     const msgs = await chatService.messages(conversation.id);
     setMessages(msgs);
-    setConversationHistory([]);
+    // Show action buttons if conversation has welcome messages (no user messages yet)
+    const hasWelcome = msgs.length >= 2 && msgs[0].role === 'assistant' && msgs[1].role === 'assistant';
+    setBlocks(hasWelcome ? [{ id: createBlockId(), type: 'action_buttons' }] : []);
     nav(`/app/projects/${projectId}/chat/${conversation.id}`);
   };
 
@@ -109,9 +115,10 @@ export function WorkspacePage() {
     const welcomeMsg1 = await chatService.message(c.id, 'assistant', 'Hi, welcome! How can I help you with your requirements?');
     const welcomeMsg2 = await chatService.message(c.id, 'assistant', 'Which document or action would you like to generate?');
     setMessages([welcomeMsg1, welcomeMsg2]);
-    setConversationHistory([]);
+    setBlocks([{ id: createBlockId(), type: 'action_buttons' }]);
   };
 
+  // ─── Send question (Ask Another Question flow) ───────────────────────────
   const send = useCallback(async (event?: React.FormEvent) => {
     if (event) event.preventDefault();
     if (!projectId || !active || !text.trim()) return;
@@ -122,6 +129,7 @@ export function WorkspacePage() {
     try {
       const user = await chatService.message(active.id, 'user', question);
       setMessages(x => [...x, user]);
+
       const generated = await aiService.generate(projectId, question);
       let citations: Citation[] = generated.citations || [];
       let content: string;
@@ -132,15 +140,18 @@ export function WorkspacePage() {
         citations = citations.length ? citations : (search.citations || []);
         content = `${generated.message ? generated.message + '\n\n' : ''}${retrievalText(search)}`;
       }
+
       const assistant = await chatService.message(active.id, 'assistant', content, citations);
       setMessages(x => [...x, assistant]);
-      setConversationHistory(x => [...x, { type: 'question_answered' }]);
+
+      // Append answer + next action buttons to block timeline
+      appendBlock({ id: createBlockId(), type: 'next_action_buttons' });
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Unable to search project documents.');
     } finally {
       setBusy(false);
     }
-  }, [projectId, active, text]);
+  }, [projectId, active, text, appendBlock]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -149,58 +160,70 @@ export function WorkspacePage() {
     }
   }, []);
 
+  // ─── Generate Document flow ──────────────────────────────────────────────
   const handleGenerateDocument = useCallback(async (action: string) => {
-    if (!projectId || !active) return;
+    if (!projectId || !active || busy) return;
     setBusy(true);
     setError('');
 
-    setConversationHistory(x => [...x, { type: 'generating', documentType: action }]);
+    // 1. Append generating block
+    const generatingId = createBlockId();
+    appendBlock({ id: generatingId, type: 'generating', documentType: action });
 
     try {
       const generated = await aiService.generateDocument(projectId, action as GenerationAction);
       const title = generated.title || action.replace('_', ' ');
 
-      setConversationHistory(x => [...x, {
-        type: 'document_generated',
-        documentTitle: title,
-        documentSize: '2.4 MB',
-        documentContent: generated.content || '',
-      }]);
+      // 2. Remove generating block, then append document result + next action
+      setBlocks(prev => prev.filter(b => b.id !== generatingId));
 
-      setConversationHistory(x => [...x, { type: 'next_action' }]);
+      appendBlock({
+        id: createBlockId(),
+        type: 'document_result',
+        title: title,
+        size: '2.4 MB',
+        content: generated.content || '',
+      });
+
+      appendBlock({ id: createBlockId(), type: 'next_action_buttons' });
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Unable to generate document.');
-      setConversationHistory(x => x.filter(e => e.type !== 'generating'));
+      // Remove the generating block on error
+      setBlocks(prev => prev.filter(b => b.id !== generatingId));
     } finally {
       setBusy(false);
     }
-  }, [projectId, active]);
+  }, [projectId, active, busy, appendBlock]);
 
+  // ─── Ask Another Question flow ──────────────────────────────────────────
   const handleAskAnotherQuestion = useCallback(() => {
-    setConversationHistory(x => [...x, { type: 'asking_question' }]);
-  }, []);
+    appendBlock({ id: createBlockId(), type: 'supervisor_message', text: 'Sure! What would you like to know?' });
+  }, [appendBlock]);
 
+  // ─── No, Not Now flow ───────────────────────────────────────────────────
   const handleNoThanksFirst = useCallback(() => {
-    setConversationHistory(x => [...x, { type: 'confirm_no_thanks' }]);
-  }, []);
+    appendBlock({ id: createBlockId(), type: 'confirm_no_thanks_buttons' });
+  }, [appendBlock]);
 
   const handleNoThanksConfirm = useCallback(() => {
-    setConversationHistory(x => [...x, { type: 'waiting' }]);
-  }, []);
+    appendBlock({ id: createBlockId(), type: 'waiting_message' });
+  }, [appendBlock]);
 
+  // ─── Next Action flow (from "What would you like to do next?") ─────────
   const handleNextAction = useCallback((action: 'generate' | 'ask' | 'none') => {
     if (action === 'generate') {
-      // stay on same view - user picks a document type from the top buttons
+      appendBlock({ id: createBlockId(), type: 'action_buttons' });
     } else if (action === 'ask') {
-      setConversationHistory(x => [...x, { type: 'asking_question' }]);
+      appendBlock({ id: createBlockId(), type: 'supervisor_message', text: 'Sure! What would you like to know?' });
     } else {
-      setConversationHistory(x => [...x, { type: 'confirm_no_thanks' }]);
+      appendBlock({ id: createBlockId(), type: 'confirm_no_thanks_buttons' });
     }
-  }, []);
+  }, [appendBlock]);
 
+  // ─── Feedback flow ──────────────────────────────────────────────────────
   const handleFeedback = useCallback((_helpful: boolean) => {
-    setConversationHistory(x => [...x, { type: 'next_action' }]);
-  }, []);
+    appendBlock({ id: createBlockId(), type: 'next_action_buttons' });
+  }, [appendBlock]);
 
   const openFileUpload = () => fileInputRef.current?.click();
 
@@ -247,8 +270,6 @@ export function WorkspacePage() {
 
   if (loading) return <div className="p-8">Loading workspace…</div>;
   if (!project) return <div className="p-8 text-rose-600">{error || 'Project not found.'}</div>;
-
-  const showWelcome = messages.length >= 2 && messages[0].role === 'assistant' && messages[1].role === 'assistant';
 
   return (
     <div className="flex h-screen flex-col">
@@ -328,10 +349,11 @@ export function WorkspacePage() {
                     </div>
                   </article>
                 ))}
-                
+
                 {active && (
                   <SupervisorAgent
-                    conversationHistory={conversationHistory}
+                    blocks={blocks}
+                    disabled={busy}
                     onUploadDocument={openFileUpload}
                     onViewDashboard={() => nav('/app/dashboard')}
                     onGenerateDocument={handleGenerateDocument}
@@ -340,8 +362,6 @@ export function WorkspacePage() {
                     onNoThanksConfirm={handleNoThanksConfirm}
                     onNextAction={handleNextAction}
                     onFeedback={handleFeedback}
-                    showWelcome={showWelcome}
-                    inputRef={textInputRef}
                   />
                 )}
               </>
