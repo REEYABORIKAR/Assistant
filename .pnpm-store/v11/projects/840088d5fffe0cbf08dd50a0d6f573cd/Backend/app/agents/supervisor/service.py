@@ -179,7 +179,7 @@ def handle_request_with_state(
 
     # Update state with classification
     state.intent = classification.intent
-    state.requires_rag = classification.route != Route.DIRECT_RESPONSE
+    state.requires_rag = classification.requires_rag
     state.metadata["classification_confidence"] = classification.confidence
     state.metadata["classification_reasoning"] = classification.reasoning
 

@@ -10,3 +10,4 @@ export type GenerateResponse = { query?: string; project_id?: string; answer?: s
 export type Conversation = { id: string; project_id: string; title: string; pinned?: boolean; created_at: string; updated_at: string };
 export type ChatMessage = { id: string; conversation_id: string; role: 'user' | 'assistant'; content: string; created_at: string; citations?: Citation[] };
 export type DocumentGenerationResponse = { title: string; content: string; action: string; citations?: Citation[]; source_documents?: Array<{ document_id: string; file_name: string }> };
+export type SupervisorChatResponse = { intent: string; route: string; requires_rag: boolean; confidence: number; workflow_status: string; session_id: string; conversation_id: string; content?: string | null; title?: string | null; action?: string | null; citations?: Citation[]; source_documents?: Array<{ document_id: string; file_name: string }>; error?: string | null };

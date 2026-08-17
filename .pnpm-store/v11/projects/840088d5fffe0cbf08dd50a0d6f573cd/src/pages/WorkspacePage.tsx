@@ -1,19 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, Bot, Mic, Plus, Send, Pin, Pencil, Trash2 } from 'lucide-react';
-import type { ChatMessage, Citation, Conversation, Project, Workspace } from '../types/models';
+import type { ChatMessage, Conversation, Project, Workspace } from '../types/models';
 import { projectService } from '../services/projectService';
 import { chatService } from '../services/chatService';
-import { aiService, type GenerationAction } from '../services/aiService';
+import { aiService } from '../services/aiService';
 import { documentService } from '../services/documentService';
 import { SupervisorAgent, type ChatBlock, createBlockId } from '../components/SupervisorAgent';
 import { EntityActionMenu } from '../components/EntityActionMenu';
-
-function retrievalText(response: Awaited<ReturnType<typeof aiService.search>>) {
-  const results = response.results || [];
-  if (!results.length) return 'No matching indexed content was found for this question.';
-  return results.map((result, index) => `${index + 1}. ${result.content || result.text || 'Matching source content available.'}`).join('\n\n');
-}
 
 export function WorkspacePage() {
   const { projectId, conversationId } = useParams();
@@ -130,16 +124,9 @@ export function WorkspacePage() {
       const user = await chatService.message(active.id, 'user', question);
       setMessages(x => [...x, user]);
 
-      const generated = await aiService.generate(projectId, question);
-      let citations: Citation[] = generated.citations || [];
-      let content: string;
-      if (generated.configured && generated.answer) {
-        content = generated.answer;
-      } else {
-        const search = await aiService.search(projectId, question);
-        citations = citations.length ? citations : (search.citations || []);
-        content = `${generated.message ? generated.message + '\n\n' : ''}${retrievalText(search)}`;
-      }
+      const response = await aiService.supervisorChat(projectId, active.id, question);
+      const content = response.content || 'No response from the Supervisor.';
+      const citations = response.citations || [];
 
       const assistant = await chatService.message(active.id, 'assistant', content, citations);
       setMessages(x => [...x, assistant]);
@@ -147,7 +134,7 @@ export function WorkspacePage() {
       // Append answer + next action buttons to block timeline
       appendBlock({ id: createBlockId(), type: 'next_action_buttons' });
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Unable to search project documents.');
+      setError(e instanceof Error ? e.message : 'Unable to process your request.');
     } finally {
       setBusy(false);
     }
@@ -171,8 +158,10 @@ export function WorkspacePage() {
     appendBlock({ id: generatingId, type: 'generating', documentType: action });
 
     try {
-      const generated = await aiService.generateDocument(projectId, action as GenerationAction);
-      const title = generated.title || action.replace('_', ' ');
+      const response = await aiService.supervisorChat(projectId, active.id, `Generate ${action}`, { action });
+
+      const content = response.content || '';
+      const title = response.title || action.replace('_', ' ');
 
       // 2. Remove generating block, then append document result + next action
       setBlocks(prev => prev.filter(b => b.id !== generatingId));
@@ -182,7 +171,7 @@ export function WorkspacePage() {
         type: 'document_result',
         title: title,
         size: '2.4 MB',
-        content: generated.content || '',
+        content: content,
       });
 
       appendBlock({ id: createBlockId(), type: 'next_action_buttons' });

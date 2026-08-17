@@ -891,18 +891,13 @@ class TestKnownIssues:
         # These are different logic paths.
         pass  # Documented, not asserting — it's a known issue.
 
-    def test_no_orchestration_layer(self):
-        """ISSUE: No module exists that takes RouteDecision and actually
-        dispatches to the downstream agent. The Supervisor only classifies
-        and routes — it never executes."""
-        # Check that no orchestrator exists
+    def test_orchestration_layer_exists(self):
+        """orchestrator.py now exists — it was created to execute downstream agents."""
         import os
         backend_dir = os.path.join(os.path.dirname(__file__), "..")
         supervisor_dir = os.path.join(backend_dir, "app", "agents", "supervisor")
         files = os.listdir(supervisor_dir)
-        assert "orchestrator.py" not in files, (
-            "orchestrator.py exists — remove this test if it's intentional"
-        )
+        assert "orchestrator.py" in files
 
     def test_requirement_agent_empty(self):
         """ISSUE: Requirement agent module is empty — no implementation."""
@@ -967,10 +962,7 @@ class TestFullWorkflowIntegration:
         resp, state = handle_request_with_state("u1", "p1", "upload document")
         assert state.intent == Intent.DOCUMENT_INGESTION
         assert state.route == Route.DOCUMENT_AGENT
-        # BUG: service.py:182 sets state.requires_rag = route != DIRECT_RESPONSE
-        # This incorrectly forces requires_rag=True for DOCUMENT_AGENT.
-        # The classifier correctly returns requires_rag=False.
-        assert state.requires_rag is True  # KNOWN BUG — should be False
+        assert state.requires_rag is False
         assert state.workflow_status == WorkflowStatus.GENERATING
 
     @patch("app.agents.supervisor.service.classify_intent")
@@ -1039,9 +1031,7 @@ class TestFullWorkflowIntegration:
         resp, state = handle_request_with_state("u1", "p1", "Validate these requirements")
         assert state.intent == Intent.REQUIREMENT_VALIDATION
         assert state.route == Route.VALIDATION_AGENT
-        # BUG: service.py:182 sets state.requires_rag = route != DIRECT_RESPONSE
-        # This incorrectly forces requires_rag=True for VALIDATION_AGENT.
-        assert state.requires_rag is True  # KNOWN BUG — should be False
+        assert state.requires_rag is False
         assert state.workflow_status == WorkflowStatus.VALIDATING
 
     @patch("app.agents.supervisor.service.classify_intent")
@@ -1056,9 +1046,7 @@ class TestFullWorkflowIntegration:
         resp, state = handle_request_with_state("u1", "p1", "I want human review")
         assert state.intent == Intent.HUMAN_REVIEW
         assert state.route == Route.HUMAN_REVIEW
-        # BUG: service.py:182 sets state.requires_rag = route != DIRECT_RESPONSE
-        # This incorrectly forces requires_rag=True for HUMAN_REVIEW.
-        assert state.requires_rag is True  # KNOWN BUG — should be False
+        assert state.requires_rag is False
         assert state.workflow_status == WorkflowStatus.AWAITING_HUMAN
 
     @patch("app.agents.supervisor.service.classify_intent")
@@ -1073,10 +1061,7 @@ class TestFullWorkflowIntegration:
         resp, state = handle_request_with_state("u1", "p1", "asdfghjkl")
         assert state.intent == Intent.UNKNOWN
         assert state.route == Route.DIRECT_RESPONSE
-        # BUG: service.py:182 uses classification.route (UNKNOWN) not resolved route (DIRECT_RESPONSE)
-        # Route.UNKNOWN != Route.DIRECT_RESPONSE → requires_rag incorrectly set to True
-        # This is a real bug: UNKNOWN intent should never require RAG
-        assert state.requires_rag is True  # KNOWN BUG — should be False
+        assert state.requires_rag is False
         assert state.workflow_status == WorkflowStatus.PENDING
 
 

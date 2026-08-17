@@ -36,6 +36,8 @@ from app.api import document_generation
 app.include_router(document_generation.router)
 from app.api import supervisor
 app.include_router(supervisor.router)
+from app.api import supervisor_chat
+app.include_router(supervisor_chat.router)
 
 @app.get("/health")
 def health_check():
