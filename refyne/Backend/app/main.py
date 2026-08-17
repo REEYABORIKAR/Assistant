@@ -34,6 +34,8 @@ from app.api import retrieval
 app.include_router(retrieval.router)
 from app.api import document_generation
 app.include_router(document_generation.router)
+from app.api import supervisor
+app.include_router(supervisor.router)
 
 @app.get("/health")
 def health_check():
