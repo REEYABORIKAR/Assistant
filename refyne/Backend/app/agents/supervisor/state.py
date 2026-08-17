@@ -117,6 +117,11 @@ class SupervisorState(BaseModel):
         default=None,
         description="Which agent path processes this request",
     )
+    action: Optional[str] = Field(
+        default=None,
+        description="Explicit document generation action (e.g. 'brd', 'srs', 'risk_analysis'). "
+                    "Preserved from frontend through to the requirement agent.",
+    )
 
     # ── RAG Pipeline ───────────────────────────────────────────────────────
     requires_rag: bool = Field(

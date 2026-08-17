@@ -27,6 +27,7 @@ logger = logging.getLogger(__name__)
 
 # ── Intent → Document Generation Action Mapping ────────────────────────────────
 # Maps generation intents to the action key used by DOCUMENT_PROMPTS.
+# Only used as fallback when state.action is not set.
 
 INTENT_TO_ACTION: dict[Intent, str] = {
     Intent.BRD_GENERATION: "brd",
@@ -87,6 +88,22 @@ def execute(state: SupervisorState, db: Session) -> SupervisorState:
     return state
 
 
+# ── Action Resolution ─────────────────────────────────────────────────────────
+
+def _resolve_action(state: SupervisorState) -> str:
+    """
+    Determine the document generation action for this state.
+
+    Priority:
+      1. state.action (explicit action from frontend/API)
+      2. INTENT_TO_ACTION mapping (from classified intent)
+      3. Fallback to "brd"
+    """
+    if state.action:
+        return state.action
+    return INTENT_TO_ACTION.get(state.intent, "brd")
+
+
 # ── Agent Executors ───────────────────────────────────────────────────────────
 
 def _execute_rag(state: SupervisorState, db: Session) -> SupervisorState:
@@ -123,11 +140,11 @@ def _execute_rag(state: SupervisorState, db: Session) -> SupervisorState:
     return state
 
 
-def _execute_requirement_agent(state: SupervisorState, db: Session) -> HybridRetriever | SupervisorState:
+def _execute_requirement_agent(state: SupervisorState, db: Session) -> SupervisorState:
     """Requirement Agent route: RAG retrieval + document generation."""
     state.workflow_status = WorkflowStatus.GENERATING
 
-    action = INTENT_TO_ACTION.get(state.intent, "brd")
+    action = _resolve_action(state)
     action_config = DOCUMENT_PROMPTS.get(action)
 
     if not action_config:
@@ -217,17 +234,30 @@ def _execute_validation_agent(state: SupervisorState, db: Session) -> Supervisor
         )
 
     state.metadata["validation_type"] = "requirement_validation"
+    state.validation_result = {
+        "status": "completed",
+        "type": "requirement_validation",
+        "has_context": bool(search_response.context),
+    }
     state.workflow_status = WorkflowStatus.COMPLETED
     return state
 
 
 def _execute_document_agent(state: SupervisorState, db: Session) -> SupervisorState:
-    """Document Agent route: acknowledge document ingestion request."""
+    """Document Agent route: acknowledge document ingestion request.
+
+    For actual document processing, the upload endpoint handles the full pipeline
+    (extraction -> chunking -> embeddings -> Chroma/BM25 -> indexed).
+    This route provides guidance to the user.
+    """
     state.workflow_status = WorkflowStatus.GENERATING
     state.generated_output = (
         "Document ingestion is handled through the document upload endpoint. "
-        "Please use the Upload Document button to upload your file for processing."
+        "Please use the Upload Document button to upload your file for processing. "
+        "The system will automatically extract content, chunk it, generate embeddings, "
+        "and index it for search."
     )
+    state.metadata["document_action"] = "document_ingestion"
     state.workflow_status = WorkflowStatus.COMPLETED
     return state
 
@@ -247,14 +277,13 @@ def _execute_direct_response(state: SupervisorState) -> SupervisorState:
 
 
 def _execute_human_review(state: SupervisorState) -> SupervisorState:
-    """Human review route: acknowledge and wait."""
+    """Human review route: acknowledge and wait for human input."""
     state.workflow_status = WorkflowStatus.AWAITING_HUMAN
     state.generated_output = (
         "I've noted your request for human review. "
         "This feature will be available soon. "
         "In the meantime, you can continue working with other features."
     )
-    state.workflow_status = WorkflowStatus.COMPLETED
     return state
 
 

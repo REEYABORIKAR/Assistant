@@ -1,12 +1,14 @@
 """
-Supervisor API endpoint.
+Supervisor API endpoint (DEPRECATED).
 
 Endpoint:
     POST /api/projects/{project_id}/supervisor
 
-Security:
-  - Requires valid JWT (authenticated user)
-  - project_id ownership verified against authenticated user
+DEPRECATED: This endpoint only classifies intent and routes — it does NOT
+execute downstream agents. Use POST /api/supervisor/chat instead, which
+performs classification, routing, AND execution in a single call.
+
+This endpoint is retained for backward compatibility and debugging only.
 """
 import logging
 from fastapi import APIRouter, Depends, HTTPException

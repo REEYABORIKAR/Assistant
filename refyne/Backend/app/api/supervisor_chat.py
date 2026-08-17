@@ -27,6 +27,7 @@ from app.agents.supervisor.orchestrator import execute
 from app.agents.supervisor.state import (
     Intent,
     Route,
+    SupervisorState,
     WorkflowStatus,
 )
 
@@ -157,8 +158,7 @@ def supervisor_chat(
             from app.agents.supervisor.router import route_from_intent
             decision = route_from_intent(intent=intent, confidence=1.0)
 
-            # Build state directly
-            from app.agents.supervisor.state import SupervisorState
+            # Build state directly — action is preserved for the orchestrator
             state = SupervisorState(
                 user_id=current_user.id,
                 project_id=body.project_id,
@@ -169,10 +169,10 @@ def supervisor_chat(
                 requires_rag=decision.requires_rag,
                 document_ids=body.document_ids,
                 workflow_status=decision.workflow_status,
+                action=body.action,
             )
             state.metadata["classification_confidence"] = 1.0
             state.metadata["classification_reasoning"] = f"Explicit action override: {body.action}"
-            state.metadata["document_action"] = body.action
 
         else:
             # --- Classify and route via LLM ---
@@ -183,9 +183,22 @@ def supervisor_chat(
                 session_id=session_id,
             )
             state.document_ids = body.document_ids
+            # If the LLM-classified intent maps to a generation action, set it
+            if state.action is None and body.action:
+                state.action = body.action
 
         # --- Execute the downstream agent ---
         state = execute(state, db)
+
+        # --- Build source documents from citations ---
+        source_docs = []
+        seen = set()
+        for c in (state.citations or []):
+            doc_id = getattr(c, "document_id", None) or (c.get("document_id") if isinstance(c, dict) else None)
+            doc_name = getattr(c, "file_name", None) or (c.get("file_name") if isinstance(c, dict) else None)
+            if doc_id and doc_id not in seen:
+                source_docs.append({"document_id": doc_id, "file_name": doc_name})
+                seen.add(doc_id)
 
         # --- Build response ---
         return SupervisorChatResponse(
@@ -198,9 +211,9 @@ def supervisor_chat(
             conversation_id=body.conversation_id,
             content=state.generated_output,
             title=state.metadata.get("document_title"),
-            action=state.metadata.get("document_action"),
+            action=state.metadata.get("document_action") or state.action,
             citations=[c.model_dump() for c in state.citations] if state.citations else [],
-            source_documents=[],
+            source_documents=source_docs,
             error=state.error,
         )
 

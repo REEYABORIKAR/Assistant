@@ -95,7 +95,7 @@ INTENT-TO-ROUTE RULES:
 - rtm_generation → requirement_agent
 - requirement_validation → validation_agent
 - human_review → human_review
-- revision → revision
+- revision → requirement_agent
 - project_context → direct_response
 - unknown → unknown
 

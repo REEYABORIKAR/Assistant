@@ -336,7 +336,7 @@ class TestOrchestratorOtherRoutes:
         result = execute(state, db)
 
         assert "human review" in result.generated_output.lower()
-        assert result.workflow_status == WorkflowStatus.COMPLETED
+        assert result.workflow_status == WorkflowStatus.AWAITING_HUMAN
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
