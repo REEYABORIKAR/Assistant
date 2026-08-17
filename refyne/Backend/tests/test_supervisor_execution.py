@@ -33,7 +33,7 @@ def _mock_generation(answer="Generated answer from LLM", configured=True, messag
     return {"answer": answer, "configured": configured, "message": message}
 
 
-def _make_state(intent, route, query="test query", project_id="p1"):
+def _make_state(intent, route, query="test query", project_id="p1", action=None, document_ids=None):
     return SupervisorState(
         user_id="u1",
         project_id=project_id,
@@ -43,6 +43,8 @@ def _make_state(intent, route, query="test query", project_id="p1"):
         route=route,
         requires_rag=True,
         workflow_status=WorkflowStatus.PENDING,
+        action=action,
+        document_ids=document_ids,
     )
 
 
@@ -314,12 +316,39 @@ class TestOrchestratorValidationAgent:
 class TestOrchestratorOtherRoutes:
     """Test orchestrator for document agent, direct response, human review."""
 
-    def test_document_agent_returns_upload_instruction(self):
+    def test_document_agent_no_ids_returns_upload_instruction(self):
         state = _make_state(Intent.DOCUMENT_INGESTION, Route.DOCUMENT_AGENT, "upload document")
         db = MagicMock()
         result = execute(state, db)
 
         assert "upload" in result.generated_output.lower()
+        assert result.workflow_status == WorkflowStatus.COMPLETED
+
+    @patch("app.agents.document.agent.DocumentAgent")
+    def test_document_agent_with_ids_calls_process(self, MockDocAgent):
+        """When document_ids provided, calls DocumentAgent.process_document()."""
+        from app.models.document import Document
+
+        mock_agent = MagicMock()
+        MockDocAgent.return_value = mock_agent
+
+        doc = MagicMock(spec=Document)
+        doc.id = "doc-1"
+        doc.file_name = "test.pdf"
+        doc.status = "indexed"
+        doc.error_message = None
+
+        db = MagicMock()
+        db.query.return_value.filter.return_value.first.return_value = doc
+
+        state = _make_state(
+            Intent.DOCUMENT_INGESTION, Route.DOCUMENT_AGENT,
+            "process document", document_ids=["doc-1"],
+        )
+        result = execute(state, db)
+
+        mock_agent.process_document.assert_called_once_with(doc)
+        assert result.metadata["processing_results"][0]["status"] == "indexed"
         assert result.workflow_status == WorkflowStatus.COMPLETED
 
     def test_direct_response_returns_help_text(self):

@@ -244,13 +244,65 @@ def _execute_validation_agent(state: SupervisorState, db: Session) -> Supervisor
 
 
 def _execute_document_agent(state: SupervisorState, db: Session) -> SupervisorState:
-    """Document Agent route: acknowledge document ingestion request.
+    """Document Agent route: process documents through the existing ingestion pipeline.
 
-    For actual document processing, the upload endpoint handles the full pipeline
-    (extraction -> chunking -> embeddings -> Chroma/BM25 -> indexed).
-    This route provides guidance to the user.
+    If document_ids are provided, finds those documents and runs them through
+    DocumentAgent.process_document() (extraction → chunking → embeddings → Chroma/BM25).
+
+    If no document_ids, returns guidance for the user to upload via the upload endpoint.
     """
     state.workflow_status = WorkflowStatus.GENERATING
+
+    # If specific document IDs are provided, process them through the ingestion pipeline
+    if state.document_ids:
+        from app.models.document import Document
+        from app.agents.document.agent import DocumentAgent
+
+        results = []
+        agent = DocumentAgent(db)
+
+        for doc_id in state.document_ids:
+            doc = db.query(Document).filter(
+                Document.id == doc_id,
+                Document.project_id == state.project_id,
+            ).first()
+            if not doc:
+                results.append({"document_id": doc_id, "status": "not_found"})
+                continue
+
+            # Run through the existing ingestion pipeline
+            agent.process_document(doc)
+            db.refresh(doc)
+            results.append({
+                "document_id": doc.id,
+                "file_name": doc.file_name,
+                "status": doc.status,
+                "error": doc.error_message,
+            })
+
+        state.metadata["document_action"] = "document_ingestion"
+        state.metadata["processing_results"] = results
+
+        indexed = [r for r in results if r["status"] == "indexed"]
+        failed = [r for r in results if r["status"] == "failed"]
+        not_found = [r for r in results if r["status"] == "not_found"]
+
+        parts = []
+        if indexed:
+            parts.append(f"{len(indexed)} document(s) indexed successfully")
+        if failed:
+            parts.append(f"{len(failed)} document(s) failed processing")
+        if not_found:
+            parts.append(f"{len(not_found)} document(s) not found")
+
+        state.generated_output = (
+            f"Document processing complete: {', '.join(parts)}. "
+            "You can now ask questions about these documents."
+        )
+        state.workflow_status = WorkflowStatus.COMPLETED
+        return state
+
+    # No document IDs — provide guidance
     state.generated_output = (
         "Document ingestion is handled through the document upload endpoint. "
         "Please use the Upload Document button to upload your file for processing. "

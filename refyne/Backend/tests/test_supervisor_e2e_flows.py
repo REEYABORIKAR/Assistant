@@ -39,7 +39,7 @@ def _mock_generation(answer="Generated answer from LLM", configured=True, messag
     return {"answer": answer, "configured": configured, "message": message}
 
 
-def _make_state(intent, route, query="test query", project_id="p1", action=None):
+def _make_state(intent, route, query="test query", project_id="p1", action=None, document_ids=None):
     return SupervisorState(
         user_id="u1",
         project_id=project_id,
@@ -50,6 +50,7 @@ def _make_state(intent, route, query="test query", project_id="p1", action=None)
         requires_rag=True,
         workflow_status=WorkflowStatus.PENDING,
         action=action,
+        document_ids=document_ids,
     )
 
 
@@ -114,9 +115,10 @@ class TestFlowA_RAGQuestion:
 # ═══════════════════════════════════════════════════════════════════════════════
 
 class TestFlowB_DocumentAgent:
-    """User uploads document → Document Agent → guidance message."""
+    """User uploads document → Document Agent → processing pipeline."""
 
-    def test_document_agent_full_flow(self):
+    def test_document_agent_no_ids_returns_guidance(self):
+        """Without document_ids, returns guidance message."""
         state = _classify_and_execute(
             Intent.DOCUMENT_INGESTION, Route.DOCUMENT_AGENT,
             "upload document"
@@ -128,6 +130,96 @@ class TestFlowB_DocumentAgent:
         assert "upload" in state.generated_output.lower()
         assert state.workflow_status == WorkflowStatus.COMPLETED
         assert state.metadata.get("document_action") == "document_ingestion"
+
+    @patch("app.agents.document.agent.DocumentAgent")
+    def test_document_agent_with_ids_processes_them(self, MockDocAgent):
+        """With document_ids, calls DocumentAgent.process_document() for each."""
+        from app.models.document import Document
+
+        mock_agent = MagicMock()
+        MockDocAgent.return_value = mock_agent
+
+        # Create mock documents
+        doc1 = MagicMock(spec=Document)
+        doc1.id = "doc-1"
+        doc1.file_name = "BRD.pdf"
+        doc1.status = "indexed"
+        doc1.error_message = None
+
+        doc2 = MagicMock(spec=Document)
+        doc2.id = "doc-2"
+        doc2.file_name = "SRS.docx"
+        doc2.status = "indexed"
+        doc2.error_message = None
+
+        db = MagicMock()
+        db.query.return_value.filter.return_value.first.side_effect = [doc1, doc2]
+
+        state = _make_state(
+            Intent.DOCUMENT_INGESTION, Route.DOCUMENT_AGENT,
+            "process my documents", document_ids=["doc-1", "doc-2"],
+        )
+        result = execute(state, db)
+
+        # DocumentAgent was created and process_document called for each doc
+        MockDocAgent.assert_called_once_with(db)
+        assert mock_agent.process_document.call_count == 2
+        mock_agent.process_document.assert_any_call(doc1)
+        mock_agent.process_document.assert_any_call(doc2)
+
+        # Results in metadata
+        assert "processing_results" in result.metadata
+        assert len(result.metadata["processing_results"]) == 2
+        assert result.metadata["processing_results"][0]["status"] == "indexed"
+        assert result.metadata["processing_results"][1]["status"] == "indexed"
+
+        # Output describes results
+        assert "document(s) indexed" in result.generated_output
+        assert result.workflow_status == WorkflowStatus.COMPLETED
+
+    @patch("app.agents.document.agent.DocumentAgent")
+    def test_document_agent_handles_not_found(self, MockDocAgent):
+        """Documents not found in project are reported as not_found."""
+        mock_agent = MagicMock()
+        MockDocAgent.return_value = mock_agent
+
+        db = MagicMock()
+        db.query.return_value.filter.return_value.first.return_value = None
+
+        state = _make_state(
+            Intent.DOCUMENT_INGESTION, Route.DOCUMENT_AGENT,
+            "process doc", document_ids=["nonexistent-id"],
+        )
+        result = execute(state, db)
+
+        assert result.metadata["processing_results"][0]["status"] == "not_found"
+        assert "not found" in result.generated_output.lower()
+
+    @patch("app.agents.document.agent.DocumentAgent")
+    def test_document_agent_handles_processing_failure(self, MockDocAgent):
+        """Documents that fail processing are reported as failed."""
+        from app.models.document import Document
+
+        mock_agent = MagicMock()
+        MockDocAgent.return_value = mock_agent
+
+        doc = MagicMock(spec=Document)
+        doc.id = "doc-fail"
+        doc.file_name = "bad.pdf"
+        doc.status = "failed"
+        doc.error_message = "Extraction failed"
+
+        db = MagicMock()
+        db.query.return_value.filter.return_value.first.return_value = doc
+
+        state = _make_state(
+            Intent.DOCUMENT_INGESTION, Route.DOCUMENT_AGENT,
+            "process doc", document_ids=["doc-fail"],
+        )
+        result = execute(state, db)
+
+        assert result.metadata["processing_results"][0]["status"] == "failed"
+        assert "failed" in result.generated_output.lower()
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
