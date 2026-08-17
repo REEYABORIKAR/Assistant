@@ -74,7 +74,7 @@ class TestStateIntegrity:
             )
 
     @pytest.mark.xfail(
-        reason="BUG: REVISION maps to Route.REVISION in classifier but Route.REQUIREMENT_AGENT in router"
+        reason="KNOWN: UNKNOWN maps to Route.UNKNOWN in classifier but Route.DIRECT_RESPONSE in router (by design)"
     )
     def test_classifier_and_router_route_maps_agree(self):
         """Classifier and router must map each intent to the same route."""
