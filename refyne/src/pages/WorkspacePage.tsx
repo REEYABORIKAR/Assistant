@@ -41,7 +41,6 @@ export function WorkspacePage() {
     setActive(conversation);
     const msgs = await chatService.messages(conversation.id);
     setMessages(msgs);
-    // Show action buttons if conversation has welcome messages (no user messages yet)
     const hasWelcome = msgs.length >= 2 && msgs[0].role === 'assistant' && msgs[1].role === 'assistant';
     setBlocks(hasWelcome ? [{ id: createBlockId(), type: 'action_buttons' }] : []);
     nav(`/app/projects/${projectId}/chat/${conversation.id}`);
@@ -120,6 +119,7 @@ export function WorkspacePage() {
     setText('');
     setBusy(true);
     setError('');
+    setBlocks([]);
     try {
       const user = await chatService.message(active.id, 'user', question);
       setMessages(x => [...x, user]);
@@ -131,14 +131,13 @@ export function WorkspacePage() {
       const assistant = await chatService.message(active.id, 'assistant', content, citations);
       setMessages(x => [...x, assistant]);
 
-      // Append answer + next action buttons to block timeline
       appendBlock({ id: createBlockId(), type: 'next_action_buttons' });
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Unable to process your request.');
     } finally {
       setBusy(false);
     }
-  }, [projectId, active, text, appendBlock]);
+  }, [projectId, active, text]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -152,8 +151,8 @@ export function WorkspacePage() {
     if (!projectId || !active || busy) return;
     setBusy(true);
     setError('');
+    setBlocks([]);
 
-    // 1. Append generating block
     const generatingId = createBlockId();
     appendBlock({ id: generatingId, type: 'generating', documentType: action });
 
@@ -186,33 +185,33 @@ export function WorkspacePage() {
 
   // ─── Ask Another Question flow ──────────────────────────────────────────
   const handleAskAnotherQuestion = useCallback(() => {
-    appendBlock({ id: createBlockId(), type: 'supervisor_message', text: 'Sure! What would you like to know?' });
-  }, [appendBlock]);
+    setBlocks([]);
+  }, []);
 
   // ─── No, Not Now flow ───────────────────────────────────────────────────
   const handleNoThanksFirst = useCallback(() => {
-    appendBlock({ id: createBlockId(), type: 'waiting_message' });
-  }, [appendBlock]);
+    setBlocks([{ id: createBlockId(), type: 'waiting_message' }]);
+  }, []);
 
   const handleNoThanksConfirm = useCallback(() => {
-    appendBlock({ id: createBlockId(), type: 'waiting_message' });
-  }, [appendBlock]);
+    setBlocks([{ id: createBlockId(), type: 'waiting_message' }]);
+  }, []);
 
   // ─── Next Action flow (from "What would you like to do next?") ─────────
   const handleNextAction = useCallback((action: 'generate' | 'ask' | 'none') => {
     if (action === 'generate') {
-      appendBlock({ id: createBlockId(), type: 'action_buttons' });
+      setBlocks([{ id: createBlockId(), type: 'action_buttons' }]);
     } else if (action === 'ask') {
-      appendBlock({ id: createBlockId(), type: 'supervisor_message', text: 'Sure! What would you like to know?' });
+      setBlocks([]);
     } else {
-      appendBlock({ id: createBlockId(), type: 'confirm_no_thanks_buttons' });
+      setBlocks([{ id: createBlockId(), type: 'confirm_no_thanks_buttons' }]);
     }
-  }, [appendBlock]);
+  }, []);
 
   // ─── Feedback flow ──────────────────────────────────────────────────────
   const handleFeedback = useCallback((_helpful: boolean) => {
-    appendBlock({ id: createBlockId(), type: 'next_action_buttons' });
-  }, [appendBlock]);
+    setBlocks([{ id: createBlockId(), type: 'next_action_buttons' }]);
+  }, []);
 
   const openFileUpload = () => fileInputRef.current?.click();
 

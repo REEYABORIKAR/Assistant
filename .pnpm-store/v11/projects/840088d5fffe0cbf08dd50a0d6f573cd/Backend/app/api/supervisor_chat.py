@@ -40,7 +40,10 @@ router = APIRouter(tags=["supervisor-chat"])
 class SupervisorChatRequest(BaseModel):
     """Input for the Supervisor chat endpoint."""
     project_id: str = Field(..., description="Active project ID")
-    conversation_id: str = Field(..., description="Frontend conversation ID")
+    conversation_id: Optional[str] = Field(
+        default=None,
+        description="Frontend conversation ID. Auto-generated if missing.",
+    )
     user_message: str = Field(..., min_length=1, description="User message or command")
     action: Optional[str] = Field(
         default=None,
@@ -150,6 +153,7 @@ def supervisor_chat(
         raise HTTPException(status_code=422, detail="user_message must not be empty")
 
     session_id = str(uuid.uuid4())
+    conversation_id = body.conversation_id or str(uuid.uuid4())
 
     try:
         # --- If explicit action is provided, bypass LLM classification ---
@@ -208,7 +212,7 @@ def supervisor_chat(
             confidence=state.metadata.get("classification_confidence", 0.0),
             workflow_status=state.workflow_status.value,
             session_id=session_id,
-            conversation_id=body.conversation_id,
+            conversation_id=conversation_id,
             content=state.generated_output,
             title=state.metadata.get("document_title"),
             action=state.metadata.get("document_action") or state.action,
@@ -228,6 +232,6 @@ def supervisor_chat(
             confidence=0.0,
             workflow_status=WorkflowStatus.FAILED.value,
             session_id=session_id,
-            conversation_id=body.conversation_id,
+            conversation_id=conversation_id,
             error=str(e),
         )

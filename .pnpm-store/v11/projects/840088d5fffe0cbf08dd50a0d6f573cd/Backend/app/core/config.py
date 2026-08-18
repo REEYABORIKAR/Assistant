@@ -47,7 +47,7 @@ class Settings(BaseSettings):
 
     # LLM answer generation (Groq)
     GROQ_API_KEY: str = ""
-    GROQ_MODEL: str = "llama-3.3-70b-versatile"
+    GROQ_MODEL: str = "qwen/qwen3.6-27b"
     GENERATION_MAX_TOKENS: int = 1024
     GENERATION_TEMPERATURE: float = 0.2
 

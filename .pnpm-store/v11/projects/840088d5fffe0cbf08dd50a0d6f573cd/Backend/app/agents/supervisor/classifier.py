@@ -10,6 +10,7 @@ user wants and where it should go.
 """
 import json
 import logging
+import re
 from typing import Optional
 
 from pydantic import BaseModel, Field
@@ -58,6 +59,7 @@ INTENT_ROUTE_MAP: dict[Intent, Route] = {
 RAG_REQUIRED_INTENTS: set[Intent] = {
     Intent.DOCUMENT_SEARCH,
     Intent.QUESTION_ANSWERING,
+    Intent.PROJECT_CONTEXT,
     Intent.REQUIREMENT_GENERATION,
     Intent.USER_STORY_GENERATION,
     Intent.ACCEPTANCE_CRITERIA_GENERATION,
@@ -67,10 +69,50 @@ RAG_REQUIRED_INTENTS: set[Intent] = {
 }
 
 
+# ── Document-Keyword Pre-check ────────────────────────────────────────────────
+# Regex patterns that strongly indicate a document-related query.
+# Used as a safety net: if the query matches these patterns, we ensure
+# it routes to RAG even if the LLM misclassifies it.
+
+_DOCUMENT_QUERY_PATTERNS: list[re.Pattern] = [
+    # "What does the document say about X?"
+    re.compile(r"what(?:'s| is| does| are| do)\b.{0,30}(?:document|file|upload)", re.IGNORECASE),
+    # "Summarize my uploaded document"
+    re.compile(r"summar(?:ize|ise|y|izing)\b.{0,30}(?:document|file|upload)", re.IGNORECASE),
+    # "What are the main requirements in my uploaded document?"
+    re.compile(r"(?:main |key |primary )?requirements?\b.{0,30}(?:document|file|upload|my)", re.IGNORECASE),
+    # "What requirements are mentioned in the document?"
+    re.compile(r"requirements?\b.{0,20}mentioned?.{0,20}(?:document|file|upload)", re.IGNORECASE),
+    # General "in the document" / "from the document" / "about the document"
+    re.compile(r"(?:in|from|about|within|regarding)\b.{0,15}(?:the|my|this|uploaded)\s+document", re.IGNORECASE),
+    # "Search the document for X" / "Find X in the document"
+    re.compile(r"(?:search|find|look|check|scan)\b.{0,30}(?:document|file|upload)", re.IGNORECASE),
+    # "What is in the document" / "Tell me about the document"
+    re.compile(r"(?:what is|what's|tell me|explain|describe)\b.{0,20}(?:document|file|upload)", re.IGNORECASE),
+    # Direct document reference with question words
+    re.compile(r"(?:how|why|when|where|who|which)\b.{0,30}(?:document|file|upload)", re.IGNORECASE),
+    # References to "the spec" / "the specification"
+    re.compile(r"(?:the|this|my)\s+(?:spec|specification|requirements?\s+doc)", re.IGNORECASE),
+    # "Where are the X requirements?" (implicit document reference)
+    re.compile(r"where\s+(?:are|is|can|do)\b.{0,30}requirements?", re.IGNORECASE),
+    # "What are the X requirements?" without explicit document mention
+    re.compile(r"what\s+(?:are|is|does|do)\b.{0,40}requirements?\b", re.IGNORECASE),
+]
+
+# Strong signals that the query is about document content
+_DOCUMENT_CONTENT_KEYWORDS = re.compile(
+    r"\b(?:document|file|upload(?:ed)?)\b.{0,40}\b(?:requirement|specification|auth(?:entication)?|payment|login|system|feature|workflow|process|rule|policy|constraint|interface|api|database|security|performance|integration)\b",
+    re.IGNORECASE,
+)
+
+
 # ── Classification Prompt ──────────────────────────────────────────────────────
 
 _INTENT_LIST = ", ".join(i.value for i in Intent)
 _ROUTE_LIST = ", ".join(r.value for r in Route)
+
+# Fallback models if the primary model is unavailable (e.g., 404, access denied)
+_FALLBACK_MODELS = ["qwen/qwen3.6-27b", "openai/gpt-oss-20b"]
 
 _SYSTEM_PROMPT = f"""You are the Supervisor Agent for Refyne, a requirements engineering platform.
 
@@ -96,28 +138,55 @@ INTENT-TO-ROUTE RULES:
 - requirement_validation → validation_agent
 - human_review → human_review
 - revision → requirement_agent
-- project_context → direct_response
+- project_context → rag
 - unknown → unknown
 
 INTENT DEFINITIONS (important distinctions):
-- document_search: Finding specific content, keywords, or patterns in documents
-  Examples: "Search for login requirements", "Find all payment references", "Search my BRD for auth"
-- question_answering: Asking questions about document content or meaning
-  Examples: "What does the document say about payment?", "How does authentication work?", "Explain the refund policy"
+
+- document_search: Finding or locating specific content, keywords, patterns, or sections in uploaded documents.
+  ALWAYS use this for queries that SEARCH, FIND, or LOCATE content in documents.
+  Examples:
+    "Search for login requirements"
+    "Find all payment references"
+    "Search my BRD for authentication"
+    "Where are the security requirements?"
+    "Look for error handling in the document"
+    "What are the main requirements in my uploaded document?"
+    "What requirements are mentioned in the document?"
+
+- question_answering: Asking questions about the MEANING, CONTENT, or DETAILS of uploaded documents.
+  ALWAYS use this for queries that ASK, EXPLAIN, DESCRIBE, or SUMMARIZE document content.
+  Examples:
+    "What does the document say about payment?"
+    "How does authentication work according to the spec?"
+    "Explain the refund policy from the document"
+    "Summarize my uploaded document"
+    "What does the document say about authentication?"
+    "Tell me about the system architecture in the document"
+    "What are the key features described in the document?"
+    "How is user registration handled?"
+
 - requirement_generation: Generating generic/functional requirements (not a specific document type)
   Examples: "Generate functional requirements for login", "Write requirements for checkout"
+
 - user_story_generation: Creating user stories specifically
   Examples: "Create user stories for checkout", "Write user stories for the payment flow"
+
 - brd_generation: Generating a Business Requirements Document
   Examples: "Generate a BRD", "Create a BRD for the payment module"
+
 - srs_generation: Generating a Software Requirements Specification
   Examples: "Create an SRS document", "Generate SRS for the API"
+
 - rtm_generation: Generating a Requirements Traceability Matrix
   Examples: "Create an RTM", "Generate traceability matrix"
 
 REQUIRES_RAG RULES:
-- true if the query references, searches, or needs content from uploaded documents
+- true if the query references, searches, asks about, or needs content from uploaded documents
 - false for greetings, validation-only, revision without context, or general chat
+- When in doubt about whether documents are needed, set to true
+
+CRITICAL: If the query mentions "document", "file", "uploaded", or asks about content that would be in a requirements document, it MUST be classified as document_search or question_answering with requires_rag=true.
 
 CONFIDENCE:
 - 0.9-1.0: Query clearly matches one intent
@@ -141,12 +210,34 @@ def _build_user_prompt(
     return "\n".join(parts)
 
 
+def _is_document_query(user_query: str) -> bool:
+    """
+    Quick keyword-based check for document-related queries.
+
+    Returns True if the query clearly references document content,
+    serving as a safety net for cases where the LLM might misclassify.
+    """
+    for pattern in _DOCUMENT_QUERY_PATTERNS:
+        if pattern.search(user_query):
+            return True
+    if _DOCUMENT_CONTENT_KEYWORDS.search(user_query):
+        return True
+    return False
+
+
 def _parse_classification(raw: str) -> ClassificationResult:
     """
     Parse LLM JSON output into ClassificationResult.
-    Handles common LLM formatting issues.
+    Handles common LLM formatting issues including chain-of-thought blocks.
     """
     text = raw.strip()
+
+    # Strip <think>...</think> blocks (Qwen and similar models)
+    # Handle both closed and unclosed think blocks (truncated responses)
+    text = re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL).strip()
+    # If there's an unclosed <think> block, strip everything from it onward
+    if "<think>" in text:
+        text = text[:text.index("<think>")].strip()
 
     # Strip markdown code fences if present
     if text.startswith("```"):
@@ -154,6 +245,11 @@ def _parse_classification(raw: str) -> ClassificationResult:
         # Remove first and last lines (fences)
         lines = [l for l in lines[1:] if not l.strip().startswith("```")]
         text = "\n".join(lines).strip()
+
+    # Try to extract JSON object from the text (may have trailing text)
+    json_match = re.search(r"\{[^{}]*\}", text, re.DOTALL)
+    if json_match:
+        text = json_match.group(0)
 
     try:
         data = json.loads(text)
@@ -218,8 +314,21 @@ def classify_intent(
     Returns:
         ClassificationResult with intent, route, requires_rag, confidence.
     """
+    # Quick keyword pre-check for document-related queries
+    is_doc_query = _is_document_query(user_query)
+
     if not settings.GROQ_API_KEY:
         logger.warning("GROQ_API_KEY not configured, returning UNKNOWN")
+        # If keywords indicate a document query, still route to RAG
+        if is_doc_query:
+            logger.info(f"Document query detected (no LLM): {user_query[:80]}")
+            return ClassificationResult(
+                intent=Intent.QUESTION_ANSWERING,
+                route=Route.RAG,
+                requires_rag=True,
+                confidence=0.7,
+                reasoning="Document query detected via keyword matching (LLM not configured)",
+            )
         return ClassificationResult(
             intent=Intent.UNKNOWN,
             route=Route.UNKNOWN,
@@ -235,17 +344,67 @@ def classify_intent(
         from groq import Groq
 
         client = Groq(api_key=settings.GROQ_API_KEY)
-        completion = client.chat.completions.create(
-            model=effective_model,
-            messages=[
-                {"role": "system", "content": _SYSTEM_PROMPT},
-                {"role": "user", "content": user_prompt},
-            ],
-            temperature=0.0,  # Deterministic classification
-            max_tokens=256,
-        )
-        raw = completion.choices[0].message.content.strip()
-        result = _parse_classification(raw)
+
+        # Try primary model, then fallbacks if it fails with a model-related error
+        models_to_try = [effective_model] + [
+            m for m in _FALLBACK_MODELS if m != effective_model
+        ]
+        last_error = None
+
+        for model_name in models_to_try:
+            try:
+                completion = client.chat.completions.create(
+                    model=model_name,
+                    messages=[
+                        {"role": "system", "content": _SYSTEM_PROMPT},
+                        {"role": "user", "content": user_prompt},
+                    ],
+                    temperature=0.0,  # Deterministic classification
+                    max_tokens=1024,
+                )
+                raw = completion.choices[0].message.content.strip()
+                result = _parse_classification(raw)
+                logger.info(
+                    f"Classified query with model '{model_name}': "
+                    f"intent={result.intent.value}, confidence={result.confidence:.2f}"
+                )
+                break  # Success — exit the retry loop
+            except Exception as model_error:
+                last_error = model_error
+                error_str = str(model_error)
+                # Only retry on model-not-found or access errors (404/403)
+                if "404" in error_str or "model_not_found" in error_str or "403" in error_str:
+                    logger.warning(
+                        f"Model '{model_name}' unavailable: {model_error}. "
+                        f"Trying next fallback model."
+                    )
+                    continue
+                # For other errors (rate limit, auth, network), don't retry
+                raise
+        else:
+            # All models failed — raise the last error to be caught below
+            raise last_error
+
+        # Safety net: if keyword check detected a document query but LLM
+        # misclassified it, override to QUESTION_ANSWERING with RAG
+        if is_doc_query and result.intent not in (
+            Intent.DOCUMENT_SEARCH,
+            Intent.QUESTION_ANSWERING,
+            Intent.PROJECT_CONTEXT,
+            Intent.DOCUMENT_INGESTION,
+        ):
+            logger.info(
+                f"Keyword pre-check detected document query but LLM classified as "
+                f"{result.intent.value}. Overriding to question_answering."
+            )
+            result = ClassificationResult(
+                intent=Intent.QUESTION_ANSWERING,
+                route=Route.RAG,
+                requires_rag=True,
+                confidence=max(result.confidence, 0.7),
+                reasoning=f"Override: keyword pre-check detected document query "
+                         f"(LLM said {result.intent.value})",
+            )
 
         # Apply confidence threshold
         if result.confidence < confidence_threshold:
@@ -265,6 +424,21 @@ def classify_intent(
 
     except Exception as e:
         logger.error(f"Intent classification failed: {e}")
+        # Safety net: if keywords indicate a document query, still route to RAG
+        # even when the LLM call fails (e.g., API error, model not found).
+        if is_doc_query:
+            logger.warning(
+                f"LLM classification failed but keyword pre-check detected document "
+                f"query. Routing to question_answering with RAG. Error: {e}"
+            )
+            return ClassificationResult(
+                intent=Intent.QUESTION_ANSWERING,
+                route=Route.RAG,
+                requires_rag=True,
+                confidence=0.6,
+                reasoning=f"LLM failed ({type(e).__name__}), keyword pre-check "
+                         f"detected document query",
+            )
         return ClassificationResult(
             intent=Intent.UNKNOWN,
             route=Route.UNKNOWN,

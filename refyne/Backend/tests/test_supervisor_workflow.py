@@ -860,7 +860,8 @@ class TestRagFlagConsistency:
 # ═══════════════════════════════════════════════════════════════════════════════
 
 class TestKnownIssues:
-    """Document known inconsistencies in the codebase."""
+    """Document known inconsistencies in the codebase.
+    Note: PROJECT_CONTEXT RAG inconsistency has been fixed."""
 
     def test_classifier_maps_unknown_to_route_unknown(self):
         """ISSUE: Classifier maps UNKNOWN intent to Route.UNKNOWN,
@@ -870,11 +871,10 @@ class TestKnownIssues:
         assert INTENT_TO_ROUTE[Intent.UNKNOWN] == Route.DIRECT_RESPONSE
 
     def test_project_context_rag_inconsistency(self):
-        """ISSUE: PROJECT_CONTEXT is in RAG_INTENTS (router) but not
-        in RAG_REQUIRED_INTENTS (classifier). Router will require RAG
-        but classifier won't force it."""
+        """FIXED: PROJECT_CONTEXT is now in both RAG_INTENTS (router) and
+        RAG_REQUIRED_INTENTS (classifier). Both layers force RAG for it."""
         assert Intent.PROJECT_CONTEXT in RAG_INTENTS
-        assert Intent.PROJECT_CONTEXT not in RAG_REQUIRED_INTENTS
+        assert Intent.PROJECT_CONTEXT in RAG_REQUIRED_INTENTS
 
     def test_revision_rag_inconsistency(self):
         """ISSUE: REVISION is in RAG_INTENTS but not in RAG_REQUIRED_INTENTS."""
@@ -1102,3 +1102,185 @@ class TestSupervisorAPIEndpoint:
         )
         assert resp.intent == "question_answering"
         assert resp.route == "rag"
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SECTION 11: Document Query Classification & Safety Net
+# ═══════════════════════════════════════════════════════════════════════════════
+
+class TestDocumentQueryClassification:
+    """
+    Test the exact failing scenario: document queries must always classify
+    as document_search or question_answering with requires_rag=True.
+
+    Verifies:
+    1. Keyword pre-check detects document queries
+    2. Safety net overrides LLM misclassification
+    3. Exception handler checks keywords before returning UNKNOWN
+    4. Full chain: message → classified intent → route → RAG execution
+    """
+
+    DOCUMENT_QUERY = "What are the main requirements in my uploaded document?"
+
+    def test_keyword_precheck_detects_document_query(self):
+        """_is_document_query must return True for document-related queries."""
+        from app.agents.supervisor.classifier import _is_document_query
+        assert _is_document_query(self.DOCUMENT_QUERY) is True
+
+    @patch("app.agents.supervisor.classifier.settings")
+    def test_no_api_key_routes_document_query_to_rag(self, mock_settings):
+        """Without API key, keyword detection routes document queries to RAG."""
+        mock_settings.GROQ_API_KEY = ""
+        result = classify_intent(self.DOCUMENT_QUERY, "proj-1")
+        assert result.intent == Intent.QUESTION_ANSWERING
+        assert result.route == Route.RAG
+        assert result.requires_rag is True
+        assert result.confidence >= 0.6
+
+    @patch("groq.Groq")
+    @patch("app.agents.supervisor.classifier.settings")
+    def test_llm_success_classifies_document_query(self, mock_settings, MockGroq):
+        """Successful LLM call classifies document query correctly."""
+        mock_settings.GROQ_API_KEY = "test-key"
+        mock_settings.GROQ_MODEL = "test-model"
+        mock_client = MagicMock()
+        MockGroq.return_value = mock_client
+        mock_completion = MagicMock()
+        mock_completion.choices = [MagicMock(message=MagicMock(
+            content='{"intent": "document_search", "route": "rag", "requires_rag": true, "confidence": 0.95, "reasoning": "document query"}'
+        ))]
+        mock_client.chat.completions.create.return_value = mock_completion
+
+        result = classify_intent(self.DOCUMENT_QUERY, "proj-1")
+        assert result.intent == Intent.DOCUMENT_SEARCH
+        assert result.route == Route.RAG
+        assert result.requires_rag is True
+        assert result.confidence == 0.95
+
+    @patch("groq.Groq")
+    def test_llm_misclassification_safety_net_overrides(self, MockGroq):
+        """If LLM misclassifies a document query, safety net overrides to RAG."""
+        mock_client = MagicMock()
+        MockGroq.return_value = mock_client
+        mock_completion = MagicMock()
+        mock_completion.choices = [MagicMock(message=MagicMock(
+            content='{"intent": "unknown", "route": "unknown", "requires_rag": false, "confidence": 0.3, "reasoning": "unclear"}'
+        ))]
+        mock_client.chat.completions.create.return_value = mock_completion
+
+        result = classify_intent(self.DOCUMENT_QUERY, "proj-1")
+        # Safety net should override to question_answering
+        assert result.intent == Intent.QUESTION_ANSWERING
+        assert result.route == Route.RAG
+        assert result.requires_rag is True
+        assert result.confidence >= 0.7
+
+    @patch("groq.Groq")
+    def test_llm_exception_safety_net_routes_to_rag(self, MockGroq):
+        """If LLM throws exception, keyword pre-check still routes to RAG."""
+        mock_client = MagicMock()
+        MockGroq.return_value = mock_client
+        mock_client.chat.completions.create.side_effect = Exception("API error")
+
+        result = classify_intent(self.DOCUMENT_QUERY, "proj-1")
+        # Even with LLM failure, keyword detection routes to RAG
+        assert result.intent == Intent.QUESTION_ANSWERING
+        assert result.route == Route.RAG
+        assert result.requires_rag is True
+        assert result.confidence >= 0.6
+        assert "LLM failed" in result.reasoning or "keyword" in result.reasoning
+
+    @patch("groq.Groq")
+    def test_llm_invalid_json_safety_net_overrides(self, MockGroq):
+        """If LLM returns unparseable output, safety net handles it."""
+        mock_client = MagicMock()
+        MockGroq.return_value = mock_client
+        mock_completion = MagicMock()
+        mock_completion.choices = [MagicMock(message=MagicMock(
+            content="I think this is about documents but I'm not sure"
+        ))]
+        mock_client.chat.completions.create.return_value = mock_completion
+
+        result = classify_intent(self.DOCUMENT_QUERY, "proj-1")
+        assert result.intent == Intent.QUESTION_ANSWERING
+        assert result.route == Route.RAG
+        assert result.requires_rag is True
+
+    @patch("groq.Groq")
+    def test_model_not_found_fallback_to_safety_net(self, MockGroq):
+        """If primary model is 404, exception handler checks keywords."""
+        mock_client = MagicMock()
+        MockGroq.return_value = mock_client
+        mock_client.chat.completions.create.side_effect = Exception(
+            "Error code: 404 - model_not_found"
+        )
+
+        result = classify_intent(self.DOCUMENT_QUERY, "proj-1")
+        assert result.intent == Intent.QUESTION_ANSWERING
+        assert result.route == Route.RAG
+        assert result.requires_rag is True
+
+    @patch("app.agents.supervisor.service.classify_intent")
+    def test_full_service_flow_document_query(self, mock_classify):
+        """Full service flow: message → classify → route → response."""
+        mock_classify.return_value = ClassificationResult(
+            intent=Intent.DOCUMENT_SEARCH,
+            route=Route.RAG,
+            requires_rag=True,
+            confidence=0.95,
+            reasoning="document query",
+        )
+        resp, state = handle_request_with_state(
+            "u1", "proj-1", self.DOCUMENT_QUERY
+        )
+        # Verify classification
+        assert state.intent == Intent.DOCUMENT_SEARCH
+        assert state.route == Route.RAG
+        assert state.requires_rag is True
+        # Verify response
+        assert resp.intent == "document_search"
+        assert resp.route == "rag"
+        assert resp.requires_rag is True
+        assert resp.workflow_status == "retrieving"
+
+    def test_parse_think_blocks_stripped(self):
+        """Parser correctly strips <think> blocks from LLM output."""
+        from app.agents.supervisor.classifier import _parse_classification
+        raw = '''<think>
+Analysis of the query...
+</think>
+{"intent": "document_search", "route": "rag", "requires_rag": true, "confidence": 0.9, "reasoning": "document query"}'''
+        result = _parse_classification(raw)
+        assert result.intent == Intent.DOCUMENT_SEARCH
+        assert result.route == Route.RAG
+        assert result.requires_rag is True
+
+    def test_parse_unclosed_think_block_stripped(self):
+        """Parser handles truncated responses with unclosed <think> blocks."""
+        from app.agents.supervisor.classifier import _parse_classification
+        raw = '''<think>
+The user is asking about requirements in their document. This clearly references uploaded content and should be classified as document_search with requires_rag=true. The query explicitly mentions "main requirements" and "uploaded document" which are strong signals for document-related intent.'''
+        result = _parse_classification(raw)
+        # No valid JSON found after stripping think block
+        assert result.intent == Intent.UNKNOWN
+        assert result.confidence == 0.0
+
+    @patch("groq.Groq")
+    def test_document_query_various_phrasings(self, MockGroq):
+        """Various document query phrasings are detected by keyword pre-check."""
+        from app.agents.supervisor.classifier import _is_document_query
+
+        document_queries = [
+            "What are the main requirements in my uploaded document?",
+            "Summarize my uploaded document",
+            "What does the document say about payment?",
+            "Find all login requirements in the document",
+            "Where are the security requirements?",
+            "Tell me about the system architecture in the document",
+            "What requirements are mentioned in the document?",
+            "How does authentication work according to the spec?",
+        ]
+        for query in document_queries:
+            assert _is_document_query(query) is True, (
+                f"Keyword pre-check failed for: {query}"
+            )

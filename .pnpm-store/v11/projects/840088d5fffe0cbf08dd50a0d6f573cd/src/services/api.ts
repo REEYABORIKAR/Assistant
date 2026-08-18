@@ -1,4 +1,5 @@
 const API_BASE = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000').replace(/\/$/, '');
+console.log('[Refyne] API_BASE:', API_BASE);
 const TOKEN_KEY = 'refyne.access_token';
 export const tokenStore = { get: () => localStorage.getItem(TOKEN_KEY), set: (token: string) => localStorage.setItem(TOKEN_KEY, token), clear: () => localStorage.removeItem(TOKEN_KEY) };
 export class ApiError extends Error { status: number; constructor(status: number, message: string) { super(message); this.status = status; } }
