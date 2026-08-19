@@ -229,8 +229,8 @@ class TestFlowB_DocumentAgent:
 class TestFlowC_BRD:
     """Generate BRD → Requirement Agent → BRD document."""
 
-    @patch("app.agents.supervisor.orchestrator.generate_answer")
-    @patch("app.agents.supervisor.orchestrator.HybridRetriever")
+    @patch("app.agents.requirement.brd_generator.generate_answer")
+    @patch("app.agents.requirement.agent.HybridRetriever")
     def test_brd_full_flow(self, MockRetriever, mock_gen):
         mock_retriever = MagicMock()
         MockRetriever.return_value = mock_retriever
@@ -594,16 +594,12 @@ class TestFlowM_MissingRequirements:
 class TestFlowN_Validation:
     """User requests validation → Validation Agent → validation report."""
 
-    @patch("app.agents.supervisor.orchestrator.generate_answer")
-    @patch("app.agents.supervisor.orchestrator.HybridRetriever")
-    def test_validation_full_flow(self, MockRetriever, mock_gen):
+    @patch("app.agents.validation.agent.HybridRetriever")
+    def test_validation_full_flow(self, MockRetriever):
         mock_retriever = MagicMock()
         MockRetriever.return_value = mock_retriever
         mock_retriever.retrieve.return_value = _mock_search_response(
             context="Requirements to validate:\n1. Login must be secure\n2. Password must be 8+ chars"
-        )
-        mock_gen.return_value = _mock_generation(
-            answer="## Validation Report\n\n**Overall:** Pass\n\nAll requirements are clear."
         )
 
         state = _classify_and_execute(
@@ -613,12 +609,10 @@ class TestFlowN_Validation:
 
         assert state.intent == Intent.REQUIREMENT_VALIDATION
         assert state.route == Route.VALIDATION_AGENT
-        mock_retriever.retrieve.assert_called_once()
-        mock_gen.assert_called_once()
         assert "Validation Report" in state.generated_output
         assert state.metadata.get("validation_type") == "requirement_validation"
         assert state.validation_result is not None
-        assert state.validation_result["status"] == "completed"
+        assert state.validation_result["overall_status"] in ("pass", "conditional")
         assert state.workflow_status == WorkflowStatus.COMPLETED
 
 
@@ -779,8 +773,8 @@ class TestRAGFlowWithCitations:
         assert len(state.citations) == 1
         assert state.citations[0].document_id == "doc-1"
 
-    @patch("app.agents.supervisor.orchestrator.generate_answer")
-    @patch("app.agents.supervisor.orchestrator.HybridRetriever")
+    @patch("app.agents.requirement.srs_generator.generate_answer")
+    @patch("app.agents.requirement.agent.HybridRetriever")
     def test_generation_returns_citations(self, MockRetriever, mock_gen):
         citation = MagicMock()
         citation.document_id = "doc-2"

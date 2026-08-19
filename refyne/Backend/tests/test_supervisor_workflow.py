@@ -899,22 +899,15 @@ class TestKnownIssues:
         files = os.listdir(supervisor_dir)
         assert "orchestrator.py" in files
 
-    def test_requirement_agent_empty(self):
-        """ISSUE: Requirement agent module is empty — no implementation."""
+    def test_requirement_agent_has_execute(self):
+        """Requirement agent module has execute function."""
         import app.agents.requirement as req_mod
-        # Only __init__.py exists, and it's empty
-        public_attrs = [a for a in dir(req_mod) if not a.startswith("_")]
-        assert len(public_attrs) == 0, (
-            f"Requirement agent has unexpected attrs: {public_attrs}"
-        )
+        assert hasattr(req_mod, 'execute'), "Requirement agent should have execute function"
 
-    def test_validation_agent_empty(self):
-        """ISSUE: Validation agent module is empty — no implementation."""
+    def test_validation_agent_has_execute(self):
+        """Validation agent module has execute function."""
         import app.agents.validation as val_mod
-        public_attrs = [a for a in dir(val_mod) if not a.startswith("_")]
-        assert len(public_attrs) == 0, (
-            f"Validation agent has unexpected attrs: {public_attrs}"
-        )
+        assert hasattr(val_mod, 'execute'), "Validation agent should have execute function"
 
 
 # ═══════════════════════════════════════════════════════════════════════════════

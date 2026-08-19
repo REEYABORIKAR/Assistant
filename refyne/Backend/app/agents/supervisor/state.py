@@ -9,6 +9,7 @@ Designed for LangGraph StateGraph compatibility (Pydantic-based state).
 """
 from __future__ import annotations
 
+import uuid
 from enum import Enum
 from typing import Any, Optional
 
@@ -90,6 +91,22 @@ class WorkflowStatus(str, Enum):
 
 # ── Shared Workflow State ──────────────────────────────────────────────────────
 
+class ReviewStatus(str, Enum):
+    """Status of a human review task."""
+    PENDING = "pending"
+    IN_REVIEW = "in_review"
+    APPROVED = "approved"
+    REJECTED = "rejected"
+    CHANGES_REQUESTED = "changes_requested"
+
+
+class StructuredError(BaseModel):
+    """Structured error object for the errors list."""
+    code: str = Field(..., description="Machine-readable error code")
+    message: str = Field(..., description="Human-readable error message")
+    field: Optional[str] = Field(default=None, description="Field that caused the error, if applicable")
+
+
 class SupervisorState(BaseModel):
     """
     Shared state passed through the entire Supervisor workflow.
@@ -106,6 +123,10 @@ class SupervisorState(BaseModel):
     user_id: str = Field(..., description="ID of the authenticated user")
     project_id: str = Field(..., description="ID of the active project")
     session_id: str = Field(..., description="Unique session/conversation ID")
+    trace_id: str = Field(
+        default_factory=lambda: str(uuid.uuid4()),
+        description="Unique trace ID for this request lifecycle",
+    )
 
     # ── User Input ─────────────────────────────────────────────────────────
     user_query: str = Field(..., description="Raw user query or command")
@@ -144,7 +165,21 @@ class SupervisorState(BaseModel):
     # ── Generation ─────────────────────────────────────────────────────────
     generated_output: Optional[str] = Field(
         default=None,
-        description="Generated answer or document content",
+        description="Generated answer or document content (markdown for frontend)",
+    )
+
+    # ── Structured Requirement Output ──────────────────────────────────────
+    requirements: list[dict[str, Any]] = Field(
+        default_factory=list,
+        description="Structured requirement objects (internal, not markdown)",
+    )
+    user_stories: list[dict[str, Any]] = Field(
+        default_factory=list,
+        description="Structured user story objects",
+    )
+    acceptance_criteria: list[dict[str, Any]] = Field(
+        default_factory=list,
+        description="Structured acceptance criteria objects",
     )
 
     # ── Validation ─────────────────────────────────────────────────────────
@@ -152,11 +187,29 @@ class SupervisorState(BaseModel):
         default=None,
         description="Validation output (pass/fail, issues, suggestions)",
     )
+    validation_score: Optional[float] = Field(
+        default=None,
+        description="Overall validation score 0.0-1.0",
+    )
 
     # ── Human Review ───────────────────────────────────────────────────────
     human_feedback: Optional[str] = Field(
         default=None,
         description="Feedback or edits from human reviewer",
+    )
+    review_status: ReviewStatus = Field(
+        default=ReviewStatus.PENDING,
+        description="Current review status",
+    )
+
+    # ── Artifact Tracking ──────────────────────────────────────────────────
+    artifact_id: Optional[str] = Field(
+        default=None,
+        description="ID of the generated artifact, if persisted",
+    )
+    artifact_version: Optional[int] = Field(
+        default=None,
+        description="Version number of the artifact",
     )
 
     # ── Workflow Control ───────────────────────────────────────────────────
@@ -167,6 +220,10 @@ class SupervisorState(BaseModel):
     error: Optional[str] = Field(
         default=None,
         description="Error message if workflow failed",
+    )
+    errors: list[StructuredError] = Field(
+        default_factory=list,
+        description="Structured list of errors encountered during processing",
     )
     metadata: dict[str, Any] = Field(
         default_factory=dict,

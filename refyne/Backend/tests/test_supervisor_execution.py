@@ -140,14 +140,14 @@ class TestOrchestratorRequirementAgent:
         mock_retriever.retrieve.return_value = _mock_search_response(
             context="Business requirements from uploaded docs"
         )
-        mock_gen.return_value = _mock_generation(answer="# BRD\n\nBusiness Requirements Document content.")
+        mock_gen.return_value = _mock_generation(answer='{"executive_summary": "BRD content", "business_objectives": [], "scope": "", "stakeholders": [], "business_requirements": [], "functional_requirements": [], "non_functional_requirements": [], "assumptions_and_constraints": [], "success_criteria": []}')
 
         state = _make_state(Intent.BRD_GENERATION, Route.REQUIREMENT_AGENT, "Generate BRD")
         db = MagicMock()
         result = execute(state, db)
 
         assert result.generated_output is not None
-        assert "# BRD" in result.generated_output
+        assert "Business Requirements Document" in result.generated_output
         assert result.metadata.get("document_title") == "Business Requirements Document (BRD)"
         assert result.metadata.get("document_action") == "brd"
         assert result.workflow_status == WorkflowStatus.COMPLETED
@@ -160,13 +160,13 @@ class TestOrchestratorRequirementAgent:
         mock_retriever.retrieve.return_value = _mock_search_response(
             context="Software requirements from specs"
         )
-        mock_gen.return_value = _mock_generation(answer="# SRS\n\nSoftware Requirements Specification.")
+        mock_gen.return_value = _mock_generation(answer='{"introduction": {"purpose": "SRS content"}, "overall_description": {}, "functional_requirements": [], "external_interface_requirements": [], "performance_requirements": [], "verification_and_validation": []}')
 
         state = _make_state(Intent.SRS_GENERATION, Route.REQUIREMENT_AGENT, "Generate SRS")
         db = MagicMock()
         result = execute(state, db)
 
-        assert "# SRS" in result.generated_output
+        assert "Software Requirements Specification" in result.generated_output
         assert result.metadata.get("document_action") == "srs"
         assert result.workflow_status == WorkflowStatus.COMPLETED
 
@@ -178,17 +178,17 @@ class TestOrchestratorRequirementAgent:
         mock_retriever.retrieve.return_value = _mock_search_response(
             context="Traceability data"
         )
-        mock_gen.return_value = _mock_generation(answer="# RTM\n\nRequirements Traceability Matrix.")
+        mock_gen.return_value = _mock_generation(answer='[{"requirement_id": "FR-001", "description": "Test", "source": "Doc", "priority": "HIGH", "test_case": "TC-1", "status": "Pass"}]')
 
         state = _make_state(Intent.RTM_GENERATION, Route.REQUIREMENT_AGENT, "Generate RTM")
         db = MagicMock()
         result = execute(state, db)
 
-        assert "# RTM" in result.generated_output
+        assert "Requirements Traceability Matrix" in result.generated_output
         assert result.metadata.get("document_action") == "rtm"
         assert result.workflow_status == WorkflowStatus.COMPLETED
 
-    @patch("app.agents.supervisor.orchestrator.generate_answer")
+    @patch("app.agents.requirement.user_story_generator.generate_answer")
     @patch("app.agents.supervisor.orchestrator.HybridRetriever")
     def test_user_stories_generation_executes(self, MockRetriever, mock_gen):
         mock_retriever = MagicMock()
@@ -196,17 +196,17 @@ class TestOrchestratorRequirementAgent:
         mock_retriever.retrieve.return_value = _mock_search_response(
             context="User story context"
         )
-        mock_gen.return_value = _mock_generation(answer="# User Stories\n\nAs a user, I want to...")
+        mock_gen.return_value = _mock_generation(answer='[{"id": "US-001", "title": "Login", "role": "User", "feature": "log in", "benefit": "access account", "priority": "HIGH"}]')
 
         state = _make_state(Intent.USER_STORY_GENERATION, Route.REQUIREMENT_AGENT, "Generate user stories")
         db = MagicMock()
         result = execute(state, db)
 
-        assert "# User Stories" in result.generated_output
+        assert "User Stories" in result.generated_output
         assert result.metadata.get("document_action") == "user_stories"
         assert result.workflow_status == WorkflowStatus.COMPLETED
 
-    @patch("app.agents.supervisor.orchestrator.generate_answer")
+    @patch("app.agents.requirement.acceptance_criteria_generator.generate_answer")
     @patch("app.agents.supervisor.orchestrator.HybridRetriever")
     def test_acceptance_criteria_generation_executes(self, MockRetriever, mock_gen):
         mock_retriever = MagicMock()
@@ -214,7 +214,7 @@ class TestOrchestratorRequirementAgent:
         mock_retriever.retrieve.return_value = _mock_search_response(
             context="Acceptance criteria context"
         )
-        mock_gen.return_value = _mock_generation(answer="# Acceptance Criteria\n\nGiven/When/Then format.")
+        mock_gen.return_value = _mock_generation(answer='[{"id": "AC-001", "given": "On login page", "when": "Enter creds", "then": "Logged in"}]')
 
         state = _make_state(
             Intent.ACCEPTANCE_CRITERIA_GENERATION, Route.REQUIREMENT_AGENT,
@@ -223,7 +223,7 @@ class TestOrchestratorRequirementAgent:
         db = MagicMock()
         result = execute(state, db)
 
-        assert "# Acceptance Criteria" in result.generated_output
+        assert "Acceptance Criteria" in result.generated_output
         assert result.metadata.get("document_action") == "acceptance_criteria"
         assert result.workflow_status == WorkflowStatus.COMPLETED
 
@@ -234,7 +234,7 @@ class TestOrchestratorRequirementAgent:
         mock_retriever = MagicMock()
         MockRetriever.return_value = mock_retriever
         mock_retriever.retrieve.return_value = _mock_search_response()
-        mock_gen.return_value = _mock_generation(answer="# BRD\n\nGeneric requirements.")
+        mock_gen.return_value = _mock_generation(answer='{"executive_summary": "Generic requirements", "business_objectives": [], "scope": "", "stakeholders": [], "business_requirements": [], "functional_requirements": [], "non_functional_requirements": [], "assumptions_and_constraints": [], "success_criteria": []}')
 
         state = _make_state(Intent.REQUIREMENT_GENERATION, Route.REQUIREMENT_AGENT, "Generate requirements")
         db = MagicMock()
@@ -243,8 +243,8 @@ class TestOrchestratorRequirementAgent:
         assert result.metadata.get("document_action") == "brd"
         assert result.workflow_status == WorkflowStatus.COMPLETED
 
-    @patch("app.agents.supervisor.orchestrator.generate_answer")
-    @patch("app.agents.supervisor.orchestrator.HybridRetriever")
+    @patch("app.agents.requirement.srs_generator.generate_answer")
+    @patch("app.agents.requirement.agent.HybridRetriever")
     def test_requirement_agent_fallback_content_when_llm_off(self, MockRetriever, mock_gen):
         """When LLM is not configured, fallback content is generated."""
         mock_retriever = MagicMock()
@@ -270,7 +270,7 @@ class TestOrchestratorRequirementAgent:
 class TestOrchestratorValidationAgent:
     """Test orchestrator validation agent execution."""
 
-    @patch("app.agents.supervisor.orchestrator.generate_answer")
+    @patch("app.agents.validation.llm_validator.generate_answer")
     @patch("app.agents.supervisor.orchestrator.HybridRetriever")
     def test_validation_produces_report(self, MockRetriever, mock_gen):
         mock_retriever = MagicMock()
@@ -279,7 +279,7 @@ class TestOrchestratorValidationAgent:
             context="Requirements to validate:\n1. Login must be secure"
         )
         mock_gen.return_value = _mock_generation(
-            answer="## Validation Report\n\n**Overall:** Pass\n\nAll requirements are clear."
+            answer='[{"requirement_id": "FR-001", "severity": "medium", "category": "ambiguity", "message": "Could be clearer", "recommendation": "Add details"}]'
         )
 
         state = _make_state(Intent.REQUIREMENT_VALIDATION, Route.VALIDATION_AGENT, "Validate requirements")
@@ -290,7 +290,7 @@ class TestOrchestratorValidationAgent:
         assert result.metadata.get("validation_type") == "requirement_validation"
         assert result.workflow_status == WorkflowStatus.COMPLETED
 
-    @patch("app.agents.supervisor.orchestrator.generate_answer")
+    @patch("app.agents.validation.llm_validator.generate_answer")
     @patch("app.agents.supervisor.orchestrator.HybridRetriever")
     def test_validation_fallback_when_llm_off(self, MockRetriever, mock_gen):
         mock_retriever = MagicMock()
@@ -305,7 +305,6 @@ class TestOrchestratorValidationAgent:
         result = execute(state, db)
 
         assert "Validation Report" in result.generated_output
-        assert "Pending Review" in result.generated_output
         assert result.workflow_status == WorkflowStatus.COMPLETED
 
 

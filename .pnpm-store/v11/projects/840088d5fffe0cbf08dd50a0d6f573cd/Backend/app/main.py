@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from app.core.database import Base, engine
 from app.api import auth, projects, workspaces
 # import models to ensure they are registered with Base
-from app.models import user, project, document
+from app.models import user, project, document, review
 
 load_dotenv()
 
@@ -38,6 +38,8 @@ from app.api import supervisor
 app.include_router(supervisor.router)
 from app.api import supervisor_chat
 app.include_router(supervisor_chat.router)
+from app.api import review
+app.include_router(review.router)
 
 @app.get("/health")
 def health_check():
