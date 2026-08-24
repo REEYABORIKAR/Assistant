@@ -5,16 +5,16 @@ Merges results from all validators (rule, LLM, duplicate, traceability)
 into a single ValidationReport with an overall score and status.
 """
 import logging
-from typing import Any, Optional
+from typing import Any
 
+from app.agents.validation.duplicate_detector import detect_duplicates
+from app.agents.validation.llm_validator import validate_with_llm
+from app.agents.validation.rule_validator import validate_rules
 from app.agents.validation.schema import (
     Severity,
     ValidationIssue,
     ValidationReport,
 )
-from app.agents.validation.rule_validator import validate_rules
-from app.agents.validation.llm_validator import validate_with_llm
-from app.agents.validation.duplicate_detector import detect_duplicates
 from app.agents.validation.traceability_checker import check_traceability
 
 logger = logging.getLogger(__name__)
@@ -95,7 +95,7 @@ def _determine_status(score: float, issues: list[ValidationIssue]) -> str:
 
 def run_full_validation(
     requirements: list[dict[str, Any]],
-    context: Optional[str] = None,
+    context: str | None = None,
     citations: list[Any] = None,
     include_llm_checks: bool = True,
 ) -> ValidationReport:

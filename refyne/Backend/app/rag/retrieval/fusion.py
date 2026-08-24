@@ -24,7 +24,6 @@ THRESHOLD:
 """
 import logging
 import time
-from typing import Optional
 
 from app.core.config import settings
 
@@ -59,9 +58,9 @@ def _minmax_normalize(scores: list[float]) -> list[float]:
 def fuse_results(
     semantic_results: list[dict],
     bm25_results: list[dict],
-    semantic_weight: Optional[float] = None,
-    bm25_weight: Optional[float] = None,
-    min_score: Optional[float] = None,
+    semantic_weight: float | None = None,
+    bm25_weight: float | None = None,
+    min_score: float | None = None,
 ) -> tuple[list[dict], float]:
     """
     Merge, normalize, fuse, and rank retrieval candidates.

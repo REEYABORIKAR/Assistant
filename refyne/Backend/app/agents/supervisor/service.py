@@ -8,19 +8,14 @@ Does NOT execute downstream agents — only determines where to route.
 """
 import logging
 import uuid
-from typing import Optional
 
 from pydantic import BaseModel, Field
 
-from app.agents.supervisor.classifier import classify_intent, ClassificationResult
+from app.agents.supervisor.classifier import classify_intent
 from app.agents.supervisor.router import (
-    RouteDecision,
     route_from_intent,
-    resolve_route,
-    requires_rag,
-    resolve_status,
 )
-from app.agents.supervisor.state import Intent, Route, SupervisorState, WorkflowStatus
+from app.agents.supervisor.state import SupervisorState
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +26,7 @@ class SupervisorRequest(BaseModel):
     """Input schema for supervisor.handle_request()."""
     user_id: str = Field(..., description="Authenticated user ID")
     project_id: str = Field(..., description="Active project ID")
-    session_id: Optional[str] = Field(
+    session_id: str | None = Field(
         default=None,
         description="Conversation session ID (auto-generated if not provided)",
     )
@@ -70,7 +65,7 @@ def handle_request(
     user_id: str,
     project_id: str,
     user_query: str,
-    session_id: Optional[str] = None,
+    session_id: str | None = None,
     confidence_threshold: float = 0.5,
 ) -> SupervisorResponse:
     """
@@ -139,8 +134,10 @@ def handle_request_with_state(
     user_id: str,
     project_id: str,
     user_query: str,
-    session_id: Optional[str] = None,
+    session_id: str | None = None,
     confidence_threshold: float = 0.5,
+    user_role: str | None = None,
+    trace_id: str | None = None,
 ) -> tuple[SupervisorResponse, SupervisorState]:
     """
     Like handle_request(), but also returns the full SupervisorState.
@@ -151,6 +148,8 @@ def handle_request_with_state(
     """
     if not session_id:
         session_id = str(uuid.uuid4())
+    if not trace_id:
+        trace_id = uuid.uuid4().hex[:16]
 
     query_clean = user_query.strip()
     if not query_clean:
@@ -167,7 +166,9 @@ def handle_request_with_state(
         user_id=user_id,
         project_id=project_id,
         session_id=session_id,
+        user_role=user_role,
         user_query=query_clean,
+        trace_id=trace_id,
     )
 
     # Classify intent

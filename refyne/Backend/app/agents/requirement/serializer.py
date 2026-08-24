@@ -5,12 +5,10 @@ Converts structured requirement objects into markdown for frontend compatibility
 The frontend expects `content: string` as markdown text, so this module bridges
 the gap between internal structured JSON and the external API shape.
 """
-from typing import Any
 
 from app.agents.requirement.schema import (
     AcceptanceCriterion,
     BRDDocument,
-    Priority,
     Requirement,
     RTMDocument,
     SRSDocument,

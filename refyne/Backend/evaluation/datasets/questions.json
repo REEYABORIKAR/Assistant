@@ -1,0 +1,122 @@
+[
+  {
+    "query": "What happens when a payment transaction fails?",
+    "expected_chunks": ["payment_requirements.txt_1"],
+    "expected_doc_names": ["payment_requirements.txt"],
+    "category": "payment"
+  },
+  {
+    "query": "How many times can the system retry a failed payment?",
+    "expected_chunks": ["payment_requirements.txt_0"],
+    "expected_doc_names": ["payment_requirements.txt"],
+    "category": "payment"
+  },
+  {
+    "query": "What encryption standard is used for payment data?",
+    "expected_chunks": ["payment_requirements.txt_2"],
+    "expected_doc_names": ["payment_requirements.txt"],
+    "category": "payment"
+  },
+  {
+    "query": "How long does a payment refund take?",
+    "expected_chunks": ["payment_requirements.txt_3"],
+    "expected_doc_names": ["payment_requirements.txt"],
+    "category": "payment"
+  },
+  {
+    "query": "Which payment gateways are supported?",
+    "expected_chunks": ["payment_requirements.txt_4"],
+    "expected_doc_names": ["payment_requirements.txt"],
+    "category": "payment"
+  },
+  {
+    "query": "How are failed payment attempts logged?",
+    "expected_chunks": ["payment_requirements.txt_5"],
+    "expected_doc_names": ["payment_requirements.txt"],
+    "category": "payment"
+  },
+  {
+    "query": "What is the retry backoff strategy for payments?",
+    "expected_chunks": ["payment_requirements.txt_6"],
+    "expected_doc_names": ["payment_requirements.txt"],
+    "category": "payment"
+  },
+  {
+    "query": "How does the system validate card details?",
+    "expected_chunks": ["payment_requirements.txt_7"],
+    "expected_doc_names": ["payment_requirements.txt"],
+    "category": "payment"
+  },
+  {
+    "query": "What is the minimum password length required?",
+    "expected_chunks": ["auth_requirements.txt_0"],
+    "expected_doc_names": ["auth_requirements.txt"],
+    "category": "auth"
+  },
+  {
+    "query": "How are password requirements enforced?",
+    "expected_chunks": ["auth_requirements.txt_1"],
+    "expected_doc_names": ["auth_requirements.txt"],
+    "category": "auth"
+  },
+  {
+    "query": "What happens after multiple failed login attempts?",
+    "expected_chunks": ["auth_requirements.txt_2"],
+    "expected_doc_names": ["auth_requirements.txt"],
+    "category": "auth"
+  },
+  {
+    "query": "How are locked accounts unlocked?",
+    "expected_chunks": ["auth_requirements.txt_3"],
+    "expected_doc_names": ["auth_requirements.txt"],
+    "category": "auth"
+  },
+  {
+    "query": "How long do session tokens remain valid?",
+    "expected_chunks": ["auth_requirements.txt_4"],
+    "expected_doc_names": ["auth_requirements.txt"],
+    "category": "auth"
+  },
+  {
+    "query": "Is multi-factor authentication available?",
+    "expected_chunks": ["auth_requirements.txt_5"],
+    "expected_doc_names": ["auth_requirements.txt"],
+    "category": "auth"
+  },
+  {
+    "query": "How long do password reset links last?",
+    "expected_chunks": ["auth_requirements.txt_6"],
+    "expected_doc_names": ["auth_requirements.txt"],
+    "category": "auth"
+  },
+  {
+    "query": "How is brute-force login prevented?",
+    "expected_chunks": ["auth_requirements.txt_7"],
+    "expected_doc_names": ["auth_requirements.txt"],
+    "category": "auth"
+  },
+  {
+    "query": "What security measures protect user accounts?",
+    "expected_chunks": ["auth_requirements.txt_0", "auth_requirements.txt_1", "auth_requirements.txt_2", "auth_requirements.txt_7"],
+    "expected_doc_names": ["auth_requirements.txt"],
+    "category": "auth_broad"
+  },
+  {
+    "query": "How does the system handle payment errors and notifications?",
+    "expected_chunks": ["payment_requirements.txt_1", "payment_requirements.txt_5"],
+    "expected_doc_names": ["payment_requirements.txt"],
+    "category": "payment_broad"
+  },
+  {
+    "query": "What are the session management policies?",
+    "expected_chunks": ["auth_requirements.txt_4", "auth_requirements.txt_6"],
+    "expected_doc_names": ["auth_requirements.txt"],
+    "category": "auth_broad"
+  },
+  {
+    "query": "Describe the payment retry and error handling mechanism.",
+    "expected_chunks": ["payment_requirements.txt_0", "payment_requirements.txt_1", "payment_requirements.txt_6"],
+    "expected_doc_names": ["payment_requirements.txt"],
+    "category": "payment_broad"
+  }
+]

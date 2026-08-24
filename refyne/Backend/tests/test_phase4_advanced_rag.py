@@ -18,20 +18,21 @@ Tests the advanced-retrieval additions on top of the Phase 3 hybrid pipeline:
 """
 
 import os
-import pytest
-import uuid
 import time as _time
+import uuid
+
+import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from app.main import app
-from app.core.database import Base
 from app.api.deps import get_db
+from app.core.database import Base
 from app.core.security import get_password_hash
+from app.main import app
 from app.models.user import User
-from app.rag.retrieval.query_expansion import extract_expansion_terms, expand_query
-from app.rag.retrieval.reranker import rerank_results, RerankerSingleton
+from app.rag.retrieval.query_expansion import expand_query, extract_expansion_terms
+from app.rag.retrieval.reranker import RerankerSingleton, rerank_results
 
 _DB_SUFFIX = str(int(_time.time()))
 SQLALCHEMY_DATABASE_URL = f"sqlite:///./test_phase4_{_DB_SUFFIX}.db"

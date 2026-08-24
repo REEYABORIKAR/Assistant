@@ -6,7 +6,6 @@ Generates structured user stories from retrieved context using LLM.
 import json
 import logging
 import re
-from typing import Optional
 
 from app.agents.requirement.schema import (
     AcceptanceCriterion,
@@ -67,7 +66,7 @@ def _normalize_story(raw: dict, index: int) -> UserStory:
         except (ValueError, TypeError):
             story_points = None
 
-    epic = raw.get("epic", None)
+    epic = raw.get("epic")
     source_citations = raw.get("source_citations", raw.get("citations", []))
 
     ac_list = raw.get("acceptance_criteria", raw.get("acceptance", []))
@@ -109,7 +108,7 @@ def _normalize_story(raw: dict, index: int) -> UserStory:
 def generate_user_stories(
     plan: GenerationPlan,
     context: str,
-    citations: Optional[list] = None,
+    citations: list | None = None,
 ) -> list[UserStory]:
     """
     Generate structured user stories using LLM.

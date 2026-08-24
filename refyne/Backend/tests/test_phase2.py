@@ -1,25 +1,26 @@
-import pytest
-from fastapi.testclient import TestClient
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 import os
-import uuid
-import pandas as pd
-from pypdf import PdfWriter
-import docx
-
-from app.main import app
-from app.core.database import Base
-from app.api.deps import get_db
-from app.core.security import get_password_hash
-from app.models.user import User
-from app.models.project import Project, Workspace
-from app.models.document import Document, DocumentChunk
-from app.rag.bm25.index import BM25Index
-from app.rag.chroma.store import get_chroma_store
 
 # Use a unique DB filename per test session to avoid stale data conflicts
 import time as _time
+import uuid
+
+import docx
+import pandas as pd
+import pytest
+from fastapi.testclient import TestClient
+from pypdf import PdfWriter
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+from app.api.deps import get_db
+from app.core.database import Base
+from app.core.security import get_password_hash
+from app.main import app
+from app.models.document import DocumentChunk
+from app.models.user import User
+from app.rag.bm25.index import BM25Index
+from app.rag.chroma.store import get_chroma_store
+
 _DB_SUFFIX = str(int(_time.time()))
 SQLALCHEMY_DATABASE_URL = f"sqlite:///./test_phase2_{_DB_SUFFIX}.db"
 _DB_FILE = f"test_phase2_{_DB_SUFFIX}.db"
@@ -46,11 +47,11 @@ client = TestClient(app)
 def setup_db():
     Base.metadata.create_all(bind=engine)
     db = TestingSessionLocal()
-    
+
     user1_id = str(uuid.uuid4())
     user1 = User(id=user1_id, full_name="User One", email="user1@example.com", password_hash=get_password_hash("password123"))
     db.add(user1)
-    
+
     user2_id = str(uuid.uuid4())
     user2 = User(id=user2_id, full_name="User Two", email="user2@example.com", password_hash=get_password_hash("password123"))
     db.add(user2)
@@ -58,7 +59,7 @@ def setup_db():
 
     response = client.post("/api/auth/login", json={"email": "user1@example.com", "password": "password123"})
     token1 = response.json()["access_token"]
-    
+
     response = client.post("/api/auth/login", json={"email": "user2@example.com", "password": "password123"})
     token2 = response.json()["access_token"]
 
@@ -66,7 +67,7 @@ def setup_db():
     project1_id = response.json()["id"]
 
     yield db, token1, token2, project1_id
-    
+
     db.close()
     engine.dispose()
     Base.metadata.drop_all(bind=engine)
@@ -79,39 +80,39 @@ def setup_db():
 @pytest.fixture(scope="module")
 def test_files():
     files = {}
-    
+
     with open("test.txt", "w") as f:
         f.write("This is a test document. It contains some simple text for testing embeddings.")
     files["txt"] = "test.txt"
-    
+
     df = pd.DataFrame({"Name": ["Alice", "Bob"], "Age": [25, 30]})
     df.to_csv("test.csv", index=False)
     files["csv"] = "test.csv"
-    
+
     df.to_excel("test.xlsx", index=False)
     files["xlsx"] = "test.xlsx"
-    
+
     writer = PdfWriter()
     writer.add_blank_page(width=100, height=100)
     with open("test.pdf", "wb") as f:
         writer.write(f)
     files["pdf"] = "test.pdf"
-    
+
     doc = docx.Document()
     doc.add_paragraph("Test docx paragraph.")
     doc.save("test.docx")
     files["docx"] = "test.docx"
-    
+
     with open("test.doc", "w") as f:
         f.write("Fake legacy doc")
     files["doc"] = "test.doc"
-    
+
     with open("empty.txt", "w") as f:
         f.write("")
     files["empty"] = "empty.txt"
-    
+
     yield files
-    
+
     for path in files.values():
         if os.path.exists(path):
             os.remove(path)
@@ -127,18 +128,18 @@ def test_upload_txt(setup_db, test_files):
         )
     assert response.status_code == 200
     assert response.json()["status"] == "indexed"
-    
+
     # Verify chunks in DB
     doc_id = response.json()["id"]
     chunks = db.query(DocumentChunk).filter(DocumentChunk.document_id == doc_id).all()
     assert len(chunks) > 0
-    
+
     # Verify ChromaDB deterministic ID
     chroma = get_chroma_store().get_or_create_collection(project1_id)
     chroma_res = chroma.get(ids=[f"{doc_id}_0"])
     assert len(chroma_res["ids"]) > 0
     assert "test document" in chroma_res["documents"][0]
-    
+
     # Verify BM25 persistence
     bm25 = BM25Index(project1_id)
     assert len(bm25.corpus) > 0
@@ -164,19 +165,19 @@ def test_delete_document(setup_db, test_files):
             files={"file": ("test.docx", f, "application/vnd.openxmlformats-officedocument.wordprocessingml.document")}
         )
     doc_id = response.json()["id"]
-    
+
     # Delete document
     del_response = client.delete(f"/api/documents/{doc_id}", headers={"Authorization": f"Bearer {token1}"})
     assert del_response.status_code == 200
-    
+
     # Verify chunks are gone from DB
     assert len(db.query(DocumentChunk).filter(DocumentChunk.document_id == doc_id).all()) == 0
-    
+
     # Verify Chroma chunk is gone
     chroma = get_chroma_store().get_or_create_collection(project1_id)
     chroma_res = chroma.get(ids=[f"{doc_id}_0"])
     assert len(chroma_res["ids"]) == 0
-    
+
     # Verify BM25 rebuilt without it
     bm25 = BM25Index(project1_id)
     for meta in bm25.metadatas:
@@ -192,15 +193,15 @@ def test_reindex_document(setup_db, test_files):
             files={"file": ("test.csv", f, "text/csv")}
         )
     doc_id = response.json()["id"]
-    
+
     # Reindex
     reindex_res = client.post(f"/api/documents/{doc_id}/reindex", headers={"Authorization": f"Bearer {token1}"})
     assert reindex_res.status_code == 200
     assert reindex_res.json()["status"] == "indexed"
-    
+
     chunks = db.query(DocumentChunk).filter(DocumentChunk.document_id == doc_id).all()
     assert len(chunks) > 0
-    
+
     chroma = get_chroma_store().get_or_create_collection(project1_id)
     chroma_res = chroma.get(ids=[f"{doc_id}_0"])
     assert len(chroma_res["ids"]) > 0
@@ -215,11 +216,11 @@ def test_project_ownership(setup_db, test_files):
             files={"file": ("test.pdf", f, "application/pdf")}
         )
     doc_id = response.json()["id"]
-    
+
     # User 2 tries to GET
     get_res = client.get(f"/api/documents/{doc_id}", headers={"Authorization": f"Bearer {token2}"})
     assert get_res.status_code == 404
-    
+
     # User 2 tries to DELETE
     del_res = client.delete(f"/api/documents/{doc_id}", headers={"Authorization": f"Bearer {token2}"})
     assert del_res.status_code == 404

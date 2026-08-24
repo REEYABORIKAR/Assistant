@@ -1,0 +1,214 @@
+[
+  {
+    "id": "valid_sample_001",
+    "description": "Known-good sample for baseline",
+    "requirements": [
+      {
+        "id": "FR-001",
+        "title": "Login Feature",
+        "description": "Users should be able to log in with email and password",
+        "priority": "HIGH",
+        "acceptance_criteria": [
+          {"given": "On login page", "when": "Enter valid credentials", "then": "User is logged in"}
+        ]
+      }
+    ],
+    "expected_issues": [],
+    "expected_rule": null
+  },
+  {
+    "id": "missing_id_001",
+    "description": "Requirement missing ID field",
+    "requirements": [
+      {
+        "title": "Missing ID Requirement",
+        "description": "This requirement has no ID",
+        "priority": "HIGH",
+        "acceptance_criteria": [
+          {"given": "Context", "when": "Action", "then": "Result"}
+        ]
+      }
+    ],
+    "expected_issues": ["missing_id"],
+    "expected_rule": "missing_id"
+  },
+  {
+    "id": "duplicate_id_001",
+    "description": "Two requirements with the same ID",
+    "requirements": [
+      {
+        "id": "FR-001",
+        "title": "First requirement",
+        "description": "First description",
+        "priority": "HIGH",
+        "acceptance_criteria": [
+          {"given": "Context", "when": "Action", "then": "Result"}
+        ]
+      },
+      {
+        "id": "FR-001",
+        "title": "Duplicate requirement",
+        "description": "Second description with same ID",
+        "priority": "MEDIUM",
+        "acceptance_criteria": [
+          {"given": "Context", "when": "Action", "then": "Result"}
+        ]
+      }
+    ],
+    "expected_issues": ["duplicate_id"],
+    "expected_rule": "duplicate_id"
+  },
+  {
+    "id": "empty_desc_001",
+    "description": "Requirement with empty description",
+    "requirements": [
+      {
+        "id": "FR-002",
+        "title": "Empty Description",
+        "description": "",
+        "priority": "HIGH",
+        "acceptance_criteria": [
+          {"given": "Context", "when": "Action", "then": "Result"}
+        ]
+      }
+    ],
+    "expected_issues": ["empty_description"],
+    "expected_rule": "empty_description"
+  },
+  {
+    "id": "missing_priority_001",
+    "description": "Requirement missing priority field",
+    "requirements": [
+      {
+        "id": "FR-003",
+        "title": "Missing Priority",
+        "description": "This requirement has no priority set",
+        "acceptance_criteria": [
+          {"given": "Context", "when": "Action", "then": "Result"}
+        ]
+      }
+    ],
+    "expected_issues": ["missing_priority"],
+    "expected_rule": "missing_priority"
+  },
+  {
+    "id": "missing_ac_001",
+    "description": "Requirement with empty acceptance criteria",
+    "requirements": [
+      {
+        "id": "FR-004",
+        "title": "Missing AC",
+        "description": "This requirement has no acceptance criteria",
+        "priority": "MEDIUM",
+        "acceptance_criteria": []
+      }
+    ],
+    "expected_issues": ["missing_acceptance_criteria"],
+    "expected_rule": "missing_acceptance_criteria"
+  },
+  {
+    "id": "incomplete_ac_001",
+    "description": "Acceptance criterion missing 'when' field",
+    "requirements": [
+      {
+        "id": "FR-005",
+        "title": "Incomplete AC",
+        "description": "This requirement has an incomplete acceptance criterion",
+        "priority": "HIGH",
+        "acceptance_criteria": [
+          {"given": "On the login page", "then": "User is authenticated"}
+        ]
+      }
+    ],
+    "expected_issues": ["incomplete_acceptance_criterion"],
+    "expected_rule": "incomplete_acceptance_criterion"
+  },
+  {
+    "id": "multiple_issues_001",
+    "description": "Requirement with multiple problems at once",
+    "requirements": [
+      {
+        "title": "Multi-problem requirement",
+        "priority": "",
+        "acceptance_criteria": []
+      }
+    ],
+    "expected_issues": ["missing_id", "empty_description", "missing_priority", "missing_acceptance_criteria"],
+    "expected_rule": null
+  },
+  {
+    "id": "valid_sample_002",
+    "description": "Another known-good sample",
+    "requirements": [
+      {
+        "id": "FR-100",
+        "title": "Password Reset",
+        "description": "Users can reset their password via email link",
+        "priority": "HIGH",
+        "acceptance_criteria": [
+          {"given": "On forgot password page", "when": "Enter email", "then": "Reset link sent"},
+          {"given": "With valid reset link", "when": "Enter new password", "then": "Password updated"}
+        ]
+      },
+      {
+        "id": "FR-101",
+        "title": "Session Timeout",
+        "description": "Sessions expire after inactivity",
+        "priority": "MEDIUM",
+        "acceptance_criteria": [
+          {"given": "User is inactive", "when": "24 hours pass", "then": "Session is terminated"}
+        ]
+      }
+    ],
+    "expected_issues": [],
+    "expected_rule": null
+  },
+  {
+    "id": "whitespace_desc_001",
+    "description": "Description is only whitespace",
+    "requirements": [
+      {
+        "id": "FR-006",
+        "title": "Whitespace Description",
+        "description": "   \n\t  ",
+        "priority": "HIGH",
+        "acceptance_criteria": [
+          {"given": "Context", "when": "Action", "then": "Result"}
+        ]
+      }
+    ],
+    "expected_issues": ["empty_description"],
+    "expected_rule": "empty_description"
+  },
+  {
+    "id": "no_ac_field_001",
+    "description": "Requirement with no acceptance_criteria field at all",
+    "requirements": [
+      {
+        "id": "FR-007",
+        "title": "No AC Field",
+        "description": "This requirement has no acceptance_criteria key",
+        "priority": "HIGH"
+      }
+    ],
+    "expected_issues": ["missing_acceptance_criteria"],
+    "expected_rule": "missing_acceptance_criteria"
+  },
+  {
+    "id": "valid_sample_003",
+    "description": "Known-good with LOW priority",
+    "requirements": [
+      {
+        "id": "FR-200",
+        "title": "Low Priority Feature",
+        "description": "A minor feature with low priority",
+        "priority": "LOW",
+        "acceptance_criteria": [
+          {"given": "In settings", "when": "Toggle dark mode", "then": "Theme changes"}
+        ]
+      }
+    ],
+    "expected_issues": [],
+    "expected_rule": null
+  }
+]

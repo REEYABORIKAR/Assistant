@@ -1,10 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
-from app.api.deps import SessionDep, CurrentUser
+
+from app.api.deps import CurrentUser, SessionDep
+from app.core.security import create_access_token, get_password_hash, verify_password
 from app.models.user import User
-from app.schemas.user import UserCreate, UserLogin, UserResponse
 from app.schemas.token import Token
-from app.core.security import get_password_hash, verify_password, create_access_token
+from app.schemas.user import UserCreate, UserLogin, UserResponse
 
 router = APIRouter(prefix="/api/auth", tags=["Authentication"])
 
@@ -31,7 +32,7 @@ def register_user(user_in: UserCreate, db: SessionDep):
             status_code=status.HTTP_409_CONFLICT,
             detail="Email already registered"
         )
-    
+
     # Create new user
     hashed_password = get_password_hash(user_in.password)
     new_user = User(

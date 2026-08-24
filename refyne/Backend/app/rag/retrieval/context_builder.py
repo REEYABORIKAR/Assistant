@@ -27,10 +27,9 @@ Rules:
 """
 import logging
 import os
-from typing import Optional
 
 from app.core.config import settings
-from app.rag.retrieval.schemas import SearchResult, Citation, SourceDocument
+from app.rag.retrieval.schemas import Citation, SearchResult, SourceDocument
 
 logger = logging.getLogger(__name__)
 
@@ -79,7 +78,7 @@ def _infer_source_type(file_name: str) -> str:
 
 def build_context(
     results: list[SearchResult],
-    max_chars: Optional[int] = None,
+    max_chars: int | None = None,
 ) -> tuple[str, list[Citation], list[SourceDocument]]:
     """
     Build an LLM-ready context string, citations, and source_documents from

@@ -20,7 +20,6 @@ Design:
 import logging
 import re
 import time
-from typing import Optional
 
 from app.core.config import settings
 
@@ -28,14 +27,7 @@ logger = logging.getLogger(__name__)
 
 # Conservative English stopword list (lowercase). Kept intentionally small.
 _STOPWORDS = frozenset(
-    """
-    a an and are as at be by for from has have in is it its of on or that the
-    this to was were will with what when where which who whom whose why how
-    not no but all any can could do does did should would may might must our
-    your their they we you i he she them there here into over under about
-    than then so also between through during before after above below again
-    further once such these those each few more most other some same only own
-    """.split()
+    ["a", "an", "and", "are", "as", "at", "be", "by", "for", "from", "has", "have", "in", "is", "it", "its", "of", "on", "or", "that", "the", "this", "to", "was", "were", "will", "with", "what", "when", "where", "which", "who", "whom", "whose", "why", "how", "not", "no", "but", "all", "any", "can", "could", "do", "does", "did", "should", "would", "may", "might", "must", "our", "your", "their", "they", "we", "you", "i", "he", "she", "them", "there", "here", "into", "over", "under", "about", "than", "then", "so", "also", "between", "through", "during", "before", "after", "above", "below", "again", "further", "once", "such", "these", "those", "each", "few", "more", "most", "other", "some", "same", "only", "own"]
 )
 
 _TOKEN_RE = re.compile(r"[A-Za-z][A-Za-z0-9-]*")
@@ -49,8 +41,8 @@ def _tokenize(text: str) -> list[str]:
 def extract_expansion_terms(
     query: str,
     candidates: list[dict],
-    top_terms: Optional[int] = None,
-    source_chunks: Optional[int] = None,
+    top_terms: int | None = None,
+    source_chunks: int | None = None,
 ) -> list[str]:
     """
     Extract discriminating terms from the top pseudo-relevant chunks.
@@ -87,8 +79,8 @@ def extract_expansion_terms(
 def expand_query(
     query: str,
     candidates: list[dict],
-    top_terms: Optional[int] = None,
-    source_chunks: Optional[int] = None,
+    top_terms: int | None = None,
+    source_chunks: int | None = None,
 ) -> tuple[str, list[str]]:
     """
     Build an expanded query string by appending PRF terms.

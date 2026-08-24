@@ -6,14 +6,12 @@ Generates structured SRS content from retrieved context.
 import json
 import logging
 import re
-from typing import Optional
 
+from app.agents.requirement.generator import _normalize_requirement
 from app.agents.requirement.schema import (
     GenerationPlan,
-    Requirement,
     SRSDocument,
 )
-from app.agents.requirement.generator import _normalize_requirement
 from app.services.generation import generate_answer
 
 logger = logging.getLogger(__name__)
@@ -41,7 +39,7 @@ def _parse_srs_json(raw: str) -> dict:
 def generate_srs(
     plan: GenerationPlan,
     context: str,
-    citations: Optional[list] = None,
+    citations: list | None = None,
 ) -> SRSDocument:
     """
     Generate a structured SRS from context.

@@ -15,7 +15,6 @@ Design:
 """
 import logging
 import time
-from typing import Optional
 
 from app.core.config import settings
 
@@ -27,7 +26,7 @@ class RerankerSingleton:
 
     _instance = None
     _model = None
-    _load_error: Optional[str] = None
+    _load_error: str | None = None
 
     def __new__(cls):
         if cls._instance is None:
@@ -54,7 +53,7 @@ class RerankerSingleton:
 def rerank_results(
     query: str,
     candidates: list[dict],
-    top_k: Optional[int] = None,
+    top_k: int | None = None,
 ) -> tuple[list[dict], bool, float]:
     """
     Rerank fused candidate dicts with a cross-encoder.

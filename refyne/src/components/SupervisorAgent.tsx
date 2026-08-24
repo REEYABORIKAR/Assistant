@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { Bot, FileText, BarChart3, Upload, LayoutDashboard, Download, RefreshCw, Edit3, ThumbsUp, ThumbsDown, HelpCircle } from 'lucide-react';
+import { Bot, FileText, BarChart3, Upload, LayoutDashboard, Download, ThumbsUp, ThumbsDown, HelpCircle } from 'lucide-react';
 
 // ─── Block types (append-only timeline) ───────────────────────────────────────
 export type ChatBlock =
@@ -16,6 +16,7 @@ export type ChatBlock =
 interface SupervisorAgentProps {
   blocks: ChatBlock[];
   disabled?: boolean;
+  hasDocuments?: boolean;
   onUploadDocument: () => void;
   onViewDashboard: () => void;
   onGenerateDocument: (type: string) => void;
@@ -24,6 +25,8 @@ interface SupervisorAgentProps {
   onNoThanksConfirm: () => void;
   onNextAction: (action: 'generate' | 'ask' | 'none') => void;
   onFeedback: (helpful: boolean) => void;
+  onPreviewDocument?: (title: string, content: string) => void;
+  onValidateNow?: (title: string, content: string) => void;
 }
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -78,9 +81,10 @@ function downloadFile(content: string, title: string) {
 // ─── Block renderers ──────────────────────────────────────────────────────────
 
 function ActionButtonsBlock({
-  disabled, onUploadDocument, onViewDashboard, onGenerateDocument, onAskAnotherQuestion, onNoThanksFirst,
+  disabled, hasDocuments, onUploadDocument, onViewDashboard, onGenerateDocument, onAskAnotherQuestion, onNoThanksFirst,
 }: {
   disabled?: boolean;
+  hasDocuments?: boolean;
   onUploadDocument: () => void;
   onViewDashboard: () => void;
   onGenerateDocument: (type: string) => void;
@@ -101,17 +105,17 @@ function ActionButtonsBlock({
         {generationActions.map((action) => {
           const Icon = action.icon;
           return (
-            <button key={action.id} onClick={() => onGenerateDocument(action.id)} disabled={disabled} className="action-btn action-btn-secondary disabled:opacity-50 disabled:cursor-not-allowed">
+            <button key={action.id} onClick={() => onGenerateDocument(action.id)} disabled={disabled || !hasDocuments} className="action-btn action-btn-secondary disabled:opacity-50 disabled:cursor-not-allowed">
               <Icon size={12} /> {action.label}
             </button>
           );
         })}
       </div>
       <div className="flex flex-wrap gap-2">
-        <button onClick={onAskAnotherQuestion} disabled={disabled} className="inline-flex items-center gap-2 rounded-lg border border-violet-200 bg-violet-50 px-4 py-2 text-sm font-medium text-violet-700 transition hover:bg-violet-100 disabled:opacity-50 disabled:cursor-not-allowed">
-          <HelpCircle size={14} /> Ask Question (Based on Uploaded Document)
+        <button onClick={onAskAnotherQuestion} disabled={disabled || !hasDocuments} className="action-btn action-btn-primary disabled:opacity-50 disabled:cursor-not-allowed">
+          <HelpCircle size={12} /> Ask Question (Based on Uploaded Document)
         </button>
-        <button onClick={onNoThanksFirst} disabled={disabled} className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-500 transition hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed">
+        <button onClick={onNoThanksFirst} disabled={disabled} className="action-btn action-btn-secondary disabled:opacity-50 disabled:cursor-not-allowed">
           No, Not Now
         </button>
       </div>
@@ -132,7 +136,19 @@ function GeneratingBlock({ documentType }: { documentType: string }) {
   );
 }
 
-function DocumentResultBlock({ title, size, content }: { title: string; size: string; content: string }) {
+function DocumentResultBlock({
+  title,
+  size,
+  content,
+  onPreview,
+  onValidate,
+}: {
+  title: string;
+  size: string;
+  content: string;
+  onPreview?: (title: string, content: string) => void;
+  onValidate?: (title: string, content: string) => void;
+}) {
   return (
     <div className="ml-11 mt-4">
       <SupervisorBubble>
@@ -143,7 +159,7 @@ function DocumentResultBlock({ title, size, content }: { title: string; size: st
               <FileText size={18} className="text-violet-600" />
             </div>
             <div>
-              <p className="text-sm font-medium text-slate-800">{title || 'Generated Document'}.docx</p>
+              <p className="text-sm font-medium text-slate-800">{title || 'Generated Document'}.md</p>
               <p className="text-xs text-slate-500">{size || '2.4 MB'}</p>
             </div>
             <button onClick={() => downloadFile(content, title)} className="ml-auto rounded-lg p-2 text-slate-400 hover:bg-slate-100" title="Download">
@@ -151,16 +167,19 @@ function DocumentResultBlock({ title, size, content }: { title: string; size: st
             </button>
           </div>
         </div>
-        <p className="mt-3 text-sm text-slate-600">You can review, download or refine the document.</p>
         <div className="mt-3 flex flex-wrap gap-2">
+          {onPreview && (
+            <button onClick={() => onPreview(title, content)} className="inline-flex items-center gap-1.5 rounded-lg bg-violet-600 px-3 py-1.5 text-sm font-semibold text-white transition hover:bg-violet-700 shadow-sm">
+              <FileText size={14} /> Preview Document
+            </button>
+          )}
+          {onValidate && (
+            <button onClick={() => onValidate(title, content)} className="inline-flex items-center gap-1.5 rounded-lg border border-violet-200 bg-violet-50 px-3 py-1.5 text-sm font-semibold text-violet-700 transition hover:bg-violet-100">
+              Validate Now
+            </button>
+          )}
           <button onClick={() => downloadFile(content, title)} className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-600 transition hover:bg-slate-50">
             <Download size={14} /> Download
-          </button>
-          <button className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-600 transition hover:bg-slate-50">
-            <RefreshCw size={14} /> Regenerate
-          </button>
-          <button className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-600 transition hover:bg-slate-50">
-            <Edit3 size={14} /> Edit / Refine
           </button>
         </div>
       </SupervisorBubble>
@@ -269,6 +288,8 @@ export function SupervisorAgent({
   onNoThanksConfirm,
   onNextAction,
   onFeedback,
+  onPreviewDocument,
+  onValidateNow,
 }: SupervisorAgentProps) {
   const endRef = useRef<HTMLDivElement>(null);
 
@@ -295,7 +316,16 @@ export function SupervisorAgent({
           case 'generating':
             return <GeneratingBlock key={block.id} documentType={block.documentType} />;
           case 'document_result':
-            return <DocumentResultBlock key={block.id} title={block.title} size={block.size} content={block.content} />;
+            return (
+              <DocumentResultBlock
+                key={block.id}
+                title={block.title}
+                size={block.size}
+                content={block.content}
+                onPreview={onPreviewDocument}
+                onValidate={onValidateNow}
+              />
+            );
           case 'next_action_buttons':
             return <NextActionButtonsBlock key={block.id} disabled={disabled} onNextAction={onNextAction} />;
           case 'supervisor_message':

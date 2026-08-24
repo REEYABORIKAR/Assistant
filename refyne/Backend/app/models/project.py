@@ -1,8 +1,11 @@
-from sqlalchemy import Column, String, DateTime, ForeignKey
-from sqlalchemy.orm import relationship
 import uuid
 from datetime import datetime
+
+from sqlalchemy import Column, DateTime, ForeignKey, String
+from sqlalchemy.orm import relationship
+
 from app.core.database import Base
+
 
 def generate_uuid():
     return str(uuid.uuid4())
@@ -20,6 +23,7 @@ class Project(Base):
     user = relationship("User", back_populates="projects")
     workspace = relationship("Workspace", back_populates="project", uselist=False, cascade="all, delete-orphan")
     documents = relationship("Document", back_populates="project", cascade="all, delete-orphan")
+    members = relationship("ProjectMember", back_populates="project", cascade="all, delete-orphan")
 
 class Workspace(Base):
     __tablename__ = "workspaces"

@@ -8,7 +8,7 @@ the API response (frontend compatibility).
 from __future__ import annotations
 
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 from pydantic import BaseModel, Field
 
@@ -53,12 +53,12 @@ class UserStory(BaseModel):
     feature: str = Field(..., description="What the user wants")
     benefit: str = Field(..., description="Why the user wants it")
     priority: Priority = Field(default=Priority.MEDIUM, description="Priority level")
-    story_points: Optional[int] = Field(default=None, description="Estimated story points (1-13)")
+    story_points: int | None = Field(default=None, description="Estimated story points (1-13)")
     acceptance_criteria: list[AcceptanceCriterion] = Field(
         default_factory=list,
         description="Acceptance criteria for this story",
     )
-    epic: Optional[str] = Field(default=None, description="Parent epic name")
+    epic: str | None = Field(default=None, description="Parent epic name")
     source_citations: list[str] = Field(default_factory=list)
 
 

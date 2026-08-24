@@ -13,16 +13,15 @@ Each test verifies ALL of:
   6. Result returned
   7. Correct final state
 """
-import pytest
 import uuid
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
 
-from app.agents.supervisor.state import Intent, Route, WorkflowStatus, SupervisorState
-from app.agents.supervisor.orchestrator import execute, _resolve_action, INTENT_TO_ACTION
-from app.agents.supervisor.router import route_from_intent
-from app.api.supervisor_chat import ACTION_INTENT_MAP
+import pytest
+
+from app.agents.supervisor.orchestrator import _resolve_action, execute
+from app.agents.supervisor.state import Intent, Route, SupervisorState, WorkflowStatus
 from app.api.document_generation import DOCUMENT_PROMPTS
-
+from app.api.supervisor_chat import ACTION_INTENT_MAP
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # Helpers

@@ -3,36 +3,31 @@ Unit Tests for Requirement Agent.
 
 Tests the agent's execute() function in isolation with mocked retrieval/LLM calls.
 """
-import pytest
 import uuid
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
 
-from app.agents.supervisor.state import Intent, Route, WorkflowStatus, SupervisorState
 from app.agents.requirement.agent import execute
-from app.agents.requirement.analyzer import build_generation_plan, resolve_action, INTENT_TO_ACTION
+from app.agents.requirement.analyzer import INTENT_TO_ACTION, build_generation_plan, resolve_action
 from app.agents.requirement.generator import (
-    generate_requirements,
     _normalize_requirement,
     _parse_requirements_json,
-)
-from app.agents.requirement.serializer import (
-    serialize_requirement,
-    serialize_requirements_list,
-    serialize_user_story,
-    serialize_brd,
-    serialize_srs,
-    serialize_rtm,
 )
 from app.agents.requirement.schema import (
     AcceptanceCriterion,
     BRDDocument,
     Priority,
     Requirement,
-    SRSDocument,
     RTMDocument,
     UserStory,
 )
-
+from app.agents.requirement.serializer import (
+    serialize_brd,
+    serialize_requirement,
+    serialize_requirements_list,
+    serialize_rtm,
+    serialize_user_story,
+)
+from app.agents.supervisor.state import Intent, Route, SupervisorState, WorkflowStatus
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # Helpers

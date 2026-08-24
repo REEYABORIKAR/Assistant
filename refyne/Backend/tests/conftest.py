@@ -11,7 +11,6 @@ simply sets the JWT_SECRET_KEY environment variable so tests don't need to
 manage it individually.
 """
 import os
-import pytest
 
 # Ensure JWT_SECRET_KEY is always available for tests
 os.environ.setdefault("JWT_SECRET_KEY", "testsecret123-phase123-refyne")

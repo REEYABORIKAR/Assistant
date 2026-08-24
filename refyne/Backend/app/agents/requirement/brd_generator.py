@@ -6,14 +6,12 @@ Generates structured BRD content from retrieved context.
 import json
 import logging
 import re
-from typing import Optional
 
+from app.agents.requirement.generator import _normalize_requirement
 from app.agents.requirement.schema import (
     BRDDocument,
     GenerationPlan,
-    Requirement,
 )
-from app.agents.requirement.generator import _normalize_requirement
 from app.services.generation import generate_answer
 
 logger = logging.getLogger(__name__)
@@ -42,7 +40,7 @@ def _parse_brd_json(raw: str) -> dict:
 def generate_brd(
     plan: GenerationPlan,
     context: str,
-    citations: Optional[list] = None,
+    citations: list | None = None,
 ) -> BRDDocument:
     """
     Generate a structured BRD from context.

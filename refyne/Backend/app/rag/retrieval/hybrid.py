@@ -1,70 +1,28 @@
 """
 HybridRetriever: The central coordinator for Phase 4 Advanced RAG retrieval.
-
-Pipeline:
-    query
-      ↓ query preprocessing (strip / validate whitespace)
-      ↓
-    ┌──────────────┐   ┌──────────────┐
-    │ SemanticSearch│   │  BM25 Search │
-    │  (ChromaDB)  │   │  (BM25Index) │
-    └──────┬───────┘   └──────┬───────┘
-           │                  │
-           └────────┬─────────┘
-                    ↓
-          Score Normalization (Min-Max)
-                    ↓
-            Weighted Fusion
-            hybrid = 0.6 * sem + 0.4 * bm25
-                    ↓
-        Query Expansion (PRF, pass 2)   ← re-runs semantic + BM25 with expanded query
-                    ↓
-        Cross-encoder Reranking         ← rescores fused candidates (query ⊕ chunk)
-                    ↓
-           Deduplication (by chunk_id)
-                    ↓
-          Threshold Filter (>= HYBRID_MIN_SCORE)
-                    ↓
-            Top-K Ranking
-                    ↓
-        Build SearchResult objects
-                    ↓
-           Context Builder
-                    ↓
-              SearchResponse
-
-Project isolation is enforced at multiple levels:
-  1. Only the project's ChromaDB collection is queried.
-  2. Only the project's BM25 index is loaded.
-  3. document_ids are verified to belong to the project before being used as filters.
-
-Advanced-RAG features (Phase 4):
-  - Query expansion via Pseudo-Relevance Feedback (query_expansion.py)
-  - Cross-encoder reranking (reranker.py), gracefully skipped if the model
-    cannot be loaded (e.g. offline environments)
+...
 """
 import logging
-import os
 import time
-from typing import Optional
 
+from opentelemetry import trace
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
-from app.models.document import Document, DocumentChunk
-from app.rag.retrieval.semantic import semantic_search
+from app.models.document import Document
 from app.rag.retrieval.bm25 import bm25_search
+from app.rag.retrieval.context_builder import _infer_source_type, build_context
 from app.rag.retrieval.fusion import fuse_results
-from app.rag.retrieval.reranker import rerank_results
 from app.rag.retrieval.query_expansion import expand_query
-from app.rag.retrieval.context_builder import build_context, _infer_source_type
+from app.rag.retrieval.reranker import rerank_results
 from app.rag.retrieval.schemas import (
+    RetrievalDebugInfo,
+    RetrievalMetadata,
+    SearchResponse,
     SearchResult,
     SearchResultMetadata,
-    SearchResponse,
-    RetrievalMetadata,
-    RetrievalDebugInfo,
 )
+from app.rag.retrieval.semantic import semantic_search
 
 logger = logging.getLogger(__name__)
 
@@ -151,8 +109,10 @@ class HybridRetriever:
         self,
         project_id: str,
         query: str,
-        top_k: Optional[int] = None,
-        document_ids: Optional[list[str]] = None,
+        top_k: int | None = None,
+        document_ids: list[str] | None = None,
+        user_role: str | None = None,
+        trace_id: str | None = None,
     ) -> SearchResponse:
         """
         Execute the full hybrid retrieval pipeline.
@@ -162,11 +122,14 @@ class HybridRetriever:
             query:        User query (must not be empty/whitespace)
             top_k:        Number of results (defaults to settings.RETRIEVAL_TOP_K)
             document_ids: Optional filter; each ID is verified to belong to the project
+            user_role:    User's project role for authorization filtering
+            trace_id:     Request trace ID for logging correlation
 
         Returns:
             SearchResponse
         """
         t_total_start = time.perf_counter()
+        tracer = trace.get_tracer("refyne.retrieval")
 
         # --- Input normalization ---
         query = query.strip()
@@ -179,84 +142,129 @@ class HybridRetriever:
         )
         n_candidates = effective_top_k * settings.RETRIEVAL_CANDIDATE_MULTIPLIER
 
-        # --- Verify document_ids ---
-        verified_doc_ids: Optional[list[str]] = None
-        if document_ids:
-            try:
-                verified_doc_ids = self._verify_document_ids(document_ids, project_id)
-            except ValueError as e:
-                raise ValueError(str(e))
+        with tracer.start_as_current_span(
+            "retrieval.verify_doc_ids",
+            attributes={"project_id": project_id, "trace_id": trace_id or ""},
+        ):
+            # --- Verify document_ids ---
+            verified_doc_ids: list[str] | None = None
+            if document_ids:
+                try:
+                    verified_doc_ids = self._verify_document_ids(document_ids, project_id)
+                except ValueError as e:
+                    raise ValueError(str(e))
 
-        # --- Pass 1: initial hybrid retrieval ---
-        sem_results, sem_ms = semantic_search(
-            project_id=project_id,
-            query=query,
-            n_candidates=n_candidates,
-            document_ids=verified_doc_ids,
-        )
-
-        # --- BM25 search ---
-        bm25_results, bm25_ms = bm25_search(
-            project_id=project_id,
-            query=query,
-            n_candidates=n_candidates,
-            document_ids=verified_doc_ids,
-        )
-
-        # --- Fusion ---
-        fused, fusion_ms = fuse_results(sem_results, bm25_results)
-
-        # --- Query expansion (Pseudo-Relevance Feedback) ---
-        expanded_query = query
-        expansion_terms: list[str] = []
-        expansion_ms = 0.0
-        if settings.QUERY_EXPANSION_ENABLED and fused:
-            t_exp = time.perf_counter()
-            expanded_query, expansion_terms = expand_query(query, fused)
-            expansion_ms = (time.perf_counter() - t_exp) * 1000
-            if expanded_query != query:
-                # Pass 2: refined retrieval using the expanded query
-                sem_results, sem_ms = semantic_search(
-                    project_id=project_id,
-                    query=expanded_query,
-                    n_candidates=n_candidates,
-                    document_ids=verified_doc_ids,
-                )
-                bm25_results, bm25_ms = bm25_search(
-                    project_id=project_id,
-                    query=expanded_query,
-                    n_candidates=n_candidates,
-                    document_ids=verified_doc_ids,
-                )
-                fused, fusion_ms = fuse_results(sem_results, bm25_results)
-
-        # --- Cross-encoder reranking ---
-        reranked_flag = False
-        rerank_ms = 0.0
-        if settings.RERANK_ENABLED and fused:
-            fused, reranked_flag, rerank_ms = rerank_results(
-                expanded_query, fused, top_k=effective_top_k
+        with tracer.start_as_current_span(
+            "retrieval.pass1_hybrid",
+            attributes={"project_id": project_id, "trace_id": trace_id or "", "n_candidates": n_candidates},
+        ) as span:
+            # --- Pass 1: initial hybrid retrieval ---
+            sem_results, sem_ms = semantic_search(
+                project_id=project_id,
+                query=query,
+                n_candidates=n_candidates,
+                document_ids=verified_doc_ids,
+                user_role=user_role,
+                trace_id=trace_id,
             )
+            bm25_results, bm25_ms = bm25_search(
+                project_id=project_id,
+                query=query,
+                n_candidates=n_candidates,
+                document_ids=verified_doc_ids,
+                user_role=user_role,
+                trace_id=trace_id,
+            )
+            span.set_attribute("semantic_candidates", len(sem_results))
+            span.set_attribute("bm25_candidates", len(bm25_results))
+
+        with tracer.start_as_current_span("retrieval.fuse", attributes={"project_id": project_id}):
+            # --- Fusion ---
+            fused, fusion_ms = fuse_results(sem_results, bm25_results)
+
+        with tracer.start_as_current_span(
+            "retrieval.query_expansion",
+            attributes={"project_id": project_id, "enabled": settings.QUERY_EXPANSION_ENABLED},
+        ) as span:
+            # --- Query expansion (Pseudo-Relevance Feedback) ---
+            expanded_query = query
+            expansion_terms: list[str] = []
+            expansion_ms = 0.0
+            if settings.QUERY_EXPANSION_ENABLED and fused:
+                t_exp = time.perf_counter()
+                expanded_query, expansion_terms = expand_query(query, fused)
+                expansion_ms = (time.perf_counter() - t_exp) * 1000
+                if expanded_query != query:
+                    # Pass 2: refined retrieval using the expanded query
+                    sem_results, sem_ms = semantic_search(
+                        project_id=project_id,
+                        query=expanded_query,
+                        n_candidates=n_candidates,
+                        document_ids=verified_doc_ids,
+                        user_role=user_role,
+                        trace_id=trace_id,
+                    )
+                    bm25_results, bm25_ms = bm25_search(
+                        project_id=project_id,
+                        query=expanded_query,
+                        n_candidates=n_candidates,
+                        document_ids=verified_doc_ids,
+                        user_role=user_role,
+                        trace_id=trace_id,
+                    )
+                    fused, fusion_ms = fuse_results(sem_results, bm25_results)
+            span.set_attribute("expanded", expanded_query != query)
+
+        with tracer.start_as_current_span(
+            "retrieval.rerank",
+            attributes={"project_id": project_id, "enabled": settings.RERANK_ENABLED},
+        ) as span:
+            # --- Cross-encoder reranking ---
+            reranked_flag = False
+            rerank_ms = 0.0
+            if settings.RERANK_ENABLED and fused:
+                fused, reranked_flag, rerank_ms = rerank_results(
+                    expanded_query, fused, top_k=effective_top_k
+                )
+            span.set_attribute("reranked", reranked_flag)
+
+        # --- Apply threshold after reranking (fixes gap where reranked scores drop below min) ---
+        if fused:
+            fused = [c for c in fused if c.get("hybrid_score", 0.0) >= settings.HYBRID_MIN_SCORE]
 
         # --- Slice to top_k ---
         top_results_raw = fused[:effective_top_k]
 
-        # --- Build SearchResult objects ---
-        include_debug = settings.RETRIEVAL_DEBUG
-        search_results = [
-            _build_search_result(c, project_id, self.db, include_debug)
-            for c in top_results_raw
-        ]
+        with tracer.start_as_current_span(
+            "retrieval.build_results",
+            attributes={"project_id": project_id, "trace_id": trace_id or ""},
+        ) as span:
+            # --- Build SearchResult objects ---
+            include_debug = settings.RETRIEVAL_DEBUG
+            search_results = [
+                _build_search_result(c, project_id, self.db, include_debug)
+                for c in top_results_raw
+            ]
 
-        # --- Build context, citations, source_documents ---
-        context, citations, source_documents = build_context(search_results)
+            # --- Build context, citations, source_documents ---
+            context, citations, source_documents = build_context(search_results)
+            span.set_attribute("final_results", len(search_results))
+            span.set_attribute("context_length", len(context or ""))
 
         total_ms = (time.perf_counter() - t_total_start) * 1000
 
         logger.info(
-            f"HybridRetrieval: project={project_id} query_len={len(query)} "
-            f"sem={len(sem_results)} bm25={len(bm25_results)} "
-            f"final={len(search_results)} total={total_ms:.1f}ms"
+            "Hybrid retrieval completed",
+            extra={
+                "project_id": project_id,
+                "trace_id": trace_id,
+                "query_len": len(query),
+                "semantic_candidates": len(sem_results),
+                "bm25_candidates": len(bm25_results),
+                "final_results": len(search_results),
+                "duration_ms": round(total_ms, 1),
+                "event": "hybrid_retrieval",
+            },
         )
 
         # --- Build metadata ---

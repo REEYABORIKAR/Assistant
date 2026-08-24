@@ -5,16 +5,17 @@ Provides endpoints for generating requirement documents (BRD, SRS, RTM, etc.)
 using the existing RAG pipeline and LLM generation.
 """
 import logging
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
-from pydantic import BaseModel
 
-from app.api.deps import get_db, get_current_user
-from app.models.user import User
+from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel
+from sqlalchemy.orm import Session
+
+from app.api.deps import CurrentUser, SessionDep, require_role
+from app.core.roles import ProjectRole
+from app.models.membership import ProjectMember
 from app.models.project import Project
 from app.rag.retrieval.hybrid import HybridRetriever
 from app.services.generation import generate_answer
-from app.core.config import settings
 
 logger = logging.getLogger(__name__)
 router = APIRouter(tags=["document-generation"])
@@ -202,15 +203,20 @@ class DocumentGenerationResponse(BaseModel):
     source_documents: list = []
 
 
-def _get_project_for_user(db: Session, project_id: str, user_id: str) -> Project:
-    """Verify project ownership."""
-    project = db.query(Project).filter(
-        Project.id == project_id,
-        Project.user_id == user_id,
-    ).first()
+def _get_project_for_user(db: Session, project_id: str, user_id: str) -> tuple[Project, str]:
+    """Verify project access (owner or member). Returns (project, user_role)."""
+    project = db.query(Project).filter(Project.id == project_id).first()
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
-    return project
+    if project.user_id == user_id:
+        return project, ProjectRole.ADMIN.value
+    member = db.query(ProjectMember).filter(
+        ProjectMember.project_id == project_id,
+        ProjectMember.user_id == user_id,
+    ).first()
+    if not member:
+        raise HTTPException(status_code=404, detail="Project not found")
+    return project, member.role
 
 
 @router.post(
@@ -222,8 +228,9 @@ def _get_project_for_user(db: Session, project_id: str, user_id: str) -> Project
 def generate_document(
     project_id: str,
     action: str,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    db: SessionDep,
+    current_user: CurrentUser,
+    _role: None = Depends(require_role(ProjectRole.EDITOR)),
 ) -> DocumentGenerationResponse:
     # Validate action
     if action not in DOCUMENT_PROMPTS:
@@ -231,13 +238,13 @@ def generate_document(
             status_code=422,
             detail=f"Invalid action '{action}'. Valid actions: {', '.join(DOCUMENT_PROMPTS.keys())}"
         )
-    
+
     # Verify project ownership
-    _get_project_for_user(db, project_id, current_user.id)
-    
+    _project, user_role = _get_project_for_user(db, project_id, current_user.id)
+
     # Get the prompt configuration for this action
     action_config = DOCUMENT_PROMPTS[action]
-    
+
     # Use RAG to retrieve relevant context
     retriever = HybridRetriever(db)
     try:
@@ -246,25 +253,45 @@ def generate_document(
             project_id=project_id,
             query=action_config["prompt"],
             top_k=10,
+            user_role=user_role,
         )
     except Exception as e:
         logger.error(f"Retrieval failed for project {project_id}: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail="Retrieval failed due to an internal error")
-    
+
     # Generate the document using LLM
     generation = generate_answer(
         query=action_config["prompt"],
         context=search_response.context,
         citations=search_response.citations,
     )
-    
+
     # Format the response
     if generation["configured"] and generation["answer"]:
         content = f"# {action_config['title']}\n\n{generation['answer']}"
     else:
         # Fallback: provide a structured template with retrieved context
         content = _generate_fallback_content(action, action_config, search_response)
-    
+
+    # Persist artifact in DB
+    try:
+        from app.models.artifact import Artifact
+        file_name = f"{action.upper()}_{project_id[:6]}.md"
+        artifact = Artifact(
+            project_id=project_id,
+            user_id=current_user.id,
+            type=action,
+            title=action_config["title"],
+            file_name=file_name,
+            version="v1.0",
+            content=content,
+            status="pending_validation",
+        )
+        db.add(artifact)
+        db.commit()
+    except Exception as err:
+        logger.warning(f"Could not persist artifact: {err}")
+
     return DocumentGenerationResponse(
         title=action_config["title"],
         content=content,
@@ -277,7 +304,7 @@ def generate_document(
 def _generate_fallback_content(action: str, config: dict, search_response) -> str:
     """Generate fallback content when LLM is not configured."""
     context = search_response.context if search_response.context else "No relevant content found in documents."
-    
+
     fallback_templates = {
         "brd": f"""# {config['title']}
 
@@ -312,7 +339,7 @@ This document specifies the software requirements based on the uploaded document
 """,
         # Add more fallback templates as needed
     }
-    
+
     return fallback_templates.get(action, f"""# {config['title']}
 
 ## Overview

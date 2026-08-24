@@ -10,7 +10,6 @@ missing intent, failed classification, or workflow state conflicts.
 from __future__ import annotations
 
 import logging
-from typing import Optional
 
 from pydantic import BaseModel, Field
 

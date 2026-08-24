@@ -3,18 +3,16 @@ Unit Tests for Validation Agent.
 
 Tests the agent's execute() function and individual validators in isolation.
 """
-import pytest
 import uuid
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
 
-from app.agents.supervisor.state import Intent, Route, WorkflowStatus, SupervisorState
+from app.agents.supervisor.state import Intent, Route, SupervisorState, WorkflowStatus
 from app.agents.validation.agent import execute
-from app.agents.validation.rule_validator import validate_rules
 from app.agents.validation.duplicate_detector import detect_duplicates
-from app.agents.validation.traceability_checker import check_traceability
 from app.agents.validation.final_validator import run_full_validation
+from app.agents.validation.rule_validator import validate_rules
 from app.agents.validation.schema import Severity, ValidationReport
-
+from app.agents.validation.traceability_checker import check_traceability
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # Helpers

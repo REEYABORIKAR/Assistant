@@ -12,7 +12,7 @@ Uses LLM to perform semantic validation checks:
 import json
 import logging
 import re
-from typing import Any, Optional
+from typing import Any
 
 from app.agents.validation.schema import Severity, ValidationIssue
 from app.services.generation import generate_answer
@@ -61,7 +61,7 @@ def _parse_llm_issues_json(raw: str) -> list[dict]:
 
 def validate_with_llm(
     requirements: list[dict[str, Any]],
-    context: Optional[str] = None,
+    context: str | None = None,
 ) -> tuple[list[ValidationIssue], dict[str, Any]]:
     """
     Run LLM-based semantic validation on requirements.

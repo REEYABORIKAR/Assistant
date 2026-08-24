@@ -11,7 +11,6 @@ user wants and where it should go.
 import json
 import logging
 import re
-from typing import Optional
 
 from pydantic import BaseModel, Field
 
@@ -201,7 +200,7 @@ OUTPUT FORMAT (JSON only, no markdown):
 def _build_user_prompt(
     user_query: str,
     project_id: str,
-    conversation_context: Optional[str] = None,
+    conversation_context: str | None = None,
 ) -> str:
     """Build the user message for classification."""
     parts = [f"User query: {user_query}", f"Project ID: {project_id}"]
@@ -296,9 +295,9 @@ def _parse_classification(raw: str) -> ClassificationResult:
 def classify_intent(
     user_query: str,
     project_id: str,
-    conversation_context: Optional[str] = None,
+    conversation_context: str | None = None,
     confidence_threshold: float = 0.5,
-    model: Optional[str] = None,
+    model: str | None = None,
 ) -> ClassificationResult:
     """
     Classify a user query into an intent and route.
@@ -451,7 +450,7 @@ def classify_intent(
 def classify_and_update_state(
     state: SupervisorState,
     confidence_threshold: float = 0.5,
-    model: Optional[str] = None,
+    model: str | None = None,
 ) -> SupervisorState:
     """
     Classify the user query and update the state in-place.

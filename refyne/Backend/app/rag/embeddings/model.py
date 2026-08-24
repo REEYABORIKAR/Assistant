@@ -1,5 +1,6 @@
 from sentence_transformers import SentenceTransformer
 
+
 class EmbeddingModelSingleton:
     _instance = None
     _model = None

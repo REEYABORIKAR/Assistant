@@ -6,7 +6,6 @@ Generates structured acceptance criteria from retrieved context using LLM.
 import json
 import logging
 import re
-from typing import Optional
 
 from app.agents.requirement.schema import (
     AcceptanceCriterion,
@@ -61,7 +60,7 @@ def _normalize_criterion(raw: dict, index: int) -> AcceptanceCriterion:
 def generate_acceptance_criteria(
     plan: GenerationPlan,
     context: str,
-    citations: Optional[list] = None,
+    citations: list | None = None,
 ) -> list[AcceptanceCriterion]:
     """
     Generate structured acceptance criteria using LLM.

@@ -1,0 +1,45 @@
+# Logs
+*.log
+logs/
+
+# Node
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Python virtual environment
+venv/
+.venv/
+
+# Environment variables
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Testing
+.pytest_cache/
+
+# Local data
+Backend/data/
+
+# Database files
+*.db
+*.sqlite3
+
+# pnpm
+.pnpm-store/

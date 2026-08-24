@@ -10,14 +10,14 @@ Public entrypoint for requirement validation. Orchestrates the full pipeline:
 
 The orchestrator calls only `execute(state, db)`.
 """
-import json
 import logging
 
 from sqlalchemy.orm import Session
 
+from app.agents.supervisor.state import SupervisorState, WorkflowStatus
 from app.agents.validation.final_validator import run_full_validation
 from app.agents.validation.schema import ValidationReport
-from app.agents.supervisor.state import SupervisorState, WorkflowStatus
+from app.core.metrics import incr_validation, observe_validation_score
 from app.rag.retrieval.hybrid import HybridRetriever
 
 logger = logging.getLogger(__name__)
@@ -143,6 +143,8 @@ def execute(state: SupervisorState, db: Session) -> SupervisorState:
                 query=state.user_query,
                 top_k=10,
                 document_ids=state.document_ids,
+                user_role=state.user_role,
+                trace_id=state.trace_id,
             )
             state.retrieved_context = search_response.context
             state.citations = search_response.citations
@@ -157,7 +159,10 @@ def execute(state: SupervisorState, db: Session) -> SupervisorState:
                     "source_citations": [],
                 }]
         except Exception as e:
-            logger.error(f"RAG retrieval for validation failed: {e}")
+            logger.error(
+                "RAG retrieval for validation failed",
+                extra={"trace_id": state.trace_id, "project_id": state.project_id, "error": str(e)},
+            )
 
     # 2. Run full validation
     report = run_full_validation(
@@ -179,8 +184,19 @@ def execute(state: SupervisorState, db: Session) -> SupervisorState:
     state.metadata["validation_issues_count"] = len(report.issues)
     state.workflow_status = WorkflowStatus.COMPLETED
 
+    # Emit metrics
+    incr_validation(project_id=state.project_id, status=report.overall_status)
+    observe_validation_score(report.overall_score, project_id=state.project_id)
+
     logger.info(
-        f"Validation Agent completed: status={report.overall_status}, "
-        f"score={report.overall_score:.3f}, issues={len(report.issues)}"
+        "Validation Agent completed",
+        extra={
+            "trace_id": state.trace_id,
+            "project_id": state.project_id,
+            "status": report.overall_status,
+            "score": round(report.overall_score, 3),
+            "issues": len(report.issues),
+            "event": "validation_agent_completed",
+        },
     )
     return state

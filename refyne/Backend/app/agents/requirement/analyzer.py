@@ -5,7 +5,6 @@ Interprets the retrieved context and user request to build a generation plan.
 Determines what document type to generate and configures the appropriate prompt.
 """
 import logging
-from typing import Optional
 
 from app.agents.requirement.schema import GenerationPlan
 from app.agents.supervisor.state import Intent, SupervisorState
@@ -50,7 +49,7 @@ def resolve_action(state: SupervisorState) -> str:
     return INTENT_TO_ACTION.get(state.intent, "brd")
 
 
-def build_generation_plan(state: SupervisorState) -> Optional[GenerationPlan]:
+def build_generation_plan(state: SupervisorState) -> GenerationPlan | None:
     """
     Analyze the state and build a generation plan.
 

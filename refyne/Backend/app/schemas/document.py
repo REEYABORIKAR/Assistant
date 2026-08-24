@@ -1,7 +1,7 @@
-from pydantic import BaseModel, ConfigDict
-from typing import Optional
 from datetime import datetime
-import uuid
+
+from pydantic import BaseModel, ConfigDict
+
 
 class DocumentBase(BaseModel):
     file_name: str
@@ -16,13 +16,13 @@ class DocumentCreate(DocumentBase):
 class DocumentResponse(DocumentBase):
     id: str
     status: str
-    error_message: Optional[str] = None
+    error_message: str | None = None
     created_at: datetime
     updated_at: datetime
-    
+
     model_config = ConfigDict(from_attributes=True)
 
 class DocumentStatus(BaseModel):
     id: str
     status: str
-    error_message: Optional[str] = None
+    error_message: str | None = None

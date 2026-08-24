@@ -6,7 +6,6 @@ Generates structured RTM content from retrieved context.
 import json
 import logging
 import re
-from typing import Any, Optional
 
 from app.agents.requirement.schema import (
     GenerationPlan,
@@ -46,7 +45,7 @@ def _parse_rtm_json(raw: str) -> list[dict]:
 def generate_rtm(
     plan: GenerationPlan,
     context: str,
-    citations: Optional[list] = None,
+    citations: list | None = None,
 ) -> RTMDocument:
     """
     Generate a structured RTM from context.

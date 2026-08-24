@@ -1,6 +1,7 @@
 import os
+
 import chromadb
-from chromadb.config import Settings
+
 
 class ChromaStore:
     _instance = None
@@ -28,27 +29,27 @@ class ChromaStore:
         Chunks must contain 'text' and 'metadata'.
         """
         collection = self.get_or_create_collection(project_id)
-        
+
         ids = []
         texts = []
         metadatas = []
-        
+
         for chunk in chunks:
             doc_id = chunk["metadata"]["document_id"]
             chunk_idx = chunk["metadata"]["chunk_index"]
             # Deterministic ID
             chunk_id = f"{doc_id}_{chunk_idx}"
-            
+
             ids.append(chunk_id)
             texts.append(chunk["text"])
-            
+
             # Ensure metadata values are str, int, float, or bool for ChromaDB
             clean_meta = {}
             for k, v in chunk["metadata"].items():
                 if v is not None:
                     clean_meta[k] = v
             metadatas.append(clean_meta)
-            
+
         collection.upsert(
             ids=ids,
             embeddings=embeddings,

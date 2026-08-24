@@ -7,7 +7,6 @@ Parses LLM output into structured Requirement objects.
 import json
 import logging
 import re
-from typing import Optional
 
 from app.agents.requirement.schema import (
     AcceptanceCriterion,
@@ -107,7 +106,7 @@ def _normalize_requirement(raw: dict, index: int) -> Requirement:
 def generate_requirements(
     plan: GenerationPlan,
     context: str,
-    citations: Optional[list] = None,
+    citations: list | None = None,
 ) -> list[Requirement]:
     """
     Generate structured requirements using LLM.

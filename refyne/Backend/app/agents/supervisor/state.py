@@ -11,12 +11,11 @@ from __future__ import annotations
 
 import uuid
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 from pydantic import BaseModel, Field
 
 from app.rag.retrieval.schemas import Citation
-
 
 # ── Supervisor Intent Definitions ──────────────────────────────────────────────
 # Strongly typed intents the Supervisor can classify from user input.
@@ -104,7 +103,7 @@ class StructuredError(BaseModel):
     """Structured error object for the errors list."""
     code: str = Field(..., description="Machine-readable error code")
     message: str = Field(..., description="Human-readable error message")
-    field: Optional[str] = Field(default=None, description="Field that caused the error, if applicable")
+    field: str | None = Field(default=None, description="Field that caused the error, if applicable")
 
 
 class SupervisorState(BaseModel):
@@ -123,6 +122,10 @@ class SupervisorState(BaseModel):
     user_id: str = Field(..., description="ID of the authenticated user")
     project_id: str = Field(..., description="ID of the active project")
     session_id: str = Field(..., description="Unique session/conversation ID")
+    user_role: str | None = Field(
+        default=None,
+        description="User's role in the project (ADMIN, EDITOR, REVIEWER, VIEWER)",
+    )
     trace_id: str = Field(
         default_factory=lambda: str(uuid.uuid4()),
         description="Unique trace ID for this request lifecycle",
@@ -130,15 +133,15 @@ class SupervisorState(BaseModel):
 
     # ── User Input ─────────────────────────────────────────────────────────
     user_query: str = Field(..., description="Raw user query or command")
-    intent: Optional[Intent] = Field(
+    intent: Intent | None = Field(
         default=None,
         description="Classified intent after supervisor routing",
     )
-    route: Optional[Route] = Field(
+    route: Route | None = Field(
         default=None,
         description="Which agent path processes this request",
     )
-    action: Optional[str] = Field(
+    action: str | None = Field(
         default=None,
         description="Explicit document generation action (e.g. 'brd', 'srs', 'risk_analysis'). "
                     "Preserved from frontend through to the requirement agent.",
@@ -149,11 +152,11 @@ class SupervisorState(BaseModel):
         default=False,
         description="Whether this query needs document retrieval",
     )
-    document_ids: Optional[list[str]] = Field(
+    document_ids: list[str] | None = Field(
         default=None,
         description="Specific document IDs to restrict retrieval to",
     )
-    retrieved_context: Optional[str] = Field(
+    retrieved_context: str | None = Field(
         default=None,
         description="LLM-ready context string from RAG retrieval",
     )
@@ -163,7 +166,7 @@ class SupervisorState(BaseModel):
     )
 
     # ── Generation ─────────────────────────────────────────────────────────
-    generated_output: Optional[str] = Field(
+    generated_output: str | None = Field(
         default=None,
         description="Generated answer or document content (markdown for frontend)",
     )
@@ -183,17 +186,17 @@ class SupervisorState(BaseModel):
     )
 
     # ── Validation ─────────────────────────────────────────────────────────
-    validation_result: Optional[dict[str, Any]] = Field(
+    validation_result: dict[str, Any] | None = Field(
         default=None,
         description="Validation output (pass/fail, issues, suggestions)",
     )
-    validation_score: Optional[float] = Field(
+    validation_score: float | None = Field(
         default=None,
         description="Overall validation score 0.0-1.0",
     )
 
     # ── Human Review ───────────────────────────────────────────────────────
-    human_feedback: Optional[str] = Field(
+    human_feedback: str | None = Field(
         default=None,
         description="Feedback or edits from human reviewer",
     )
@@ -203,11 +206,11 @@ class SupervisorState(BaseModel):
     )
 
     # ── Artifact Tracking ──────────────────────────────────────────────────
-    artifact_id: Optional[str] = Field(
+    artifact_id: str | None = Field(
         default=None,
         description="ID of the generated artifact, if persisted",
     )
-    artifact_version: Optional[int] = Field(
+    artifact_version: int | None = Field(
         default=None,
         description="Version number of the artifact",
     )
@@ -217,7 +220,7 @@ class SupervisorState(BaseModel):
         default=WorkflowStatus.PENDING,
         description="Current execution status",
     )
-    error: Optional[str] = Field(
+    error: str | None = Field(
         default=None,
         description="Error message if workflow failed",
     )

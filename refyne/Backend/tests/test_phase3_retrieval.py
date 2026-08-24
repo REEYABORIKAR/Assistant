@@ -32,26 +32,26 @@ Tests:
 """
 
 import os
-import pytest
+
+# Use a unique DB filename per test session to avoid stale data conflicts
+import time as _time
 import uuid
-import time
+
+import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from app.main import app
-from app.core.database import Base
 from app.api.deps import get_db
+from app.core.database import Base
 from app.core.security import get_password_hash
+from app.main import app
 from app.models.user import User
-from app.models.document import Document, DocumentChunk
-from app.rag.retrieval.fusion import _minmax_normalize, fuse_results
-from app.rag.retrieval.semantic import _distance_to_similarity
 from app.rag.retrieval.context_builder import build_context
+from app.rag.retrieval.fusion import _minmax_normalize, fuse_results
 from app.rag.retrieval.schemas import SearchResult, SearchResultMetadata
+from app.rag.retrieval.semantic import _distance_to_similarity
 
-# Use a unique DB filename per test session to avoid stale data conflicts
-import time as _time
 _DB_SUFFIX = str(int(_time.time()))
 SQLALCHEMY_DATABASE_URL = f"sqlite:///./test_phase3_{_DB_SUFFIX}.db"
 _DB_FILE = f"test_phase3_{_DB_SUFFIX}.db"

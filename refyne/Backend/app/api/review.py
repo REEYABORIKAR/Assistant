@@ -11,14 +11,16 @@ Provides endpoints for managing human review tasks:
 """
 import json
 import logging
-from typing import Optional
+import uuid
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
-from app.api.deps import get_db, get_current_user
-from app.models.user import User
+from app.api.deps import CurrentUser, SessionDep, require_role
+from app.core.audit import write_audit_log
+from app.core.roles import ProjectRole
+from app.models.membership import ProjectMember
 from app.models.project import Project
 from app.models.review import ReviewTask
 
@@ -31,41 +33,46 @@ router = APIRouter(tags=["reviews"])
 class ReviewTaskCreate(BaseModel):
     """Input for creating a review task."""
     project_id: str = Field(..., description="Project ID")
-    artifact_id: Optional[str] = Field(default=None, description="Artifact ID")
+    artifact_id: str | None = Field(default=None, description="Artifact ID")
     artifact_type: str = Field(default="requirement", description="Type of artifact")
-    validation_score: Optional[float] = Field(default=None, description="Validation score")
-    comments: Optional[str] = Field(default=None, description="Initial comments")
-    artifact_snapshot: Optional[str] = Field(default=None, description="JSON snapshot of the artifact")
+    validation_score: float | None = Field(default=None, description="Validation score")
+    comments: str | None = Field(default=None, description="Initial comments")
+    artifact_snapshot: str | None = Field(default=None, description="JSON snapshot of the artifact")
 
 
 class ReviewTaskResponse(BaseModel):
     """Output for a review task."""
     id: str
     project_id: str
-    artifact_id: Optional[str]
+    artifact_id: str | None
     artifact_type: str
     reviewer_id: str
     status: str
-    validation_score: Optional[float]
-    comments: Optional[str]
+    validation_score: float | None
+    comments: str | None
     created_at: str
     updated_at: str
 
 
 class ReviewActionRequest(BaseModel):
     """Input for approve/reject/request-changes actions."""
-    comments: Optional[str] = Field(default=None, description="Reviewer comments")
+    comments: str | None = Field(default=None, description="Reviewer comments")
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
 def _get_project_for_user(db: Session, project_id: str, user_id: str) -> Project:
-    """Verify project ownership."""
-    project = db.query(Project).filter(
-        Project.id == project_id,
-        Project.user_id == user_id,
-    ).first()
+    """Verify project access (owner or member)."""
+    project = db.query(Project).filter(Project.id == project_id).first()
     if not project:
+        raise HTTPException(status_code=404, detail="Project not found")
+    if project.user_id == user_id:
+        return project
+    member = db.query(ProjectMember).filter(
+        ProjectMember.project_id == project_id,
+        ProjectMember.user_id == user_id,
+    ).first()
+    if not member:
         raise HTTPException(status_code=404, detail="Project not found")
     return project
 
@@ -75,8 +82,6 @@ def _get_review_task(db: Session, task_id: str, user_id: str) -> ReviewTask:
     task = db.query(ReviewTask).filter(ReviewTask.id == task_id).first()
     if not task:
         raise HTTPException(status_code=404, detail="Review task not found")
-
-    # Verify the user owns the project
     _get_project_for_user(db, task.project_id, user_id)
     return task
 
@@ -105,10 +110,10 @@ def _review_task_to_response(task: ReviewTask) -> ReviewTaskResponse:
     summary="List review tasks for the current user",
 )
 def list_reviews(
-    status: Optional[str] = None,
-    project_id: Optional[str] = None,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    db: SessionDep,
+    current_user: CurrentUser,
+    status: str | None = None,
+    project_id: str | None = None,
 ) -> list[ReviewTaskResponse]:
     query = db.query(ReviewTask).filter(
         ReviewTask.reviewer_id == current_user.id,
@@ -129,8 +134,8 @@ def list_reviews(
 )
 def get_review(
     task_id: str,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    db: SessionDep,
+    current_user: CurrentUser,
 ) -> ReviewTaskResponse:
     task = _get_review_task(db, task_id, current_user.id)
     return _review_task_to_response(task)
@@ -144,10 +149,9 @@ def get_review(
 )
 def create_review(
     body: ReviewTaskCreate,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    db: SessionDep,
+    current_user: CurrentUser,
 ) -> ReviewTaskResponse:
-    # Verify project ownership
     _get_project_for_user(db, body.project_id, current_user.id)
 
     task = ReviewTask(
@@ -176,10 +180,14 @@ def create_review(
 def approve_review(
     task_id: str,
     body: ReviewActionRequest,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    db: SessionDep,
+    current_user: CurrentUser,
+    request: Request,
+    _role: None = Depends(require_role(ProjectRole.REVIEWER)),
 ) -> ReviewTaskResponse:
     task = _get_review_task(db, task_id, current_user.id)
+    trace_id = uuid.uuid4().hex[:16]
+    client_ip = request.client.host if request.client else None
 
     if task.status in ("approved", "rejected"):
         raise HTTPException(
@@ -187,12 +195,28 @@ def approve_review(
             detail=f"Review task is already {task.status}",
         )
 
+    old_status = task.status
     task.status = "approved"
     task.comments = body.comments or task.comments
     db.commit()
     db.refresh(task)
 
-    logger.info(f"Approved review task {task_id}")
+    write_audit_log(
+        db,
+        user_id=current_user.id,
+        project_id=task.project_id,
+        action="APPROVE_ARTIFACT",
+        resource_type="review_task",
+        resource_id=task.id,
+        trace_id=trace_id,
+        ip_address=client_ip,
+        old_value=json.dumps({"status": old_status}),
+        new_value=json.dumps({"status": "approved", "comments": body.comments}),
+        details={"artifact_id": task.artifact_id, "artifact_type": task.artifact_type},
+    )
+    db.commit()
+
+    logger.info("Approved review task", extra={"task_id": task_id, "trace_id": trace_id, "project_id": task.project_id})
     return _review_task_to_response(task)
 
 
@@ -204,10 +228,14 @@ def approve_review(
 def reject_review(
     task_id: str,
     body: ReviewActionRequest,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    db: SessionDep,
+    current_user: CurrentUser,
+    request: Request,
+    _role: None = Depends(require_role(ProjectRole.REVIEWER)),
 ) -> ReviewTaskResponse:
     task = _get_review_task(db, task_id, current_user.id)
+    trace_id = uuid.uuid4().hex[:16]
+    client_ip = request.client.host if request.client else None
 
     if task.status in ("approved", "rejected"):
         raise HTTPException(
@@ -215,12 +243,28 @@ def reject_review(
             detail=f"Review task is already {task.status}",
         )
 
+    old_status = task.status
     task.status = "rejected"
     task.comments = body.comments or task.comments
     db.commit()
     db.refresh(task)
 
-    logger.info(f"Rejected review task {task_id}")
+    write_audit_log(
+        db,
+        user_id=current_user.id,
+        project_id=task.project_id,
+        action="REJECT_ARTIFACT",
+        resource_type="review_task",
+        resource_id=task.id,
+        trace_id=trace_id,
+        ip_address=client_ip,
+        old_value=json.dumps({"status": old_status}),
+        new_value=json.dumps({"status": "rejected", "comments": body.comments}),
+        details={"artifact_id": task.artifact_id, "artifact_type": task.artifact_type},
+    )
+    db.commit()
+
+    logger.info("Rejected review task", extra={"task_id": task_id, "trace_id": trace_id, "project_id": task.project_id})
     return _review_task_to_response(task)
 
 
@@ -232,10 +276,14 @@ def reject_review(
 def request_changes(
     task_id: str,
     body: ReviewActionRequest,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    db: SessionDep,
+    current_user: CurrentUser,
+    request: Request,
+    _role: None = Depends(require_role(ProjectRole.REVIEWER)),
 ) -> ReviewTaskResponse:
     task = _get_review_task(db, task_id, current_user.id)
+    trace_id = uuid.uuid4().hex[:16]
+    client_ip = request.client.host if request.client else None
 
     if task.status in ("approved", "rejected"):
         raise HTTPException(
@@ -243,10 +291,26 @@ def request_changes(
             detail=f"Review task is already {task.status}",
         )
 
+    old_status = task.status
     task.status = "changes_requested"
     task.comments = body.comments or task.comments
     db.commit()
     db.refresh(task)
 
-    logger.info(f"Changes requested on review task {task_id}")
+    write_audit_log(
+        db,
+        user_id=current_user.id,
+        project_id=task.project_id,
+        action="REQUEST_CHANGES",
+        resource_type="review_task",
+        resource_id=task.id,
+        trace_id=trace_id,
+        ip_address=client_ip,
+        old_value=json.dumps({"status": old_status}),
+        new_value=json.dumps({"status": "changes_requested", "comments": body.comments}),
+        details={"artifact_id": task.artifact_id, "artifact_type": task.artifact_type},
+    )
+    db.commit()
+
+    logger.info("Changes requested on review task", extra={"task_id": task_id, "trace_id": trace_id, "project_id": task.project_id})
     return _review_task_to_response(task)

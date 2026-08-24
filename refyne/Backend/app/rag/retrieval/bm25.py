@@ -9,7 +9,6 @@ Returns a candidate pool larger than top_k for downstream fusion.
 """
 import logging
 import time
-from typing import Optional
 
 from app.rag.bm25.index import BM25Index
 
@@ -20,25 +19,29 @@ def bm25_search(
     project_id: str,
     query: str,
     n_candidates: int,
-    document_ids: Optional[list[str]] = None,
+    document_ids: list[str] | None = None,
+    user_role: str | None = None,
+    trace_id: str | None = None,
 ) -> tuple[list[dict], float]:
     """
     Run BM25 keyword search for the given project.
 
-    Tokenization uses the same strategy as the corpus: split on whitespace.
-    This ensures query tokens align with the indexed corpus tokens.
+    Args:
+        user_role: If provided, only chunks with this role in allowed_roles are returned.
+        trace_id: Request trace ID for logging correlation.
 
     Returns:
         (results, elapsed_ms)
-        Each result dict contains:
-          chunk_id, document_id, chunk_index, text, metadata, raw_bm25_score
     """
     t0 = time.perf_counter()
 
     bm25_index = BM25Index(project_id)
 
     if bm25_index.bm25 is None or not bm25_index.corpus:
-        logger.debug(f"BM25 index empty for project {project_id}")
+        logger.debug(
+            "BM25 index empty",
+            extra={"project_id": project_id, "trace_id": trace_id, "event": "bm25_empty"},
+        )
         return [], (time.perf_counter() - t0) * 1000
 
     # Consistent tokenization with the corpus
@@ -68,6 +71,12 @@ def bm25_search(
         if document_ids is not None and doc_id not in document_ids:
             continue
 
+        # Apply role-based authorization filter
+        if user_role:
+            allowed = meta.get("allowed_roles", [])
+            if user_role not in allowed:
+                continue
+
         chunk_idx = meta.get("chunk_index", 0)
         # Deterministic chunk_id matches ChromaDB: {document_id}_{chunk_index}
         chunk_id = f"{doc_id}_{chunk_idx}"
@@ -86,6 +95,13 @@ def bm25_search(
 
     elapsed_ms = (time.perf_counter() - t0) * 1000
     logger.debug(
-        f"BM25 search: project={project_id} candidates={len(results)} elapsed={elapsed_ms:.1f}ms"
+        "BM25 search completed",
+        extra={
+            "project_id": project_id,
+            "trace_id": trace_id,
+            "candidates": len(results),
+            "duration_ms": round(elapsed_ms, 1),
+            "event": "bm25_search",
+        },
     )
     return results, elapsed_ms

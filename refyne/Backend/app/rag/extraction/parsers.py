@@ -1,7 +1,7 @@
-import io
-import pandas as pd
 import docx
+import pandas as pd
 from pypdf import PdfReader
+
 
 class ExtractionError(Exception):
     pass
@@ -47,12 +47,12 @@ def extract_docx(file_path: str) -> list[dict]:
 
 def extract_txt(file_path: str) -> list[dict]:
     try:
-        with open(file_path, "r", encoding="utf-8") as f:
+        with open(file_path, encoding="utf-8") as f:
             text = f.read()
             return [{"text": text, "metadata": {}}]
     except UnicodeDecodeError:
         try:
-            with open(file_path, "r", encoding="latin-1") as f:
+            with open(file_path, encoding="latin-1") as f:
                 text = f.read()
                 return [{"text": text, "metadata": {}}]
         except Exception as e:

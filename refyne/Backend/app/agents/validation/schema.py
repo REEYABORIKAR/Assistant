@@ -6,7 +6,7 @@ Defines the structured output for requirement validation reports.
 from __future__ import annotations
 
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 from pydantic import BaseModel, Field
 
@@ -23,7 +23,7 @@ class Severity(str, Enum):
 class ValidationIssue(BaseModel):
     """A single validation issue found during checks."""
     id: str = Field(..., description="Unique issue ID")
-    requirement_id: Optional[str] = Field(
+    requirement_id: str | None = Field(
         default=None,
         description="ID of the requirement with this issue, if applicable",
     )

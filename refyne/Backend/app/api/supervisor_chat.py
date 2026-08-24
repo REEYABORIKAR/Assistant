@@ -13,23 +13,23 @@ Security:
 """
 import logging
 import uuid
-from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
-from app.api.deps import get_db, get_current_user
-from app.models.user import User
-from app.models.project import Project
-from app.agents.supervisor.service import handle_request_with_state
 from app.agents.supervisor.orchestrator import execute
+from app.agents.supervisor.service import handle_request_with_state
 from app.agents.supervisor.state import (
     Intent,
-    Route,
     SupervisorState,
     WorkflowStatus,
 )
+from app.api.deps import get_current_user, get_db
+from app.core.audit import write_audit_log
+from app.models.document import Document
+from app.models.project import Project
+from app.models.user import User
 
 logger = logging.getLogger(__name__)
 router = APIRouter(tags=["supervisor-chat"])
@@ -40,17 +40,17 @@ router = APIRouter(tags=["supervisor-chat"])
 class SupervisorChatRequest(BaseModel):
     """Input for the Supervisor chat endpoint."""
     project_id: str = Field(..., description="Active project ID")
-    conversation_id: Optional[str] = Field(
+    conversation_id: str | None = Field(
         default=None,
         description="Frontend conversation ID. Auto-generated if missing.",
     )
     user_message: str = Field(..., min_length=1, description="User message or command")
-    action: Optional[str] = Field(
+    action: str | None = Field(
         default=None,
         description="Explicit action override (e.g. 'brd', 'srs'). "
                     "When provided, bypasses LLM classification and routes directly.",
     )
-    document_ids: Optional[list[str]] = Field(
+    document_ids: list[str] | None = Field(
         default=None,
         description="Optional document IDs to restrict retrieval to",
     )
@@ -67,15 +67,15 @@ class SupervisorChatResponse(BaseModel):
     conversation_id: str = Field(..., description="Frontend conversation ID")
 
     # Agent output
-    content: Optional[str] = Field(
+    content: str | None = Field(
         default=None,
         description="Generated answer or document content",
     )
-    title: Optional[str] = Field(
+    title: str | None = Field(
         default=None,
         description="Document title (for generation routes)",
     )
-    action: Optional[str] = Field(
+    action: str | None = Field(
         default=None,
         description="Action that was executed (for generation routes)",
     )
@@ -89,7 +89,7 @@ class SupervisorChatResponse(BaseModel):
     )
 
     # Error handling
-    error: Optional[str] = Field(
+    error: str | None = Field(
         default=None,
         description="Error message if workflow failed",
     )
@@ -115,15 +115,23 @@ ACTION_INTENT_MAP: dict[str, Intent] = {
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
-def _get_project_for_user(db: Session, project_id: str, user_id: str) -> Project:
-    """Verify project ownership."""
-    project = db.query(Project).filter(
-        Project.id == project_id,
-        Project.user_id == user_id,
-    ).first()
+def _get_project_for_user(db: Session, project_id: str, user_id: str) -> tuple[Project, str]:
+    """Verify project ownership. Returns (project, user_role)."""
+    from app.core.roles import ProjectRole
+    from app.models.membership import ProjectMember
+
+    project = db.query(Project).filter(Project.id == project_id).first()
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
-    return project
+    if project.user_id == user_id:
+        return project, ProjectRole.ADMIN.value
+    member = db.query(ProjectMember).filter(
+        ProjectMember.project_id == project_id,
+        ProjectMember.user_id == user_id,
+    ).first()
+    if member:
+        return project, member.role
+    raise HTTPException(status_code=404, detail="Project not found")
 
 
 # ── Endpoint ──────────────────────────────────────────────────────────────────
@@ -145,15 +153,27 @@ def supervisor_chat(
     current_user: User = Depends(get_current_user),
 ) -> SupervisorChatResponse:
     # --- Ownership check ---
-    _get_project_for_user(db, body.project_id, current_user.id)
+    _project, user_role = _get_project_for_user(db, body.project_id, current_user.id)
 
     # --- Input validation ---
     query = body.user_message.strip()
     if not query:
         raise HTTPException(status_code=422, detail="user_message must not be empty")
 
+    # --- Require at least one indexed document ---
+    indexed_count = db.query(Document).filter(
+        Document.project_id == body.project_id,
+        Document.status == "indexed",
+    ).count()
+    if indexed_count == 0:
+        raise HTTPException(
+            status_code=400,
+            detail="No indexed documents found. Please upload and process at least one document before chatting or generating artifacts.",
+        )
+
     session_id = str(uuid.uuid4())
     conversation_id = body.conversation_id or str(uuid.uuid4())
+    trace_id = uuid.uuid4().hex[:16]
 
     try:
         # --- If explicit action is provided, bypass LLM classification ---
@@ -167,6 +187,7 @@ def supervisor_chat(
                 user_id=current_user.id,
                 project_id=body.project_id,
                 session_id=session_id,
+                user_role=user_role,
                 user_query=query,
                 intent=intent,
                 route=decision.route,
@@ -174,6 +195,7 @@ def supervisor_chat(
                 document_ids=body.document_ids,
                 workflow_status=decision.workflow_status,
                 action=body.action,
+                trace_id=trace_id,
             )
             state.metadata["classification_confidence"] = 1.0
             state.metadata["classification_reasoning"] = f"Explicit action override: {body.action}"
@@ -185,6 +207,8 @@ def supervisor_chat(
                 project_id=body.project_id,
                 user_query=query,
                 session_id=session_id,
+                user_role=user_role,
+                trace_id=trace_id,
             )
             state.document_ids = body.document_ids
             # If the LLM-classified intent maps to a generation action, set it
@@ -193,6 +217,30 @@ def supervisor_chat(
 
         # --- Execute the downstream agent ---
         state = execute(state, db)
+
+        # --- Write audit log ---
+        action_name = state.metadata.get("document_action") or state.action or "CHAT"
+        if isinstance(action_name, str):
+            action_name = action_name.upper().replace(" ", "_")
+        else:
+            action_name = "CHAT"
+        write_audit_log(
+            db,
+            user_id=current_user.id,
+            project_id=body.project_id,
+            action=action_name,
+            resource_type="conversation",
+            resource_id=session_id,
+            trace_id=trace_id,
+            details={
+                "intent": state.intent.value if state.intent else "unknown",
+                "route": state.route.value if state.route else "unknown",
+                "workflow_status": state.workflow_status.value,
+                "conversation_id": conversation_id,
+            },
+            status="success" if state.workflow_status != WorkflowStatus.FAILED else "failure",
+        )
+        db.commit()
 
         # --- Build source documents from citations ---
         source_docs = []

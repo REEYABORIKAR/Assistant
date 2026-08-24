@@ -1,7 +1,8 @@
 import os
 import pickle
+
 from rank_bm25 import BM25Okapi
-from typing import Optional
+
 
 class BM25Index:
     def __init__(self, project_id: str):
@@ -10,11 +11,11 @@ class BM25Index:
         os.makedirs(self.storage_dir, exist_ok=True)
         self.index_path = os.path.join(self.storage_dir, "index.pkl")
         self.metadata_path = os.path.join(self.storage_dir, "metadata.pkl")
-        
-        self.bm25: Optional[BM25Okapi] = None
+
+        self.bm25: BM25Okapi | None = None
         self.corpus = []
         self.metadatas = []
-        
+
         self._load()
 
     def _load(self):
@@ -45,17 +46,17 @@ class BM25Index:
         """
         self.corpus = []
         self.metadatas = []
-        
+
         for chunk in chunks:
             self.corpus.append(chunk["text"])
             self.metadatas.append(chunk["metadata"])
-            
+
         if self.corpus:
             tokenized_corpus = [doc.split(" ") for doc in self.corpus]
             self.bm25 = BM25Okapi(tokenized_corpus)
         else:
             self.bm25 = None
-            
+
         self._save()
 
     def add_chunks(self, chunks: list[dict]):
@@ -65,32 +66,32 @@ class BM25Index:
         for chunk in chunks:
             self.corpus.append(chunk["text"])
             self.metadatas.append(chunk["metadata"])
-            
+
         if self.corpus:
             tokenized_corpus = [doc.split(" ") for doc in self.corpus]
             self.bm25 = BM25Okapi(tokenized_corpus)
-            
+
         self._save()
-        
+
     def remove_document(self, document_id: str):
         """
         Removes all chunks associated with a document_id and rebuilds.
         """
         new_corpus = []
         new_metadatas = []
-        
+
         for text, meta in zip(self.corpus, self.metadatas):
             if meta.get("document_id") != document_id:
                 new_corpus.append(text)
                 new_metadatas.append(meta)
-                
+
         self.corpus = new_corpus
         self.metadatas = new_metadatas
-        
+
         if self.corpus:
             tokenized_corpus = [doc.split(" ") for doc in self.corpus]
             self.bm25 = BM25Okapi(tokenized_corpus)
         else:
             self.bm25 = None
-            
+
         self._save()

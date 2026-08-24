@@ -1,5 +1,5 @@
-import os
 from pydantic_settings import BaseSettings
+
 
 class Settings(BaseSettings):
     DATABASE_URL: str = "sqlite:///./data/database/refyne.db"
@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     JWT_ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 1440
     CORS_ORIGINS: str = "http://localhost:5173"
-    
+
     # Document settings
     MAX_UPLOAD_SIZE: int = 50 * 1024 * 1024
     ALLOWED_EXTENSIONS: list[str] = [".pdf", ".doc", ".docx", ".xlsx", ".csv", ".txt"]
@@ -50,6 +50,9 @@ class Settings(BaseSettings):
     GROQ_MODEL: str = "qwen/qwen3.6-27b"
     GENERATION_MAX_TOKENS: int = 1024
     GENERATION_TEMPERATURE: float = 0.2
+
+    # Fail-closed: when False, generation is refused if no relevant context is found
+    ALLOW_GENERATION_WITHOUT_CONTEXT: bool = False
 
     class Config:
         env_file = ".env"

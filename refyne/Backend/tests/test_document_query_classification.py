@@ -14,27 +14,22 @@ Target queries:
   6. "Explain the payment workflow described in the document"
   7. "Where are the API integration requirements?"
 """
-import pytest
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
 
-from app.agents.supervisor.state import Intent, Route, SupervisorState
+import pytest
+
 from app.agents.supervisor.classifier import (
-    ClassificationResult,
-    _is_document_query,
-    _parse_classification,
-    classify_intent,
-    classify_and_update_state,
     INTENT_ROUTE_MAP,
     RAG_REQUIRED_INTENTS,
+    _is_document_query,
+    classify_and_update_state,
+    classify_intent,
 )
 from app.agents.supervisor.router import (
-    route_from_intent,
-    resolve_route,
-    requires_rag,
-    INTENT_TO_ROUTE,
     RAG_INTENTS,
+    route_from_intent,
 )
-
+from app.agents.supervisor.state import Intent, Route, SupervisorState
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # SECTION 1: Keyword Pre-check Tests

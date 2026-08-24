@@ -12,38 +12,36 @@ Each test verifies:
   5. Workflow status transitions
   6. Error → FAILED status handling
 """
-import pytest
-import uuid
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
 
-from app.agents.supervisor.state import Intent, Route, WorkflowStatus, SupervisorState
-from app.agents.supervisor.router import (
-    resolve_route,
-    requires_rag,
-    resolve_status,
-    route_intent,
-    route_from_intent,
-    INTENT_TO_ROUTE,
-    RAG_INTENTS,
-    NO_RAG_INTENTS,
-    INTENT_TO_STATUS,
-)
+import pytest
+
 from app.agents.supervisor.classifier import (
-    ClassificationResult,
-    _parse_classification,
-    classify_intent,
-    classify_and_update_state,
     INTENT_ROUTE_MAP,
     RAG_REQUIRED_INTENTS,
+    ClassificationResult,
+    _parse_classification,
+    classify_and_update_state,
+    classify_intent,
+)
+from app.agents.supervisor.router import (
+    INTENT_TO_ROUTE,
+    INTENT_TO_STATUS,
+    RAG_INTENTS,
+    requires_rag,
+    resolve_route,
+    resolve_status,
+    route_from_intent,
+    route_intent,
 )
 from app.agents.supervisor.service import (
-    handle_request,
-    handle_request_with_state,
+    SupervisorError,
     SupervisorRequest,
     SupervisorResponse,
-    SupervisorError,
+    handle_request,
+    handle_request_with_state,
 )
-
+from app.agents.supervisor.state import Intent, Route, SupervisorState, WorkflowStatus
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # SECTION 1: State & Enum Integrity
@@ -637,12 +635,10 @@ class TestDownstreamExecutionPaths:
 
     def test_requirement_agent_module_exists(self):
         """Route.REQUIREMENT_AGENT must have an importable module."""
-        import app.agents.requirement
         # Module exists (even if empty)
 
     def test_requirement_agent_has_no_implementation(self):
         """FLAG: Requirement agent __init__.py is empty — no agent class."""
-        from app.agents.requirement import __init__
         # The module is empty — no RequirementAgent class exists
         import app.agents.requirement as req_mod
         assert not hasattr(req_mod, "RequirementAgent"), (
@@ -651,7 +647,6 @@ class TestDownstreamExecutionPaths:
 
     def test_validation_agent_module_exists(self):
         """Route.VALIDATION_AGENT must have an importable module."""
-        import app.agents.validation
         # Module exists (even if empty)
 
     def test_validation_agent_has_no_implementation(self):
@@ -687,7 +682,6 @@ class TestRouteToExecutionMapping:
         assert route == Route.RAG
         assert requires_rag(Intent.QUESTION_ANSWERING) is True
         # Verify downstream
-        from app.rag.retrieval.hybrid import HybridRetriever
         from app.services.generation import generate_answer
         assert callable(generate_answer)
 

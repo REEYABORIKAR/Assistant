@@ -11,17 +11,18 @@ performs classification, routing, AND execution in a single call.
 This endpoint is retained for backward compatibility and debugging only.
 """
 import logging
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from app.api.deps import get_db, get_current_user
-from app.models.user import User
-from app.models.project import Project
 from app.agents.supervisor.service import (
-    handle_request,
     SupervisorRequest,
     SupervisorResponse,
+    handle_request,
 )
+from app.api.deps import get_current_user, get_db
+from app.models.project import Project
+from app.models.user import User
 
 logger = logging.getLogger(__name__)
 router = APIRouter(tags=["supervisor"])

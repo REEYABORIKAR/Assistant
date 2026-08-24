@@ -8,15 +8,13 @@ Tests the execution layer that was previously untested:
 
 Each test verifies actual agent execution occurs, not just routing.
 """
-import pytest
 import uuid
-from unittest.mock import patch, MagicMock, AsyncMock
+from unittest.mock import MagicMock, patch
 
-from app.agents.supervisor.state import Intent, Route, WorkflowStatus, SupervisorState
 from app.agents.supervisor.classifier import ClassificationResult
-from app.agents.supervisor.orchestrator import execute, INTENT_TO_ACTION
+from app.agents.supervisor.orchestrator import INTENT_TO_ACTION, execute
 from app.agents.supervisor.router import route_from_intent
-
+from app.agents.supervisor.state import Intent, Route, SupervisorState, WorkflowStatus
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # Helper: Build a mock search response
@@ -437,8 +435,8 @@ class TestFullPipelineIntegration:
             answer="The payment flow uses Stripe with 3D secure authentication."
         )
 
-        from app.agents.supervisor.service import handle_request_with_state
         from app.agents.supervisor.orchestrator import execute
+        from app.agents.supervisor.service import handle_request_with_state
 
         resp, state = handle_request_with_state("u1", "p1", "What is the payment flow?")
         state = execute(state, MagicMock())
@@ -470,8 +468,8 @@ class TestFullPipelineIntegration:
             answer="# Business Requirements Document\n\n## 1. Overview\nThe system shall..."
         )
 
-        from app.agents.supervisor.service import handle_request_with_state
         from app.agents.supervisor.orchestrator import execute
+        from app.agents.supervisor.service import handle_request_with_state
 
         resp, state = handle_request_with_state("u1", "p1", "Generate BRD")
         state = execute(state, MagicMock())
@@ -504,8 +502,8 @@ class TestFullPipelineIntegration:
             answer="# Software Requirements Specification\n\n## 1. Introduction\nThis document..."
         )
 
-        from app.agents.supervisor.service import handle_request_with_state
         from app.agents.supervisor.orchestrator import execute
+        from app.agents.supervisor.service import handle_request_with_state
 
         resp, state = handle_request_with_state("u1", "p1", "Generate SRS")
         state = execute(state, MagicMock())
@@ -537,8 +535,8 @@ class TestFullPipelineIntegration:
             answer="## Validation Report\n\n**Overall:** Pass"
         )
 
-        from app.agents.supervisor.service import handle_request_with_state
         from app.agents.supervisor.orchestrator import execute
+        from app.agents.supervisor.service import handle_request_with_state
 
         resp, state = handle_request_with_state("u1", "p1", "Validate requirements")
         state = execute(state, MagicMock())
@@ -561,8 +559,8 @@ class TestFullPipelineIntegration:
             reasoning="unclear",
         )
 
-        from app.agents.supervisor.service import handle_request_with_state
         from app.agents.supervisor.orchestrator import execute
+        from app.agents.supervisor.service import handle_request_with_state
 
         resp, state = handle_request_with_state("u1", "p1", "asdfghjkl")
         state = execute(state, MagicMock())
@@ -614,6 +612,7 @@ class TestActionOverridePath:
     ):
         """When action is provided, LLM classification is skipped."""
         from fastapi.testclient import TestClient
+
         from app.main import app
 
         mock_get_project.return_value = MagicMock()  # ownership check passes

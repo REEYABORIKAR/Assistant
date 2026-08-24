@@ -14,20 +14,19 @@ import logging
 
 from sqlalchemy.orm import Session
 
+from app.agents.requirement.acceptance_criteria_generator import generate_acceptance_criteria
 from app.agents.requirement.analyzer import build_generation_plan
 from app.agents.requirement.brd_generator import generate_brd
-from app.agents.requirement.srs_generator import generate_srs
-from app.agents.requirement.rtm_generator import generate_rtm
-from app.agents.requirement.user_story_generator import generate_user_stories
-from app.agents.requirement.acceptance_criteria_generator import generate_acceptance_criteria
 from app.agents.requirement.generator import (
     generate_requirements,
     generate_requirements_fallback,
 )
+from app.agents.requirement.rtm_generator import generate_rtm
 from app.agents.requirement.serializer import serialize_structured_output
+from app.agents.requirement.srs_generator import generate_srs
+from app.agents.requirement.user_story_generator import generate_user_stories
 from app.agents.supervisor.state import SupervisorState, WorkflowStatus
 from app.rag.retrieval.hybrid import HybridRetriever
-from app.services.generation import generate_answer
 
 logger = logging.getLogger(__name__)
 
@@ -62,9 +61,14 @@ def execute(state: SupervisorState, db: Session) -> SupervisorState:
             query=plan.prompt,
             top_k=plan.top_k,
             document_ids=state.document_ids,
+            user_role=state.user_role,
+            trace_id=state.trace_id,
         )
     except Exception as e:
-        logger.error(f"RAG retrieval failed: {e}")
+        logger.error(
+            "RAG retrieval failed",
+            extra={"trace_id": state.trace_id, "project_id": state.project_id, "error": str(e)},
+        )
         state.workflow_status = WorkflowStatus.FAILED
         state.error = f"Retrieval failed: {str(e)}"
         return state
@@ -151,10 +155,16 @@ def execute(state: SupervisorState, db: Session) -> SupervisorState:
     state.workflow_status = WorkflowStatus.COMPLETED
 
     logger.info(
-        f"Requirement Agent completed: action={plan.action}, "
-        f"requirements={len(structured_requirements)}, "
-        f"stories={len(structured_user_stories)}, "
-        f"criteria={len(structured_acceptance_criteria)}"
+        "Requirement Agent completed",
+        extra={
+            "trace_id": state.trace_id,
+            "project_id": state.project_id,
+            "action": plan.action,
+            "requirements": len(structured_requirements),
+            "stories": len(structured_user_stories),
+            "criteria": len(structured_acceptance_criteria),
+            "event": "requirement_agent_completed",
+        },
     )
     return state
 
