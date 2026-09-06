@@ -1,0 +1,567 @@
+{
+  "readiness_score": 45,
+  "clarity_score": 55,
+  "completeness_score": 30,
+  "security_score": 50,
+  "rtm_score": 35,
+  "summary": "The document describes a Hospital Patient Portal that claims to use HIPAA\u2011compliant AES\u2011256 encryption at rest and enforces access control via OAuth2 RBAC roles. No further architectural details, data flow, compliance mappings, or operational specifications are provided.",
+  "risk_factors": [
+    {
+      "title": "Missing Audit Trail and Log Immutability",
+      "category": "SECURITY",
+      "severity": "HIGH",
+      "description": "The document does not specify any mechanism for immutable audit logging of PHI access, which is required by HIPAA and GDPR for accountability.",
+      "mitigation": "Implement tamper\u2011evident audit logs (e.g., append\u2011only storage with digital signatures) and define retention policies.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 0,
+        "claim": "Risk: Missing Audit Trail and Log Immutability \u2014 The document does not specify any mechanism for immutable audit logging of PHI access, which is required by HIPAA and GDPR for accountability.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    },
+    {
+      "title": "Undefined Encryption Key Management",
+      "category": "SECURITY",
+      "severity": "HIGH",
+      "description": "While AES\u2011256 encryption at rest is mentioned, there is no description of key generation, rotation, storage, or access controls.",
+      "mitigation": "Adopt a hardware security module (HSM) or cloud KMS, define key lifecycle procedures, and enforce least\u2011privilege access to keys.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 1,
+        "claim": "Risk: Undefined Encryption Key Management \u2014 While AES\u2011256 encryption at rest is mentioned, there is no description of key generation, rotation, storage, or access controls.",
+        "confidence": 62,
+        "verdict": "SUPPORTED",
+        "reason": "General concept is grounded in source context; specific details are extrapolated."
+      }
+    },
+    {
+      "title": "Absent RTO/RPO Targets",
+      "category": "OPERATIONAL",
+      "severity": "MEDIUM",
+      "description": "Recovery Time Objective (<1h) and Recovery Point Objective (<5min) are not addressed, leaving disaster\u2011recovery capabilities undefined.",
+      "mitigation": "Define backup frequency, replication strategy, and automated failover processes that meet the stated RTO/RPO benchmarks.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 2,
+        "claim": "Risk: Absent RTO/RPO Targets \u2014 Recovery Time Objective (<1h) and Recovery Point Objective (<5min) are not addressed, leaving disaster\u2011recovery capabilities undefined.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    },
+    {
+      "title": "Lack of GDPR Consent and Data Subject Rights Handling",
+      "category": "DATA_PRIVACY",
+      "severity": "MEDIUM",
+      "description": "The document does not mention mechanisms for obtaining consent, data minimization, or fulfilling data subject access requests required by GDPR.",
+      "mitigation": "Include consent management workflows, data retention policies, and APIs for data export/deletion in compliance with GDPR.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 3,
+        "claim": "Risk: Lack of GDPR Consent and Data Subject Rights Handling \u2014 The document does not mention mechanisms for obtaining consent, data minimization, or fulfilling data subject access requests required by GDPR.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    },
+    {
+      "title": "No HL7 FHIR or DICOM Integration Details",
+      "category": "ARCHITECTURE",
+      "severity": "MEDIUM",
+      "description": "The portal is expected to interoperate with clinical systems, yet no FHIR resources or DICOM handling specifications are provided.",
+      "mitigation": "Define API contracts for FHIR (e.g., Patient, Observation) and DICOM image retrieval, including security bindings.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 4,
+        "claim": "Risk: No HL7 FHIR or DICOM Integration Details \u2014 The portal is expected to interoperate with clinical systems, yet no FHIR resources or DICOM handling specifications are provided.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    }
+  ],
+  "conflicts_and_ambiguities": [
+    {
+      "issue": "Ambiguous definition of \"strict OAuth2 RBAC roles\"",
+      "context": "\"Hospital Patient Portal with ... strict OAuth2 RBAC roles.\"",
+      "suggested_resolution": "Specify the exact OAuth2 grant types, scope definitions, role hierarchy, and mapping of roles to permissions for each portal function.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 17,
+        "claim": "Ambiguity: Ambiguous definition of \"strict OAuth2 RBAC roles\" \u2014 \"Hospital Patient Portal with ... strict OAuth2 RBAC roles.\"",
+        "confidence": 89,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 12 source keywords in document context."
+      }
+    },
+    {
+      "issue": "Unclear scope of encryption \u2013 at rest only?",
+      "context": "\"HIPAA AES-256 encryption at rest\"",
+      "suggested_resolution": "Clarify whether data in transit is also protected (e.g., TLS 1.3) and whether any selective encryption is applied to specific PHI fields.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 18,
+        "claim": "Ambiguity: Unclear scope of encryption \u2013 at rest only? \u2014 \"HIPAA AES-256 encryption at rest\"",
+        "confidence": 81,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 5 source keywords in document context."
+      }
+    }
+  ],
+  "missing_sections_and_details": [
+    {
+      "section_name": "Architecture Overview & Component Diagram",
+      "priority": "CRITICAL",
+      "why_missing": "Without a high\u2011level architecture, reviewers cannot assess data flow, trust boundaries, or integration points with EHR systems.",
+      "recommended_addition": "Provide a diagram and narrative describing web front\u2011end, API gateway, authentication service, PHI storage, and external clinical interfaces.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 5,
+        "claim": "Missing Gap: Architecture Overview & Component Diagram \u2014 Without a high\u2011level architecture, reviewers cannot assess data flow, trust boundaries, or integration points with EHR systems.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    },
+    {
+      "section_name": "Encryption Key Management Plan",
+      "priority": "CRITICAL",
+      "why_missing": "Key lifecycle is essential for HIPAA compliance; omission leaves the encryption claim unverifiable.",
+      "recommended_addition": "Detail key generation, storage (HSM/KMS), rotation schedule, access controls, and backup procedures.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 6,
+        "claim": "Missing Gap: Encryption Key Management Plan \u2014 Key lifecycle is essential for HIPAA compliance; omission leaves the encryption claim unverifiable.",
+        "confidence": 62,
+        "verdict": "SUPPORTED",
+        "reason": "General concept is grounded in source context; specific details are extrapolated."
+      }
+    },
+    {
+      "section_name": "Audit Logging & Monitoring Requirements",
+      "priority": "HIGH",
+      "why_missing": "Auditability is a core HIPAA safeguard; lack of specification creates a compliance gap.",
+      "recommended_addition": "Define log format, immutability mechanism, retention period, and SIEM integration for real\u2011time monitoring.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 7,
+        "claim": "Missing Gap: Audit Logging & Monitoring Requirements \u2014 Auditability is a core HIPAA safeguard; lack of specification creates a compliance gap.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    },
+    {
+      "section_name": "Disaster Recovery & Business Continuity (RTO/RPO)",
+      "priority": "HIGH",
+      "why_missing": "Operational resilience targets are mandated by healthcare regulations; missing details impede risk assessment.",
+      "recommended_addition": "Specify backup frequency, replication topology, failover testing cadence, and measurable RTO/RPO metrics.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 8,
+        "claim": "Missing Gap: Disaster Recovery & Business Continuity (RTO/RPO) \u2014 Operational resilience targets are mandated by healthcare regulations; missing details impede risk assessment.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    },
+    {
+      "section_name": "GDPR Data Protection Impact Assessment (DPIA)",
+      "priority": "MEDIUM",
+      "why_missing": "If EU patients are served, a DPIA is required; its absence may lead to non\u2011compliance.",
+      "recommended_addition": "Include DPIA results, lawful basis for processing, and data subject rights handling procedures.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 9,
+        "claim": "Missing Gap: GDPR Data Protection Impact Assessment (DPIA) \u2014 If EU patients are served, a DPIA is required; its absence may lead to non\u2011compliance.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    },
+    {
+      "section_name": "HL7 FHIR and DICOM Integration Specification",
+      "priority": "MEDIUM",
+      "why_missing": "Interoperability with clinical systems is implied but not described, risking integration failures.",
+      "recommended_addition": "List supported FHIR resources, version, security profiles, and DICOM retrieval workflows.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 10,
+        "claim": "Missing Gap: HL7 FHIR and DICOM Integration Specification \u2014 Interoperability with clinical systems is implied but not described, risking integration failures.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    },
+    {
+      "section_name": "Testing & Validation Strategy",
+      "priority": "MEDIUM",
+      "why_missing": "No test cases or verification criteria are provided, making it impossible to confirm requirements are met.",
+      "recommended_addition": "Define unit, integration, security (penetration), and compliance test cases with acceptance criteria.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 11,
+        "claim": "Missing Gap: Testing & Validation Strategy \u2014 No test cases or verification criteria are provided, making it impossible to confirm requirements are met.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    }
+  ],
+  "rtm_matrix": [
+    {
+      "req_id": "REQ-01",
+      "business_goal": "Protect patient data at rest",
+      "technical_component": "Database storage layer",
+      "test_case_verification": "Validate that all PHI tables are encrypted with AES\u2011256 using approved KMS; attempt decryption without key should fail.",
+      "status": "COVERED",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 12,
+        "claim": "Traceability: REQ-01 Protect patient data at rest via Database storage layer",
+        "confidence": 62,
+        "verdict": "SUPPORTED",
+        "reason": "General concept is grounded in source context; specific details are extrapolated."
+      }
+    },
+    {
+      "req_id": "REQ-02",
+      "business_goal": "Control access to portal functions",
+      "technical_component": "OAuth2 Authorization Server",
+      "test_case_verification": "Verify role\u2011based access control enforces least\u2011privilege for each API endpoint.",
+      "status": "PARTIAL",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 13,
+        "claim": "Traceability: REQ-02 Control access to portal functions via OAuth2 Authorization Server",
+        "confidence": 62,
+        "verdict": "SUPPORTED",
+        "reason": "General concept is grounded in source context; specific details are extrapolated."
+      }
+    },
+    {
+      "req_id": "REQ-03",
+      "business_goal": "Maintain immutable audit trail",
+      "technical_component": "Logging Service",
+      "test_case_verification": "Check that log entries cannot be altered after write and are retained for 7 years.",
+      "status": "GAP",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 14,
+        "claim": "Traceability: REQ-03 Maintain immutable audit trail via Logging Service",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    },
+    {
+      "req_id": "REQ-04",
+      "business_goal": "Achieve RTO < 1 hour and RPO < 5 minutes",
+      "technical_component": "Disaster Recovery Infrastructure",
+      "test_case_verification": "Conduct failover drill measuring recovery time and data loss.",
+      "status": "GAP",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 15,
+        "claim": "Traceability: REQ-04 Achieve RTO < 1 hour and RPO < 5 minutes via Disaster Recovery Infrastructure",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    },
+    {
+      "req_id": "REQ-05",
+      "business_goal": "Comply with GDPR consent requirements",
+      "technical_component": "Consent Management Module",
+      "test_case_verification": "Validate that consent is captured, stored, and can be withdrawn per GDPR.",
+      "status": "GAP",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 16,
+        "claim": "Traceability: REQ-05 Comply with GDPR consent requirements via Consent Management Module",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    }
+  ],
+  "ai_recommendations": [
+    "Add a comprehensive Architecture Overview section with data flow diagrams and trust boundary definitions.",
+    "Develop a detailed Encryption Key Management Plan that includes generation, storage, rotation, and backup procedures using an HSM or cloud KMS.",
+    "Implement immutable audit logging with tamper\u2011evident storage and define retention policies to satisfy HIPAA and GDPR audit requirements."
+  ],
+  "domain_profile": {
+    "domain": "HEALTHCARE",
+    "compliance": [
+      "HIPAA",
+      "GDPR (if EU patients)",
+      "HL7 FHIR",
+      "DICOM"
+    ],
+    "standard_nfrs": [
+      "PHI encryption at rest (AES-256)",
+      "audit trail immutability",
+      "RTO < 1h / RPO < 5min"
+    ]
+  },
+  "verification_summary": {
+    "verdicts": [
+      {
+        "claim_index": 0,
+        "claim": "Risk: Missing Audit Trail and Log Immutability \u2014 The document does not specify any mechanism for immutable audit logging of PHI access, which is required by HIPAA and GDPR for accountability.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 1,
+        "claim": "Risk: Undefined Encryption Key Management \u2014 While AES\u2011256 encryption at rest is mentioned, there is no description of key generation, rotation, storage, or access controls.",
+        "confidence": 62,
+        "verdict": "SUPPORTED",
+        "reason": "General concept is grounded in source context; specific details are extrapolated."
+      },
+      {
+        "claim_index": 2,
+        "claim": "Risk: Absent RTO/RPO Targets \u2014 Recovery Time Objective (<1h) and Recovery Point Objective (<5min) are not addressed, leaving disaster\u2011recovery capabilities undefined.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 3,
+        "claim": "Risk: Lack of GDPR Consent and Data Subject Rights Handling \u2014 The document does not mention mechanisms for obtaining consent, data minimization, or fulfilling data subject access requests required by GDPR.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 4,
+        "claim": "Risk: No HL7 FHIR or DICOM Integration Details \u2014 The portal is expected to interoperate with clinical systems, yet no FHIR resources or DICOM handling specifications are provided.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 5,
+        "claim": "Missing Gap: Architecture Overview & Component Diagram \u2014 Without a high\u2011level architecture, reviewers cannot assess data flow, trust boundaries, or integration points with EHR systems.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 6,
+        "claim": "Missing Gap: Encryption Key Management Plan \u2014 Key lifecycle is essential for HIPAA compliance; omission leaves the encryption claim unverifiable.",
+        "confidence": 62,
+        "verdict": "SUPPORTED",
+        "reason": "General concept is grounded in source context; specific details are extrapolated."
+      },
+      {
+        "claim_index": 7,
+        "claim": "Missing Gap: Audit Logging & Monitoring Requirements \u2014 Auditability is a core HIPAA safeguard; lack of specification creates a compliance gap.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 8,
+        "claim": "Missing Gap: Disaster Recovery & Business Continuity (RTO/RPO) \u2014 Operational resilience targets are mandated by healthcare regulations; missing details impede risk assessment.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 9,
+        "claim": "Missing Gap: GDPR Data Protection Impact Assessment (DPIA) \u2014 If EU patients are served, a DPIA is required; its absence may lead to non\u2011compliance.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 10,
+        "claim": "Missing Gap: HL7 FHIR and DICOM Integration Specification \u2014 Interoperability with clinical systems is implied but not described, risking integration failures.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 11,
+        "claim": "Missing Gap: Testing & Validation Strategy \u2014 No test cases or verification criteria are provided, making it impossible to confirm requirements are met.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 12,
+        "claim": "Traceability: REQ-01 Protect patient data at rest via Database storage layer",
+        "confidence": 62,
+        "verdict": "SUPPORTED",
+        "reason": "General concept is grounded in source context; specific details are extrapolated."
+      },
+      {
+        "claim_index": 13,
+        "claim": "Traceability: REQ-02 Control access to portal functions via OAuth2 Authorization Server",
+        "confidence": 62,
+        "verdict": "SUPPORTED",
+        "reason": "General concept is grounded in source context; specific details are extrapolated."
+      },
+      {
+        "claim_index": 14,
+        "claim": "Traceability: REQ-03 Maintain immutable audit trail via Logging Service",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 15,
+        "claim": "Traceability: REQ-04 Achieve RTO < 1 hour and RPO < 5 minutes via Disaster Recovery Infrastructure",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 16,
+        "claim": "Traceability: REQ-05 Comply with GDPR consent requirements via Consent Management Module",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 17,
+        "claim": "Ambiguity: Ambiguous definition of \"strict OAuth2 RBAC roles\" \u2014 \"Hospital Patient Portal with ... strict OAuth2 RBAC roles.\"",
+        "confidence": 89,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 12 source keywords in document context."
+      },
+      {
+        "claim_index": 18,
+        "claim": "Ambiguity: Unclear scope of encryption \u2013 at rest only? \u2014 \"HIPAA AES-256 encryption at rest\"",
+        "confidence": 81,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 5 source keywords in document context."
+      }
+    ],
+    "verified_count": 6,
+    "flagged_count": 13,
+    "flagged_items": [
+      {
+        "claim_index": 0,
+        "claim": "Risk: Missing Audit Trail and Log Immutability \u2014 The document does not specify any mechanism for immutable audit logging of PHI access, which is required by HIPAA and GDPR for accountability.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 2,
+        "claim": "Risk: Absent RTO/RPO Targets \u2014 Recovery Time Objective (<1h) and Recovery Point Objective (<5min) are not addressed, leaving disaster\u2011recovery capabilities undefined.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 3,
+        "claim": "Risk: Lack of GDPR Consent and Data Subject Rights Handling \u2014 The document does not mention mechanisms for obtaining consent, data minimization, or fulfilling data subject access requests required by GDPR.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 4,
+        "claim": "Risk: No HL7 FHIR or DICOM Integration Details \u2014 The portal is expected to interoperate with clinical systems, yet no FHIR resources or DICOM handling specifications are provided.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 5,
+        "claim": "Missing Gap: Architecture Overview & Component Diagram \u2014 Without a high\u2011level architecture, reviewers cannot assess data flow, trust boundaries, or integration points with EHR systems.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 7,
+        "claim": "Missing Gap: Audit Logging & Monitoring Requirements \u2014 Auditability is a core HIPAA safeguard; lack of specification creates a compliance gap.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 8,
+        "claim": "Missing Gap: Disaster Recovery & Business Continuity (RTO/RPO) \u2014 Operational resilience targets are mandated by healthcare regulations; missing details impede risk assessment.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 9,
+        "claim": "Missing Gap: GDPR Data Protection Impact Assessment (DPIA) \u2014 If EU patients are served, a DPIA is required; its absence may lead to non\u2011compliance.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 10,
+        "claim": "Missing Gap: HL7 FHIR and DICOM Integration Specification \u2014 Interoperability with clinical systems is implied but not described, risking integration failures.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 11,
+        "claim": "Missing Gap: Testing & Validation Strategy \u2014 No test cases or verification criteria are provided, making it impossible to confirm requirements are met.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 14,
+        "claim": "Traceability: REQ-03 Maintain immutable audit trail via Logging Service",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 15,
+        "claim": "Traceability: REQ-04 Achieve RTO < 1 hour and RPO < 5 minutes via Disaster Recovery Infrastructure",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 16,
+        "claim": "Traceability: REQ-05 Comply with GDPR consent requirements via Consent Management Module",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    ],
+    "total_claims": 19
+  },
+  "content_hash": "e5bafabd77ce74c886c60acd0afa0c35d59f1e48102614bb196c79e9ec73c626",
+  "audit_diff": {
+    "score_delta": -15,
+    "previous_score": 60,
+    "current_score": 45,
+    "resolved_risks_count": 2,
+    "resolved_risks": [
+      "Missing RBAC",
+      "Unencrypted PHI Storage"
+    ],
+    "new_risks_count": 5,
+    "new_risks": [
+      "Absent RTO/RPO Targets",
+      "Missing Audit Trail and Log Immutability",
+      "Lack of GDPR Consent and Data Subject Rights Handling",
+      "No HL7 FHIR or DICOM Integration Details",
+      "Undefined Encryption Key Management"
+    ],
+    "has_prior_audit": true
+  },
+  "id": "4083d06b-82f8-47d7-a73e-6baa81afd95e",
+  "analyzed_at": "2026-08-30T14:46:45.698581+00:00",
+  "filename": "Hospital_Portal_v2.pdf",
+  "file_id": "26c84aaf-6e12-4c9c-977c-bfb9cfbfab0f",
+  "conversation_id": null
+}

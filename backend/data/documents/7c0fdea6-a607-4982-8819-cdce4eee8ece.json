@@ -1,0 +1,31 @@
+{
+  "id": "7c0fdea6-a607-4982-8819-cdce4eee8ece",
+  "generation_id": "gen_aa580afd",
+  "doc_type": "USER_STORIES",
+  "title": "Hospital Management System",
+  "version": "v1.0",
+  "version_num": 1,
+  "status": "PENDING_APPROVAL",
+  "created_at": "2026-08-30T10:12:00Z",
+  "sections": [],
+  "user_stories_data": {
+    "requirements": [
+      {
+        "req_id": "REQ-PAT-01",
+        "module": "Patient Management",
+        "title": "Registration"
+      }
+    ],
+    "personas": [
+      {
+        "persona_id": "P-REC",
+        "name": "Receptionist",
+        "responsibilities": [
+          "Registration"
+        ]
+      }
+    ],
+    "stories": [],
+    "traceability": []
+  }
+}

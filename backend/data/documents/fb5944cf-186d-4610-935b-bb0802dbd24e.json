@@ -1,0 +1,16 @@
+{
+  "id": "fb5944cf-186d-4610-935b-bb0802dbd24e",
+  "generation_id": "gen_de11cd38",
+  "doc_type": "USER_STORIES",
+  "title": "HMS V1",
+  "version": "v1.0",
+  "version_num": 1,
+  "status": "REJECTED",
+  "sections": [
+    {
+      "title": "1. Scope",
+      "body": "V1 Body"
+    }
+  ],
+  "created_at": "2026-08-30T10:12:00Z"
+}

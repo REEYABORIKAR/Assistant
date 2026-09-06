@@ -1,0 +1,179 @@
+{
+  "doc_type": "BRD",
+  "title": "Business Requirements Document \u2014 Hospital Patient Portal",
+  "version": "v1.0",
+  "status": "PENDING_APPROVAL",
+  "sections": [
+    {
+      "title": "1. Executive Summary & Strategic Rationale",
+      "body": "Architectural specification and requirements baseline for Hospital Patient Portal.\n\nThis Business Requirements Document establishes the foundational business vision, target capabilities, and operational value propositions for **Hospital Patient Portal**."
+    },
+    {
+      "title": "2. Business Objectives & Success Metrics",
+      "body": "\u2022 **Primary Objective**: Deliver enterprise-ready functionality for Hospital Patient Portal while guaranteeing HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM compliance.\n\u2022 **Operational Goal**: Provide end-to-end requirement traceability across all delivery stages.\n\u2022 **Target Success Metrics**: 100% test coverage for critical business paths; zero unresolved high-severity compliance gaps."
+    },
+    {
+      "title": "3. Scope & Operational Boundaries",
+      "body": "\u2022 **In Scope**: Ingestion, validation, and execution of functional paths specified for Hospital Patient Portal; automated compliance audit against HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM.\n\u2022 **Out of Scope**: Unspecified legacy hardware adapters; non-standard external integrations not defined in source documentation."
+    },
+    {
+      "title": "4. Key Stakeholders & Governance Personas",
+      "body": "1. **Enterprise Product Sponsor**: Approves strategic requirements and business scope.\n2. **Lead Solutions Architect**: Validates domain architecture for HEALTHCARE industry standards.\n3. **Compliance & Security Auditor**: Enforces adherence to HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM.\n4. **Lead QA Engineer**: Certifies acceptance criteria and RTM coverage."
+    },
+    {
+      "title": "5. Business Requirements Specification Matrix",
+      "table": [
+        [
+          "BRD ID",
+          "Requirement Title",
+          "Business Description & Rationale",
+          "Priority",
+          "Acceptance Criteria"
+        ],
+        [
+          "BR-01",
+          "Hospital Patient Portal Core Functional Scope",
+          "System must deliver the primary capabilities specified in project documentation.",
+          "HIGH",
+          "End-to-end integration passes in accordance with HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM."
+        ]
+      ]
+    },
+    {
+      "title": "6. Assumptions & Operational Constraints",
+      "body": "\u2022 **Compliance Constraint**: System must enforce HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM safeguards at all data boundaries.\n\u2022 **NFR Benchmarks**: PHI encryption at rest (AES-256), audit trail immutability, RTO < 1h / RPO < 5min.\n\u2022 **Identified Gaps**: None identified."
+    },
+    {
+      "title": "7. Risk & Compliance Baseline",
+      "body": "No critical risks identified. Baseline security policies adhere to HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM."
+    }
+  ],
+  "revision_history": [],
+  "parent_id": null,
+  "_source_audit": {},
+  "_domain_profile": {
+    "domain": "HEALTHCARE",
+    "compliance": [
+      "HIPAA",
+      "GDPR (if EU patients)",
+      "HL7 FHIR",
+      "DICOM"
+    ],
+    "standard_nfrs": [
+      "PHI encryption at rest (AES-256)",
+      "audit trail immutability",
+      "RTO < 1h / RPO < 5min"
+    ]
+  },
+  "_doc_excerpt": "",
+  "verification_summary": {
+    "verdicts": [
+      {
+        "claim_index": 0,
+        "claim": "1. Executive Summary & Strategic Rationale: Architectural specification and requirements baseline for Hospital Patient Portal.\n\nThis Business Requirements Document ",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source text contains only the title 'Hospital Patient Portal' and lacks any executive summary or strategic rationale."
+      },
+      {
+        "claim_index": 1,
+        "claim": "2. Business Objectives & Success Metrics: \u2022 **Primary Objective**: Deliver enterprise-ready functionality for Hospital Patient Portal while guaranteeing HIPAA, GD",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not mention business objectives, success metrics, or specific compliance standards like HIPAA or GDPR."
+      },
+      {
+        "claim_index": 2,
+        "claim": "3. Scope & Operational Boundaries: \u2022 **In Scope**: Ingestion, validation, and execution of functional paths specified for Hospital Patient Portal; automate",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "There is no information in the source regarding scope, operational boundaries, or automation of functional paths."
+      },
+      {
+        "claim_index": 3,
+        "claim": "4. Key Stakeholders & Governance Personas: 1. **Enterprise Product Sponsor**: Approves strategic requirements and business scope.\n2. **Lead Solutions Architect**: ",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not list any stakeholders, governance personas, or roles such as Enterprise Product Sponsor."
+      },
+      {
+        "claim_index": 4,
+        "claim": "BR-01: Hospital Patient Portal Core Functional Scope \u2014 System must deliver the primary capabilities specified in project documentation. HIGH",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No specific business requirements (BR-01) or functional scope details are present in the source text."
+      },
+      {
+        "claim_index": 5,
+        "claim": "6. Assumptions & Operational Constraints: \u2022 **Compliance Constraint**: System must enforce HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM safeguards at all data bo",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not contain assumptions, operational constraints, or references to HL7 FHIR or DICOM standards."
+      },
+      {
+        "claim_index": 6,
+        "claim": "7. Risk & Compliance Baseline: No critical risks identified. Baseline security policies adhere to HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM.",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source provides no information on risk baselines, compliance status, or security policies."
+      }
+    ],
+    "verified_count": 0,
+    "flagged_count": 7,
+    "flagged_items": [
+      {
+        "claim_index": 0,
+        "claim": "1. Executive Summary & Strategic Rationale: Architectural specification and requirements baseline for Hospital Patient Portal.\n\nThis Business Requirements Document ",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source text contains only the title 'Hospital Patient Portal' and lacks any executive summary or strategic rationale."
+      },
+      {
+        "claim_index": 1,
+        "claim": "2. Business Objectives & Success Metrics: \u2022 **Primary Objective**: Deliver enterprise-ready functionality for Hospital Patient Portal while guaranteeing HIPAA, GD",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not mention business objectives, success metrics, or specific compliance standards like HIPAA or GDPR."
+      },
+      {
+        "claim_index": 2,
+        "claim": "3. Scope & Operational Boundaries: \u2022 **In Scope**: Ingestion, validation, and execution of functional paths specified for Hospital Patient Portal; automate",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "There is no information in the source regarding scope, operational boundaries, or automation of functional paths."
+      },
+      {
+        "claim_index": 3,
+        "claim": "4. Key Stakeholders & Governance Personas: 1. **Enterprise Product Sponsor**: Approves strategic requirements and business scope.\n2. **Lead Solutions Architect**: ",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not list any stakeholders, governance personas, or roles such as Enterprise Product Sponsor."
+      },
+      {
+        "claim_index": 4,
+        "claim": "BR-01: Hospital Patient Portal Core Functional Scope \u2014 System must deliver the primary capabilities specified in project documentation. HIGH",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No specific business requirements (BR-01) or functional scope details are present in the source text."
+      },
+      {
+        "claim_index": 5,
+        "claim": "6. Assumptions & Operational Constraints: \u2022 **Compliance Constraint**: System must enforce HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM safeguards at all data bo",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not contain assumptions, operational constraints, or references to HL7 FHIR or DICOM standards."
+      },
+      {
+        "claim_index": 6,
+        "claim": "7. Risk & Compliance Baseline: No critical risks identified. Baseline security policies adhere to HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM.",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source provides no information on risk baselines, compliance status, or security policies."
+      }
+    ],
+    "total_claims": 7
+  },
+  "id": "c87fcfe2-bb73-4109-82d2-d79c1505b4f9",
+  "pdf_export_url": "/api/v1/documents/c87fcfe2-bb73-4109-82d2-d79c1505b4f9/export/pdf?title=Hospital Patient Portal&type=BRD",
+  "conversation_id": null
+}

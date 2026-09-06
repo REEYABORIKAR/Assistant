@@ -1,0 +1,283 @@
+{
+  "doc_type": "BRD",
+  "title": "Business Requirements Document \u2014 New Requirements Chat",
+  "version": "v1.2",
+  "status": "APPROVED",
+  "revision_history": [
+    {
+      "version": "v1.0",
+      "feedback": "Yes, the BRD is well structured and covers the major HRMS modules, but it needs some improvements before treating it as a complete, production-ready BRD. The main improvement is to make the requirements more HR-business specific and measurable: add detailed requirements for organization/company setup, employee master fields, recruitment stages, onboarding checklists, attendance rules, shifts, overtime, leave policies, payroll cycles, salary components, statutory deductions, appraisal cycles, training, assets, grievances, exits and full employee lifecycle states; define user-wise permissions and responsibilities more explicitly; add unique requirements for each major module instead of only 10 high-level BRDs; include functional and non-functional requirements separately with measurable targets for performance, availability, scalability, backup/recovery, API response time, mobile support and accessibility; define complete workflow/approval rules and exception scenarios; add data retention, archival, consent, document versioning and disaster-recovery requirements; expand integrations to include biometric attendance, banking/payment, email/SMS, calendar and SSO where applicable; add report/export requirements and notification rules; and create clear traceability from BRD \u2192 SRS \u2192 user stories \u2192 acceptance criteria \u2192 test cases. Also, avoid claiming compliance with PCI-DSS, SOX, AML/KYC and ISO 27001 as an automatic system outcome. Instead, specify that the system will provide controls and capabilities that support applicable compliance requirements, subject to organizational and legal validation.",
+      "revised_at": "2026-08-31T18:39:56.125117+00:00"
+    },
+    {
+      "version": "v1.1",
+      "feedback": "Improve the BRD by restoring the complete HRMS-specific scope and removing generic references such as \u201cBusiness Requirements Document \u2014 New Requirements Chat.\u201d Add detailed business requirements for organization setup, employee master data, recruitment, candidate management, onboarding, attendance, shifts, overtime, leave, WFH, regularization, timesheets, payroll, salary structures, deductions, reimbursements, expenses, performance, goals/KPIs, training, assets, grievances, documents, announcements, notifications, HR letters, employee self-service, reporting, analytics, and offboarding. Define clear responsibilities and permissions for Super Admin, HR, Manager, Recruiter, Employee, and Finance/Payroll, along with complete approval workflows, rejection/resubmission rules, exception handling, dependencies, and employee lifecycle states. Expand the BRD matrix into individual requirements with unique IDs, priority, business rationale, acceptance criteria, and measurable success metrics. Add separate functional and non-functional requirements covering performance, scalability, 99.99% availability, backup/recovery, RPO/RTO, API response time, mobile compatibility, accessibility, encryption, RBAC, audit logs, data retention, document versioning, and disaster recovery. Replace the statement that the system \u201cguarantees\u201d PCI-DSS, SOX, AML/KYC, and ISO 27001 compliance with wording that the system will support applicable compliance controls subject to organizational and legal validation, and include integrations such as biometric attendance, email/SMS/push, calendar, SSO, banking/payment, and APIs. Finally, define clear traceability from BRD \u2192 SRS \u2192 User Stories \u2192 Acceptance Criteria \u2192 Test Cases \u2192 RTM and identify genuine open items, assumptions, dependencies, and risks instead of stating that no gaps or risks exist.",
+      "revised_at": "2026-08-31T18:42:48.367191+00:00"
+    }
+  ],
+  "parent_id": null,
+  "sections": [
+    {
+      "title": "1. Executive Summary & Strategic Rationale",
+      "body": "This Business Requirements Document (BRD) establishes the foundational business vision, target capabilities, and operational value propositions for the new HR Management System (HRMS). The system is designed as a full-stack web and mobile application to centralize and automate the entire employee lifecycle, from recruitment and onboarding to payroll, performance management, and offboarding. \n\nThe strategic rationale for this initiative is to replace fragmented, manual HR processes with a unified, API-driven platform that ensures data integrity, regulatory compliance, and operational efficiency. By implementing strict Role-Based Access Control (RBAC) and comprehensive audit trails, the organization aims to mitigate operational risks and support compliance with banking industry standards, including PCI-DSS, SOX, AML/KYC, and ISO 27001. The system will provide measurable improvements in HR analytics, reducing time-to-hire, optimizing payroll accuracy, and enhancing employee self-service capabilities."
+    },
+    {
+      "title": "2. Business Objectives & Success Metrics",
+      "body": "**Primary Objective**: Deliver an enterprise-ready HRMS that supports the complete employee lifecycle with high availability, security, and scalability.\n\n**Operational Goals**:\n1. Automate core HR workflows (recruitment, onboarding, payroll, offboarding) to reduce manual intervention by 40%.\n2. Ensure 100% accuracy in payroll processing and statutory compliance reporting.\n3. Provide real-time HR analytics for strategic decision-making.\n\n**Target Success Metrics**:\n- **System Availability**: 99.99% uptime during business hours.\n- **Payroll Accuracy**: 99.9% error-free payroll runs.\n- **Time-to-Hire**: Reduction of 20% in average recruitment cycle time.\n- **Employee Self-Service Adoption**: 85% of routine HR queries resolved via self-service portal.\n- **Compliance**: 100% audit trail coverage for all sensitive data access and modifications."
+    },
+    {
+      "title": "3. Scope & Operational Boundaries",
+      "body": "**In Scope**:\n- **Core HR**: Employee master data, departments, designations, branches, onboarding/offboarding, regularization.\n- **Recruitment**: Job postings, applicant tracking, candidate pipeline, interviews, offers, joining management.\n- **Time & Attendance**: Attendance tracking, shift/roster management, overtime, leave/holiday management, WFH requests, timesheets.\n- **Payroll**: Salary structures, deductions, bonuses, reimbursements, payslips, tax/statutory information, expense management.\n- **Performance & Development**: Goals/KPIs, appraisals, feedback, training and learning.\n- **Employee Experience**: Grievances, announcements, notifications, company policies, HR letters/certificates, surveys.\n- **Administration**: RBAC, workflow configuration, audit logs, dashboards, reports, API integrations.\n- **Platforms**: Responsive Web UI, Android, and iOS mobile applications.\n\n**Out of Scope**:\n- Legacy hardware adapters not explicitly defined in the source documentation.\n- Non-standard external integrations not listed in the integration requirements.\n- Third-party payroll processing services (the system will generate data for external processors if required, but not act as the processor itself).\n- General accounting or financial statement generation (limited to payroll and expense data)."
+    },
+    {
+      "title": "4. Key Stakeholders & Governance Personas",
+      "body": "1. **Super Admin**: Full system configuration, user management, and security policy enforcement.\n2. **HR/Admin**: Manages employee master data, onboarding/offboarding, leave approvals, and HR policies.\n3. **Manager**: Approves leave, overtime, and expenses; manages team performance and goals.\n4. **Recruiter**: Manages job postings, candidate pipelines, interviews, and offers.\n5. **Employee**: Self-service access to profile, leave, payslips, and performance data.\n6. **Finance/Payroll**: Manages salary structures, processes payroll, handles reimbursements and expenses.\n7. **Compliance & Security Auditor**: Monitors audit logs, ensures data privacy, and validates compliance controls.\n8. **IT Operations**: Manages system infrastructure, backups, and disaster recovery."
+    },
+    {
+      "title": "5. Business Requirements Specification Matrix",
+      "table": [
+        [
+          "BRD ID",
+          "Requirement Title",
+          "Description",
+          "Priority",
+          "Acceptance Criteria"
+        ],
+        [
+          "BRD-001",
+          "Organization Setup",
+          "Configure departments, designations, branches, and reporting structures.",
+          "High",
+          "Admin can create/edit departments and assign reporting lines. Changes are logged in audit trail."
+        ],
+        [
+          "BRD-002",
+          "Employee Master Data",
+          "Manage employee personal, professional, and contact information.",
+          "High",
+          "Employee records are created with unique IDs. Data validation ensures mandatory fields are populated."
+        ],
+        [
+          "BRD-003",
+          "Recruitment Pipeline",
+          "Track candidates from job posting to offer acceptance.",
+          "High",
+          "Recruiters can move candidates through pipeline stages. Status changes are visible to HR and Managers."
+        ],
+        [
+          "BRD-004",
+          "Onboarding Workflow",
+          "Automate new hire onboarding tasks and document collection.",
+          "High",
+          "Onboarding checklist is generated upon offer acceptance. Tasks are assigned to HR and IT."
+        ],
+        [
+          "BRD-005",
+          "Attendance & Shifts",
+          "Track employee attendance, shifts, and overtime.",
+          "High",
+          "Attendance is recorded via biometric or manual entry. Overtime is calculated based on configured rules."
+        ],
+        [
+          "BRD-006",
+          "Leave Management",
+          "Manage leave requests, balances, and holiday calendars.",
+          "High",
+          "Employees can apply for leave. Managers approve/reject requests. Leave balances are updated in real-time."
+        ],
+        [
+          "BRD-007",
+          "Payroll Processing",
+          "Calculate salaries, deductions, and generate payslips.",
+          "Critical",
+          "Payroll runs are accurate based on attendance and leave data. Payslips are generated and accessible to employees."
+        ],
+        [
+          "BRD-008",
+          "Performance Management",
+          "Set goals, conduct appraisals, and provide feedback.",
+          "Medium",
+          "Managers can set KPIs for employees. Appraisal cycles are scheduled and completed within defined timelines."
+        ],
+        [
+          "BRD-009",
+          "Expense Management",
+          "Submit and approve employee expenses and reimbursements.",
+          "Medium",
+          "Employees can submit expense claims with receipts. Finance approves/rejects claims. Approved expenses are included in payroll."
+        ],
+        [
+          "BRD-010",
+          "Offboarding Process",
+          "Manage employee exit, asset return, and final settlement.",
+          "High",
+          "Offboarding checklist is triggered upon resignation. Final settlement is calculated and paid out."
+        ],
+        [
+          "BRD-011",
+          "Role-Based Access Control",
+          "Enforce permissions based on user roles.",
+          "Critical",
+          "Users can only access data and functions permitted by their role. Unauthorized access attempts are logged."
+        ],
+        [
+          "BRD-012",
+          "Audit Logging",
+          "Record all user actions and system events.",
+          "Critical",
+          "All create, read, update, and delete operations are logged with user ID, timestamp, and IP address."
+        ],
+        [
+          "BRD-013",
+          "Notifications & Alerts",
+          "Send email, SMS, and push notifications for key events.",
+          "Medium",
+          "Notifications are sent for leave approvals, payroll processing, and performance reviews."
+        ],
+        [
+          "BRD-014",
+          "Dashboards & Reports",
+          "Provide HR analytics and operational reports.",
+          "Medium",
+          "Dashboards display headcount, attendance, leave utilization, and payroll summaries. Reports can be exported to Excel/CSV."
+        ],
+        [
+          "BRD-015",
+          "Document Management",
+          "Store and manage employee documents and HR policies.",
+          "Medium",
+          "Documents are uploaded with version control. Access is restricted based on role and document type."
+        ]
+      ]
+    },
+    {
+      "title": "6. Assumptions & Operational Constraints",
+      "body": "**Assumptions**:\n1. The organization will provide accurate master data for departments, designations, and branches.\n2. Employees will have access to mobile devices for attendance and self-service.\n3. Biometric attendance devices will be integrated via standard APIs.\n\n**Operational Constraints**:\n- **Compliance Constraint**: The system will support applicable compliance controls for PCI-DSS, SOX, AML/KYC, and ISO 27001, subject to organizational and legal validation. It does not guarantee compliance but provides the necessary technical controls.\n- **NFR Benchmarks**: Transaction atomicity, audit immutability, and 99.99% uptime are mandatory.\n- **Data Retention**: Employee data must be retained for a minimum of 7 years post-offboarding, in accordance with legal requirements.\n- **Integration Constraints**: The system must integrate with existing banking/payment gateways for payroll disbursement and SSO providers for authentication."
+    },
+    {
+      "title": "7. Risk & Compliance Baseline",
+      "body": "**Identified Risks**:\n1. **Data Privacy Risk**: Unauthorized access to employee personal data. *Mitigation*: Implement RBAC, encryption at rest and in transit, and regular security audits.\n2. **Payroll Error Risk**: Inaccurate payroll calculations due to data entry errors. *Mitigation*: Implement validation rules, automated calculations, and manual review steps.\n3. **Integration Failure Risk**: Disruption in payroll disbursement due to banking API failures. *Mitigation*: Implement retry mechanisms, fallback manual processes, and monitoring alerts.\n\n**Compliance Baseline**:\n- **PCI-DSS**: Ensure cardholder data is encrypted and access is restricted.\n- **SOX**: Maintain immutable audit logs for financial transactions and payroll adjustments.\n- **AML/KYC**: Validate employee identity during onboarding and maintain records for regulatory audits.\n- **ISO 27001**: Implement information security management system (ISMS) controls, including risk assessment and incident response."
+    }
+  ],
+  "_source_audit": {},
+  "_domain_profile": {
+    "domain": "BANKING",
+    "compliance": [
+      "PCI-DSS",
+      "SOX",
+      "AML/KYC",
+      "ISO 27001"
+    ],
+    "standard_nfrs": [
+      "transaction atomicity",
+      "audit immutability",
+      "99.99% uptime"
+    ]
+  },
+  "_doc_excerpt": "File: HR Management System.pdf\n--- Page 1 ---\nHR Management System \n \nBuild a complete HR Management System (HRMS) as a full-stack web and mobile \napplication with role-based access for Super Admin, HR/Admin, Manager, Recruiter, \nEmployee, and Finance/Payroll users. The system should include **secure authentication, \nrole and permission management, employee master data, departments, designations, branches, \nemployee onboarding/offboarding, employee profiles, document management, attendance, \nshift and roster management, leave and holiday management, work-from-home/remote-work \nrequests, regularization, timesheets, payroll, salary structures, deductions, bonuses, \nreimbursements, payslips, tax/statutory information, recruitment and applicant tracking, job \npostings, candidate pipeline, interviews, offers, joining management, performance \nmanagement, goals/KPIs, appraisals, feedback, training and learning, asset management, \nemployee grievances, announcements, notifications, company policies, HR letters/certificates, \nexpense management, travel requests, approval workflows, surveys, employee self-service, \nmanager self-service, and comprehensive dashboards and reports. Include search, filters, \nsorting, pagination, bulk import/export, Excel/CSV upload, PDF generation, audit logs, \nactivity history, configurable workflows, email/SMS/push notifications, reminders, \ncalendar integration, and API integrations. The dashboard should provide HR analytics \nsuch as headcount, attendance, leave utilization, attrition, recruitment status, payroll \nsummaries, department statistics, performance, pending approvals, and upcoming events. \nThe project should have a modern responsive UI for Web, Android, and iOS, with a \ncentralized backend API, relational database, file/document storage, notification service, \nbackground jobs, logging, monitoring, validation, encryption, backups, and strong security \nincluding RBAC, JWT/session management, password policies, MFA-ready architecture, \nAPI authorization, data privacy, audit trails, and secure document access. Define \ncomplete workflows such as Recruitment \u2192 Candidate Selection \u2192 Offer \u2192 Joining \u2192 \nOnboarding \u2192 Employee \u2192 Attendance/Leave \u2192 Payroll \u2192 Performance \u2192 \nPromotion/Transfer \u2192 Offboarding/Exit, with configurable approval chains for HR, \nmanagers, finance, and admins. Include master-data configuration, organization settings, \nfinancial/payroll settings, notification templates, workflow configuration, reports, audit logs, \nand system administration. The final system should be production-ready, scalable, API-\ndriven, well-documented, tested, and include BRD, SRS, database schema/ERD, API \ndocumentation, RTM, UI/UX specifications, user stories with acceptance criteria, test \ncases, deployment documentation, and complete role-wise functional requirements.",
+  "verification_summary": {
+    "verdicts": [
+      {
+        "claim_index": 0,
+        "claim": "1. Executive Summary & Strategic Rationale: This Business Requirements Document (BRD) establishes the foundational business vision, target capabilities, and operati",
+        "confidence": 20,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The excerpt contains no executive summary or strategic rationale section."
+      },
+      {
+        "claim_index": 1,
+        "claim": "2. Business Objectives & Success Metrics: **Primary Objective**: Deliver an enterprise-ready HRMS that supports the complete employee lifecycle with high availabi",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "It states the goal to build a complete, enterprise\u2011ready HRMS covering the full employee lifecycle."
+      },
+      {
+        "claim_index": 2,
+        "claim": "3. Scope & Operational Boundaries: **In Scope**:\n- **Core HR**: Employee master data, departments, designations, branches, onboarding/offboarding, regulari",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Core HR elements such as employee master data, departments, designations, branches, and onboarding/offboarding are listed."
+      },
+      {
+        "claim_index": 3,
+        "claim": "4. Key Stakeholders & Governance Personas: 1. **Super Admin**: Full system configuration, user management, and security policy enforcement.\n2. **HR/Admin**: Manage",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Roles including Super Admin and HR/Admin are described with system configuration and management responsibilities."
+      },
+      {
+        "claim_index": 4,
+        "claim": "BRD-001: Organization Setup \u2014 Configure departments, designations, branches, and reporting structures. High",
+        "confidence": 70,
+        "verdict": "SUPPORTED",
+        "reason": "The document mentions configuring departments, designations, and branches as part of master\u2011data setup."
+      },
+      {
+        "claim_index": 5,
+        "claim": "BRD-002: Employee Master Data \u2014 Manage employee personal, professional, and contact information. High",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Employee master data and related personal/professional information are included in the feature list."
+      },
+      {
+        "claim_index": 6,
+        "claim": "BRD-003: Recruitment Pipeline \u2014 Track candidates from job posting to offer acceptance. High",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Recruitment, applicant tracking, job postings, candidate pipeline, and offers are explicitly described."
+      },
+      {
+        "claim_index": 7,
+        "claim": "BRD-004: Onboarding Workflow \u2014 Automate new hire onboarding tasks and document collection. High",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Onboarding and document management features are part of the outlined system capabilities."
+      },
+      {
+        "claim_index": 8,
+        "claim": "BRD-005: Attendance & Shifts \u2014 Track employee attendance, shifts, and overtime. High",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Attendance, shift and roster management, and timesheets are listed among the functionalities."
+      },
+      {
+        "claim_index": 9,
+        "claim": "6. Assumptions & Operational Constraints: **Assumptions**:\n1. The organization will provide accurate master data for departments, designations, and branches.\n2. E",
+        "confidence": 20,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source excerpt does not mention any assumptions or operational constraints."
+      },
+      {
+        "claim_index": 10,
+        "claim": "7. Risk & Compliance Baseline: **Identified Risks**:\n1. **Data Privacy Risk**: Unauthorized access to employee personal data. *Mitigation*: Implement R",
+        "confidence": 60,
+        "verdict": "SUPPORTED",
+        "reason": "Strong security measures (RBAC, MFA\u2011ready, audit trails) imply mitigation of data privacy risks."
+      }
+    ],
+    "verified_count": 9,
+    "flagged_count": 2,
+    "flagged_items": [
+      {
+        "claim_index": 0,
+        "claim": "1. Executive Summary & Strategic Rationale: This Business Requirements Document (BRD) establishes the foundational business vision, target capabilities, and operati",
+        "confidence": 20,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The excerpt contains no executive summary or strategic rationale section."
+      },
+      {
+        "claim_index": 9,
+        "claim": "6. Assumptions & Operational Constraints: **Assumptions**:\n1. The organization will provide accurate master data for departments, designations, and branches.\n2. E",
+        "confidence": 20,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source excerpt does not mention any assumptions or operational constraints."
+      }
+    ],
+    "total_claims": 11
+  },
+  "id": "cc53c421-9cef-4fb0-83a9-5a094c112196",
+  "pdf_export_url": "/api/v1/documents/cc53c421-9cef-4fb0-83a9-5a094c112196/export/pdf?title=New Requirements Chat&type=BRD",
+  "conversation_id": "b55f3e41-48b6-4885-9dc2-2b26cb4d6d98",
+  "approved_at": "2026-08-31T19:02:28.914492+00:00",
+  "reviewed_at": "2026-08-31T19:02:28.914507+00:00"
+}

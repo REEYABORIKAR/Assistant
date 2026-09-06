@@ -1,0 +1,153 @@
+{
+  "readiness_score": 5,
+  "clarity_score": 10,
+  "completeness_score": 5,
+  "security_score": 0,
+  "rtm_score": 0,
+  "summary": "The document is a non-functional placeholder containing seven highly ambiguous, untestable statements for a food delivery mobile app. It lacks all standard software engineering artifacts, including scope, user roles, technical constraints, and acceptance criteria, rendering it completely unusable for development or QA planning.",
+  "risk_factors": [
+    {
+      "title": "Unspecified Payment Security",
+      "category": "SECURITY",
+      "severity": "HIGH",
+      "description": "Requirement 4 states 'Customers can pay somehow,' providing zero guidance on PCI-DSS compliance, tokenization, or supported payment gateways, creating a massive liability and integration risk.",
+      "mitigation": "Define specific payment providers (e.g., Stripe, PayPal), mandate PCI-DSS Level 1 compliance, and specify tokenization strategies for card data."
+    },
+    {
+      "title": "Undefined Data Privacy & PII Handling",
+      "category": "DATA_PRIVACY",
+      "severity": "HIGH",
+      "description": "The app involves customer addresses, phone numbers, and order history, but there are no GDPR/CCPA requirements, data retention policies, or encryption standards specified.",
+      "mitigation": "Add a Data Privacy section detailing PII classification, encryption at rest (AES-256) and in transit (TLS 1.3), and user data deletion workflows."
+    },
+    {
+      "title": "Unmeasurable Performance SLAs",
+      "category": "ARCHITECTURE",
+      "severity": "MEDIUM",
+      "description": "Requirement 3 'Delivery should happen fast' is subjective. Without defined latency targets for API responses or delivery time windows, the backend architecture cannot be properly sized.",
+      "mitigation": "Define specific SLAs, e.g., 'API response time < 200ms for 95% of requests' and 'Delivery ETA accuracy within +/- 5 minutes'."
+    },
+    {
+      "title": "Lack of Role-Based Access Control (RBAC)",
+      "category": "SECURITY",
+      "severity": "HIGH",
+      "description": "Requirement 5 'Restaurants should manage things' does not define user roles (Admin, Restaurant Owner, Driver, Customer), leading to potential privilege escalation vulnerabilities.",
+      "mitigation": "Define a strict RBAC matrix specifying permissions for each user role, including data visibility and action capabilities."
+    }
+  ],
+  "conflicts_and_ambiguities": [
+    {
+      "issue": "Subjective Quality Definition",
+      "context": "1. The app should be awesome.",
+      "suggested_resolution": "Replace with measurable UX metrics, such as 'Task completion rate > 90%' or 'App Store rating target > 4.5 stars'."
+    },
+    {
+      "issue": "Undefined 'Easy' Ordering Process",
+      "context": "2. Food ordering must be easy.",
+      "suggested_resolution": "Specify the maximum number of taps from app launch to order confirmation (e.g., 'Max 5 taps to place an order')."
+    },
+    {
+      "issue": "Vague Payment Mechanism",
+      "context": "4. Customers can pay somehow.",
+      "suggested_resolution": "List supported payment methods (Credit Card, Apple Pay, Cash on Delivery) and specify the primary payment gateway integration."
+    },
+    {
+      "issue": "Undefined Restaurant Management Scope",
+      "context": "5. Restaurants should manage things.",
+      "suggested_resolution": "Enumerate specific management functions: menu editing, order status updates, daily sales reporting, and staff management."
+    }
+  ],
+  "missing_sections_and_details": [
+    {
+      "section_name": "Project Scope & Objectives",
+      "priority": "CRITICAL",
+      "why_missing": "Without a defined scope, the project will suffer from scope creep, and stakeholders will have misaligned expectations regarding MVP features.",
+      "recommended_addition": "Add a section defining the MVP scope, out-of-scope features, and primary business objectives (e.g., 'Launch in 3 cities with 50 restaurants')."
+    },
+    {
+      "section_name": "User Roles & Personas",
+      "priority": "CRITICAL",
+      "why_missing": "The system cannot be designed without knowing who the users are. Different roles require different UI flows and backend permissions.",
+      "recommended_addition": "Define personas for Customer, Restaurant Owner, Delivery Driver, and System Admin, including their primary goals and pain points."
+    },
+    {
+      "section_name": "Functional Requirements",
+      "priority": "CRITICAL",
+      "why_missing": "The current statements are not functional requirements. Developers need specific, testable behaviors to implement.",
+      "recommended_addition": "Break down features into user stories with acceptance criteria, e.g., 'As a customer, I want to filter restaurants by cuisine type so that I can find food I like.'"
+    },
+    {
+      "section_name": "Non-Functional Requirements (NFRs)",
+      "priority": "HIGH",
+      "why_missing": "Performance, security, and scalability are critical for a delivery app but are entirely absent.",
+      "recommended_addition": "Specify NFRs including: Availability (99.9%), Scalability (handle 10,000 concurrent users), Security (OWASP Top 10 compliance), and Compatibility (iOS 15+, Android 10+)."
+    },
+    {
+      "section_name": "Data Model & Integration Specifications",
+      "priority": "HIGH",
+      "why_missing": "No mention of how data will be stored or how the app will integrate with third-party services (maps, payments, SMS).",
+      "recommended_addition": "Define the core data entities (User, Restaurant, Order, Delivery) and list required third-party APIs (e.g., Google Maps, Twilio, Stripe)."
+    }
+  ],
+  "rtm_matrix": [
+    {
+      "req_id": "REQ-01",
+      "business_goal": "App should be awesome",
+      "technical_component": "N/A",
+      "test_case_verification": "N/A - Not testable",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-02",
+      "business_goal": "Food ordering must be easy",
+      "technical_component": "N/A",
+      "test_case_verification": "N/A - Not testable",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-03",
+      "business_goal": "Delivery should happen fast",
+      "technical_component": "N/A",
+      "test_case_verification": "N/A - Not testable",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-04",
+      "business_goal": "Customers can pay somehow",
+      "technical_component": "N/A",
+      "test_case_verification": "N/A - Not testable",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-05",
+      "business_goal": "Restaurants should manage things",
+      "technical_component": "N/A",
+      "test_case_verification": "N/A - Not testable",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-06",
+      "business_goal": "Notifications would be nice",
+      "technical_component": "N/A",
+      "test_case_verification": "N/A - Not testable",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-07",
+      "business_goal": "Reports can be added later",
+      "technical_component": "N/A",
+      "test_case_verification": "N/A - Not testable",
+      "status": "GAP"
+    }
+  ],
+  "ai_recommendations": [
+    "Completely discard the current document and initiate a formal requirements elicitation workshop with stakeholders to define the MVP scope and user personas.",
+    "Adopt a structured requirements framework (e.g., User Stories with Acceptance Criteria) to replace the current ambiguous statements, ensuring every requirement is testable and measurable.",
+    "Engage a security architect to define the initial security and data privacy requirements, specifically focusing on PCI-DSS compliance for payments and GDPR/CCPA for customer PII, before any development begins."
+  ],
+  "id": "0132f22e-24d4-4431-838c-6b5f6cc99e2a",
+  "analyzed_at": "2026-08-29T18:45:28.632753+00:00",
+  "filename": "Very_Bad_Requirements_Sample.pdf",
+  "file_id": null,
+  "conversation_id": null
+}

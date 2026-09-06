@@ -1,0 +1,177 @@
+{
+  "readiness_score": 28,
+  "clarity_score": 22,
+  "completeness_score": 15,
+  "security_score": 12,
+  "rtm_score": 10,
+  "summary": "The document attempts to outline a Food Delivery Mobile App but consists of only seven vague high\u2011level statements. It lacks any concrete functional breakdown, non\u2011functional requirements, user roles, security considerations, acceptance criteria, or testability guidance. Consequently, the architectural intent, system boundaries, and stakeholder expectations are undefined.",
+  "risk_factors": [
+    {
+      "title": "Absence of Security Requirements",
+      "category": "SECURITY",
+      "severity": "HIGH",
+      "description": "The document explicitly states \"No security requirements\" and provides no guidance for authentication, authorization, data encryption, or protection of payment information.",
+      "mitigation": "Define a security requirements section covering OWASP Top 10 controls, PCI\u2011DSS compliance for payment data, secure storage of credentials, and transport layer encryption (TLS 1.3)."
+    },
+    {
+      "title": "Unspecified Payment Handling",
+      "category": "DATA_PRIVACY",
+      "severity": "HIGH",
+      "description": "Requirement 4 \"Customers can pay somehow\" gives no detail on payment flow, data collection, or compliance with GDPR/PCI\u2011DSS.",
+      "mitigation": "Specify payment gateway integration, tokenization of card data, consent handling, and data retention policies. Include privacy impact assessment."
+    },
+    {
+      "title": "Performance Uncertainty",
+      "category": "ARCHITECTURE",
+      "severity": "MEDIUM",
+      "description": "Requirement 3 \"Delivery should happen fast\" lacks measurable latency targets for order processing, dispatch, or UI responsiveness.",
+      "mitigation": "Add quantitative performance NFRs (e.g., order confirmation < 2\u202fseconds, UI render < 100\u202fms, delivery ETA accuracy \u00b15\u202fmin)."
+    },
+    {
+      "title": "Operational Monitoring Gap",
+      "category": "OPERATIONAL",
+      "severity": "MEDIUM",
+      "description": "No mention of logging, health monitoring, or alerting for the mobile app or backend services.",
+      "mitigation": "Introduce operational requirements for centralized logging, metrics collection (Prometheus), and alerting (PagerDuty) with defined SLAs."
+    }
+  ],
+  "conflicts_and_ambiguities": [
+    {
+      "issue": "Vague quality adjectives",
+      "context": "\"The app should be awesome.\"",
+      "suggested_resolution": "Replace with measurable quality attributes such as \"The app shall achieve a Net Promoter Score (NPS) of \u2265 50 and a crash rate < 0.5% per session.\""
+    },
+    {
+      "issue": "Undefined ease of use",
+      "context": "\"Food ordering must be easy.\"",
+      "suggested_resolution": "Define usability metrics, e.g., \"A new user can place an order within three taps and \u2264 60 seconds on first use.\""
+    },
+    {
+      "issue": "Indeterminate payment method",
+      "context": "\"Customers can pay somehow.\"",
+      "suggested_resolution": "Specify supported payment methods (credit card, Apple Pay, Google Pay) and required flow steps."
+    },
+    {
+      "issue": "Non\u2011specific notification requirement",
+      "context": "\"Notifications would be nice.\"",
+      "suggested_resolution": "Detail notification types, delivery channels, and timing, e.g., \"Push notification sent within 5 seconds of order status change.\""
+    }
+  ],
+  "missing_sections_and_details": [
+    {
+      "section_name": "Project Scope and Objectives",
+      "priority": "CRITICAL",
+      "why_missing": "Without a defined scope, stakeholders cannot agree on boundaries, leading to scope creep and misaligned expectations.",
+      "recommended_addition": "Add a concise scope statement, business goals, and success criteria (e.g., target market, launch date, revenue targets)."
+    },
+    {
+      "section_name": "User Roles and Personas",
+      "priority": "CRITICAL",
+      "why_missing": "Roles such as Customer, Restaurant Owner, Delivery Driver, and Admin are not identified, preventing proper access control design.",
+      "recommended_addition": "Define each role, associated permissions, and persona descriptions."
+    },
+    {
+      "section_name": "Functional Requirements Specification",
+      "priority": "CRITICAL",
+      "why_missing": "Only high\u2011level bullet points exist; detailed use cases, data inputs/outputs, and error handling are absent, making implementation ambiguous.",
+      "recommended_addition": "Provide numbered functional requirements (e.g., REQ\u201101: Browse restaurant catalog, REQ\u201102: Add items to cart, etc.) with acceptance criteria."
+    },
+    {
+      "section_name": "Non\u2011Functional Requirements (Performance, Scalability, Availability)",
+      "priority": "HIGH",
+      "why_missing": "System capacity, response time, and uptime expectations are not captured, risking under\u2011provisioned infrastructure.",
+      "recommended_addition": "Add measurable NFRs: peak concurrent users, API latency, 99.9% availability, auto\u2011scaling rules."
+    },
+    {
+      "section_name": "Security and Compliance Requirements",
+      "priority": "CRITICAL",
+      "why_missing": "No security controls, data protection, or regulatory compliance (PCI\u2011DSS, GDPR) are addressed, exposing the project to legal and breach risks.",
+      "recommended_addition": "Include authentication (OAuth 2.0), authorization (RBAC), encryption standards, secure coding guidelines, and compliance checklists."
+    },
+    {
+      "section_name": "Acceptance Criteria and Testability",
+      "priority": "HIGH",
+      "why_missing": "Without clear criteria, verification cannot be performed, leading to subjective sign\u2011off.",
+      "recommended_addition": "Define pass/fail criteria for each requirement and map to automated test cases."
+    },
+    {
+      "section_name": "Architecture Overview and System Context Diagram",
+      "priority": "HIGH",
+      "why_missing": "No high\u2011level architecture, component diagram, or integration points are described, hindering design and impact analysis.",
+      "recommended_addition": "Provide a diagram showing mobile client, API gateway, order service, payment service, notification service, and data stores."
+    },
+    {
+      "section_name": "Data Model and Privacy Impact Assessment",
+      "priority": "MEDIUM",
+      "why_missing": "Data entities (User, Order, Payment) and privacy considerations are missing, making data governance impossible.",
+      "recommended_addition": "Include ER diagram, data classification, retention policy, and DPA outcomes."
+    },
+    {
+      "section_name": "Operational and Maintenance Plan",
+      "priority": "MEDIUM",
+      "why_missing": "No guidance on logging, monitoring, incident response, or release management.",
+      "recommended_addition": "Specify logging standards, monitoring dashboards, SLA targets, and CI/CD pipeline requirements."
+    }
+  ],
+  "rtm_matrix": [
+    {
+      "req_id": "REQ-01",
+      "business_goal": "Provide an appealing mobile experience",
+      "technical_component": "UI/UX layer",
+      "test_case_verification": "User satisfaction survey achieving NPS \u2265 50",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-02",
+      "business_goal": "Enable easy food ordering",
+      "technical_component": "Order Service API",
+      "test_case_verification": "Automated UI test: order placed within 3 taps and \u2264 60\u202fseconds",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-03",
+      "business_goal": "Fast delivery fulfillment",
+      "technical_component": "Dispatch & Delivery Tracking Service",
+      "test_case_verification": "End\u2011to\u2011end latency from order acceptance to driver assignment < 30\u202fseconds",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-04",
+      "business_goal": "Secure payment processing",
+      "technical_component": "Payment Gateway Integration",
+      "test_case_verification": "PCI\u2011DSS compliant tokenization flow validated by security test suite",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-05",
+      "business_goal": "Restaurant management capabilities",
+      "technical_component": "Restaurant Admin Portal",
+      "test_case_verification": "CRUD operations on menu items verified by integration tests",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-06",
+      "business_goal": "User notifications",
+      "technical_component": "Push Notification Service",
+      "test_case_verification": "Notification delivered within 5\u202fseconds of status change (automated push test)",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-07",
+      "business_goal": "Reporting functionality",
+      "technical_component": "Analytics & Reporting Module",
+      "test_case_verification": "Report generation time < 10\u202fseconds for 1\u202fM records",
+      "status": "GAP"
+    }
+  ],
+  "ai_recommendations": [
+    "Rewrite all requirements using the SMART format (Specific, Measurable, Achievable, Relevant, Time\u2011bound) and assign unique IDs.",
+    "Add a dedicated Security Requirements section that references OWASP Top 10, PCI\u2011DSS, and GDPR/HIPAA where applicable, with concrete controls.",
+    "Create a traceability matrix linking each functional and non\u2011functional requirement to design components, test cases, and compliance checks to ensure full coverage."
+  ],
+  "id": "ce5a604f-06e2-4a0a-9b92-86100bfb4326",
+  "analyzed_at": "2026-08-29T17:47:57.961715+00:00",
+  "filename": "Very_Bad_Requirements_Sample.pdf",
+  "file_id": "dfce174f-db7e-4331-b073-2415db5d0f3c",
+  "conversation_id": null
+}

@@ -1,0 +1,374 @@
+{
+  "doc_type": "USER_STORIES",
+  "title": "User Stories \u2014 hii",
+  "version": "v1.0",
+  "status": "APPROVED",
+  "revision_history": [],
+  "parent_id": null,
+  "sections": [
+    {
+      "title": "1. Document Information & Governance Baseline",
+      "body": "**Document Type:** User Stories Specification (Agile Backlog)\n**Project Title:** hii\n**Specification Version:** v1.0\n**Document Status:** PENDING APPROVAL\n**Authoring Engine:** REFYNE AI Requirement Engineering Pipeline\n\nThis specification defines the decomposed, verifiable user stories, acceptance criteria, and requirement traceability matrix for **hii**. All stories are grounded in the source requirements."
+    },
+    {
+      "title": "2. Source Requirement Summary & Scope Baseline",
+      "body": "The source specification establishes a centralized operational platform covering comprehensive clinical, diagnostic, pharmaceutical, financial, and administrative capabilities.\n\n**Key Scope Areas Extracted from Source:**\n\u2022 **REQ-01 (Identity & Access)**: User Authentication & Authorization \u2014 *Secure user registration, authentication, and role-based access control.*\n\u2022 **REQ-02 (Core Operations)**: Primary Transaction Processing \u2014 *Execution and state tracking of the system's core operational workflow.*\n\u2022 **REQ-03 (Data Management)**: Entity Lifecycle & History \u2014 *CRUD operations, audit trails, and status histories for primary business entities.*\n\u2022 **REQ-04 (Reporting & Analytics)**: Dashboards & Operational Reporting \u2014 *Summary reporting, search/filtering, and management metrics.*\n\u2022 **REQ-05 (System Governance)**: Auditability, Backups & Reliability \u2014 *Input validation, automated error logging, and disaster recovery backups.*"
+    },
+    {
+      "title": "3. Authorized System Personas & Role Mappings",
+      "body": "The system enforces role-based access for the following authorized personas explicitly identified in the source requirements:\n\n\u2022 **Admin**: System configuration, user administration, security policy, and operational oversight.\n\u2022 **Operations User**: Day-to-day workflow execution, transaction processing, and status management.\n\u2022 **End User / Customer**: Self-service requests, profile management, and viewing transaction status."
+    },
+    {
+      "title": "4. Epic Decomposition & Module Breakdown",
+      "body": "The backlog is partitioned into the following functional Epics:\n\n\u2022 **Epic: Core Operations** (1 User Stories)\n\u2022 **Epic: Data Management** (1 User Stories)\n\u2022 **Epic: Identity & Access** (1 User Stories)\n\u2022 **Epic: Reporting & Analytics** (1 User Stories)\n\u2022 **Epic: System Governance** (1 User Stories)"
+    },
+    {
+      "title": "5. User Stories Matrix & Detailed Specifications",
+      "table": [
+        [
+          "Story ID",
+          "Epic / Module",
+          "Persona",
+          "User Story Statement",
+          "Business Value",
+          "Priority"
+        ],
+        [
+          "US-01",
+          "Identity & Access",
+          "Authorized User",
+          "As a Authorized User, I want to execute user authentication & authorization, so that User Authentication & Authorization operates reliably in accordance with system specifications.",
+          "User Authentication & Authorization operates reliably in accordance with system specifications",
+          "Medium"
+        ],
+        [
+          "US-02",
+          "Core Operations",
+          "Authorized User",
+          "As a Authorized User, I want to execute primary transaction processing, so that Primary Transaction Processing operates reliably in accordance with system specifications.",
+          "Primary Transaction Processing operates reliably in accordance with system specifications",
+          "Medium"
+        ],
+        [
+          "US-03",
+          "Data Management",
+          "Authorized User",
+          "As a Authorized User, I want to execute entity lifecycle & history, so that Entity Lifecycle & History operates reliably in accordance with system specifications.",
+          "Entity Lifecycle & History operates reliably in accordance with system specifications",
+          "Medium"
+        ],
+        [
+          "US-04",
+          "Reporting & Analytics",
+          "Authorized User",
+          "As a Authorized User, I want to execute dashboards & operational reporting, so that Dashboards & Operational Reporting operates reliably in accordance with system specifications.",
+          "Dashboards & Operational Reporting operates reliably in accordance with system specifications",
+          "Medium"
+        ],
+        [
+          "US-05",
+          "System Governance",
+          "Authorized User",
+          "As a Authorized User, I want to execute auditability, backups & reliability, so that Auditability, Backups & Reliability operates reliably in accordance with system specifications.",
+          "Auditability, Backups & Reliability operates reliably in accordance with system specifications",
+          "Medium"
+        ]
+      ],
+      "body": "### Detailed Acceptance Criteria & Story Specifications\n\n**US-01: As a Authorized User, I want to execute user authentication & authorization**<br/>&bull; **Epic:** Identity & Access | **Priority:** Medium | **Source:** `REQ-01` | **Dependencies:** `US-ADM-03`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: System accepts valid input for user authentication & authorization.<br/>&nbsp;&nbsp;AC2: Operation updates relevant entity state and logs activity.<br/>&nbsp;&nbsp;AC3: Errors are handled gracefully with clear user feedback.<br/><br/>**US-02: As a Authorized User, I want to execute primary transaction processing**<br/>&bull; **Epic:** Core Operations | **Priority:** Medium | **Source:** `REQ-02` | **Dependencies:** `US-ADM-03`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: System accepts valid input for primary transaction processing.<br/>&nbsp;&nbsp;AC2: Operation updates relevant entity state and logs activity.<br/>&nbsp;&nbsp;AC3: Errors are handled gracefully with clear user feedback.<br/><br/>**US-03: As a Authorized User, I want to execute entity lifecycle & history**<br/>&bull; **Epic:** Data Management | **Priority:** Medium | **Source:** `REQ-03` | **Dependencies:** `US-ADM-03`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: System accepts valid input for entity lifecycle & history.<br/>&nbsp;&nbsp;AC2: Operation updates relevant entity state and logs activity.<br/>&nbsp;&nbsp;AC3: Errors are handled gracefully with clear user feedback.<br/><br/>**US-04: As a Authorized User, I want to execute dashboards & operational reporting**<br/>&bull; **Epic:** Reporting & Analytics | **Priority:** Medium | **Source:** `REQ-04` | **Dependencies:** `US-ADM-03`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: System accepts valid input for dashboards & operational reporting.<br/>&nbsp;&nbsp;AC2: Operation updates relevant entity state and logs activity.<br/>&nbsp;&nbsp;AC3: Errors are handled gracefully with clear user feedback.<br/><br/>**US-05: As a Authorized User, I want to execute auditability, backups & reliability**<br/>&bull; **Epic:** System Governance | **Priority:** Medium | **Source:** `REQ-05` | **Dependencies:** `US-ADM-03`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: System accepts valid input for auditability, backups & reliability.<br/>&nbsp;&nbsp;AC2: Operation updates relevant entity state and logs activity.<br/>&nbsp;&nbsp;AC3: Errors are handled gracefully with clear user feedback.<br/><br/>"
+    },
+    {
+      "title": "6. End-to-End Workflow Coverage",
+      "body": "The user stories fully encompass the complete multi-step workflows defined in the source document:\n\n**Primary Operational Workflow:**\n`User Authentication \u2192 Entity Ingestion / Request \u2192 Validation & Processing \u2192 Status Updates \u2192 Audit & Verification`"
+    },
+    {
+      "title": "7. Requirement Traceability Matrix (RTM)",
+      "table": [
+        [
+          "Requirement ID",
+          "Source Requirement",
+          "Category",
+          "Mapped User Story IDs",
+          "Coverage Status"
+        ],
+        [
+          "REQ-01",
+          "User Authentication & Authorization",
+          "Identity & Access",
+          "US-01",
+          "COVERED"
+        ],
+        [
+          "REQ-02",
+          "Primary Transaction Processing",
+          "Core Operations",
+          "US-02",
+          "COVERED"
+        ],
+        [
+          "REQ-03",
+          "Entity Lifecycle & History",
+          "Data Management",
+          "US-03",
+          "COVERED"
+        ],
+        [
+          "REQ-04",
+          "Dashboards & Operational Reporting",
+          "Reporting & Analytics",
+          "US-04",
+          "COVERED"
+        ],
+        [
+          "REQ-05",
+          "Auditability, Backups & Reliability",
+          "System Governance",
+          "US-05",
+          "COVERED"
+        ]
+      ],
+      "body": "This matrix provides 100% bidirectional traceability from original source requirements to executable user stories."
+    },
+    {
+      "title": "8. Dependency-Derived Release & Sprint Slicing",
+      "body": "**Release 1: Outpatient Care, Doctor Availability & Core EMR Foundation**\n\u2022 **Objective:** Establish patient onboarding, front-desk scheduling, OPD queues, vital signs, allergies, and core doctor notes.\n\u2022 **User Stories:** \n\n**Release 2: Inpatient (IPD) Lifecycle, Diagnostic Lab & Pharmacy Operations**\n\u2022 **Objective:** Deploy inpatient admission-to-discharge, bed allocations, transfers, lab ordering/results, and pharmacy stock decrements.\n\u2022 **User Stories:** \n\n**Release 3: Financials, Expenses, Hospital Administration & Governance**\n\u2022 **Objective:** Complete billing reconciliation, insurance claims, expenses, staff management, general procurement, and audit logs.\n\u2022 **User Stories:** US-01, US-02, US-03, US-04, US-05"
+    },
+    {
+      "title": "9. Technical Dependencies & Cross-Module Constraints",
+      "body": "\u2022 **Authentication Gate:** User authentication and role-based access control (US-ADM-03) must be established prior to granting role-specific access.\n\u2022 **Clinical Data Flow:** Prescription and lab orders require an active consultation encounter or inpatient admission record.\n\u2022 **Financial Invoicing:** Inpatient final billing requires completed discharge clearance from the attending doctor.\n\u2022 **Inventory Deductions:** Medicine dispensing strictly validates on-hand batch quantities before decrementing stock."
+    },
+    {
+      "title": "10. Open Items & Stakeholder Clarifications",
+      "body": "\u2022 **Third-Party Payment Gateway Providers:** Identify specific payment gateway vendors (e.g. Stripe, Razorpay) for digital payment processing.\n\u2022 **External Insurance Clearinghouses:** Determine whether EDI/electronic insurance claim clearinghouse integration is required in subsequent phases.\n\u2022 **Hardware Barcode Scanners:** Confirm barcode/QR scanner device protocols for pharmacy inventory batch scanning."
+    }
+  ],
+  "_source_audit": {},
+  "_domain_profile": {
+    "domain": "GENERIC_ENTERPRISE",
+    "compliance": [
+      "SOC 2",
+      "GDPR (if applicable)",
+      "ISO 27001"
+    ],
+    "standard_nfrs": [
+      "P95 latency targets < 250ms",
+      "99.9% uptime SLA",
+      "AES-256 data encryption"
+    ]
+  },
+  "_doc_excerpt": "",
+  "user_stories_data": {
+    "requirements": [
+      {
+        "req_id": "REQ-01",
+        "category": "Identity & Access",
+        "title": "User Authentication & Authorization",
+        "description": "Secure user registration, authentication, and role-based access control."
+      },
+      {
+        "req_id": "REQ-02",
+        "category": "Core Operations",
+        "title": "Primary Transaction Processing",
+        "description": "Execution and state tracking of the system's core operational workflow."
+      },
+      {
+        "req_id": "REQ-03",
+        "category": "Data Management",
+        "title": "Entity Lifecycle & History",
+        "description": "CRUD operations, audit trails, and status histories for primary business entities."
+      },
+      {
+        "req_id": "REQ-04",
+        "category": "Reporting & Analytics",
+        "title": "Dashboards & Operational Reporting",
+        "description": "Summary reporting, search/filtering, and management metrics."
+      },
+      {
+        "req_id": "REQ-05",
+        "category": "System Governance",
+        "title": "Auditability, Backups & Reliability",
+        "description": "Input validation, automated error logging, and disaster recovery backups."
+      }
+    ],
+    "personas": [
+      {
+        "role": "Admin",
+        "responsibilities": "System configuration, user administration, security policy, and operational oversight."
+      },
+      {
+        "role": "Operations User",
+        "responsibilities": "Day-to-day workflow execution, transaction processing, and status management."
+      },
+      {
+        "role": "End User / Customer",
+        "responsibilities": "Self-service requests, profile management, and viewing transaction status."
+      }
+    ],
+    "workflows": [
+      {
+        "name": "Primary Operational Workflow",
+        "steps": "User Authentication \u2192 Entity Ingestion / Request \u2192 Validation & Processing \u2192 Status Updates \u2192 Audit & Verification"
+      }
+    ],
+    "stories": [
+      {
+        "story_id": "US-01",
+        "epic": "Identity & Access",
+        "persona": "Authorized User",
+        "capability": "execute user authentication & authorization",
+        "business_value": "User Authentication & Authorization operates reliably in accordance with system specifications",
+        "priority": "Medium",
+        "acceptance_criteria": [
+          "AC1: System accepts valid input for user authentication & authorization.",
+          "AC2: Operation updates relevant entity state and logs activity.",
+          "AC3: Errors are handled gracefully with clear user feedback."
+        ],
+        "dependencies": [
+          "US-ADM-03"
+        ],
+        "source_req_ids": [
+          "REQ-01"
+        ]
+      },
+      {
+        "story_id": "US-02",
+        "epic": "Core Operations",
+        "persona": "Authorized User",
+        "capability": "execute primary transaction processing",
+        "business_value": "Primary Transaction Processing operates reliably in accordance with system specifications",
+        "priority": "Medium",
+        "acceptance_criteria": [
+          "AC1: System accepts valid input for primary transaction processing.",
+          "AC2: Operation updates relevant entity state and logs activity.",
+          "AC3: Errors are handled gracefully with clear user feedback."
+        ],
+        "dependencies": [
+          "US-ADM-03"
+        ],
+        "source_req_ids": [
+          "REQ-02"
+        ]
+      },
+      {
+        "story_id": "US-03",
+        "epic": "Data Management",
+        "persona": "Authorized User",
+        "capability": "execute entity lifecycle & history",
+        "business_value": "Entity Lifecycle & History operates reliably in accordance with system specifications",
+        "priority": "Medium",
+        "acceptance_criteria": [
+          "AC1: System accepts valid input for entity lifecycle & history.",
+          "AC2: Operation updates relevant entity state and logs activity.",
+          "AC3: Errors are handled gracefully with clear user feedback."
+        ],
+        "dependencies": [
+          "US-ADM-03"
+        ],
+        "source_req_ids": [
+          "REQ-03"
+        ]
+      },
+      {
+        "story_id": "US-04",
+        "epic": "Reporting & Analytics",
+        "persona": "Authorized User",
+        "capability": "execute dashboards & operational reporting",
+        "business_value": "Dashboards & Operational Reporting operates reliably in accordance with system specifications",
+        "priority": "Medium",
+        "acceptance_criteria": [
+          "AC1: System accepts valid input for dashboards & operational reporting.",
+          "AC2: Operation updates relevant entity state and logs activity.",
+          "AC3: Errors are handled gracefully with clear user feedback."
+        ],
+        "dependencies": [
+          "US-ADM-03"
+        ],
+        "source_req_ids": [
+          "REQ-04"
+        ]
+      },
+      {
+        "story_id": "US-05",
+        "epic": "System Governance",
+        "persona": "Authorized User",
+        "capability": "execute auditability, backups & reliability",
+        "business_value": "Auditability, Backups & Reliability operates reliably in accordance with system specifications",
+        "priority": "Medium",
+        "acceptance_criteria": [
+          "AC1: System accepts valid input for auditability, backups & reliability.",
+          "AC2: Operation updates relevant entity state and logs activity.",
+          "AC3: Errors are handled gracefully with clear user feedback."
+        ],
+        "dependencies": [
+          "US-ADM-03"
+        ],
+        "source_req_ids": [
+          "REQ-05"
+        ]
+      }
+    ],
+    "traceability": [
+      {
+        "req_id": "REQ-01",
+        "requirement_title": "User Authentication & Authorization",
+        "category": "Identity & Access",
+        "story_ids": [
+          "US-01"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-02",
+        "requirement_title": "Primary Transaction Processing",
+        "category": "Core Operations",
+        "story_ids": [
+          "US-02"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-03",
+        "requirement_title": "Entity Lifecycle & History",
+        "category": "Data Management",
+        "story_ids": [
+          "US-03"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-04",
+        "requirement_title": "Dashboards & Operational Reporting",
+        "category": "Reporting & Analytics",
+        "story_ids": [
+          "US-04"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-05",
+        "requirement_title": "Auditability, Backups & Reliability",
+        "category": "System Governance",
+        "story_ids": [
+          "US-05"
+        ],
+        "status": "COVERED"
+      }
+    ],
+    "validation": {
+      "overall_score": 85,
+      "is_valid": true,
+      "coverage_ratio": 100,
+      "total_requirements": 5,
+      "covered_requirements": 5,
+      "missing_requirements": [],
+      "total_stories": 5,
+      "broad_stories_flagged": 0,
+      "acceptance_criteria_coverage": 100,
+      "grounding_accuracy": 100
+    }
+  },
+  "quality_score": 85,
+  "id": "b5218a49-3e5a-4bec-a970-f84a37439ee0",
+  "pdf_export_url": "/api/v1/documents/b5218a49-3e5a-4bec-a970-f84a37439ee0/export/pdf?title=hii&type=USER_STORIES",
+  "conversation_id": "d3dd6a09-8cc5-4a39-ab9a-61f772180578",
+  "approved_at": "2026-08-31T18:06:02.156088+00:00"
+}

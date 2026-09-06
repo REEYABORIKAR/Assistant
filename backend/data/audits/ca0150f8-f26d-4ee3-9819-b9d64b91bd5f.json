@@ -1,0 +1,147 @@
+{
+  "readiness_score": 62,
+  "clarity_score": 68,
+  "completeness_score": 55,
+  "security_score": 48,
+  "rtm_score": 60,
+  "summary": "The document outlines an ambitious AI\u2011powered HR analytics platform named HR\u2011Pulse. It enumerates twenty\u2011plus AI features such as Meeting Sentiment Analyzer, Manager Effectiveness Score, Promotion Readiness, Organizational Trust, Workplace Fairness Detector, Digital Twin, Workforce Simulator and a strategic CPO dashboard. The intent is to continuously ingest employee communications, surveys, and HR data, apply NLP and predictive models, and surface scores, alerts and recommendations to HR leaders for proactive people\u2011management decisions.",
+  "risk_factors": [
+    {
+      "title": "Unprotected Employee Personal Data",
+      "category": "DATA_PRIVACY",
+      "severity": "HIGH",
+      "description": "The platform processes highly sensitive personal data (e.g., sentiment, health, performance reviews, complaints) without any mention of encryption at rest, in transit, or data minimisation.",
+      "mitigation": "Implement end\u2011to\u2011end encryption, role\u2011based access control, data masking for PII, and conduct a GDPR/HIPAA privacy impact assessment."
+    },
+    {
+      "title": "Model Bias and Discrimination",
+      "category": "SECURITY",
+      "severity": "MEDIUM",
+      "description": "Features like Workplace Fairness Detector and Promotion Readiness AI lack defined bias\u2011mitigation strategies, risking unfair outcomes for protected groups.",
+      "mitigation": "Adopt fairness metrics, perform regular bias audits, and incorporate explainable AI techniques to surface feature importance."
+    },
+    {
+      "title": "Lack of Audit Logging and Traceability",
+      "category": "OPERATIONAL",
+      "severity": "MEDIUM",
+      "description": "No audit log requirements are described for AI decisions (e.g., manager scores, promotion recommendations), hindering compliance and incident investigation.",
+      "mitigation": "Define immutable audit logs for data ingestion, model inference, and recommendation actions; store logs in tamper\u2011evident storage."
+    },
+    {
+      "title": "Insufficient Security Controls for Integrated Platforms",
+      "category": "SECURITY",
+      "severity": "HIGH",
+      "description": "The system integrates with Teams, Zoom, Google Meet, but does not specify OAuth scopes, token handling, or third\u2011party security assessments.",
+      "mitigation": "Use industry\u2011standard OAuth 2.0 with least\u2011privilege scopes, rotate tokens, and perform third\u2011party risk assessments for each integration."
+    },
+    {
+      "title": "Absence of Incident Response Process",
+      "category": "OPERATIONAL",
+      "severity": "LOW",
+      "description": "The document does not define how security incidents (e.g., data breach, model compromise) will be detected or responded to.",
+      "mitigation": "Create an incident response plan aligned with NIST CSF, including detection, containment, eradication, and post\u2011mortem procedures."
+    }
+  ],
+  "conflicts_and_ambiguities": [
+    {
+      "issue": "Conflicting or ambiguous requirement statement: \"AI evaluates managers based on: Team sentiment, Team attrition, Complaint frequency, Employee engagement\" without any weighting, thresholds, or data source definitions.",
+      "context": "\"AI evaluates managers based on: \u2022 Team sentiment \u2022 Team attrition \u2022 Complaint frequency \u2022 Employee engagement\" (Page 1).",
+      "suggested_resolution": "Specify quantitative metrics, data owners, weighting factors, and acceptable score ranges for each dimension."
+    },
+    {
+      "issue": "Incomplete requirement description for Promotion Readiness AI \u2013 factors are listed but no decision logic or output format is defined.",
+      "context": "\"Promotion Readiness AI Detect employees ready for promotion. Factors: \u2022 Peer feedback \u2022 Performance reviews \u2022 Learning completion \u2022 Leadership indicators\" (Page 1).",
+      "suggested_resolution": "Add a clear algorithmic description, confidence thresholds, and the format of the promotion recommendation (e.g., score, rank, justification)."
+    },
+    {
+      "issue": "Ambiguous definition of \"AI Policy Gap Detector\" \u2013 the flow of how questions are captured, processed, and how policy updates are triggered is missing.",
+      "context": "\"AI finds policies that are unclear. Example: 48 employees asked about WFH. Policy Clarity Score: Low Recommendation: Update policy.\" (Page 5).",
+      "suggested_resolution": "Define input sources (e.g., chatbot logs), scoring methodology, ownership of policy revision, and SLA for remediation."
+    }
+  ],
+  "missing_sections_and_details": [
+    {
+      "section_name": "System Architecture Overview",
+      "priority": "CRITICAL",
+      "why_missing": "Without a high\u2011level diagram and component breakdown, developers cannot assess integration points, data flow, or scalability constraints.",
+      "recommended_addition": "Provide a layered architecture diagram (data ingestion, processing, model serving, UI) with technology stack (e.g., Kafka, Spark, TensorFlow, Kubernetes) and deployment topology."
+    },
+    {
+      "section_name": "Non\u2011Functional Requirements (Performance, Scalability, Availability)",
+      "priority": "HIGH",
+      "why_missing": "AI inference on real\u2011time meeting transcripts and large feedback volumes demands latency and throughput guarantees that are not documented.",
+      "recommended_addition": "Specify response time < 2\u202fseconds for sentiment analysis, support for 10\u202fk concurrent users, 99.9\u202f% uptime SLA, and horizontal scaling strategy."
+    },
+    {
+      "section_name": "Security Architecture & Controls",
+      "priority": "CRITICAL",
+      "why_missing": "The platform handles PII and integrates with external communication tools but lacks encryption, authentication, and RBAC specifications.",
+      "recommended_addition": "Detail TLS usage, API authentication (OAuth 2.0), role\u2011based access matrix, data encryption keys management, and security testing (penetration, code review)."
+    },
+    {
+      "section_name": "Data Privacy & Compliance (GDPR, HIPAA, EEOC)",
+      "priority": "HIGH",
+      "why_missing": "No mention of consent management, data retention, or rights\u2011to\u2011erasure for employee data, exposing the project to regulatory risk.",
+      "recommended_addition": "Include a privacy impact assessment, consent capture workflow, data retention schedule (e.g., 2\u202fyears), and mechanisms for data subject access requests."
+    },
+    {
+      "section_name": "Model Governance & Explainability",
+      "priority": "MEDIUM",
+      "why_missing": "AI decisions (e.g., burnout risk, promotion readiness) lack traceability and explainability, which are required for HR auditability.",
+      "recommended_addition": "Define model versioning, validation metrics, explainable AI outputs (SHAP values), and periodic re\u2011training procedures."
+    },
+    {
+      "section_name": "Testing & Validation Strategy",
+      "priority": "HIGH",
+      "why_missing": "No test plan for functional, performance, security, or bias testing is provided.",
+      "recommended_addition": "Create a test matrix covering unit, integration, load, security (OWASP ASVS), and fairness tests with acceptance criteria."
+    }
+  ],
+  "rtm_matrix": [
+    {
+      "req_id": "REQ-01",
+      "business_goal": "Provide post\u2011meeting sentiment analysis and team health scoring.",
+      "technical_component": "AI Meeting Sentiment Analyzer service (NLP pipeline, transcript ingestion).",
+      "test_case_verification": "Given a recorded Teams meeting transcript, the service returns a health score within \u00b15% of manually calculated baseline.",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-02",
+      "business_goal": "Generate manager effectiveness scores based on team metrics.",
+      "technical_component": "Manager Effectiveness Scoring engine (aggregates sentiment, attrition, complaints).",
+      "test_case_verification": "Simulate a dataset with known manager performance; verify score correlates >0.8 with ground truth.",
+      "status": "PARTIAL"
+    },
+    {
+      "req_id": "REQ-03",
+      "business_goal": "Identify promotion\u2011ready employees.",
+      "technical_component": "Promotion Readiness AI model (features: peer feedback, reviews, learning).",
+      "test_case_verification": "Run model on historical promotion data; achieve precision \u2265 0.75 for true positives.",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-04",
+      "business_goal": "Detect bias in promotions, rewards, and opportunities.",
+      "technical_component": "Workplace Fairness Detector (statistical disparity analysis).",
+      "test_case_verification": "Inject synthetic bias into test data; detector must flag disparity >10% with false\u2011positive rate <5%.",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-05",
+      "business_goal": "Provide a strategic AI\u2011driven CPO dashboard for executives.",
+      "technical_component": "AI Chief People Officer Dashboard (aggregates all scores, alerts, recommendations).",
+      "test_case_verification": "Dashboard loads within 3\u202fseconds for 10\u202fk concurrent users and displays correct KPI values from backend APIs.",
+      "status": "PARTIAL"
+    }
+  ],
+  "ai_recommendations": [
+    "Create a comprehensive Architecture Decision Record (ADR) that documents technology choices, data flow, and security controls for all integrations.",
+    "Develop a privacy\u2011by\u2011design framework: capture employee consent, implement data minimisation, and define retention policies aligned with GDPR and EEOC.",
+    "Establish model governance procedures including bias testing, explainability reports, version control, and scheduled re\u2011training to maintain accuracy and fairness."
+  ],
+  "id": "ca0150f8-f26d-4ee3-9819-b9d64b91bd5f",
+  "analyzed_at": "2026-08-30T06:38:27.557291+00:00",
+  "filename": "HR-pulse.pdf",
+  "file_id": null,
+  "conversation_id": null
+}

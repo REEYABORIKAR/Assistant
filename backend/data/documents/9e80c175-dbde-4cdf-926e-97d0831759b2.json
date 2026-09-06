@@ -1,0 +1,16 @@
+{
+  "id": "9e80c175-dbde-4cdf-926e-97d0831759b2",
+  "doc_type": "BRD",
+  "title": "Hospital Patient Portal",
+  "version": "v1.0",
+  "status": "APPROVED",
+  "revision_history": [],
+  "sections": [
+    {
+      "title": "1. Overview",
+      "body": "Overview body"
+    }
+  ],
+  "approved_at": "2026-08-31T18:57:24.262131+00:00",
+  "reviewed_at": "2026-08-31T18:57:24.262144+00:00"
+}

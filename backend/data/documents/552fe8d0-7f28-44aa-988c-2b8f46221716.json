@@ -1,0 +1,263 @@
+{
+  "id": "552fe8d0-7f28-44aa-988c-2b8f46221716",
+  "generation_id": "38c13a6d-f566-4c34-8ed1-de15b3265547",
+  "doc_type": "BRD",
+  "title": "Business Requirements Document \u2014 HR Management System",
+  "version": "v2.2",
+  "version_num": 3,
+  "parent_version": 2,
+  "parent_id": "64c84497-19a4-4c4c-9b61-72c2f587e3b1",
+  "status": "PENDING_APPROVAL",
+  "created_at": "2026-08-31T19:11:53.535699+00:00",
+  "reviewed_at": null,
+  "rejection_feedback": null,
+  "sections": [
+    {
+      "title": "1. Executive Summary & Strategic Rationale",
+      "body": "This Business Requirements Document (BRD) defines the strategic rationale and business scope for the development of a comprehensive, full-stack Human Resource Management System (HRMS). The system is designed to digitize and automate the entire employee lifecycle, from recruitment and onboarding to payroll, performance management, and offboarding. \n\nThe strategic rationale centers on consolidating fragmented HR processes into a centralized, API-driven platform that supports Web, Android, and iOS clients. By implementing strict Role-Based Access Control (RBAC) and robust audit trails, the organization aims to enhance operational efficiency, ensure regulatory compliance, and provide actionable HR analytics. The system is intended to be production-ready, scalable, and secure, serving as the single source of truth for employee master data, financial payroll records, and organizational workflows."
+    },
+    {
+      "title": "2. Business Objectives & Success Metrics",
+      "body": "**Primary Objectives:**\n1. **End-to-End Lifecycle Automation**: Implement complete workflows for Recruitment \u2192 Onboarding \u2192 Attendance/Leave \u2192 Payroll \u2192 Performance \u2192 Offboarding.\n2. **Role-Based Operational Efficiency**: Enable distinct self-service portals for Employees, Managers, Recruiters, HR Admins, and Finance/Payroll teams to reduce administrative overhead.\n3. **Data Integrity & Compliance**: Ensure immutable audit logs and secure data handling aligned with banking-grade security standards (ISO 27001, SOX).\n\n**Success Metrics:**\n- **System Availability**: Achieve 99.99% uptime for critical HR and Payroll services.\n- **Process Efficiency**: Reduce manual payroll processing time by 50% through automated salary structure and deduction calculations.\n- **Compliance Adherence**: 100% coverage of audit logs for all sensitive data access and transactional changes.\n- **User Adoption**: 90% active monthly usage across Web and Mobile platforms within the first quarter of deployment."
+    },
+    {
+      "title": "3. Scope & Operational Boundaries",
+      "body": "**In Scope:**\n- **Core HR Modules**: Employee master data, departments, designations, branches, onboarding/offboarding, and profile management.\n- **Time & Attendance**: Shift/roster management, leave/holiday management, work-from-home requests, timesheets, and regularization.\n- **Payroll & Finance**: Salary structures, deductions, bonuses, reimbursements, payslip generation, tax/statutory info, and expense management.\n- **Recruitment**: Applicant tracking system (ATS), job postings, candidate pipeline, interviews, offers, and joining management.\n- **Performance & Development**: Goals/KPIs, appraisals, feedback, training/learning, and asset management.\n- **Administration & Security**: RBAC, JWT/MFA authentication, audit logs, notification services (Email/SMS/Push), configurable workflows, and comprehensive dashboards.\n- **Technical Infrastructure**: Centralized backend API, relational database, file storage, background jobs, and monitoring.\n\n**Out of Scope:**\n- Legacy hardware adapters not explicitly defined in the source specification.\n- Non-standard external integrations not listed in the API integration requirements.\n- Third-party benefits administration platforms (unless integrated via defined APIs)."
+    },
+    {
+      "title": "4. Key Stakeholders & Governance Personas",
+      "body": "1. **Super Admin**: Full system configuration, user management, and master data oversight.\n2. **HR/Admin**: Manages employee lifecycle, onboarding/offboarding, leave approvals, and HR policies.\n3. **Manager**: Approves leave, timesheets, and expenses; conducts performance appraisals; manages team rosters.\n4. **Recruiter**: Manages job postings, candidate pipelines, interviews, and offer letters.\n5. **Employee**: Self-service access to profiles, leave requests, payslips, and training modules.\n6. **Finance/Payroll**: Processes payroll, manages salary structures, deductions, and statutory compliance.\n7. **Compliance & Security Auditor**: Monitors audit logs, access controls, and data privacy adherence (ISO 27001/SOX)."
+    },
+    {
+      "title": "5. Business Requirements Specification Matrix",
+      "table": [
+        [
+          "BRD ID",
+          "Requirement Title",
+          "Description",
+          "Priority",
+          "Acceptance Criteria"
+        ],
+        [
+          "BR-001",
+          "Secure Authentication & RBAC",
+          "Implement JWT-based authentication with MFA-ready architecture and strict Role-Based Access Control for 6 distinct user roles.",
+          "High",
+          "Users can only access modules permitted by their role; MFA can be enabled for sensitive roles; unauthorized access attempts are logged."
+        ],
+        [
+          "BR-002",
+          "Employee Lifecycle Management",
+          "Manage complete employee data from onboarding to offboarding, including master data, documents, and status changes.",
+          "High",
+          "Employee records are created/updated/deleted with full audit trails; onboarding checklist completion triggers status change to 'Active'."
+        ],
+        [
+          "BR-003",
+          "Payroll Processing Engine",
+          "Automate salary calculation including structures, deductions, bonuses, and statutory taxes, generating immutable payslips.",
+          "Critical",
+          "Payroll runs complete within defined SLA; payslips are generated as PDFs; calculations match configured salary structures exactly."
+        ],
+        [
+          "BR-004",
+          "Attendance & Leave Management",
+          "Track attendance via shifts/rosters, manage leave balances, and process WFH requests with configurable approval workflows.",
+          "High",
+          "Leave balances update in real-time upon approval; attendance discrepancies trigger alerts; WFH requests follow defined approval chains."
+        ],
+        [
+          "BR-005",
+          "Recruitment & ATS",
+          "End-to-end recruitment workflow from job posting to offer acceptance, including candidate pipeline management.",
+          "Medium",
+          "Candidates move through pipeline stages automatically; offer letters are generated and tracked; joining date syncs with HR master data."
+        ],
+        [
+          "BR-006",
+          "Performance Management",
+          "Manage goals, KPIs, appraisals, and feedback cycles with configurable review periods.",
+          "Medium",
+          "Appraisal cycles can be initiated by managers; feedback is recorded and visible to relevant stakeholders; performance metrics feed into dashboards."
+        ],
+        [
+          "BR-007",
+          "Comprehensive Dashboards & Analytics",
+          "Provide real-time analytics on headcount, attrition, leave utilization, payroll summaries, and recruitment status.",
+          "Medium",
+          "Dashboards load within 2 seconds; data reflects real-time changes; filters and exports (Excel/CSV) function correctly."
+        ],
+        [
+          "BR-008",
+          "Notification & Communication",
+          "Multi-channel notifications (Email, SMS, Push) for approvals, reminders, and announcements.",
+          "High",
+          "Notifications are sent within 1 minute of trigger; templates are configurable; delivery status is logged."
+        ],
+        [
+          "BR-009",
+          "Audit Logging & Compliance",
+          "Immutable audit logs for all data access and modifications, supporting SOX and ISO 27001 requirements.",
+          "Critical",
+          "All CRUD operations on sensitive data are logged with user ID, timestamp, and IP; logs cannot be modified or deleted by users."
+        ],
+        [
+          "BR-010",
+          "Mobile & Web Responsiveness",
+          "Fully responsive UI for Web, Android, and iOS with consistent functionality across platforms.",
+          "High",
+          "UI adapts to screen sizes; core workflows (leave, attendance, payslip) are accessible on mobile; API responses are optimized for mobile bandwidth."
+        ]
+      ]
+    },
+    {
+      "title": "6. Assumptions & Operational Constraints",
+      "body": "**Assumptions:**\n- The organization will provide accurate master data (departments, designations, branches) prior to system go-live.\n- Payroll tax and statutory rules are static during the initial release cycle and can be configured via admin settings.\n- Mobile devices will have stable internet connectivity for real-time attendance and leave requests.\n\n**Operational Constraints:**\n- **Compliance Frameworks**: System must adhere to PCI-DSS (for any payment-related data), SOX (for financial reporting integrity), AML/KYC (for identity verification in onboarding), and ISO 27001 (for information security management).\n- **NFR Benchmarks**: \n  - **Transaction Atomicity**: Payroll and attendance transactions must be atomic to prevent data inconsistency.\n  - **Audit Immutability**: Audit logs must be append-only and tamper-proof.\n  - **Uptime**: 99.99% availability for critical HR and Payroll services.\n- **Data Privacy**: Employee personal data must be encrypted at rest and in transit, with strict access controls per data privacy regulations."
+    },
+    {
+      "title": "7. Risk & Compliance Baseline",
+      "body": "**Risk Assessment:**\n- **Data Breach Risk**: Mitigated by RBAC, MFA, encryption, and immutable audit logs. Compliance with ISO 27001 and PCI-DSS ensures robust security controls.\n- **Payroll Error Risk**: Mitigated by automated calculation engines with configurable rules and pre-run validation checks. SOX compliance ensures financial reporting integrity.\n- **Integration Failure Risk**: Mitigated by robust API error handling, retries, and monitoring. Background jobs ensure asynchronous processes do not block critical user interactions.\n\n**Compliance Baseline:**\n- **PCI-DSS**: Ensures secure handling of any payment card data associated with payroll or reimbursements.\n- **SOX**: Ensures accurate and auditable financial records for payroll and expense management.\n- **AML/KYC**: Ensures proper identity verification during employee onboarding and background checks.\n- **ISO 27001**: Provides a framework for managing information security risks, including access control, data encryption, and incident response."
+    }
+  ],
+  "user_stories_data": {},
+  "quality_score": 95,
+  "verification_summary": {
+    "verdicts": [
+      {
+        "claim_index": 0,
+        "claim": "1. Executive Summary & Strategic Rationale: This Business Requirements Document (BRD) defines the strategic rationale and business scope for the development of a co",
+        "confidence": 20,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The excerpt does not contain an executive summary or strategic rationale section."
+      },
+      {
+        "claim_index": 1,
+        "claim": "2. Business Objectives & Success Metrics: **Primary Objectives:**\n1. **End-to-End Lifecycle Automation**: Implement complete workflows for Recruitment \u2192 Onboardin",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "The source lists complete end\u2011to\u2011end HR workflows matching the stated objective."
+      },
+      {
+        "claim_index": 2,
+        "claim": "3. Scope & Operational Boundaries: **In Scope:**\n- **Core HR Modules**: Employee master data, departments, designations, branches, onboarding/offboarding, ",
+        "confidence": 90,
+        "verdict": "SUPPORTED",
+        "reason": "Core HR modules such as employee master data, departments, designations, branches, and onboarding/offboarding are explicitly listed."
+      },
+      {
+        "claim_index": 3,
+        "claim": "4. Key Stakeholders & Governance Personas: 1. **Super Admin**: Full system configuration, user management, and master data oversight.\n2. **HR/Admin**: Manages empl",
+        "confidence": 70,
+        "verdict": "SUPPORTED",
+        "reason": "Roles like Super Admin and HR/Admin are mentioned, implying their governance responsibilities."
+      },
+      {
+        "claim_index": 4,
+        "claim": "BR-001: Secure Authentication & RBAC \u2014 Implement JWT-based authentication with MFA-ready architecture and strict Role-Based Access Control for 6 distinct user roles. High",
+        "confidence": 95,
+        "verdict": "SUPPORTED",
+        "reason": "Secure authentication with JWT, MFA\u2011ready design, RBAC, and six defined user roles are directly described."
+      },
+      {
+        "claim_index": 5,
+        "claim": "BR-002: Employee Lifecycle Management \u2014 Manage complete employee data from onboarding to offboarding, including master data, documents, and status changes. High",
+        "confidence": 90,
+        "verdict": "SUPPORTED",
+        "reason": "Employee lifecycle features\u2014including onboarding, offboarding, master data, and document management\u2014are enumerated."
+      },
+      {
+        "claim_index": 6,
+        "claim": "BR-003: Payroll Processing Engine \u2014 Automate salary calculation including structures, deductions, bonuses, and statutory taxes, generating immutable payslips. Critical",
+        "confidence": 88,
+        "verdict": "SUPPORTED",
+        "reason": "Payroll, salary structures, deductions, bonuses, taxes, and immutable payslips are all specified."
+      },
+      {
+        "claim_index": 7,
+        "claim": "BR-004: Attendance & Leave Management \u2014 Track attendance via shifts/rosters, manage leave balances, and process WFH requests with configurable approval workflows. High",
+        "confidence": 92,
+        "verdict": "SUPPORTED",
+        "reason": "Attendance, shift/roster, leave, and work\u2011from\u2011home request handling with approval workflows are included."
+      },
+      {
+        "claim_index": 8,
+        "claim": "BR-005: Recruitment & ATS \u2014 End-to-end recruitment workflow from job posting to offer acceptance, including candidate pipeline management. Medium",
+        "confidence": 90,
+        "verdict": "SUPPORTED",
+        "reason": "Recruitment, job postings, candidate pipeline, interviews, offers, and joining management are detailed."
+      },
+      {
+        "claim_index": 9,
+        "claim": "6. Assumptions & Operational Constraints: **Assumptions:**\n- The organization will provide accurate master data (departments, designations, branches) prior to sys",
+        "confidence": 15,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No assumptions about organization\u2011provided master data appear in the excerpt."
+      },
+      {
+        "claim_index": 10,
+        "claim": "7. Risk & Compliance Baseline: **Risk Assessment:**\n- **Data Breach Risk**: Mitigated by RBAC, MFA, encryption, and immutable audit logs. Compliance wi",
+        "confidence": 60,
+        "verdict": "SUPPORTED",
+        "reason": "Security measures (RBAC, MFA, encryption, audit trails) imply mitigation of data breach risk."
+      }
+    ],
+    "verified_count": 9,
+    "flagged_count": 2,
+    "flagged_items": [
+      {
+        "claim_index": 0,
+        "claim": "1. Executive Summary & Strategic Rationale: This Business Requirements Document (BRD) defines the strategic rationale and business scope for the development of a co",
+        "confidence": 20,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The excerpt does not contain an executive summary or strategic rationale section."
+      },
+      {
+        "claim_index": 9,
+        "claim": "6. Assumptions & Operational Constraints: **Assumptions:**\n- The organization will provide accurate master data (departments, designations, branches) prior to sys",
+        "confidence": 15,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No assumptions about organization\u2011provided master data appear in the excerpt."
+      }
+    ],
+    "total_claims": 11
+  },
+  "conversation_id": "782c1246-edfb-455e-8e49-04b59bf443db",
+  "pdf_export_url": "/api/v1/documents/552fe8d0-7f28-44aa-988c-2b8f46221716/export/pdf?title=Business Requirements Document \u2014 Business Requirements Document \u2014 Requirements Chat 11&type=BRD",
+  "changed_story_ids": [],
+  "added_story_ids": [],
+  "removed_story_ids": [],
+  "revision_history": [
+    {
+      "version": "v1.0",
+      "feedback": "improve it",
+      "revised_at": "2026-08-31T19:10:16.967411+00:00",
+      "changed_story_ids": [],
+      "added_story_ids": [],
+      "removed_story_ids": []
+    },
+    {
+      "version": "v1.1",
+      "feedback": "improve it",
+      "revised_at": "2026-08-31T19:11:53.535713+00:00",
+      "changed_story_ids": [],
+      "added_story_ids": [],
+      "removed_story_ids": []
+    }
+  ],
+  "_source_audit": {},
+  "_domain_profile": {
+    "domain": "BANKING",
+    "compliance": [
+      "PCI-DSS",
+      "SOX",
+      "AML/KYC",
+      "ISO 27001"
+    ],
+    "standard_nfrs": [
+      "transaction atomicity",
+      "audit immutability",
+      "99.99% uptime"
+    ]
+  },
+  "_doc_excerpt": "File: HR Management System.pdf\n--- Page 1 ---\nHR Management System \n \nBuild a complete HR Management System (HRMS) as a full-stack web and mobile \napplication with role-based access for Super Admin, HR/Admin, Manager, Recruiter, \nEmployee, and Finance/Payroll users. The system should include **secure authentication, \nrole and permission management, employee master data, departments, designations, branches, \nemployee onboarding/offboarding, employee profiles, document management, attendance, \nshift and roster management, leave and holiday management, work-from-home/remote-work \nrequests, regularization, timesheets, payroll, salary structures, deductions, bonuses, \nreimbursements, payslips, tax/statutory information, recruitment and applicant tracking, job \npostings, candidate pipeline, interviews, offers, joining management, performance \nmanagement, goals/KPIs, appraisals, feedback, training and learning, asset management, \nemployee grievances, announcements, notifications, company policies, HR letters/certificates, \nexpense management, travel requests, approval workflows, surveys, employee self-service, \nmanager self-service, and comprehensive dashboards and reports. Include search, filters, \nsorting, pagination, bulk import/export, Excel/CSV upload, PDF generation, audit logs, \nactivity history, configurable workflows, email/SMS/push notifications, reminders, \ncalendar integration, and API integrations. The dashboard should provide HR analytics \nsuch as headcount, attendance, leave utilization, attrition, recruitment status, payroll \nsummaries, department statistics, performance, pending approvals, and upcoming events. \nThe project should have a modern responsive UI for Web, Android, and iOS, with a \ncentralized backend API, relational database, file/document storage, notification service, \nbackground jobs, logging, monitoring, validation, encryption, backups, and strong security \nincluding RBAC, JWT/session management, password policies, MFA-ready architecture, \nAPI authorization, data privacy, audit trails, and secure document access. Define \ncomplete workflows such as Recruitment \u2192 Candidate Selection \u2192 Offer \u2192 Joining \u2192 \nOnboarding \u2192 Employee \u2192 Attendance/Leave \u2192 Payroll \u2192 Performance \u2192 \nPromotion/Transfer \u2192 Offboarding/Exit, with configurable approval chains for HR, \nmanagers, finance, and admins. Include master-data configuration, organization settings, \nfinancial/payroll settings, notification templates, workflow configuration, reports, audit logs, \nand system administration. The final system should be production-ready, scalable, API-\ndriven, well-documented, tested, and include BRD, SRS, database schema/ERD, API \ndocumentation, RTM, UI/UX specifications, user stories with acceptance criteria, test \ncases, deployment documentation, and complete role-wise functional requirements."
+}

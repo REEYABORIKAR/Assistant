@@ -1,0 +1,14 @@
+{
+  "id": "eff66874-087d-4932-bc65-51db4a4b77d6",
+  "title": "Approved Requirements Specification",
+  "doc_type": "BRD",
+  "version": "v1.0",
+  "status": "APPROVED",
+  "sections": [
+    {
+      "title": "1. Executive Summary & Baseline",
+      "body": "Specification approved and verified for downstream development."
+    }
+  ],
+  "approved_at": "2026-08-30T16:42:58.853899+00:00"
+}

@@ -1,0 +1,2090 @@
+{
+  "id": "8b97a726-5fda-4211-bd9a-60ecdc9b8549",
+  "generation_id": "gen_0401b50a",
+  "doc_type": "USER_STORIES",
+  "title": "User Stories \u2014 Hospital Management System",
+  "version": "v2.0",
+  "version_num": 2,
+  "parent_version": 1,
+  "parent_id": "8cc8a7dc-1172-4d83-92f7-cb231f712173",
+  "status": "PENDING_APPROVAL",
+  "created_at": "2026-08-31T19:08:37.833228+00:00",
+  "reviewed_at": null,
+  "rejection_feedback": null,
+  "sections": [
+    {
+      "title": "1. Document Information & Governance Baseline",
+      "body": "**Document Type:** User Stories Specification (Agile Backlog)\n**Project Title:** Hospital Management System\n**Specification Version:** v2.0\n**Document Status:** PENDING APPROVAL\n**Authoring Engine:** REFYNE AI Requirement Engineering Pipeline\n\nThis specification defines the decomposed, verifiable user stories, acceptance criteria, and requirement traceability matrix for **Hospital Management System**. All stories are grounded strictly in the source requirements."
+    },
+    {
+      "title": "2. Source Requirement Summary & Scope Baseline",
+      "body": "The source specification establishes a centralized operational platform covering comprehensive clinical, diagnostic, pharmaceutical, financial, and administrative capabilities.\n\n**Key Scope Areas Extracted from Source:**\n\u2022 **REQ-PAT-01 (Patient Management)**: Patient registration \u2014 *Register new patients with demographic details, contact info, and emergency contacts.*\n\u2022 **REQ-PAT-02 (Patient Management)**: Patient profile management \u2014 *Manage and update existing patient demographic and contact information.*\n\u2022 **REQ-PAT-03 (Patient Management)**: Patient portal profile & history access \u2014 *Provide patient self-service portal access to view appointments, medical history, prescriptions, and bills.*\n\u2022 **REQ-APT-01 (Appointment Scheduling)**: Doctor availability scheduling \u2014 *Configure doctor consultation schedules and working hours to prevent double-booking.*\n\u2022 **REQ-APT-02 (Appointment Scheduling)**: Appointment booking \u2014 *Schedule outpatient appointments for patients against available doctor slots.*\n\u2022 **REQ-APT-03 (Appointment Scheduling)**: Doctor appointment dashboard \u2014 *Provide clinical dashboards for doctors to view upcoming appointment schedules.*\n\u2022 **REQ-APT-04 (Queue Management)**: OPD queue & token management \u2014 *Issue sequential queue tokens upon arrival and manage live waiting lists for consultation rooms.*\n\u2022 **REQ-IPD-01 (Inpatient Management)**: Inpatient admission request & recording \u2014 *Record formal inpatient admissions with admitting diagnosis, admitting doctor, and reasons.*\n\u2022 **REQ-IPD-02 (Inpatient Management)**: Bed and ward allocation \u2014 *Map hospital rooms/wards visually and allocate available beds to admitted patients.*\n\u2022 **REQ-IPD-03 (Inpatient Management)**: Patient bed/ward transfer \u2014 *Transfer admitted patients between beds or wards with timestamped history and differential rate tracking.*\n\u2022 **REQ-IPD-04 (Inpatient Management)**: Patient clinical discharge & summary \u2014 *Process clinical discharge, generate discharge summaries, and trigger billing reconciliation.*\n\u2022 **REQ-EMR-01 (Clinical & EMR)**: Clinical notes & diagnosis documentation \u2014 *Record patient chief complaints, clinical observations, diagnoses, and treatment plans.*\n\u2022 **REQ-EMR-02 (Clinical & EMR)**: Allergy & adverse reaction management \u2014 *Document and prominently flag drug, food, and environmental allergies to prevent contraindicated orders.*\n\u2022 **REQ-EMR-03 (Clinical & EMR)**: Vital signs & nursing notes \u2014 *Record routine vitals (BP, pulse, temp, SpO2) and nursing care notes into patient charts.*\n\u2022 **REQ-EMR-04 (Clinical & EMR)**: Integrated treatment history timeline \u2014 *Maintain consolidated chronological history of consultations, procedures, lab findings, and medications.*\n\u2022 *... and 18 additional functional & governance requirements extracted from source.*"
+    },
+    {
+      "title": "3. Authorized System Personas & Role Mappings",
+      "body": "The system enforces role-based access for the following authorized personas explicitly identified in the source requirements:\n\n\u2022 **Receptionist**: Patient registration, Appointment scheduling, OPD Queue token issuance, Front-desk check-in\n\u2022 **Doctor**: Consultations, Diagnosis, Prescription orders, Clinical notes, Lab requests, Discharge clearance\n\u2022 **Nurse**: Vital signs recording, Nursing notes, Inpatient care tracking, Ward transfer assistance\n\u2022 **Pharmacist**: Prescription verification, Medicine dispensing, Stock management, Expiry alerts\n\u2022 **Lab Technician**: Sample collection, Diagnostic test entry, Result validation, Lab report publishing\n\u2022 **Accountant**: Outpatient billing, Inpatient final billing, Insurance claims, Receipts, Hospital expenses\n\u2022 **Admin**: User management, RBAC configuration, Staff directory, Procurement approvals, Audit log reviews, Backups\n\u2022 **Patient**: Self-service portal access, Viewing appointments, Viewing prescriptions, Viewing lab reports, Viewing invoices"
+    },
+    {
+      "title": "4. Epic Decomposition & Module Breakdown",
+      "body": "The backlog is partitioned into the following functional Epics:\n\n\u2022 **Epic: Appointment Scheduling** (3 User Stories)\n\u2022 **Epic: Audit & Compliance** (1 User Stories)\n\u2022 **Epic: Billing & Financials** (5 User Stories)\n\u2022 **Epic: Clinical & EMR** (4 User Stories)\n\u2022 **Epic: Dashboards & Reporting** (1 User Stories)\n\u2022 **Epic: Inpatient Management** (4 User Stories)\n\u2022 **Epic: Laboratory** (3 User Stories)\n\u2022 **Epic: Patient Management** (2 User Stories)\n\u2022 **Epic: Patient Portal** (1 User Stories)\n\u2022 **Epic: Pharmacy** (4 User Stories)\n\u2022 **Epic: Procurement & Inventory** (1 User Stories)\n\u2022 **Epic: Queue Management** (1 User Stories)\n\u2022 **Epic: Security & Access** (1 User Stories)\n\u2022 **Epic: Staff Management** (1 User Stories)\n\u2022 **Epic: System Reliability** (1 User Stories)"
+    },
+    {
+      "title": "5. User Stories Matrix & Detailed Specifications",
+      "table": [
+        [
+          "Story ID",
+          "Epic / Module",
+          "Persona",
+          "User Story Statement",
+          "Business Value",
+          "Priority"
+        ],
+        [
+          "US-PAT-01",
+          "Patient Management",
+          "Receptionist",
+          "As a Receptionist, I want to register a new patient with their full demographic and emergency contact details, so that a unique medical record is established in the hospital directory.",
+          "Unique patient identification prevents duplicate files and speeds up all future encounters.",
+          "High"
+        ],
+        [
+          "US-PAT-02",
+          "Patient Management",
+          "Receptionist",
+          "As a Receptionist, I want to update patient demographic and contact information, so that patient records remain accurate and up to date.",
+          "Accurate patient contact information ensures dependable appointment notifications and communications.",
+          "Medium"
+        ],
+        [
+          "US-PAT-03",
+          "Patient Portal",
+          "Patient",
+          "As a Patient, I want to log into my self-service portal to view my appointments, prescriptions, lab reports, and billing history, so that I can manage my healthcare journey transparently.",
+          "Patient empowerment reduces front-desk phone inquiries and improves treatment adherence.",
+          "Medium"
+        ],
+        [
+          "US-APT-01",
+          "Appointment Scheduling",
+          "Doctor",
+          "As a Doctor, I want to configure my consultation working hours, slot durations, and planned leaves, so that receptionists and patients only book available consultation slots.",
+          "Prevents clinical scheduling conflicts and double-booking.",
+          "High"
+        ],
+        [
+          "US-APT-02",
+          "Appointment Scheduling",
+          "Receptionist",
+          "As a Receptionist, I want to schedule outpatient appointments by selecting an available doctor time slot, so that patient visits are planned efficiently.",
+          "Minimizes patient waiting room congestion through scheduled consultation intervals.",
+          "High"
+        ],
+        [
+          "US-APT-03",
+          "Appointment Scheduling",
+          "Doctor",
+          "As a Doctor, I want to view my daily appointment schedule on a clinical dashboard, so that I can organize my consultation workflow and prepare for arriving patients.",
+          "Provides doctors with actionable visibility of upcoming patient visits.",
+          "High"
+        ],
+        [
+          "US-QUE-01",
+          "Queue Management",
+          "Receptionist",
+          "As a Receptionist, I want to check in arriving patients and generate sequential OPD queue tokens, so that outpatient consultation rooms maintain an orderly physical queue.",
+          "Eliminates front-desk confusion and provides patients with transparent waiting queue positions.",
+          "High"
+        ],
+        [
+          "US-IPD-01",
+          "Inpatient Management",
+          "Doctor",
+          "As a Doctor, I want to initiate a formal inpatient admission order with admitting diagnosis and clinical rationale, so that outpatients or emergency cases are transitioned into ward care.",
+          "Formalizes inpatient admission accountability and initiates inpatient clinical workflows.",
+          "High"
+        ],
+        [
+          "US-IPD-02",
+          "Inpatient Management",
+          "Nurse",
+          "As a Nurse, I want to view real-time ward bed occupancy and assign an available bed to an admitted patient, so that patients are accommodated in appropriate care units.",
+          "Optimizes hospital bed utilization and ensures proper clinical ward placement.",
+          "High"
+        ],
+        [
+          "US-IPD-03",
+          "Inpatient Management",
+          "Nurse",
+          "As a Nurse, I want to record patient bed or ward transfers with transfer reasons and timestamps, so that patient physical location and differential room rates are tracked accurately.",
+          "Maintains accurate clinical location tracking and differential room billing calculations.",
+          "Medium"
+        ],
+        [
+          "US-IPD-04",
+          "Inpatient Management",
+          "Doctor",
+          "As a Doctor, I want to authorize clinical discharge and author a structured discharge summary, so that inpatient treatment is formally closed and final billing can proceed.",
+          "Ensures proper medical sign-off and patient handover instructions prior to discharge.",
+          "High"
+        ],
+        [
+          "US-EMR-01",
+          "Clinical & EMR",
+          "Doctor",
+          "As a Doctor, I want to record chief complaints, clinical observations, diagnoses, and treatment plans during consultations, so that a complete encounter record is documented.",
+          "Maintains an accurate, legally compliant medical record for every clinical visit.",
+          "High"
+        ],
+        [
+          "US-EMR-02",
+          "Clinical & EMR",
+          "Doctor",
+          "As a Doctor, I want to record known patient allergies and have the system warn me if I prescribe a contraindicated drug, so that adverse drug reactions are prevented.",
+          "Eliminates preventable prescription errors and protects patient safety.",
+          "High"
+        ],
+        [
+          "US-EMR-03",
+          "Clinical & EMR",
+          "Nurse",
+          "As a Nurse, I want to record patient vital signs (BP, heart rate, temperature, SpO2) and nursing notes, so that patient physiological status is tracked continuously.",
+          "Enables timely detection of patient clinical deterioration.",
+          "High"
+        ],
+        [
+          "US-EMR-04",
+          "Clinical & EMR",
+          "Doctor",
+          "As a Doctor, I want to view an integrated chronological timeline of all past consultations, admissions, lab results, and medications, so that I have complete historical context.",
+          "Provides longitudinal medical context for accurate clinical decision-making.",
+          "High"
+        ],
+        [
+          "US-LAB-01",
+          "Laboratory",
+          "Doctor",
+          "As a Doctor, I want to order diagnostic laboratory tests from the clinical encounter screen, so that the laboratory receives structured diagnostic test orders.",
+          "Eliminates paper lab slips and accelerates diagnostic turnaround times.",
+          "High"
+        ],
+        [
+          "US-LAB-02",
+          "Laboratory",
+          "Lab Technician",
+          "As a Lab Technician, I want to record specimen collection and enter test findings against standard reference ranges, so that diagnostic results are validated.",
+          "Ensures laboratory findings are accurately recorded and abnormal values are flagged.",
+          "High"
+        ],
+        [
+          "US-LAB-03",
+          "Laboratory",
+          "Lab Technician",
+          "As a Lab Technician, I want to publish finalized diagnostic lab reports to the patient chart and portal, so that physicians and patients can review test outcomes.",
+          "Provides immediate electronic access to verified diagnostic findings.",
+          "Medium"
+        ],
+        [
+          "US-PHM-01",
+          "Pharmacy",
+          "Pharmacist",
+          "As a Pharmacist, I want to view electronic prescriptions and dispense prescribed medications with verified dosage instructions, so that patients receive correct medications.",
+          "Eliminates prescription transcription errors and verifies medication safety.",
+          "High"
+        ],
+        [
+          "US-PHM-02",
+          "Pharmacy",
+          "Pharmacist",
+          "As a Pharmacist, I want medicine inventory stock quantities to automatically decrement upon dispensing, so that stock records reflect live availability.",
+          "Prevents inventory discrepancies and manual stock ledger reconciliations.",
+          "High"
+        ],
+        [
+          "US-PHM-03",
+          "Pharmacy",
+          "Pharmacist",
+          "As a Pharmacist, I want to track medicine batch numbers and expiration dates with automated expiry warnings, so that expired medicines are never dispensed.",
+          "Protects patient health by enforcing First-Expiry-First-Out (FEFO) dispensing rules.",
+          "High"
+        ],
+        [
+          "US-PHM-04",
+          "Pharmacy",
+          "Pharmacist",
+          "As a Pharmacist, I want to receive automated low-stock threshold alerts and generate replenishment lists, so that essential medicines never stock out.",
+          "Guarantees continuous availability of life-saving pharmaceutical supplies.",
+          "Medium"
+        ],
+        [
+          "US-BIL-01",
+          "Billing & Financials",
+          "Accountant",
+          "As an Accountant, I want to generate itemized invoices for outpatient consultations, lab tests, and pharmacy orders, so that outpatient revenue is billed accurately.",
+          "Ensures rapid, transparent billing collection at outpatient points of service.",
+          "High"
+        ],
+        [
+          "US-BIL-02",
+          "Billing & Financials",
+          "Accountant",
+          "As an Accountant, I want to consolidate room stay charges, doctor rounds, procedures, tests, and medications into a final inpatient invoice upon discharge, so that revenue is reconciled.",
+          "Eliminates unbilled inpatient hospital services upon patient discharge.",
+          "High"
+        ],
+        [
+          "US-BIL-03",
+          "Billing & Financials",
+          "Accountant",
+          "As an Accountant, I want to record patient insurance policy details, verify coverage, and track insurance claim settlements, so that co-pays and insurance balances are split correctly.",
+          "Accelerates insurance claim reimbursement and clarifies patient out-of-pocket costs.",
+          "High"
+        ],
+        [
+          "US-BIL-04",
+          "Billing & Financials",
+          "Accountant",
+          "As an Accountant, I want to generate official payment receipts and review past billing transaction histories, so that financial transactions are auditable.",
+          "Provides patients with proof of payment and maintains auditable transaction records.",
+          "Medium"
+        ],
+        [
+          "US-BIL-05",
+          "Billing & Financials",
+          "Accountant",
+          "As an Accountant, I want to record and categorize hospital operational expenses (utilities, supplier bills, maintenance), so that hospital cash outflows are tracked.",
+          "Provides comprehensive financial oversight over hospital operational expenses.",
+          "Medium"
+        ],
+        [
+          "US-STF-01",
+          "Staff Management",
+          "Admin",
+          "As an Admin, I want to manage staff profiles, department assignments, and job designations, so that hospital human resource records are organized.",
+          "Establishes clean organizational directory for clinical and administrative staff.",
+          "High"
+        ],
+        [
+          "US-PRC-01",
+          "Procurement & Inventory",
+          "Admin",
+          "As an Admin, I want to track non-pharmacy hospital equipment, medical consumables, and purchase requisitions, so that hospital equipment is maintained.",
+          "Ensures non-pharmacy consumables and biomedical equipment are replenished on schedule.",
+          "Medium"
+        ],
+        [
+          "US-SEC-01",
+          "Security & Access",
+          "Admin",
+          "As an Admin, I want to enforce role-based access control, secure authentication, password encryption, and session management, so that medical and financial records are protected.",
+          "Protects sensitive patient data and enforces least-privilege security principles.",
+          "High"
+        ],
+        [
+          "US-AUD-01",
+          "Audit & Compliance",
+          "Admin",
+          "As an Admin, I want to review comprehensive, immutable audit logs of user logins, medical record views, prescriptions, and billing actions, so that hospital activities are accountable.",
+          "Enforces institutional accountability and satisfies regulatory compliance standards.",
+          "High"
+        ],
+        [
+          "US-SYS-01",
+          "System Reliability",
+          "Admin",
+          "As an Admin, I want the system to enforce data validation, automated error logging, and regular database backups, so that system stability and data integrity are maintained.",
+          "Guarantees platform resilience, data preservation, and rapid disaster recovery.",
+          "High"
+        ],
+        [
+          "US-DSH-01",
+          "Dashboards & Reporting",
+          "Admin",
+          "As an Admin, I want to view executive dashboards, generate hospital reports, search across modules, and receive alert notifications, so that management has actionable operational intelligence.",
+          "Provides executive visibility across clinical occupancy, operational revenue, and hospital throughput.",
+          "Medium"
+        ]
+      ],
+      "body": "### Detailed Acceptance Criteria & Story Specifications\n\n**US-PAT-01: As a Receptionist, I want to register a new patient with their full demographic and emergency contact details, so that a unique medical record is established in the hospital directory.**<br/>&bull; **Epic:** Patient Management | **Priority:** High | **Source Requirement:** `REQ-PAT-01` | **Dependencies:** `US-SEC-01`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: Form captures full name, DOB, gender, phone number, address, and primary emergency contact.<br/>&nbsp;&nbsp;AC2: System checks for duplicate profiles matching phone number or national identity.<br/>&nbsp;&nbsp;AC3: System assigns a unique, sequential, permanent Patient ID upon successful registration.<br/>&nbsp;&nbsp;AC4: The newly registered patient record is immediately searchable across all hospital modules.<br/><br/>**US-PAT-02: As a Receptionist, I want to update patient demographic and contact information, so that patient records remain accurate and up to date.**<br/>&bull; **Epic:** Patient Management | **Priority:** Medium | **Source Requirement:** `REQ-PAT-02` | **Dependencies:** `US-PAT-01`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: Receptionist can search by Patient ID or name to open the editable demographic profile.<br/>&nbsp;&nbsp;AC2: Contact phone and address updates are validated for format integrity before saving.<br/>&nbsp;&nbsp;AC3: All profile edits are timestamped and attributed to the editing receptionist account.<br/><br/>**US-PAT-03: As a Patient, I want to log into my self-service portal to view my appointments, prescriptions, lab reports, and billing history, so that I can manage my healthcare journey transparently.**<br/>&bull; **Epic:** Patient Portal | **Priority:** Medium | **Source Requirement:** `REQ-PAT-03` | **Dependencies:** `US-PAT-01, US-SEC-01`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: Patient logs in securely using registered phone/email and password credentials.<br/>&nbsp;&nbsp;AC2: Portal displays categorized tabs for Appointments, Prescriptions, Lab Reports, and Invoices.<br/>&nbsp;&nbsp;AC3: Reports and invoices can be viewed online or downloaded as PDF documents.<br/><br/>**US-APT-01: As a Doctor, I want to configure my consultation working hours, slot durations, and planned leaves, so that receptionists and patients only book available consultation slots.**<br/>&bull; **Epic:** Appointment Scheduling | **Priority:** High | **Source Requirement:** `REQ-APT-01` | **Dependencies:** `US-SEC-01`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: Doctor can define recurring weekly shift timings and consultation slot lengths (e.g. 15 mins).<br/>&nbsp;&nbsp;AC2: Doctor can block specific dates/times for surgeries, rounds, or planned leave.<br/>&nbsp;&nbsp;AC3: Schedule updates instantly adjust the available booking calendar across the system.<br/><br/>**US-APT-02: As a Receptionist, I want to schedule outpatient appointments by selecting an available doctor time slot, so that patient visits are planned efficiently.**<br/>&bull; **Epic:** Appointment Scheduling | **Priority:** High | **Source Requirement:** `REQ-APT-02` | **Dependencies:** `US-PAT-01, US-APT-01`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: System presents open time slots based on doctor availability schedules.<br/>&nbsp;&nbsp;AC2: Booking captures patient ID, doctor ID, consultation reason, and booking timestamp.<br/>&nbsp;&nbsp;AC3: System locks the slot and prevents double-booking the same physician at the same time.<br/><br/>**US-APT-03: As a Doctor, I want to view my daily appointment schedule on a clinical dashboard, so that I can organize my consultation workflow and prepare for arriving patients.**<br/>&bull; **Epic:** Appointment Scheduling | **Priority:** High | **Source Requirement:** `REQ-APT-03` | **Dependencies:** `US-APT-02`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: Dashboard lists all scheduled patients chronologically for the selected date.<br/>&nbsp;&nbsp;AC2: Displays patient name, age, appointment time, and arrival status (Booked / Checked-In).<br/>&nbsp;&nbsp;AC3: Doctor can click on any patient row to open their clinical encounter chart.<br/><br/>**US-QUE-01: As a Receptionist, I want to check in arriving patients and generate sequential OPD queue tokens, so that outpatient consultation rooms maintain an orderly physical queue.**<br/>&bull; **Epic:** Queue Management | **Priority:** High | **Source Requirement:** `REQ-APT-04` | **Dependencies:** `US-APT-02`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: Check-in assigns a sequential token number (e.g. T-01, T-02) tied to the assigned doctor.<br/>&nbsp;&nbsp;AC2: System updates queue status: 'Waiting' \u2192 'Called' \u2192 'In Consultation' \u2192 'Completed'.<br/>&nbsp;&nbsp;AC3: Waiting room screens display active token calls in real time.<br/><br/>**US-IPD-01: As a Doctor, I want to initiate a formal inpatient admission order with admitting diagnosis and clinical rationale, so that outpatients or emergency cases are transitioned into ward care.**<br/>&bull; **Epic:** Inpatient Management | **Priority:** High | **Source Requirement:** `REQ-IPD-01` | **Dependencies:** `US-PAT-01, US-SEC-01`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: Admission form captures admitting doctor, initial diagnosis, admission category, and priority.<br/>&nbsp;&nbsp;AC2: Patient status updates to 'Admitted' in the central registry.<br/>&nbsp;&nbsp;AC3: System triggers a bed allocation task to the inpatient ward desk.<br/><br/>**US-IPD-02: As a Nurse, I want to view real-time ward bed occupancy and assign an available bed to an admitted patient, so that patients are accommodated in appropriate care units.**<br/>&bull; **Epic:** Inpatient Management | **Priority:** High | **Source Requirement:** `REQ-IPD-02` | **Dependencies:** `US-IPD-01`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: System displays visual ward layout with bed statuses: 'Available', 'Occupied', 'Cleaning'.<br/>&nbsp;&nbsp;AC2: System prevents assigning occupied or uncleaned beds.<br/>&nbsp;&nbsp;AC3: Selected bed is reserved and linked to the active inpatient admission record.<br/><br/>**US-IPD-03: As a Nurse, I want to record patient bed or ward transfers with transfer reasons and timestamps, so that patient physical location and differential room rates are tracked accurately.**<br/>&bull; **Epic:** Inpatient Management | **Priority:** Medium | **Source Requirement:** `REQ-IPD-03` | **Dependencies:** `US-IPD-02`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: Form accepts origin bed, destination bed, transfer reason, and transfer timestamp.<br/>&nbsp;&nbsp;AC2: Origin bed is released to 'Cleaning' and destination bed marked 'Occupied'.<br/>&nbsp;&nbsp;AC3: Transfer history is logged in the admission chart for billing calculation.<br/><br/>**US-IPD-04: As a Doctor, I want to authorize clinical discharge and author a structured discharge summary, so that inpatient treatment is formally closed and final billing can proceed.**<br/>&bull; **Epic:** Inpatient Management | **Priority:** High | **Source Requirement:** `REQ-IPD-04` | **Dependencies:** `US-IPD-01, US-IPD-02`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: Doctor enters final diagnosis, clinical course, condition at discharge, and follow-up advice.<br/>&nbsp;&nbsp;AC2: Bed status transitions to vacated and queued for sanitization.<br/>&nbsp;&nbsp;AC3: System locks clinical ordering and notifies the billing desk for final reconciliation.<br/><br/>**US-EMR-01: As a Doctor, I want to record chief complaints, clinical observations, diagnoses, and treatment plans during consultations, so that a complete encounter record is documented.**<br/>&bull; **Epic:** Clinical & EMR | **Priority:** High | **Source Requirement:** `REQ-EMR-01` | **Dependencies:** `US-PAT-01, US-SEC-01`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: Clinical form captures chief complaints, history of present illness, and ICD diagnoses.<br/>&nbsp;&nbsp;AC2: Clinical notes are permanently timestamped and digitally attributed to the doctor.<br/>&nbsp;&nbsp;AC3: Saved encounter notes are immediately accessible in the patient's EMR timeline.<br/><br/>**US-EMR-02: As a Doctor, I want to record known patient allergies and have the system warn me if I prescribe a contraindicated drug, so that adverse drug reactions are prevented.**<br/>&bull; **Epic:** Clinical & EMR | **Priority:** High | **Source Requirement:** `REQ-EMR-02` | **Dependencies:** `US-PAT-01`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: Captures allergen name, reaction severity (Mild, Moderate, Severe), and date observed.<br/>&nbsp;&nbsp;AC2: Displays high-visibility allergy badge on the patient chart header.<br/>&nbsp;&nbsp;AC3: System triggers an audible/visual warning if a prescribed drug conflicts with documented allergies.<br/><br/>**US-EMR-03: As a Nurse, I want to record patient vital signs (BP, heart rate, temperature, SpO2) and nursing notes, so that patient physiological status is tracked continuously.**<br/>&bull; **Epic:** Clinical & EMR | **Priority:** High | **Source Requirement:** `REQ-EMR-03` | **Dependencies:** `US-PAT-01`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: Form accepts standard numeric vital readings for BP, Pulse, Temperature, SpO2, and Resp Rate.<br/>&nbsp;&nbsp;AC2: Readings outside standard physiological ranges are highlighted in red.<br/>&nbsp;&nbsp;AC3: Chronological vitals trend chart is rendered in the patient chart.<br/><br/>**US-EMR-04: As a Doctor, I want to view an integrated chronological timeline of all past consultations, admissions, lab results, and medications, so that I have complete historical context.**<br/>&bull; **Epic:** Clinical & EMR | **Priority:** High | **Source Requirement:** `REQ-EMR-04` | **Dependencies:** `US-EMR-01, US-EMR-03`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: Timeline displays chronological visits, admissions, procedures, and tests.<br/>&nbsp;&nbsp;AC2: Quick filters allow narrowing history by encounter type, date range, or specialty.<br/>&nbsp;&nbsp;AC3: Past clinical entries are strictly read-only to preserve legal integrity.<br/><br/>**US-LAB-01: As a Doctor, I want to order diagnostic laboratory tests from the clinical encounter screen, so that the laboratory receives structured diagnostic test orders.**<br/>&bull; **Epic:** Laboratory | **Priority:** High | **Source Requirement:** `REQ-LAB-01` | **Dependencies:** `US-EMR-01`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: Doctor selects investigations from the hospital's standardized laboratory test catalog.<br/>&nbsp;&nbsp;AC2: Order captures clinical indication, urgency (Routine / Stat), and ordering physician ID.<br/>&nbsp;&nbsp;AC3: Order is dispatched instantly to the laboratory technician worklist.<br/><br/>**US-LAB-02: As a Lab Technician, I want to record specimen collection and enter test findings against standard reference ranges, so that diagnostic results are validated.**<br/>&bull; **Epic:** Laboratory | **Priority:** High | **Source Requirement:** `REQ-LAB-02` | **Dependencies:** `US-LAB-01`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: Technician logs specimen barcode ID, collection timestamp, and sample condition.<br/>&nbsp;&nbsp;AC2: Form accepts quantitative findings and automatically highlights out-of-range values.<br/>&nbsp;&nbsp;AC3: Result entry requires technician sign-off before report generation.<br/><br/>**US-LAB-03: As a Lab Technician, I want to publish finalized diagnostic lab reports to the patient chart and portal, so that physicians and patients can review test outcomes.**<br/>&bull; **Epic:** Laboratory | **Priority:** Medium | **Source Requirement:** `REQ-LAB-03` | **Dependencies:** `US-LAB-02`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: Lab technician signs off and finalizes the diagnostic report.<br/>&nbsp;&nbsp;AC2: Finalized report is published immediately to the patient chart and patient portal.<br/>&nbsp;&nbsp;AC3: System generates printable PDF lab reports with hospital letterhead and reference ranges.<br/><br/>**US-PHM-01: As a Pharmacist, I want to view electronic prescriptions and dispense prescribed medications with verified dosage instructions, so that patients receive correct medications.**<br/>&bull; **Epic:** Pharmacy | **Priority:** High | **Source Requirement:** `REQ-PHARM-01` | **Dependencies:** `US-EMR-01`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: Pharmacist queue displays pending prescriptions with patient name, medicine, dosage, and duration.<br/>&nbsp;&nbsp;AC2: Pharmacist verifies dosage and flags any dispensing notes.<br/>&nbsp;&nbsp;AC3: Confirming dispensing updates prescription status to 'Dispensed'.<br/><br/>**US-PHM-02: As a Pharmacist, I want medicine inventory stock quantities to automatically decrement upon dispensing, so that stock records reflect live availability.**<br/>&bull; **Epic:** Pharmacy | **Priority:** High | **Source Requirement:** `REQ-PHARM-02` | **Dependencies:** `US-PHM-01`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: Dispensing confirmation immediately deducts dispensed unit counts from the inventory database.<br/>&nbsp;&nbsp;AC2: System blocks dispensing if requested count exceeds available physical stock.<br/>&nbsp;&nbsp;AC3: Every stock decrement is logged with timestamp, prescription ID, and pharmacist ID.<br/><br/>**US-PHM-03: As a Pharmacist, I want to track medicine batch numbers and expiration dates with automated expiry warnings, so that expired medicines are never dispensed.**<br/>&bull; **Epic:** Pharmacy | **Priority:** High | **Source Requirement:** `REQ-PHARM-03` | **Dependencies:** `US-PHM-01`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: Stock records track batch number, manufacturing date, and expiry date for each drug.<br/>&nbsp;&nbsp;AC2: Dashboard displays active alerts for batches expiring within 30, 60, and 90 days.<br/>&nbsp;&nbsp;AC3: System strictly blocks selection of expired batches during prescription fulfillment.<br/><br/>**US-PHM-04: As a Pharmacist, I want to receive automated low-stock threshold alerts and generate replenishment lists, so that essential medicines never stock out.**<br/>&bull; **Epic:** Pharmacy | **Priority:** Medium | **Source Requirement:** `REQ-PHARM-04` | **Dependencies:** `US-PHM-02`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: Minimum reorder threshold quantities can be configured per medicine.<br/>&nbsp;&nbsp;AC2: System alerts pharmacist when stock dips below minimum reorder level.<br/>&nbsp;&nbsp;AC3: Generates exportable purchase requisition lists for depleted inventory items.<br/><br/>**US-BIL-01: As an Accountant, I want to generate itemized invoices for outpatient consultations, lab tests, and pharmacy orders, so that outpatient revenue is billed accurately.**<br/>&bull; **Epic:** Billing & Financials | **Priority:** High | **Source Requirement:** `REQ-BIL-01` | **Dependencies:** `US-PAT-01, US-SEC-01`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: System auto-populates billing line items from consultation fees, lab orders, and pharmacy issues.<br/>&nbsp;&nbsp;AC2: Accountant can apply authorized discounts and select payment modes (Cash / Card / Digital).<br/>&nbsp;&nbsp;AC3: Invoice generation updates balance due and issues an official invoice number.<br/><br/>**US-BIL-02: As an Accountant, I want to consolidate room stay charges, doctor rounds, procedures, tests, and medications into a final inpatient invoice upon discharge, so that revenue is reconciled.**<br/>&bull; **Epic:** Billing & Financials | **Priority:** High | **Source Requirement:** `REQ-BIL-02` | **Dependencies:** `US-IPD-04, US-BIL-01`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: Calculates room/bed charges based on stay duration and bed transfer history.<br/>&nbsp;&nbsp;AC2: Aggregates all clinical procedures, investigations, nursing charges, and medications.<br/>&nbsp;&nbsp;AC3: Reconciles advance deposits against final total balance before discharge clearance.<br/><br/>**US-BIL-03: As an Accountant, I want to record patient insurance policy details, verify coverage, and track insurance claim settlements, so that co-pays and insurance balances are split correctly.**<br/>&bull; **Epic:** Billing & Financials | **Priority:** High | **Source Requirement:** `REQ-BIL-03` | **Dependencies:** `US-BIL-01`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: Form captures insurance provider, policy number, pre-authorization code, and co-pay %.<br/>&nbsp;&nbsp;AC2: System splits final invoice into patient payable portion and insurer claim amount.<br/>&nbsp;&nbsp;AC3: Tracks claim status transitions: 'Submitted' \u2192 'Approved' \u2192 'Settled' \u2192 'Rejected'.<br/><br/>**US-BIL-04: As an Accountant, I want to generate official payment receipts and review past billing transaction histories, so that financial transactions are auditable.**<br/>&bull; **Epic:** Billing & Financials | **Priority:** Medium | **Source Requirement:** `REQ-BIL-04` | **Dependencies:** `US-BIL-01`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: System prints official receipt with receipt number, payment mode, tax breakdown, and cashier name.<br/>&nbsp;&nbsp;AC2: Patients can view and download all past receipts from the patient portal.<br/>&nbsp;&nbsp;AC3: Maintains immutable payment transaction logs that cannot be modified.<br/><br/>**US-BIL-05: As an Accountant, I want to record and categorize hospital operational expenses (utilities, supplier bills, maintenance), so that hospital cash outflows are tracked.**<br/>&bull; **Epic:** Billing & Financials | **Priority:** Medium | **Source Requirement:** `REQ-BIL-05` | **Dependencies:** `US-SEC-01`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: Form records expense category, vendor name, invoice reference, payment date, and amount.<br/>&nbsp;&nbsp;AC2: Requires administrative approval for expense vouchers exceeding threshold limits.<br/>&nbsp;&nbsp;AC3: Generates monthly hospital operational expenditure summary reports.<br/><br/>**US-STF-01: As an Admin, I want to manage staff profiles, department assignments, and job designations, so that hospital human resource records are organized.**<br/>&bull; **Epic:** Staff Management | **Priority:** High | **Source Requirement:** `REQ-STF-01` | **Dependencies:** `US-SEC-01`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: Admin can create, view, update, and deactivate employee records.<br/>&nbsp;&nbsp;AC2: Assigns staff members to clinical, nursing, pharmacy, lab, or administrative departments.<br/>&nbsp;&nbsp;AC3: Staff directory is searchable by name, designation, and department.<br/><br/>**US-PRC-01: As an Admin, I want to track non-pharmacy hospital equipment, medical consumables, and purchase requisitions, so that hospital equipment is maintained.**<br/>&bull; **Epic:** Procurement & Inventory | **Priority:** Medium | **Source Requirement:** `REQ-PRC-01` | **Dependencies:** `US-SEC-01`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: Tracks hospital physical assets, serial numbers, maintenance schedules, and consumable levels.<br/>&nbsp;&nbsp;AC2: Department heads can submit purchase requests for supplies.<br/>&nbsp;&nbsp;AC3: Admin can review and approve purchase orders.<br/><br/>**US-SEC-01: As an Admin, I want to enforce role-based access control, secure authentication, password encryption, and session management, so that medical and financial records are protected.**<br/>&bull; **Epic:** Security & Access | **Priority:** High | **Source Requirement:** `REQ-SEC-01` | **Dependencies:** `None (Independent)`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: System enforces role permissions for Admin, Doctor, Nurse, Receptionist, Pharmacist, Lab Tech, Accountant, and Patient.<br/>&nbsp;&nbsp;AC2: Passwords are encrypted using modern hashing algorithms and authenticated with secure session tokens.<br/>&nbsp;&nbsp;AC3: Unauthorized API requests are blocked with HTTP 401/403 status codes.<br/><br/>**US-AUD-01: As an Admin, I want to review comprehensive, immutable audit logs of user logins, medical record views, prescriptions, and billing actions, so that hospital activities are accountable.**<br/>&bull; **Epic:** Audit & Compliance | **Priority:** High | **Source Requirement:** `REQ-AUD-01` | **Dependencies:** `US-SEC-01`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: System logs timestamp, user ID, role, action type, resource ID, and client IP address.<br/>&nbsp;&nbsp;AC2: Audit logs are append-only and protected against modification or deletion.<br/>&nbsp;&nbsp;AC3: Admin can filter audit logs by date range, user, action, and module.<br/><br/>**US-SYS-01: As an Admin, I want the system to enforce data validation, automated error logging, and regular database backups, so that system stability and data integrity are maintained.**<br/>&bull; **Epic:** System Reliability | **Priority:** High | **Source Requirement:** `REQ-SYS-01` | **Dependencies:** `US-SEC-01`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: Server-side validation rejects malformed payloads with descriptive error responses.<br/>&nbsp;&nbsp;AC2: Unhandled exceptions are logged with stack traces for engineering diagnosis.<br/>&nbsp;&nbsp;AC3: Automated daily database backup routines execute and verify archive integrity.<br/><br/>**US-DSH-01: As an Admin, I want to view executive dashboards, generate hospital reports, search across modules, and receive alert notifications, so that management has actionable operational intelligence.**<br/>&bull; **Epic:** Dashboards & Reporting | **Priority:** Medium | **Source Requirement:** `REQ-DSH-01` | **Dependencies:** `US-SEC-01, US-PAT-01, US-BIL-01`<br/>&bull; **Acceptance Criteria:**<br/>&nbsp;&nbsp;AC1: Executive dashboard visualizes bed occupancy rates, revenue metrics, and patient visit volumes.<br/>&nbsp;&nbsp;AC2: Global search allows multi-criteria filtering across patients, staff, invoices, and lab tests.<br/>&nbsp;&nbsp;AC3: Automated notifications alert users to appointment bookings, critical lab findings, and stock thresholds.<br/><br/>"
+    },
+    {
+      "title": "6. End-to-End Workflow Coverage",
+      "body": "The user stories fully encompass the complete multi-step workflows defined in the source document:\n\n**Outpatient (OPD) Consultation Workflow:**\n`Patient Registration \u2192 Appointment Scheduling \u2192 OPD Queue Token \u2192 Doctor Consultation \u2192 Diagnosis & Prescriptions \u2192 Lab / Pharmacy Orders \u2192 Outpatient Billing \u2192 Follow-up`\n\n**Inpatient (IPD) Admission-to-Discharge Workflow:**\n`Inpatient Admission Request \u2192 Bed & Ward Allocation \u2192 Clinical Treatment & Vitals Tracking \u2192 Diagnostic Investigations \u2192 Discharge Clearance & Summary \u2192 Final Billing Reconciliation`"
+    },
+    {
+      "title": "7. Requirement Traceability Matrix (RTM)",
+      "table": [
+        [
+          "Requirement ID",
+          "Source Requirement",
+          "Category",
+          "Mapped User Story IDs",
+          "Coverage Status"
+        ],
+        [
+          "REQ-PAT-01",
+          "Patient registration",
+          "Patient Management",
+          "US-PAT-01",
+          "COVERED"
+        ],
+        [
+          "REQ-PAT-02",
+          "Patient profile management",
+          "Patient Management",
+          "US-PAT-02",
+          "COVERED"
+        ],
+        [
+          "REQ-PAT-03",
+          "Patient portal profile & history access",
+          "Patient Management",
+          "US-PAT-03",
+          "COVERED"
+        ],
+        [
+          "REQ-APT-01",
+          "Doctor availability scheduling",
+          "Appointment Scheduling",
+          "US-APT-01",
+          "COVERED"
+        ],
+        [
+          "REQ-APT-02",
+          "Appointment booking",
+          "Appointment Scheduling",
+          "US-APT-02",
+          "COVERED"
+        ],
+        [
+          "REQ-APT-03",
+          "Doctor appointment dashboard",
+          "Appointment Scheduling",
+          "US-APT-03",
+          "COVERED"
+        ],
+        [
+          "REQ-APT-04",
+          "OPD queue & token management",
+          "Queue Management",
+          "US-QUE-01",
+          "COVERED"
+        ],
+        [
+          "REQ-IPD-01",
+          "Inpatient admission request & recording",
+          "Inpatient Management",
+          "US-IPD-01",
+          "COVERED"
+        ],
+        [
+          "REQ-IPD-02",
+          "Bed and ward allocation",
+          "Inpatient Management",
+          "US-IPD-02",
+          "COVERED"
+        ],
+        [
+          "REQ-IPD-03",
+          "Patient bed/ward transfer",
+          "Inpatient Management",
+          "US-IPD-03",
+          "COVERED"
+        ],
+        [
+          "REQ-IPD-04",
+          "Patient clinical discharge & summary",
+          "Inpatient Management",
+          "US-IPD-04",
+          "COVERED"
+        ],
+        [
+          "REQ-EMR-01",
+          "Clinical notes & diagnosis documentation",
+          "Clinical & EMR",
+          "US-EMR-01",
+          "COVERED"
+        ],
+        [
+          "REQ-EMR-02",
+          "Allergy & adverse reaction management",
+          "Clinical & EMR",
+          "US-EMR-02",
+          "COVERED"
+        ],
+        [
+          "REQ-EMR-03",
+          "Vital signs & nursing notes",
+          "Clinical & EMR",
+          "US-EMR-03",
+          "COVERED"
+        ],
+        [
+          "REQ-EMR-04",
+          "Integrated treatment history timeline",
+          "Clinical & EMR",
+          "US-EMR-04",
+          "COVERED"
+        ],
+        [
+          "REQ-LAB-01",
+          "Laboratory test ordering",
+          "Laboratory",
+          "US-LAB-01",
+          "COVERED"
+        ],
+        [
+          "REQ-LAB-02",
+          "Specimen collection & result entry",
+          "Laboratory",
+          "US-LAB-02",
+          "COVERED"
+        ],
+        [
+          "REQ-LAB-03",
+          "Diagnostic report publishing",
+          "Laboratory",
+          "US-LAB-03",
+          "COVERED"
+        ],
+        [
+          "REQ-PHARM-01",
+          "Electronic prescription dispensing",
+          "Pharmacy",
+          "US-PHM-01",
+          "COVERED"
+        ],
+        [
+          "REQ-PHARM-02",
+          "Automated inventory stock decrement",
+          "Pharmacy",
+          "US-PHM-02",
+          "COVERED"
+        ],
+        [
+          "REQ-PHARM-03",
+          "Medicine batch & expiration tracking",
+          "Pharmacy",
+          "US-PHM-03",
+          "COVERED"
+        ],
+        [
+          "REQ-PHARM-04",
+          "Low-stock replenishment alerts",
+          "Pharmacy",
+          "US-PHM-04",
+          "COVERED"
+        ],
+        [
+          "REQ-BIL-01",
+          "Outpatient (OPD) service invoicing",
+          "Billing & Financials",
+          "US-BIL-01",
+          "COVERED"
+        ],
+        [
+          "REQ-BIL-02",
+          "Inpatient (IPD) final billing reconciliation",
+          "Billing & Financials",
+          "US-BIL-02",
+          "COVERED"
+        ],
+        [
+          "REQ-BIL-03",
+          "Insurance policy & claim management",
+          "Billing & Financials",
+          "US-BIL-03",
+          "COVERED"
+        ],
+        [
+          "REQ-BIL-04",
+          "Payment receipts & transaction history",
+          "Billing & Financials",
+          "US-BIL-04",
+          "COVERED"
+        ],
+        [
+          "REQ-BIL-05",
+          "Hospital operational expense tracking",
+          "Billing & Financials",
+          "US-BIL-05",
+          "COVERED"
+        ],
+        [
+          "REQ-STF-01",
+          "Staff & department management",
+          "Staff Management",
+          "US-STF-01",
+          "COVERED"
+        ],
+        [
+          "REQ-PRC-01",
+          "General hospital equipment & consumable procurement",
+          "Procurement & Inventory",
+          "US-PRC-01",
+          "COVERED"
+        ],
+        [
+          "REQ-SEC-01",
+          "Role-based access control & authentication",
+          "Security & Access",
+          "US-SEC-01",
+          "COVERED"
+        ],
+        [
+          "REQ-AUD-01",
+          "Comprehensive audit logging",
+          "Audit & Compliance",
+          "US-AUD-01",
+          "COVERED"
+        ],
+        [
+          "REQ-SYS-01",
+          "Data validation, error logging & backups",
+          "System Reliability",
+          "US-SYS-01",
+          "COVERED"
+        ],
+        [
+          "REQ-DSH-01",
+          "Operational dashboards, search & notifications",
+          "Dashboards & Reporting",
+          "US-DSH-01",
+          "COVERED"
+        ]
+      ],
+      "body": "This matrix provides 100% bidirectional traceability from original source requirements to executable user stories."
+    },
+    {
+      "title": "8. Dependency-Derived Release & Sprint Slicing",
+      "body": "**Release 1: Outpatient Care, Doctor Availability & Core EMR Foundation**\n\u2022 **Objective:** Establish patient onboarding, front-desk scheduling, OPD queues, vital signs, allergies, and core doctor notes.\n\u2022 **User Stories:** US-PAT-01, US-PAT-02, US-PAT-03, US-APT-01, US-APT-02, US-APT-03, US-QUE-01, US-EMR-01, US-EMR-02, US-EMR-03, US-SEC-01\n\n**Release 2: Inpatient (IPD) Lifecycle, Diagnostic Lab & Pharmacy Operations**\n\u2022 **Objective:** Deploy inpatient admission-to-discharge, bed allocations, transfers, lab ordering/results, and pharmacy stock decrements.\n\u2022 **User Stories:** US-IPD-01, US-IPD-02, US-IPD-03, US-IPD-04, US-LAB-01, US-LAB-02, US-LAB-03, US-PHM-01, US-PHM-02, US-PHM-03, US-PHM-04\n\n**Release 3: Financials, Expenses, Hospital Administration & Governance**\n\u2022 **Objective:** Complete billing reconciliation, insurance claims, expenses, staff management, general procurement, and audit logs.\n\u2022 **User Stories:** US-EMR-04, US-BIL-01, US-BIL-02, US-BIL-03, US-BIL-04, US-BIL-05, US-STF-01, US-PRC-01, US-AUD-01, US-SYS-01, US-DSH-01"
+    },
+    {
+      "title": "9. Technical Dependencies & Cross-Module Constraints",
+      "body": "\u2022 **Authentication Gate:** User authentication and role-based access control (US-SEC-01) must be established prior to granting role-specific access.\n\u2022 **Clinical Encounter Binding:** Prescription and lab orders require an active consultation encounter or inpatient admission record.\n\u2022 **Financial Invoicing:** Inpatient final billing requires completed discharge clearance from the attending doctor.\n\u2022 **Inventory Deductions:** Medicine dispensing strictly validates on-hand batch quantities before decrementing stock."
+    },
+    {
+      "title": "10. Open Items & Stakeholder Clarifications",
+      "body": "\u2022 **Third-Party Payment Gateway Providers:** Identify specific payment gateway vendors (e.g. Stripe, Razorpay) for digital payment processing.\n\u2022 **External Insurance Clearinghouses:** Determine whether EDI/electronic insurance claim clearinghouse integration is required in subsequent phases.\n\u2022 **Hardware Barcode Scanners:** Confirm barcode/QR scanner device protocols for pharmacy inventory batch scanning."
+    }
+  ],
+  "user_stories_data": {
+    "requirements": [
+      {
+        "req_id": "REQ-PAT-01",
+        "module": "Patient Management",
+        "title": "Patient registration",
+        "description": "Register new patients with demographic details, contact info, and emergency contacts.",
+        "source_excerpt_ref": "Section: Patient Management",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-PAT-02",
+        "module": "Patient Management",
+        "title": "Patient profile management",
+        "description": "Manage and update existing patient demographic and contact information.",
+        "source_excerpt_ref": "Section: Patient Management",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-PAT-03",
+        "module": "Patient Management",
+        "title": "Patient portal profile & history access",
+        "description": "Provide patient self-service portal access to view appointments, medical history, prescriptions, and bills.",
+        "source_excerpt_ref": "Section: Patient Portal",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-APT-01",
+        "module": "Appointment Scheduling",
+        "title": "Doctor availability scheduling",
+        "description": "Configure doctor consultation schedules and working hours to prevent double-booking.",
+        "source_excerpt_ref": "Section: Doctor Availability",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-APT-02",
+        "module": "Appointment Scheduling",
+        "title": "Appointment booking",
+        "description": "Schedule outpatient appointments for patients against available doctor slots.",
+        "source_excerpt_ref": "Section: Appointments",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-APT-03",
+        "module": "Appointment Scheduling",
+        "title": "Doctor appointment dashboard",
+        "description": "Provide clinical dashboards for doctors to view upcoming appointment schedules.",
+        "source_excerpt_ref": "Section: Doctor Dashboard",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-APT-04",
+        "module": "Queue Management",
+        "title": "OPD queue & token management",
+        "description": "Issue sequential queue tokens upon arrival and manage live waiting lists for consultation rooms.",
+        "source_excerpt_ref": "Section: Queue Management",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-IPD-01",
+        "module": "Inpatient Management",
+        "title": "Inpatient admission request & recording",
+        "description": "Record formal inpatient admissions with admitting diagnosis, admitting doctor, and reasons.",
+        "source_excerpt_ref": "Section: Admission",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-IPD-02",
+        "module": "Inpatient Management",
+        "title": "Bed and ward allocation",
+        "description": "Map hospital rooms/wards visually and allocate available beds to admitted patients.",
+        "source_excerpt_ref": "Section: Bed/Ward Management",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-IPD-03",
+        "module": "Inpatient Management",
+        "title": "Patient bed/ward transfer",
+        "description": "Transfer admitted patients between beds or wards with timestamped history and differential rate tracking.",
+        "source_excerpt_ref": "Section: Transfer",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-IPD-04",
+        "module": "Inpatient Management",
+        "title": "Patient clinical discharge & summary",
+        "description": "Process clinical discharge, generate discharge summaries, and trigger billing reconciliation.",
+        "source_excerpt_ref": "Section: Discharge",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-EMR-01",
+        "module": "Clinical & EMR",
+        "title": "Clinical notes & diagnosis documentation",
+        "description": "Record patient chief complaints, clinical observations, diagnoses, and treatment plans.",
+        "source_excerpt_ref": "Section: EMR / Diagnosis",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-EMR-02",
+        "module": "Clinical & EMR",
+        "title": "Allergy & adverse reaction management",
+        "description": "Document and prominently flag drug, food, and environmental allergies to prevent contraindicated orders.",
+        "source_excerpt_ref": "Section: Allergies",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-EMR-03",
+        "module": "Clinical & EMR",
+        "title": "Vital signs & nursing notes",
+        "description": "Record routine vitals (BP, pulse, temp, SpO2) and nursing care notes into patient charts.",
+        "source_excerpt_ref": "Section: Vitals & Nursing",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-EMR-04",
+        "module": "Clinical & EMR",
+        "title": "Integrated treatment history timeline",
+        "description": "Maintain consolidated chronological history of consultations, procedures, lab findings, and medications.",
+        "source_excerpt_ref": "Section: Treatment History",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-LAB-01",
+        "module": "Laboratory",
+        "title": "Laboratory test ordering",
+        "description": "Allow physicians to order diagnostic laboratory investigations directly from clinical encounters.",
+        "source_excerpt_ref": "Section: Laboratory Requests",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-LAB-02",
+        "module": "Laboratory",
+        "title": "Specimen collection & result entry",
+        "description": "Record sample collection and enter quantitative/qualitative diagnostic findings against standard reference ranges.",
+        "source_excerpt_ref": "Section: Lab Results",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-LAB-03",
+        "module": "Laboratory",
+        "title": "Diagnostic report publishing",
+        "description": "Publish finalized diagnostic lab reports accessible to doctors and patients.",
+        "source_excerpt_ref": "Section: Lab Reports",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-PHARM-01",
+        "module": "Pharmacy",
+        "title": "Electronic prescription dispensing",
+        "description": "View physician prescriptions and dispense medications with verified dosage instructions.",
+        "source_excerpt_ref": "Section: Pharmacy Prescriptions",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-PHARM-02",
+        "module": "Pharmacy",
+        "title": "Automated inventory stock decrement",
+        "description": "Automatically deduct medicine stock counts upon prescription dispensing in real time.",
+        "source_excerpt_ref": "Section: Medicine Inventory",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-PHARM-03",
+        "module": "Pharmacy",
+        "title": "Medicine batch & expiration tracking",
+        "description": "Track inventory batch numbers and alert on near-expiry or expired pharmaceutical stock.",
+        "source_excerpt_ref": "Section: Medicine Inventory",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-PHARM-04",
+        "module": "Pharmacy",
+        "title": "Low-stock replenishment alerts",
+        "description": "Trigger automated alerts when medicine quantities fall below configured minimum thresholds.",
+        "source_excerpt_ref": "Section: Medicine Inventory",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-BIL-01",
+        "module": "Billing & Financials",
+        "title": "Outpatient (OPD) service invoicing",
+        "description": "Generate itemized invoices for outpatient consultations, diagnostic tests, and pharmacy orders.",
+        "source_excerpt_ref": "Section: Billing",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-BIL-02",
+        "module": "Billing & Financials",
+        "title": "Inpatient (IPD) final billing reconciliation",
+        "description": "Aggregate room stay, procedures, lab investigations, and medications into a consolidated final bill.",
+        "source_excerpt_ref": "Section: Inpatient Billing",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-BIL-03",
+        "module": "Billing & Financials",
+        "title": "Insurance policy & claim management",
+        "description": "Record patient insurance policies, verify coverage, and track claim settlements.",
+        "source_excerpt_ref": "Section: Insurance",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-BIL-04",
+        "module": "Billing & Financials",
+        "title": "Payment receipts & transaction history",
+        "description": "Issue official payment receipts and maintain immutable transaction settlement histories.",
+        "source_excerpt_ref": "Section: Receipts",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-BIL-05",
+        "module": "Billing & Financials",
+        "title": "Hospital operational expense tracking",
+        "description": "Record and categorize hospital operational expenses, utility bills, and vendor disbursements.",
+        "source_excerpt_ref": "Section: Hospital Expenses",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-STF-01",
+        "module": "Staff Management",
+        "title": "Staff & department management",
+        "description": "Manage employee directory, department allocations, and clinical/administrative designations.",
+        "source_excerpt_ref": "Section: Staff Management",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-PRC-01",
+        "module": "Procurement & Inventory",
+        "title": "General hospital equipment & consumable procurement",
+        "description": "Track non-pharmacy hospital equipment, medical consumables, and purchase requisitions.",
+        "source_excerpt_ref": "Section: Inventory / Procurement",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-SEC-01",
+        "module": "Security & Access",
+        "title": "Role-based access control & authentication",
+        "description": "Enforce role-based authorization, secure authentication, password encryption, and session security.",
+        "source_excerpt_ref": "Section: Security / RBAC",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-AUD-01",
+        "module": "Audit & Compliance",
+        "title": "Comprehensive audit logging",
+        "description": "Log all user logins, medical record views, prescriptions, and billing edits for accountability.",
+        "source_excerpt_ref": "Section: Audit Logs",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-SYS-01",
+        "module": "System Reliability",
+        "title": "Data validation, error logging & backups",
+        "description": "Enforce input validation, centralized error logging, and regular automated database backups.",
+        "source_excerpt_ref": "Section: Data Validation / Backups",
+        "type": "functional",
+        "status": "extracted"
+      },
+      {
+        "req_id": "REQ-DSH-01",
+        "module": "Dashboards & Reporting",
+        "title": "Operational dashboards, search & notifications",
+        "description": "Provide role-tailored dashboards, multi-criteria global search, and automated alert notifications.",
+        "source_excerpt_ref": "Section: Dashboards / Reports",
+        "type": "functional",
+        "status": "extracted"
+      }
+    ],
+    "personas": [
+      {
+        "persona_id": "P-RECEPTIONIST",
+        "name": "Receptionist",
+        "responsibilities": [
+          "Patient registration",
+          "Appointment scheduling",
+          "OPD Queue token issuance",
+          "Front-desk check-in"
+        ]
+      },
+      {
+        "persona_id": "P-DOCTOR",
+        "name": "Doctor",
+        "responsibilities": [
+          "Consultations",
+          "Diagnosis",
+          "Prescription orders",
+          "Clinical notes",
+          "Lab requests",
+          "Discharge clearance"
+        ]
+      },
+      {
+        "persona_id": "P-NURSE",
+        "name": "Nurse",
+        "responsibilities": [
+          "Vital signs recording",
+          "Nursing notes",
+          "Inpatient care tracking",
+          "Ward transfer assistance"
+        ]
+      },
+      {
+        "persona_id": "P-PHARMACIST",
+        "name": "Pharmacist",
+        "responsibilities": [
+          "Prescription verification",
+          "Medicine dispensing",
+          "Stock management",
+          "Expiry alerts"
+        ]
+      },
+      {
+        "persona_id": "P-LABTECH",
+        "name": "Lab Technician",
+        "responsibilities": [
+          "Sample collection",
+          "Diagnostic test entry",
+          "Result validation",
+          "Lab report publishing"
+        ]
+      },
+      {
+        "persona_id": "P-ACCOUNTANT",
+        "name": "Accountant",
+        "responsibilities": [
+          "Outpatient billing",
+          "Inpatient final billing",
+          "Insurance claims",
+          "Receipts",
+          "Hospital expenses"
+        ]
+      },
+      {
+        "persona_id": "P-ADMIN",
+        "name": "Admin",
+        "responsibilities": [
+          "User management",
+          "RBAC configuration",
+          "Staff directory",
+          "Procurement approvals",
+          "Audit log reviews",
+          "Backups"
+        ]
+      },
+      {
+        "persona_id": "P-PATIENT",
+        "name": "Patient",
+        "responsibilities": [
+          "Self-service portal access",
+          "Viewing appointments",
+          "Viewing prescriptions",
+          "Viewing lab reports",
+          "Viewing invoices"
+        ]
+      }
+    ],
+    "workflows": [
+      {
+        "workflow_id": "WF-OPD-01",
+        "name": "Outpatient (OPD) Consultation Workflow",
+        "steps": "Patient Registration \u2192 Appointment Scheduling \u2192 OPD Queue Token \u2192 Doctor Consultation \u2192 Diagnosis & Prescriptions \u2192 Lab / Pharmacy Orders \u2192 Outpatient Billing \u2192 Follow-up"
+      },
+      {
+        "workflow_id": "WF-IPD-01",
+        "name": "Inpatient (IPD) Admission-to-Discharge Workflow",
+        "steps": "Inpatient Admission Request \u2192 Bed & Ward Allocation \u2192 Clinical Treatment & Vitals Tracking \u2192 Diagnostic Investigations \u2192 Discharge Clearance & Summary \u2192 Final Billing Reconciliation"
+      }
+    ],
+    "stories": [
+      {
+        "story_id": "US-PAT-01",
+        "epic": "Patient Management",
+        "persona": "Receptionist",
+        "user_story": "As a Receptionist, I want to register a new patient with their full demographic and emergency contact details, so that a unique medical record is established in the hospital directory.",
+        "capability": "register a new patient with their full demographic and emergency contact details",
+        "business_value": "Unique patient identification prevents duplicate files and speeds up all future encounters.",
+        "priority": "High",
+        "acceptance_criteria": [
+          "AC1: Form captures full name, DOB, gender, phone number, address, and primary emergency contact.",
+          "AC2: System checks for duplicate profiles matching phone number or national identity.",
+          "AC3: System assigns a unique, sequential, permanent Patient ID upon successful registration.",
+          "AC4: The newly registered patient record is immediately searchable across all hospital modules."
+        ],
+        "dependencies": [
+          "US-SEC-01"
+        ],
+        "source_requirement": "REQ-PAT-01",
+        "source_req_ids": [
+          "REQ-PAT-01"
+        ]
+      },
+      {
+        "story_id": "US-PAT-02",
+        "epic": "Patient Management",
+        "persona": "Receptionist",
+        "user_story": "As a Receptionist, I want to update patient demographic and contact information, so that patient records remain accurate and up to date.",
+        "capability": "update patient demographic and contact information",
+        "business_value": "Accurate patient contact information ensures dependable appointment notifications and communications.",
+        "priority": "Medium",
+        "acceptance_criteria": [
+          "AC1: Receptionist can search by Patient ID or name to open the editable demographic profile.",
+          "AC2: Contact phone and address updates are validated for format integrity before saving.",
+          "AC3: All profile edits are timestamped and attributed to the editing receptionist account."
+        ],
+        "dependencies": [
+          "US-PAT-01"
+        ],
+        "source_requirement": "REQ-PAT-02",
+        "source_req_ids": [
+          "REQ-PAT-02"
+        ]
+      },
+      {
+        "story_id": "US-PAT-03",
+        "epic": "Patient Portal",
+        "persona": "Patient",
+        "user_story": "As a Patient, I want to log into my self-service portal to view my appointments, prescriptions, lab reports, and billing history, so that I can manage my healthcare journey transparently.",
+        "capability": "log into my self-service portal to view my appointments, prescriptions, lab reports, and billing history",
+        "business_value": "Patient empowerment reduces front-desk phone inquiries and improves treatment adherence.",
+        "priority": "Medium",
+        "acceptance_criteria": [
+          "AC1: Patient logs in securely using registered phone/email and password credentials.",
+          "AC2: Portal displays categorized tabs for Appointments, Prescriptions, Lab Reports, and Invoices.",
+          "AC3: Reports and invoices can be viewed online or downloaded as PDF documents."
+        ],
+        "dependencies": [
+          "US-PAT-01",
+          "US-SEC-01"
+        ],
+        "source_requirement": "REQ-PAT-03",
+        "source_req_ids": [
+          "REQ-PAT-03"
+        ]
+      },
+      {
+        "story_id": "US-APT-01",
+        "epic": "Appointment Scheduling",
+        "persona": "Doctor",
+        "user_story": "As a Doctor, I want to configure my consultation working hours, slot durations, and planned leaves, so that receptionists and patients only book available consultation slots.",
+        "capability": "configure my consultation working hours, slot durations, and planned leaves",
+        "business_value": "Prevents clinical scheduling conflicts and double-booking.",
+        "priority": "High",
+        "acceptance_criteria": [
+          "AC1: Doctor can define recurring weekly shift timings and consultation slot lengths (e.g. 15 mins).",
+          "AC2: Doctor can block specific dates/times for surgeries, rounds, or planned leave.",
+          "AC3: Schedule updates instantly adjust the available booking calendar across the system."
+        ],
+        "dependencies": [
+          "US-SEC-01"
+        ],
+        "source_requirement": "REQ-APT-01",
+        "source_req_ids": [
+          "REQ-APT-01"
+        ]
+      },
+      {
+        "story_id": "US-APT-02",
+        "epic": "Appointment Scheduling",
+        "persona": "Receptionist",
+        "user_story": "As a Receptionist, I want to schedule outpatient appointments by selecting an available doctor time slot, so that patient visits are planned efficiently.",
+        "capability": "schedule outpatient appointments by selecting an available doctor time slot",
+        "business_value": "Minimizes patient waiting room congestion through scheduled consultation intervals.",
+        "priority": "High",
+        "acceptance_criteria": [
+          "AC1: System presents open time slots based on doctor availability schedules.",
+          "AC2: Booking captures patient ID, doctor ID, consultation reason, and booking timestamp.",
+          "AC3: System locks the slot and prevents double-booking the same physician at the same time."
+        ],
+        "dependencies": [
+          "US-PAT-01",
+          "US-APT-01"
+        ],
+        "source_requirement": "REQ-APT-02",
+        "source_req_ids": [
+          "REQ-APT-02"
+        ]
+      },
+      {
+        "story_id": "US-APT-03",
+        "epic": "Appointment Scheduling",
+        "persona": "Doctor",
+        "user_story": "As a Doctor, I want to view my daily appointment schedule on a clinical dashboard, so that I can organize my consultation workflow and prepare for arriving patients.",
+        "capability": "view my daily appointment schedule on a clinical dashboard",
+        "business_value": "Provides doctors with actionable visibility of upcoming patient visits.",
+        "priority": "High",
+        "acceptance_criteria": [
+          "AC1: Dashboard lists all scheduled patients chronologically for the selected date.",
+          "AC2: Displays patient name, age, appointment time, and arrival status (Booked / Checked-In).",
+          "AC3: Doctor can click on any patient row to open their clinical encounter chart."
+        ],
+        "dependencies": [
+          "US-APT-02"
+        ],
+        "source_requirement": "REQ-APT-03",
+        "source_req_ids": [
+          "REQ-APT-03"
+        ]
+      },
+      {
+        "story_id": "US-QUE-01",
+        "epic": "Queue Management",
+        "persona": "Receptionist",
+        "user_story": "As a Receptionist, I want to check in arriving patients and generate sequential OPD queue tokens, so that outpatient consultation rooms maintain an orderly physical queue.",
+        "capability": "check in arriving patients and generate sequential OPD queue tokens",
+        "business_value": "Eliminates front-desk confusion and provides patients with transparent waiting queue positions.",
+        "priority": "High",
+        "acceptance_criteria": [
+          "AC1: Check-in assigns a sequential token number (e.g. T-01, T-02) tied to the assigned doctor.",
+          "AC2: System updates queue status: 'Waiting' \u2192 'Called' \u2192 'In Consultation' \u2192 'Completed'.",
+          "AC3: Waiting room screens display active token calls in real time."
+        ],
+        "dependencies": [
+          "US-APT-02"
+        ],
+        "source_requirement": "REQ-APT-04",
+        "source_req_ids": [
+          "REQ-APT-04"
+        ]
+      },
+      {
+        "story_id": "US-IPD-01",
+        "epic": "Inpatient Management",
+        "persona": "Doctor",
+        "user_story": "As a Doctor, I want to initiate a formal inpatient admission order with admitting diagnosis and clinical rationale, so that outpatients or emergency cases are transitioned into ward care.",
+        "capability": "initiate a formal inpatient admission order with admitting diagnosis and clinical rationale",
+        "business_value": "Formalizes inpatient admission accountability and initiates inpatient clinical workflows.",
+        "priority": "High",
+        "acceptance_criteria": [
+          "AC1: Admission form captures admitting doctor, initial diagnosis, admission category, and priority.",
+          "AC2: Patient status updates to 'Admitted' in the central registry.",
+          "AC3: System triggers a bed allocation task to the inpatient ward desk."
+        ],
+        "dependencies": [
+          "US-PAT-01",
+          "US-SEC-01"
+        ],
+        "source_requirement": "REQ-IPD-01",
+        "source_req_ids": [
+          "REQ-IPD-01"
+        ]
+      },
+      {
+        "story_id": "US-IPD-02",
+        "epic": "Inpatient Management",
+        "persona": "Nurse",
+        "user_story": "As a Nurse, I want to view real-time ward bed occupancy and assign an available bed to an admitted patient, so that patients are accommodated in appropriate care units.",
+        "capability": "view real-time ward bed occupancy and assign an available bed to an admitted patient",
+        "business_value": "Optimizes hospital bed utilization and ensures proper clinical ward placement.",
+        "priority": "High",
+        "acceptance_criteria": [
+          "AC1: System displays visual ward layout with bed statuses: 'Available', 'Occupied', 'Cleaning'.",
+          "AC2: System prevents assigning occupied or uncleaned beds.",
+          "AC3: Selected bed is reserved and linked to the active inpatient admission record."
+        ],
+        "dependencies": [
+          "US-IPD-01"
+        ],
+        "source_requirement": "REQ-IPD-02",
+        "source_req_ids": [
+          "REQ-IPD-02"
+        ]
+      },
+      {
+        "story_id": "US-IPD-03",
+        "epic": "Inpatient Management",
+        "persona": "Nurse",
+        "user_story": "As a Nurse, I want to record patient bed or ward transfers with transfer reasons and timestamps, so that patient physical location and differential room rates are tracked accurately.",
+        "capability": "record patient bed or ward transfers with transfer reasons and timestamps",
+        "business_value": "Maintains accurate clinical location tracking and differential room billing calculations.",
+        "priority": "Medium",
+        "acceptance_criteria": [
+          "AC1: Form accepts origin bed, destination bed, transfer reason, and transfer timestamp.",
+          "AC2: Origin bed is released to 'Cleaning' and destination bed marked 'Occupied'.",
+          "AC3: Transfer history is logged in the admission chart for billing calculation."
+        ],
+        "dependencies": [
+          "US-IPD-02"
+        ],
+        "source_requirement": "REQ-IPD-03",
+        "source_req_ids": [
+          "REQ-IPD-03"
+        ]
+      },
+      {
+        "story_id": "US-IPD-04",
+        "epic": "Inpatient Management",
+        "persona": "Doctor",
+        "user_story": "As a Doctor, I want to authorize clinical discharge and author a structured discharge summary, so that inpatient treatment is formally closed and final billing can proceed.",
+        "capability": "authorize clinical discharge and author a structured discharge summary",
+        "business_value": "Ensures proper medical sign-off and patient handover instructions prior to discharge.",
+        "priority": "High",
+        "acceptance_criteria": [
+          "AC1: Doctor enters final diagnosis, clinical course, condition at discharge, and follow-up advice.",
+          "AC2: Bed status transitions to vacated and queued for sanitization.",
+          "AC3: System locks clinical ordering and notifies the billing desk for final reconciliation."
+        ],
+        "dependencies": [
+          "US-IPD-01",
+          "US-IPD-02"
+        ],
+        "source_requirement": "REQ-IPD-04",
+        "source_req_ids": [
+          "REQ-IPD-04"
+        ]
+      },
+      {
+        "story_id": "US-EMR-01",
+        "epic": "Clinical & EMR",
+        "persona": "Doctor",
+        "user_story": "As a Doctor, I want to record chief complaints, clinical observations, diagnoses, and treatment plans during consultations, so that a complete encounter record is documented.",
+        "capability": "record chief complaints, clinical observations, diagnoses, and treatment plans during consultations",
+        "business_value": "Maintains an accurate, legally compliant medical record for every clinical visit.",
+        "priority": "High",
+        "acceptance_criteria": [
+          "AC1: Clinical form captures chief complaints, history of present illness, and ICD diagnoses.",
+          "AC2: Clinical notes are permanently timestamped and digitally attributed to the doctor.",
+          "AC3: Saved encounter notes are immediately accessible in the patient's EMR timeline."
+        ],
+        "dependencies": [
+          "US-PAT-01",
+          "US-SEC-01"
+        ],
+        "source_requirement": "REQ-EMR-01",
+        "source_req_ids": [
+          "REQ-EMR-01"
+        ]
+      },
+      {
+        "story_id": "US-EMR-02",
+        "epic": "Clinical & EMR",
+        "persona": "Doctor",
+        "user_story": "As a Doctor, I want to record known patient allergies and have the system warn me if I prescribe a contraindicated drug, so that adverse drug reactions are prevented.",
+        "capability": "record known patient allergies and have the system warn me if I prescribe a contraindicated drug",
+        "business_value": "Eliminates preventable prescription errors and protects patient safety.",
+        "priority": "High",
+        "acceptance_criteria": [
+          "AC1: Captures allergen name, reaction severity (Mild, Moderate, Severe), and date observed.",
+          "AC2: Displays high-visibility allergy badge on the patient chart header.",
+          "AC3: System triggers an audible/visual warning if a prescribed drug conflicts with documented allergies."
+        ],
+        "dependencies": [
+          "US-PAT-01"
+        ],
+        "source_requirement": "REQ-EMR-02",
+        "source_req_ids": [
+          "REQ-EMR-02"
+        ]
+      },
+      {
+        "story_id": "US-EMR-03",
+        "epic": "Clinical & EMR",
+        "persona": "Nurse",
+        "user_story": "As a Nurse, I want to record patient vital signs (BP, heart rate, temperature, SpO2) and nursing notes, so that patient physiological status is tracked continuously.",
+        "capability": "record patient vital signs (BP, heart rate, temperature, SpO2) and nursing notes",
+        "business_value": "Enables timely detection of patient clinical deterioration.",
+        "priority": "High",
+        "acceptance_criteria": [
+          "AC1: Form accepts standard numeric vital readings for BP, Pulse, Temperature, SpO2, and Resp Rate.",
+          "AC2: Readings outside standard physiological ranges are highlighted in red.",
+          "AC3: Chronological vitals trend chart is rendered in the patient chart."
+        ],
+        "dependencies": [
+          "US-PAT-01"
+        ],
+        "source_requirement": "REQ-EMR-03",
+        "source_req_ids": [
+          "REQ-EMR-03"
+        ]
+      },
+      {
+        "story_id": "US-EMR-04",
+        "epic": "Clinical & EMR",
+        "persona": "Doctor",
+        "user_story": "As a Doctor, I want to view an integrated chronological timeline of all past consultations, admissions, lab results, and medications, so that I have complete historical context.",
+        "capability": "view an integrated chronological timeline of all past consultations, admissions, lab results, and medications",
+        "business_value": "Provides longitudinal medical context for accurate clinical decision-making.",
+        "priority": "High",
+        "acceptance_criteria": [
+          "AC1: Timeline displays chronological visits, admissions, procedures, and tests.",
+          "AC2: Quick filters allow narrowing history by encounter type, date range, or specialty.",
+          "AC3: Past clinical entries are strictly read-only to preserve legal integrity."
+        ],
+        "dependencies": [
+          "US-EMR-01",
+          "US-EMR-03"
+        ],
+        "source_requirement": "REQ-EMR-04",
+        "source_req_ids": [
+          "REQ-EMR-04"
+        ]
+      },
+      {
+        "story_id": "US-LAB-01",
+        "epic": "Laboratory",
+        "persona": "Doctor",
+        "user_story": "As a Doctor, I want to order diagnostic laboratory tests from the clinical encounter screen, so that the laboratory receives structured diagnostic test orders.",
+        "capability": "order diagnostic laboratory tests from the clinical encounter screen",
+        "business_value": "Eliminates paper lab slips and accelerates diagnostic turnaround times.",
+        "priority": "High",
+        "acceptance_criteria": [
+          "AC1: Doctor selects investigations from the hospital's standardized laboratory test catalog.",
+          "AC2: Order captures clinical indication, urgency (Routine / Stat), and ordering physician ID.",
+          "AC3: Order is dispatched instantly to the laboratory technician worklist."
+        ],
+        "dependencies": [
+          "US-EMR-01"
+        ],
+        "source_requirement": "REQ-LAB-01",
+        "source_req_ids": [
+          "REQ-LAB-01"
+        ]
+      },
+      {
+        "story_id": "US-LAB-02",
+        "epic": "Laboratory",
+        "persona": "Lab Technician",
+        "user_story": "As a Lab Technician, I want to record specimen collection and enter test findings against standard reference ranges, so that diagnostic results are validated.",
+        "capability": "record specimen collection and enter test findings against standard reference ranges",
+        "business_value": "Ensures laboratory findings are accurately recorded and abnormal values are flagged.",
+        "priority": "High",
+        "acceptance_criteria": [
+          "AC1: Technician logs specimen barcode ID, collection timestamp, and sample condition.",
+          "AC2: Form accepts quantitative findings and automatically highlights out-of-range values.",
+          "AC3: Result entry requires technician sign-off before report generation."
+        ],
+        "dependencies": [
+          "US-LAB-01"
+        ],
+        "source_requirement": "REQ-LAB-02",
+        "source_req_ids": [
+          "REQ-LAB-02"
+        ]
+      },
+      {
+        "story_id": "US-LAB-03",
+        "epic": "Laboratory",
+        "persona": "Lab Technician",
+        "user_story": "As a Lab Technician, I want to publish finalized diagnostic lab reports to the patient chart and portal, so that physicians and patients can review test outcomes.",
+        "capability": "publish finalized diagnostic lab reports to the patient chart and portal",
+        "business_value": "Provides immediate electronic access to verified diagnostic findings.",
+        "priority": "Medium",
+        "acceptance_criteria": [
+          "AC1: Lab technician signs off and finalizes the diagnostic report.",
+          "AC2: Finalized report is published immediately to the patient chart and patient portal.",
+          "AC3: System generates printable PDF lab reports with hospital letterhead and reference ranges."
+        ],
+        "dependencies": [
+          "US-LAB-02"
+        ],
+        "source_requirement": "REQ-LAB-03",
+        "source_req_ids": [
+          "REQ-LAB-03"
+        ]
+      },
+      {
+        "story_id": "US-PHM-01",
+        "epic": "Pharmacy",
+        "persona": "Pharmacist",
+        "user_story": "As a Pharmacist, I want to view electronic prescriptions and dispense prescribed medications with verified dosage instructions, so that patients receive correct medications.",
+        "capability": "view electronic prescriptions and dispense prescribed medications with verified dosage instructions",
+        "business_value": "Eliminates prescription transcription errors and verifies medication safety.",
+        "priority": "High",
+        "acceptance_criteria": [
+          "AC1: Pharmacist queue displays pending prescriptions with patient name, medicine, dosage, and duration.",
+          "AC2: Pharmacist verifies dosage and flags any dispensing notes.",
+          "AC3: Confirming dispensing updates prescription status to 'Dispensed'."
+        ],
+        "dependencies": [
+          "US-EMR-01"
+        ],
+        "source_requirement": "REQ-PHARM-01",
+        "source_req_ids": [
+          "REQ-PHARM-01"
+        ]
+      },
+      {
+        "story_id": "US-PHM-02",
+        "epic": "Pharmacy",
+        "persona": "Pharmacist",
+        "user_story": "As a Pharmacist, I want medicine inventory stock quantities to automatically decrement upon dispensing, so that stock records reflect live availability.",
+        "capability": "medicine inventory stock quantities to automatically decrement upon dispensing",
+        "business_value": "Prevents inventory discrepancies and manual stock ledger reconciliations.",
+        "priority": "High",
+        "acceptance_criteria": [
+          "AC1: Dispensing confirmation immediately deducts dispensed unit counts from the inventory database.",
+          "AC2: System blocks dispensing if requested count exceeds available physical stock.",
+          "AC3: Every stock decrement is logged with timestamp, prescription ID, and pharmacist ID."
+        ],
+        "dependencies": [
+          "US-PHM-01"
+        ],
+        "source_requirement": "REQ-PHARM-02",
+        "source_req_ids": [
+          "REQ-PHARM-02"
+        ]
+      },
+      {
+        "story_id": "US-PHM-03",
+        "epic": "Pharmacy",
+        "persona": "Pharmacist",
+        "user_story": "As a Pharmacist, I want to track medicine batch numbers and expiration dates with automated expiry warnings, so that expired medicines are never dispensed.",
+        "capability": "track medicine batch numbers and expiration dates with automated expiry warnings",
+        "business_value": "Protects patient health by enforcing First-Expiry-First-Out (FEFO) dispensing rules.",
+        "priority": "High",
+        "acceptance_criteria": [
+          "AC1: Stock records track batch number, manufacturing date, and expiry date for each drug.",
+          "AC2: Dashboard displays active alerts for batches expiring within 30, 60, and 90 days.",
+          "AC3: System strictly blocks selection of expired batches during prescription fulfillment."
+        ],
+        "dependencies": [
+          "US-PHM-01"
+        ],
+        "source_requirement": "REQ-PHARM-03",
+        "source_req_ids": [
+          "REQ-PHARM-03"
+        ]
+      },
+      {
+        "story_id": "US-PHM-04",
+        "epic": "Pharmacy",
+        "persona": "Pharmacist",
+        "user_story": "As a Pharmacist, I want to receive automated low-stock threshold alerts and generate replenishment lists, so that essential medicines never stock out.",
+        "capability": "receive automated low-stock threshold alerts and generate replenishment lists",
+        "business_value": "Guarantees continuous availability of life-saving pharmaceutical supplies.",
+        "priority": "Medium",
+        "acceptance_criteria": [
+          "AC1: Minimum reorder threshold quantities can be configured per medicine.",
+          "AC2: System alerts pharmacist when stock dips below minimum reorder level.",
+          "AC3: Generates exportable purchase requisition lists for depleted inventory items."
+        ],
+        "dependencies": [
+          "US-PHM-02"
+        ],
+        "source_requirement": "REQ-PHARM-04",
+        "source_req_ids": [
+          "REQ-PHARM-04"
+        ]
+      },
+      {
+        "story_id": "US-BIL-01",
+        "epic": "Billing & Financials",
+        "persona": "Accountant",
+        "user_story": "As an Accountant, I want to generate itemized invoices for outpatient consultations, lab tests, and pharmacy orders, so that outpatient revenue is billed accurately.",
+        "capability": "generate itemized invoices for outpatient consultations, lab tests, and pharmacy orders",
+        "business_value": "Ensures rapid, transparent billing collection at outpatient points of service.",
+        "priority": "High",
+        "acceptance_criteria": [
+          "AC1: System auto-populates billing line items from consultation fees, lab orders, and pharmacy issues.",
+          "AC2: Accountant can apply authorized discounts and select payment modes (Cash / Card / Digital).",
+          "AC3: Invoice generation updates balance due and issues an official invoice number."
+        ],
+        "dependencies": [
+          "US-PAT-01",
+          "US-SEC-01"
+        ],
+        "source_requirement": "REQ-BIL-01",
+        "source_req_ids": [
+          "REQ-BIL-01"
+        ]
+      },
+      {
+        "story_id": "US-BIL-02",
+        "epic": "Billing & Financials",
+        "persona": "Accountant",
+        "user_story": "As an Accountant, I want to consolidate room stay charges, doctor rounds, procedures, tests, and medications into a final inpatient invoice upon discharge, so that revenue is reconciled.",
+        "capability": "consolidate room stay charges, doctor rounds, procedures, tests, and medications into a final inpatient invoice upon discharge",
+        "business_value": "Eliminates unbilled inpatient hospital services upon patient discharge.",
+        "priority": "High",
+        "acceptance_criteria": [
+          "AC1: Calculates room/bed charges based on stay duration and bed transfer history.",
+          "AC2: Aggregates all clinical procedures, investigations, nursing charges, and medications.",
+          "AC3: Reconciles advance deposits against final total balance before discharge clearance."
+        ],
+        "dependencies": [
+          "US-IPD-04",
+          "US-BIL-01"
+        ],
+        "source_requirement": "REQ-BIL-02",
+        "source_req_ids": [
+          "REQ-BIL-02"
+        ]
+      },
+      {
+        "story_id": "US-BIL-03",
+        "epic": "Billing & Financials",
+        "persona": "Accountant",
+        "user_story": "As an Accountant, I want to record patient insurance policy details, verify coverage, and track insurance claim settlements, so that co-pays and insurance balances are split correctly.",
+        "capability": "record patient insurance policy details, verify coverage, and track insurance claim settlements",
+        "business_value": "Accelerates insurance claim reimbursement and clarifies patient out-of-pocket costs.",
+        "priority": "High",
+        "acceptance_criteria": [
+          "AC1: Form captures insurance provider, policy number, pre-authorization code, and co-pay %.",
+          "AC2: System splits final invoice into patient payable portion and insurer claim amount.",
+          "AC3: Tracks claim status transitions: 'Submitted' \u2192 'Approved' \u2192 'Settled' \u2192 'Rejected'."
+        ],
+        "dependencies": [
+          "US-BIL-01"
+        ],
+        "source_requirement": "REQ-BIL-03",
+        "source_req_ids": [
+          "REQ-BIL-03"
+        ]
+      },
+      {
+        "story_id": "US-BIL-04",
+        "epic": "Billing & Financials",
+        "persona": "Accountant",
+        "user_story": "As an Accountant, I want to generate official payment receipts and review past billing transaction histories, so that financial transactions are auditable.",
+        "capability": "generate official payment receipts and review past billing transaction histories",
+        "business_value": "Provides patients with proof of payment and maintains auditable transaction records.",
+        "priority": "Medium",
+        "acceptance_criteria": [
+          "AC1: System prints official receipt with receipt number, payment mode, tax breakdown, and cashier name.",
+          "AC2: Patients can view and download all past receipts from the patient portal.",
+          "AC3: Maintains immutable payment transaction logs that cannot be modified."
+        ],
+        "dependencies": [
+          "US-BIL-01"
+        ],
+        "source_requirement": "REQ-BIL-04",
+        "source_req_ids": [
+          "REQ-BIL-04"
+        ]
+      },
+      {
+        "story_id": "US-BIL-05",
+        "epic": "Billing & Financials",
+        "persona": "Accountant",
+        "user_story": "As an Accountant, I want to record and categorize hospital operational expenses (utilities, supplier bills, maintenance), so that hospital cash outflows are tracked.",
+        "capability": "record and categorize hospital operational expenses (utilities, supplier bills, maintenance)",
+        "business_value": "Provides comprehensive financial oversight over hospital operational expenses.",
+        "priority": "Medium",
+        "acceptance_criteria": [
+          "AC1: Form records expense category, vendor name, invoice reference, payment date, and amount.",
+          "AC2: Requires administrative approval for expense vouchers exceeding threshold limits.",
+          "AC3: Generates monthly hospital operational expenditure summary reports."
+        ],
+        "dependencies": [
+          "US-SEC-01"
+        ],
+        "source_requirement": "REQ-BIL-05",
+        "source_req_ids": [
+          "REQ-BIL-05"
+        ]
+      },
+      {
+        "story_id": "US-STF-01",
+        "epic": "Staff Management",
+        "persona": "Admin",
+        "user_story": "As an Admin, I want to manage staff profiles, department assignments, and job designations, so that hospital human resource records are organized.",
+        "capability": "manage staff profiles, department assignments, and job designations",
+        "business_value": "Establishes clean organizational directory for clinical and administrative staff.",
+        "priority": "High",
+        "acceptance_criteria": [
+          "AC1: Admin can create, view, update, and deactivate employee records.",
+          "AC2: Assigns staff members to clinical, nursing, pharmacy, lab, or administrative departments.",
+          "AC3: Staff directory is searchable by name, designation, and department."
+        ],
+        "dependencies": [
+          "US-SEC-01"
+        ],
+        "source_requirement": "REQ-STF-01",
+        "source_req_ids": [
+          "REQ-STF-01"
+        ]
+      },
+      {
+        "story_id": "US-PRC-01",
+        "epic": "Procurement & Inventory",
+        "persona": "Admin",
+        "user_story": "As an Admin, I want to track non-pharmacy hospital equipment, medical consumables, and purchase requisitions, so that hospital equipment is maintained.",
+        "capability": "track non-pharmacy hospital equipment, medical consumables, and purchase requisitions",
+        "business_value": "Ensures non-pharmacy consumables and biomedical equipment are replenished on schedule.",
+        "priority": "Medium",
+        "acceptance_criteria": [
+          "AC1: Tracks hospital physical assets, serial numbers, maintenance schedules, and consumable levels.",
+          "AC2: Department heads can submit purchase requests for supplies.",
+          "AC3: Admin can review and approve purchase orders."
+        ],
+        "dependencies": [
+          "US-SEC-01"
+        ],
+        "source_requirement": "REQ-PRC-01",
+        "source_req_ids": [
+          "REQ-PRC-01"
+        ]
+      },
+      {
+        "story_id": "US-SEC-01",
+        "epic": "Security & Access",
+        "persona": "Admin",
+        "user_story": "As an Admin, I want to enforce role-based access control, secure authentication, password encryption, and session management, so that medical and financial records are protected.",
+        "capability": "enforce role-based access control, secure authentication, password encryption, and session management",
+        "business_value": "Protects sensitive patient data and enforces least-privilege security principles.",
+        "priority": "High",
+        "acceptance_criteria": [
+          "AC1: System enforces role permissions for Admin, Doctor, Nurse, Receptionist, Pharmacist, Lab Tech, Accountant, and Patient.",
+          "AC2: Passwords are encrypted using modern hashing algorithms and authenticated with secure session tokens.",
+          "AC3: Unauthorized API requests are blocked with HTTP 401/403 status codes."
+        ],
+        "dependencies": [],
+        "source_requirement": "REQ-SEC-01",
+        "source_req_ids": [
+          "REQ-SEC-01"
+        ]
+      },
+      {
+        "story_id": "US-AUD-01",
+        "epic": "Audit & Compliance",
+        "persona": "Admin",
+        "user_story": "As an Admin, I want to review comprehensive, immutable audit logs of user logins, medical record views, prescriptions, and billing actions, so that hospital activities are accountable.",
+        "capability": "review comprehensive, immutable audit logs of user logins, medical record views, prescriptions, and billing actions",
+        "business_value": "Enforces institutional accountability and satisfies regulatory compliance standards.",
+        "priority": "High",
+        "acceptance_criteria": [
+          "AC1: System logs timestamp, user ID, role, action type, resource ID, and client IP address.",
+          "AC2: Audit logs are append-only and protected against modification or deletion.",
+          "AC3: Admin can filter audit logs by date range, user, action, and module."
+        ],
+        "dependencies": [
+          "US-SEC-01"
+        ],
+        "source_requirement": "REQ-AUD-01",
+        "source_req_ids": [
+          "REQ-AUD-01"
+        ]
+      },
+      {
+        "story_id": "US-SYS-01",
+        "epic": "System Reliability",
+        "persona": "Admin",
+        "user_story": "As an Admin, I want the system to enforce data validation, automated error logging, and regular database backups, so that system stability and data integrity are maintained.",
+        "capability": "the system to enforce data validation, automated error logging, and regular database backups",
+        "business_value": "Guarantees platform resilience, data preservation, and rapid disaster recovery.",
+        "priority": "High",
+        "acceptance_criteria": [
+          "AC1: Server-side validation rejects malformed payloads with descriptive error responses.",
+          "AC2: Unhandled exceptions are logged with stack traces for engineering diagnosis.",
+          "AC3: Automated daily database backup routines execute and verify archive integrity."
+        ],
+        "dependencies": [
+          "US-SEC-01"
+        ],
+        "source_requirement": "REQ-SYS-01",
+        "source_req_ids": [
+          "REQ-SYS-01"
+        ]
+      },
+      {
+        "story_id": "US-DSH-01",
+        "epic": "Dashboards & Reporting",
+        "persona": "Admin",
+        "user_story": "As an Admin, I want to view executive dashboards, generate hospital reports, search across modules, and receive alert notifications, so that management has actionable operational intelligence.",
+        "capability": "view executive dashboards, generate hospital reports, search across modules, and receive alert notifications",
+        "business_value": "Provides executive visibility across clinical occupancy, operational revenue, and hospital throughput.",
+        "priority": "Medium",
+        "acceptance_criteria": [
+          "AC1: Executive dashboard visualizes bed occupancy rates, revenue metrics, and patient visit volumes.",
+          "AC2: Global search allows multi-criteria filtering across patients, staff, invoices, and lab tests.",
+          "AC3: Automated notifications alert users to appointment bookings, critical lab findings, and stock thresholds."
+        ],
+        "dependencies": [
+          "US-SEC-01",
+          "US-PAT-01",
+          "US-BIL-01"
+        ],
+        "source_requirement": "REQ-DSH-01",
+        "source_req_ids": [
+          "REQ-DSH-01"
+        ]
+      }
+    ],
+    "traceability": [
+      {
+        "req_id": "REQ-PAT-01",
+        "requirement_title": "Patient registration",
+        "module": "Patient Management",
+        "story_ids": [
+          "US-PAT-01"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-PAT-02",
+        "requirement_title": "Patient profile management",
+        "module": "Patient Management",
+        "story_ids": [
+          "US-PAT-02"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-PAT-03",
+        "requirement_title": "Patient portal profile & history access",
+        "module": "Patient Management",
+        "story_ids": [
+          "US-PAT-03"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-APT-01",
+        "requirement_title": "Doctor availability scheduling",
+        "module": "Appointment Scheduling",
+        "story_ids": [
+          "US-APT-01"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-APT-02",
+        "requirement_title": "Appointment booking",
+        "module": "Appointment Scheduling",
+        "story_ids": [
+          "US-APT-02"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-APT-03",
+        "requirement_title": "Doctor appointment dashboard",
+        "module": "Appointment Scheduling",
+        "story_ids": [
+          "US-APT-03"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-APT-04",
+        "requirement_title": "OPD queue & token management",
+        "module": "Queue Management",
+        "story_ids": [
+          "US-QUE-01"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-IPD-01",
+        "requirement_title": "Inpatient admission request & recording",
+        "module": "Inpatient Management",
+        "story_ids": [
+          "US-IPD-01"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-IPD-02",
+        "requirement_title": "Bed and ward allocation",
+        "module": "Inpatient Management",
+        "story_ids": [
+          "US-IPD-02"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-IPD-03",
+        "requirement_title": "Patient bed/ward transfer",
+        "module": "Inpatient Management",
+        "story_ids": [
+          "US-IPD-03"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-IPD-04",
+        "requirement_title": "Patient clinical discharge & summary",
+        "module": "Inpatient Management",
+        "story_ids": [
+          "US-IPD-04"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-EMR-01",
+        "requirement_title": "Clinical notes & diagnosis documentation",
+        "module": "Clinical & EMR",
+        "story_ids": [
+          "US-EMR-01"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-EMR-02",
+        "requirement_title": "Allergy & adverse reaction management",
+        "module": "Clinical & EMR",
+        "story_ids": [
+          "US-EMR-02"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-EMR-03",
+        "requirement_title": "Vital signs & nursing notes",
+        "module": "Clinical & EMR",
+        "story_ids": [
+          "US-EMR-03"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-EMR-04",
+        "requirement_title": "Integrated treatment history timeline",
+        "module": "Clinical & EMR",
+        "story_ids": [
+          "US-EMR-04"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-LAB-01",
+        "requirement_title": "Laboratory test ordering",
+        "module": "Laboratory",
+        "story_ids": [
+          "US-LAB-01"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-LAB-02",
+        "requirement_title": "Specimen collection & result entry",
+        "module": "Laboratory",
+        "story_ids": [
+          "US-LAB-02"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-LAB-03",
+        "requirement_title": "Diagnostic report publishing",
+        "module": "Laboratory",
+        "story_ids": [
+          "US-LAB-03"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-PHARM-01",
+        "requirement_title": "Electronic prescription dispensing",
+        "module": "Pharmacy",
+        "story_ids": [
+          "US-PHM-01"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-PHARM-02",
+        "requirement_title": "Automated inventory stock decrement",
+        "module": "Pharmacy",
+        "story_ids": [
+          "US-PHM-02"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-PHARM-03",
+        "requirement_title": "Medicine batch & expiration tracking",
+        "module": "Pharmacy",
+        "story_ids": [
+          "US-PHM-03"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-PHARM-04",
+        "requirement_title": "Low-stock replenishment alerts",
+        "module": "Pharmacy",
+        "story_ids": [
+          "US-PHM-04"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-BIL-01",
+        "requirement_title": "Outpatient (OPD) service invoicing",
+        "module": "Billing & Financials",
+        "story_ids": [
+          "US-BIL-01"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-BIL-02",
+        "requirement_title": "Inpatient (IPD) final billing reconciliation",
+        "module": "Billing & Financials",
+        "story_ids": [
+          "US-BIL-02"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-BIL-03",
+        "requirement_title": "Insurance policy & claim management",
+        "module": "Billing & Financials",
+        "story_ids": [
+          "US-BIL-03"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-BIL-04",
+        "requirement_title": "Payment receipts & transaction history",
+        "module": "Billing & Financials",
+        "story_ids": [
+          "US-BIL-04"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-BIL-05",
+        "requirement_title": "Hospital operational expense tracking",
+        "module": "Billing & Financials",
+        "story_ids": [
+          "US-BIL-05"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-STF-01",
+        "requirement_title": "Staff & department management",
+        "module": "Staff Management",
+        "story_ids": [
+          "US-STF-01"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-PRC-01",
+        "requirement_title": "General hospital equipment & consumable procurement",
+        "module": "Procurement & Inventory",
+        "story_ids": [
+          "US-PRC-01"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-SEC-01",
+        "requirement_title": "Role-based access control & authentication",
+        "module": "Security & Access",
+        "story_ids": [
+          "US-SEC-01"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-AUD-01",
+        "requirement_title": "Comprehensive audit logging",
+        "module": "Audit & Compliance",
+        "story_ids": [
+          "US-AUD-01"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-SYS-01",
+        "requirement_title": "Data validation, error logging & backups",
+        "module": "System Reliability",
+        "story_ids": [
+          "US-SYS-01"
+        ],
+        "status": "COVERED"
+      },
+      {
+        "req_id": "REQ-DSH-01",
+        "requirement_title": "Operational dashboards, search & notifications",
+        "module": "Dashboards & Reporting",
+        "story_ids": [
+          "US-DSH-01"
+        ],
+        "status": "COVERED"
+      }
+    ],
+    "validation": {
+      "quality": {
+        "is_valid": true,
+        "failed_count": 0,
+        "failed_stories": []
+      },
+      "completeness": {
+        "status": "COMPLETE",
+        "is_complete": true,
+        "total_requirements": 33,
+        "covered_requirements": 33,
+        "missing_req_ids": [],
+        "distinct_personas_count": 8,
+        "distinct_personas": [
+          "Receptionist",
+          "Lab Technician",
+          "Nurse",
+          "Pharmacist",
+          "Accountant",
+          "Patient",
+          "Doctor",
+          "Admin"
+        ],
+        "passed_min_reqs": true,
+        "passed_min_personas": true,
+        "passed_no_generic_personas": true
+      }
+    }
+  },
+  "quality_score": 95,
+  "verification_summary": null,
+  "conversation_id": null,
+  "pdf_export_url": "/api/v1/documents/8b97a726-5fda-4211-bd9a-60ecdc9b8549/export/pdf?title=Hospital Management System&type=USER_STORIES",
+  "changed_story_ids": [],
+  "added_story_ids": [
+    "US-PAT-01",
+    "US-PAT-02",
+    "US-PAT-03",
+    "US-APT-01",
+    "US-APT-02",
+    "US-APT-03",
+    "US-QUE-01",
+    "US-IPD-01",
+    "US-IPD-02",
+    "US-IPD-03",
+    "US-IPD-04",
+    "US-EMR-01",
+    "US-EMR-02",
+    "US-EMR-03",
+    "US-EMR-04",
+    "US-LAB-01",
+    "US-LAB-02",
+    "US-LAB-03",
+    "US-PHM-01",
+    "US-PHM-02",
+    "US-PHM-03",
+    "US-PHM-04",
+    "US-BIL-01",
+    "US-BIL-02",
+    "US-BIL-03",
+    "US-BIL-04",
+    "US-BIL-05",
+    "US-STF-01",
+    "US-PRC-01",
+    "US-SEC-01",
+    "US-AUD-01",
+    "US-SYS-01",
+    "US-DSH-01"
+  ],
+  "removed_story_ids": [],
+  "revision_history": [
+    {
+      "version": "v1.0",
+      "feedback": "Add lab and pharmacy stories",
+      "revised_at": "2026-08-31T19:08:37.833233+00:00",
+      "changed_story_ids": [],
+      "added_story_ids": [
+        "US-PAT-01",
+        "US-PAT-02",
+        "US-PAT-03",
+        "US-APT-01",
+        "US-APT-02",
+        "US-APT-03",
+        "US-QUE-01",
+        "US-IPD-01",
+        "US-IPD-02",
+        "US-IPD-03",
+        "US-IPD-04",
+        "US-EMR-01",
+        "US-EMR-02",
+        "US-EMR-03",
+        "US-EMR-04",
+        "US-LAB-01",
+        "US-LAB-02",
+        "US-LAB-03",
+        "US-PHM-01",
+        "US-PHM-02",
+        "US-PHM-03",
+        "US-PHM-04",
+        "US-BIL-01",
+        "US-BIL-02",
+        "US-BIL-03",
+        "US-BIL-04",
+        "US-BIL-05",
+        "US-STF-01",
+        "US-PRC-01",
+        "US-SEC-01",
+        "US-AUD-01",
+        "US-SYS-01",
+        "US-DSH-01"
+      ],
+      "removed_story_ids": []
+    }
+  ],
+  "_source_audit": {},
+  "_domain_profile": {},
+  "_doc_excerpt": ""
+}

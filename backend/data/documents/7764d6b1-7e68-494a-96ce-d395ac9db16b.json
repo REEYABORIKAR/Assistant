@@ -1,0 +1,46 @@
+{
+  "id": "7764d6b1-7e68-494a-96ce-d395ac9db16b",
+  "generation_id": "gen_7b1a3137",
+  "doc_type": "USER_STORIES",
+  "title": "Hospital Management System User Stories",
+  "version": "v1.0",
+  "version_num": 1,
+  "parent_version": null,
+  "parent_id": null,
+  "status": "REJECTED",
+  "created_at": "2026-08-30T10:12:00Z",
+  "sections": [
+    {
+      "title": "1. Overview",
+      "body": "Initial user story backlog."
+    }
+  ],
+  "user_stories_data": {
+    "requirements": [
+      {
+        "req_id": "REQ-PAT-01",
+        "module": "Patient Management",
+        "title": "Registration"
+      }
+    ],
+    "personas": [
+      {
+        "persona_id": "P-REC",
+        "name": "Receptionist",
+        "responsibilities": [
+          "Registration"
+        ]
+      }
+    ],
+    "stories": [
+      {
+        "story_id": "US-PAT-01",
+        "capability": "register patient",
+        "business_value": "unique record"
+      }
+    ],
+    "traceability": []
+  },
+  "rejection_feedback": "The pharmacy and billing stories are too broad. Split them further.",
+  "reviewed_at": "2026-08-31T18:55:57.154034+00:00"
+}

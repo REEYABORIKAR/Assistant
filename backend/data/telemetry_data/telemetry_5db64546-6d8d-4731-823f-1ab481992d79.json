@@ -1,0 +1,122 @@
+[
+  {
+    "id": "a8c53553-fdca-44cf-bdb9-895de1396e5d",
+    "timestamp": "2026-08-30T14:47:04.578819+00:00",
+    "operation": "CLAIM_VERIFICATION",
+    "model": "openai/gpt-oss-120b",
+    "prompt_tokens": 728,
+    "completion_tokens": 1472,
+    "total_tokens": 2200,
+    "cost_usd": 0.0022,
+    "latency_ms": 3385,
+    "status": "SUCCESS"
+  },
+  {
+    "id": "1fe116d8-7efb-403f-90b1-e81675f735d5",
+    "timestamp": "2026-08-30T14:47:01.191718+00:00",
+    "operation": "DOC_GENERATION",
+    "model": "qwen/qwen3.8-27b",
+    "prompt_tokens": 1079,
+    "completion_tokens": 966,
+    "total_tokens": 2045,
+    "cost_usd": 0.0006,
+    "latency_ms": 2682,
+    "status": "SUCCESS"
+  },
+  {
+    "id": "13c59789-c699-4104-8a21-093a8f1ad1b2",
+    "timestamp": "2026-08-30T13:47:01.191718+00:00",
+    "operation": "DOC_INTELLIGENCE_AUDIT",
+    "model": "qwen/qwen3.8-27b",
+    "prompt_tokens": 2400,
+    "completion_tokens": 1150,
+    "total_tokens": 3550,
+    "cost_usd": 0.00094,
+    "latency_ms": 320,
+    "status": "SUCCESS"
+  },
+  {
+    "id": "869e7b87-2f42-46de-9533-eee036015ed5",
+    "timestamp": "2026-08-30T09:47:01.191718+00:00",
+    "operation": "REQUIREMENT_VERIFICATION",
+    "model": "openai/gpt-oss-120b",
+    "prompt_tokens": 680,
+    "completion_tokens": 420,
+    "total_tokens": 1100,
+    "cost_usd": 0.00091,
+    "latency_ms": 365,
+    "status": "SUCCESS"
+  },
+  {
+    "id": "07730ae2-8584-46f9-889a-d23e021aedba",
+    "timestamp": "2026-08-30T05:47:01.191718+00:00",
+    "operation": "RISK_ASSESSMENT",
+    "model": "llama-3.3-70b-versatile",
+    "prompt_tokens": 1350,
+    "completion_tokens": 780,
+    "total_tokens": 2130,
+    "cost_usd": 0.0013,
+    "latency_ms": 410,
+    "status": "SUCCESS"
+  },
+  {
+    "id": "13d3fbba-ce41-48ce-a0b9-d13194389e24",
+    "timestamp": "2026-08-30T01:47:01.191718+00:00",
+    "operation": "COPILOT_CHAT",
+    "model": "qwen/qwen3.8-27b",
+    "prompt_tokens": 850,
+    "completion_tokens": 390,
+    "total_tokens": 1240,
+    "cost_usd": 0.00033,
+    "latency_ms": 455,
+    "status": "SUCCESS"
+  },
+  {
+    "id": "402147f6-62d9-465e-82a3-4dc4e97a8225",
+    "timestamp": "2026-08-29T21:47:01.191718+00:00",
+    "operation": "RTM_SYNTHESIS",
+    "model": "openai/gpt-oss-120b",
+    "prompt_tokens": 1820,
+    "completion_tokens": 940,
+    "total_tokens": 2760,
+    "cost_usd": 0.00222,
+    "latency_ms": 500,
+    "status": "SUCCESS"
+  },
+  {
+    "id": "f8a85d92-c95e-4073-b1ca-76b24fe219cf",
+    "timestamp": "2026-08-29T17:47:01.191718+00:00",
+    "operation": "MITIGATION_SUGGESTION",
+    "model": "llama-3.3-70b-versatile",
+    "prompt_tokens": 920,
+    "completion_tokens": 510,
+    "total_tokens": 1430,
+    "cost_usd": 0.00087,
+    "latency_ms": 545,
+    "status": "SUCCESS"
+  },
+  {
+    "id": "a1ad7fd6-0f26-4a14-9c6d-c5902db0af62",
+    "timestamp": "2026-08-29T13:47:01.191718+00:00",
+    "operation": "DOC_INTELLIGENCE_AUDIT",
+    "model": "qwen/qwen3.8-27b",
+    "prompt_tokens": 3100,
+    "completion_tokens": 1420,
+    "total_tokens": 4520,
+    "cost_usd": 0.00119,
+    "latency_ms": 590,
+    "status": "SUCCESS"
+  },
+  {
+    "id": "fdcd1d90-69b0-478d-a591-e759e56d2430",
+    "timestamp": "2026-08-29T09:47:01.191718+00:00",
+    "operation": "REQUIREMENT_VERIFICATION",
+    "model": "openai/gpt-oss-120b",
+    "prompt_tokens": 720,
+    "completion_tokens": 380,
+    "total_tokens": 1100,
+    "cost_usd": 0.00089,
+    "latency_ms": 635,
+    "status": "SUCCESS"
+  }
+]

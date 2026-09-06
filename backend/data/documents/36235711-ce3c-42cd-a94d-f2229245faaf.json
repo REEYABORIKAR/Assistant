@@ -1,0 +1,239 @@
+{
+  "id": "36235711-ce3c-42cd-a94d-f2229245faaf",
+  "generation_id": "a28f79a8-710e-4062-b038-7288f0767a6e",
+  "doc_type": "SRS",
+  "title": "Software Requirements Specification \u2014 Patient Portal",
+  "version": "v1.1",
+  "version_num": 2,
+  "parent_version": 1,
+  "parent_id": "a28f79a8-710e-4062-b038-7288f0767a6e",
+  "status": "PENDING_APPROVAL",
+  "created_at": "2026-08-31T18:57:30.481937+00:00",
+  "reviewed_at": null,
+  "rejection_feedback": null,
+  "sections": [
+    {
+      "title": "1. Technical Introduction",
+      "body": "## Purpose\nThe Patient Portal provides patients of the hospital with secure, web\u2011based access to their electronic medical records (EMR) and related services.\n\n## Scope\nIn\u2011scope: authentication, view of personal health information, appointment scheduling, secure messaging, audit logging, and data protection.\nOut\u2011of\u2011scope: clinical decision support, billing processing, and third\u2011party insurance integrations.\n\n## Definitions\n- **EMR**: Electronic Medical Record system used by the hospital.\n- **PHR**: Personal Health Record viewable by the patient.\n- **HIPAA**: Health Insurance Portability and Accountability Act, U.S. federal law governing protected health information (PHI)."
+    },
+    {
+      "title": "2. Overall Description & System Architecture",
+      "body": "The portal is a three\u2011tier web application:\n1. **Presentation Layer** \u2013 responsive web UI accessed via modern browsers.\n2. **Application Layer** \u2013 RESTful services handling business logic, authentication, and audit logging.\n3. **Data Layer** \u2013 encrypted database storing patient\u2011specific data, synchronized with the hospital EMR.\nAll communication between tiers uses TLS\u202f1.2+.\nThe system will be deployed within the hospital\u2019s trusted data center to satisfy data residency requirements."
+    },
+    {
+      "title": "3. Functional Requirements",
+      "table": [
+        [
+          "SRS ID",
+          "Subsystem",
+          "Technical Specification",
+          "Priority",
+          "Verification Method"
+        ],
+        [
+          "SRS\u2011001",
+          "Authentication",
+          "The system shall authenticate patients using multi\u2011factor authentication (MFA) in accordance with HIPAA \u00a7164.312(a)(1).",
+          "High",
+          "Security test suite and penetration testing"
+        ],
+        [
+          "SRS\u2011002",
+          "Patient Data Access",
+          "Patients shall be able to view their personal health records (PHR) retrieved securely from the EMR via HTTPS.",
+          "High",
+          "Functional test case PR\u201101 (view PHR)"
+        ],
+        [
+          "SRS\u2011003",
+          "Appointment Scheduling",
+          "Patients shall schedule, modify, or cancel appointments through the portal.",
+          "Medium",
+          "Functional test case AP\u201101 (schedule flow)"
+        ],
+        [
+          "SRS\u2011004",
+          "Secure Messaging",
+          "Patients shall send and receive messages to/from their care team; messages shall be stored encrypted at rest.",
+          "Medium",
+          "Functional test case SM\u201101 (messaging flow)"
+        ]
+      ]
+    },
+    {
+      "title": "4. Non-Functional Requirements",
+      "body": "### Performance\n- The system shall achieve a 95th percentile (P95) response latency of **\u2264\u202f250\u202fms** for all UI interactions (per domain benchmark).\n\n### Security\n- **Encryption at Rest**: All PHI stored in the database shall be encrypted using AES\u2011256 in accordance with HIPAA \u00a7164.312(e)(1)(ii).\n- **Audit Logging**: Every access, modification, and transmission of PHI shall generate an immutable audit log entry meeting HIPAA \u00a7164.312(b) requirements.\n- **Transport Security**: All network traffic shall be protected with TLS\u202f1.2 or higher.\n- **Access Controls**: Role\u2011based access control (RBAC) shall enforce least\u2011privilege principles.\n\n### Reliability\n- System availability shall be **\u2265\u202f99.5\u202f%** per month, measured by uptime monitoring.\n- Failover mechanisms shall provide automatic switchover within 30\u202fseconds."
+    },
+    {
+      "title": "5. External Interface Requirements",
+      "body": "#### APIs\n- RESTful JSON APIs for authentication, patient data retrieval, appointment management, and messaging.\n- API authentication via OAuth\u202f2.0 with short\u2011lived access tokens.\n\n#### User Interface\n- Web UI compatible with Chrome, Firefox, Edge, and Safari (latest two major versions).\n- Responsive design for desktop, tablet, and mobile devices.\n\n#### Hardware / Platform\n- Application servers hosted on the hospital\u2019s on\u2011premises virtualized environment.\n- Database servers with hardware\u2011based encryption modules (e.g., TPM/HSM)."
+    },
+    {
+      "title": "6. System Constraints & Compliance Verification",
+      "body": "### Constraints\n- Deployment must reside within the hospital\u2019s controlled data center to satisfy data residency.\n- All third\u2011party libraries shall be vetted for HIPAA compliance.\n\n### Compliance Verification\n- **HIPAA**: Conduct a formal HIPAA compliance audit covering encryption at rest, audit logging, and access controls.\n- **Performance Benchmark**: Execute load testing to confirm P95 latency \u2264\u202f250\u202fms.\n- **Security Testing**: Perform vulnerability scanning and penetration testing; results must be documented and remediated before release."
+    }
+  ],
+  "user_stories_data": {},
+  "quality_score": 95,
+  "verification_summary": {
+    "verdicts": [
+      {
+        "claim_index": 0,
+        "claim": "1. Technical Introduction: ## Purpose\nThe Patient Portal provides patients of the hospital with secure, web\u2011based access to their electronic medica",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 1,
+        "claim": "2. Overall Description & System Architecture: The portal is a three\u2011tier web application:\n1. **Presentation Layer** \u2013 responsive web UI accessed via modern browsers.\n",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 2,
+        "claim": "SRS\u2011001: Authentication \u2014 The system shall authenticate patients using multi\u2011factor authentication (MFA) in accordance with HIPAA \u00a7164.312(a)(1). High",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 3,
+        "claim": "SRS\u2011002: Patient Data Access \u2014 Patients shall be able to view their personal health records (PHR) retrieved securely from the EMR via HTTPS. High",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 4,
+        "claim": "SRS\u2011003: Appointment Scheduling \u2014 Patients shall schedule, modify, or cancel appointments through the portal. Medium",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 5,
+        "claim": "SRS\u2011004: Secure Messaging \u2014 Patients shall send and receive messages to/from their care team; messages shall be stored encrypted at rest. Medium",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 6,
+        "claim": "4. Non-Functional Requirements: ### Performance\n- The system shall achieve a 95th percentile (P95) response latency of **\u2264\u202f250\u202fms** for all UI interacti",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 7,
+        "claim": "5. External Interface Requirements: #### APIs\n- RESTful JSON APIs for authentication, patient data retrieval, appointment management, and messaging.\n- API a",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 8,
+        "claim": "6. System Constraints & Compliance Verification: ### Constraints\n- Deployment must reside within the hospital\u2019s controlled data center to satisfy data residency.\n- All t",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    ],
+    "verified_count": 0,
+    "flagged_count": 9,
+    "flagged_items": [
+      {
+        "claim_index": 0,
+        "claim": "1. Technical Introduction: ## Purpose\nThe Patient Portal provides patients of the hospital with secure, web\u2011based access to their electronic medica",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 1,
+        "claim": "2. Overall Description & System Architecture: The portal is a three\u2011tier web application:\n1. **Presentation Layer** \u2013 responsive web UI accessed via modern browsers.\n",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 2,
+        "claim": "SRS\u2011001: Authentication \u2014 The system shall authenticate patients using multi\u2011factor authentication (MFA) in accordance with HIPAA \u00a7164.312(a)(1). High",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 3,
+        "claim": "SRS\u2011002: Patient Data Access \u2014 Patients shall be able to view their personal health records (PHR) retrieved securely from the EMR via HTTPS. High",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 4,
+        "claim": "SRS\u2011003: Appointment Scheduling \u2014 Patients shall schedule, modify, or cancel appointments through the portal. Medium",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 5,
+        "claim": "SRS\u2011004: Secure Messaging \u2014 Patients shall send and receive messages to/from their care team; messages shall be stored encrypted at rest. Medium",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 6,
+        "claim": "4. Non-Functional Requirements: ### Performance\n- The system shall achieve a 95th percentile (P95) response latency of **\u2264\u202f250\u202fms** for all UI interacti",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 7,
+        "claim": "5. External Interface Requirements: #### APIs\n- RESTful JSON APIs for authentication, patient data retrieval, appointment management, and messaging.\n- API a",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 8,
+        "claim": "6. System Constraints & Compliance Verification: ### Constraints\n- Deployment must reside within the hospital\u2019s controlled data center to satisfy data residency.\n- All t",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    ],
+    "total_claims": 9
+  },
+  "conversation_id": null,
+  "pdf_export_url": "/api/v1/documents/36235711-ce3c-42cd-a94d-f2229245faaf/export/pdf?title=Patient Portal&type=SRS",
+  "changed_story_ids": [],
+  "added_story_ids": [],
+  "removed_story_ids": [],
+  "revision_history": [
+    {
+      "version": "v1.0",
+      "feedback": "Add specific HIPAA encryption at rest and audit logging requirement.",
+      "revised_at": "2026-08-31T18:57:30.481960+00:00",
+      "changed_story_ids": [],
+      "added_story_ids": [],
+      "removed_story_ids": []
+    }
+  ],
+  "_source_audit": {},
+  "_domain_profile": {
+    "domain": "HEALTHCARE",
+    "compliance": [
+      "HIPAA"
+    ],
+    "standard_nfrs": [
+      "P95 latency < 250ms"
+    ]
+  },
+  "_doc_excerpt": "Hospital EMR patient management system."
+}

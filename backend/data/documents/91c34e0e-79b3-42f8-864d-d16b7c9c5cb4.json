@@ -1,0 +1,27 @@
+{
+  "id": "91c34e0e-79b3-42f8-864d-d16b7c9c5cb4",
+  "doc_type": "SRS",
+  "title": "Patient Portal",
+  "version": "v1.0",
+  "status": "REJECTED",
+  "revision_history": [],
+  "_source_audit": {},
+  "_domain_profile": {
+    "domain": "HEALTHCARE",
+    "compliance": [
+      "HIPAA"
+    ],
+    "standard_nfrs": [
+      "P95 latency < 250ms"
+    ]
+  },
+  "_doc_excerpt": "Hospital EMR patient management system.",
+  "sections": [
+    {
+      "title": "1. Introduction",
+      "body": "Initial draft of requirements."
+    }
+  ],
+  "rejection_feedback": "Add specific HIPAA encryption at rest and audit logging requirement.",
+  "reviewed_at": "2026-09-01T18:47:47.689552+00:00"
+}

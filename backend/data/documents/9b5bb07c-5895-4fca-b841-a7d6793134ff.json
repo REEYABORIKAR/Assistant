@@ -1,0 +1,237 @@
+{
+  "id": "9b5bb07c-5895-4fca-b841-a7d6793134ff",
+  "generation_id": "20cf2182-b251-49a2-aba3-11956eba9e2e",
+  "doc_type": "SRS",
+  "title": "Software Requirements Specification \u2014 Patient Portal",
+  "version": "v1.1",
+  "version_num": 2,
+  "parent_version": 1,
+  "parent_id": "20cf2182-b251-49a2-aba3-11956eba9e2e",
+  "status": "PENDING_APPROVAL",
+  "created_at": "2026-08-31T18:55:27.794051+00:00",
+  "reviewed_at": null,
+  "rejection_feedback": null,
+  "sections": [
+    {
+      "title": "1. Technical Introduction",
+      "body": "## Purpose\nThe Patient Portal extends the Hospital EMR patient management system to provide patients with secure, web\u2011based access to their health information.\n\n## Scope\nThe portal will enable patients to view personal health records, schedule appointments, and communicate with care teams while ensuring compliance with HIPAA regulations.\n\n## Definitions\n- **EMR**: Electronic Medical Record system used by the hospital.\n- **HIPAA**: Health Insurance Portability and Accountability Act, governing protection of PHI.\n\n*Initial draft note:* Initial draft of requirements."
+    },
+    {
+      "title": "2. Overall Description & System Architecture",
+      "body": "The Patient Portal is a thin client web application that interfaces with the existing Hospital EMR backend via secure APIs. It resides within the hospital\u2019s DMZ and leverages the hospital\u2019s authentication services (e.g., LDAP/Active Directory). The architecture consists of:\n- **Presentation Layer**: Browser\u2011based UI.\n- **Application Layer**: Web server handling business logic.\n- **Data Access Layer**: Secure connectors to the EMR database.\nAll components must operate under the hospital\u2019s security policies and network segmentation."
+    },
+    {
+      "title": "3. Functional Requirements",
+      "table": [
+        [
+          "SRS ID",
+          "Subsystem",
+          "Technical Specification",
+          "Priority",
+          "Verification Method"
+        ],
+        [
+          "FR-001",
+          "TBD",
+          "Functional behavior to be defined by stakeholders.",
+          "Medium",
+          "Review with stakeholder sign\u2011off"
+        ]
+      ]
+    },
+    {
+      "title": "4. Non-Functional Requirements",
+      "table": [
+        [
+          "NFR ID",
+          "Category",
+          "Requirement",
+          "Benchmark/Standard",
+          "Priority",
+          "Verification Method"
+        ],
+        [
+          "NFR-001",
+          "Performance",
+          "System shall respond to user actions within 250\u202fms for the 95th percentile of requests.",
+          "P95 latency < 250\u202fms (industry benchmark)",
+          "High",
+          "Load testing with realistic traffic profiles"
+        ],
+        [
+          "NFR-002",
+          "Security",
+          "All patient data must be encrypted at rest using AES\u2011256 as required by HIPAA \u00a7164.312(a)(2)(i).",
+          "HIPAA",
+          "High",
+          "Security scan and compliance audit"
+        ],
+        [
+          "NFR-003",
+          "Security",
+          "All access and modification events must be recorded in tamper\u2011evident audit logs per HIPAA \u00a7164.312(b).",
+          "HIPAA",
+          "High",
+          "Log review and audit\u2011trail verification"
+        ]
+      ]
+    },
+    {
+      "title": "5. External Interface Requirements",
+      "body": "### User Interface\n- Web\u2011based responsive UI accessible via modern browsers.\n\n### Application Programming Interfaces (APIs)\n- Secure RESTful APIs to retrieve and update patient data from the EMR system. All API calls must use TLS 1.2+.\n\n### Hardware Interfaces\n- No dedicated hardware required; the portal runs on standard hospital web servers within the existing infrastructure."
+    },
+    {
+      "title": "6. System Constraints & Compliance Verification",
+      "body": "#### Constraints\n- Must operate within the hospital\u2019s network security zones.\n- Must not store PHI on client devices.\n- Must adhere to the hospital\u2019s change\u2011management process.\n\n#### Compliance Verification\n- **HIPAA**: Encryption at rest (AES\u2011256) and audit logging will be validated through a third\u2011party compliance audit referencing HIPAA \u00a7164.312.\n- **Performance**: Latency benchmark (P95 < 250\u202fms) will be verified via load\u2011testing scripts.\n- **Security Testing**: Penetration testing and vulnerability scanning will be performed before release.\n\nAll verification results will be documented and reviewed during the formal acceptance process."
+    }
+  ],
+  "user_stories_data": {},
+  "quality_score": 95,
+  "verification_summary": {
+    "verdicts": [
+      {
+        "claim_index": 0,
+        "claim": "1. Technical Introduction: ## Purpose\nThe Patient Portal extends the Hospital EMR patient management system to provide patients with secure, web\u2011ba",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source only identifies the system as a 'Hospital EMR patient management system' and does not mention a 'Patient Portal' or specific purpose details."
+      },
+      {
+        "claim_index": 1,
+        "claim": "2. Overall Description & System Architecture: The Patient Portal is a thin client web application that interfaces with the existing Hospital EMR backend via secure AP",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not describe the architecture as a 'thin client web application' or specify secure API interfaces."
+      },
+      {
+        "claim_index": 2,
+        "claim": "FR-001: TBD \u2014 Functional behavior to be defined by stakeholders. Medium",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source contains no functional requirements, stakeholder definitions, or priority levels."
+      },
+      {
+        "claim_index": 3,
+        "claim": "NFR-001: Performance \u2014 System shall respond to user actions within 250\u202fms for the 95th percentile of requests. P95 latency < 250\u202fms (industry benchmark)",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not contain any performance metrics, latency targets, or industry benchmarks."
+      },
+      {
+        "claim_index": 4,
+        "claim": "NFR-002: Security \u2014 All patient data must be encrypted at rest using AES\u2011256 as required by HIPAA \u00a7164.312(a)(2)(i). HIPAA",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not mention encryption standards, AES-256, or HIPAA compliance requirements."
+      },
+      {
+        "claim_index": 5,
+        "claim": "NFR-003: Security \u2014 All access and modification events must be recorded in tamper\u2011evident audit logs per HIPAA \u00a7164.312(b). HIPAA",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not discuss audit logs, tamper-evidence, or specific HIPAA sections."
+      },
+      {
+        "claim_index": 6,
+        "claim": "5. External Interface Requirements: ### User Interface\n- Web\u2011based responsive UI accessible via modern browsers.\n\n### Application Programming Interfaces (AP",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not define external interface requirements, UI responsiveness, or API specifications."
+      },
+      {
+        "claim_index": 7,
+        "claim": "6. System Constraints & Compliance Verification: #### Constraints\n- Must operate within the hospital\u2019s network security zones.\n- Must not store PHI on client devices.\n- ",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not list system constraints, network security zones, or PHI storage restrictions."
+      }
+    ],
+    "verified_count": 0,
+    "flagged_count": 8,
+    "flagged_items": [
+      {
+        "claim_index": 0,
+        "claim": "1. Technical Introduction: ## Purpose\nThe Patient Portal extends the Hospital EMR patient management system to provide patients with secure, web\u2011ba",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source only identifies the system as a 'Hospital EMR patient management system' and does not mention a 'Patient Portal' or specific purpose details."
+      },
+      {
+        "claim_index": 1,
+        "claim": "2. Overall Description & System Architecture: The Patient Portal is a thin client web application that interfaces with the existing Hospital EMR backend via secure AP",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not describe the architecture as a 'thin client web application' or specify secure API interfaces."
+      },
+      {
+        "claim_index": 2,
+        "claim": "FR-001: TBD \u2014 Functional behavior to be defined by stakeholders. Medium",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source contains no functional requirements, stakeholder definitions, or priority levels."
+      },
+      {
+        "claim_index": 3,
+        "claim": "NFR-001: Performance \u2014 System shall respond to user actions within 250\u202fms for the 95th percentile of requests. P95 latency < 250\u202fms (industry benchmark)",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not contain any performance metrics, latency targets, or industry benchmarks."
+      },
+      {
+        "claim_index": 4,
+        "claim": "NFR-002: Security \u2014 All patient data must be encrypted at rest using AES\u2011256 as required by HIPAA \u00a7164.312(a)(2)(i). HIPAA",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not mention encryption standards, AES-256, or HIPAA compliance requirements."
+      },
+      {
+        "claim_index": 5,
+        "claim": "NFR-003: Security \u2014 All access and modification events must be recorded in tamper\u2011evident audit logs per HIPAA \u00a7164.312(b). HIPAA",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not discuss audit logs, tamper-evidence, or specific HIPAA sections."
+      },
+      {
+        "claim_index": 6,
+        "claim": "5. External Interface Requirements: ### User Interface\n- Web\u2011based responsive UI accessible via modern browsers.\n\n### Application Programming Interfaces (AP",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not define external interface requirements, UI responsiveness, or API specifications."
+      },
+      {
+        "claim_index": 7,
+        "claim": "6. System Constraints & Compliance Verification: #### Constraints\n- Must operate within the hospital\u2019s network security zones.\n- Must not store PHI on client devices.\n- ",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not list system constraints, network security zones, or PHI storage restrictions."
+      }
+    ],
+    "total_claims": 8
+  },
+  "conversation_id": null,
+  "pdf_export_url": "/api/v1/documents/9b5bb07c-5895-4fca-b841-a7d6793134ff/export/pdf?title=Patient Portal&type=SRS",
+  "changed_story_ids": [],
+  "added_story_ids": [],
+  "removed_story_ids": [],
+  "revision_history": [
+    {
+      "version": "v1.0",
+      "feedback": "Add specific HIPAA encryption at rest and audit logging requirement.",
+      "revised_at": "2026-08-31T18:55:27.794066+00:00",
+      "changed_story_ids": [],
+      "added_story_ids": [],
+      "removed_story_ids": []
+    }
+  ],
+  "_source_audit": {},
+  "_domain_profile": {
+    "domain": "HEALTHCARE",
+    "compliance": [
+      "HIPAA"
+    ],
+    "standard_nfrs": [
+      "P95 latency < 250ms"
+    ]
+  },
+  "_doc_excerpt": "Hospital EMR patient management system."
+}

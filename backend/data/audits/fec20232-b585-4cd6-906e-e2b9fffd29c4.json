@@ -1,0 +1,461 @@
+{
+  "readiness_score": 60,
+  "clarity_score": 70,
+  "completeness_score": 55,
+  "security_score": 50,
+  "rtm_score": 45,
+  "summary": "The document outlines a high\u2011level Hospital Management System (HMS) that centralises patient registration, scheduling, EMR, pharmacy, lab, billing and staff functions. It mentions role\u2011based access, a technology stack (React/Next.js, FastAPI/Node.js/Spring Boot, PostgreSQL/MySQL, JWT/OAuth, Redis) and generic non\u2011functional goals such as scalability, high availability and secure authentication, but provides no concrete implementation details, compliance mappings, or verification criteria.",
+  "risk_factors": [
+    {
+      "title": "Insufficient Encryption Detail",
+      "category": "SECURITY",
+      "severity": "HIGH",
+      "description": "The document only mentions \"password encryption\" and \"HTTPS\" without specifying encryption algorithms, key management, or encryption of data at rest (e.g., AES\u2011256 for PHI).",
+      "mitigation": "Define explicit encryption standards (AES\u2011256 for data at rest, TLS 1.2+ for data in transit), include key rotation policies, and document storage encryption mechanisms.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 0,
+        "claim": "Risk: Insufficient Encryption Detail \u2014 The document only mentions \"password encryption\" and \"HTTPS\" without specifying encryption algorithms, key management, or encryption of data at rest (e.g., AES\u2011256 for PHI).",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 9 source keywords in document context."
+      }
+    },
+    {
+      "title": "Missing Audit Trail Immutability Controls",
+      "category": "SECURITY",
+      "severity": "HIGH",
+      "description": "Audit logs are listed as a feature, but there is no mention of tamper\u2011evidence, write\u2011once storage, or retention periods required by HIPAA and GDPR.",
+      "mitigation": "Implement append\u2011only logging with cryptographic hash chaining, store logs in WORM storage, and define retention periods (e.g., 6 years for HIPAA).",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 1,
+        "claim": "Risk: Missing Audit Trail Immutability Controls \u2014 Audit logs are listed as a feature, but there is no mention of tamper\u2011evidence, write\u2011once storage, or retention periods required by HIPAA and GDPR.",
+        "confidence": 62,
+        "verdict": "SUPPORTED",
+        "reason": "General concept is grounded in source context; specific details are extrapolated."
+      }
+    },
+    {
+      "title": "Lack of HIPAA/GDPR Compliance Mapping",
+      "category": "DATA_PRIVACY",
+      "severity": "MEDIUM",
+      "description": "The document does not reference any HIPAA Security Rule safeguards, GDPR Articles, or required data subject rights handling.",
+      "mitigation": "Add a compliance matrix mapping each functional requirement to HIPAA and GDPR controls, and include processes for consent, data access requests, and breach notification.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 2,
+        "claim": "Risk: Lack of HIPAA/GDPR Compliance Mapping \u2014 The document does not reference any HIPAA Security Rule safeguards, GDPR Articles, or required data subject rights handling.",
+        "confidence": 62,
+        "verdict": "SUPPORTED",
+        "reason": "General concept is grounded in source context; specific details are extrapolated."
+      }
+    },
+    {
+      "title": "Undefined Disaster Recovery Objectives",
+      "category": "OPERATIONAL",
+      "severity": "MEDIUM",
+      "description": "Backup/recovery is mentioned, but no RTO (<1\u202fh) or RPO (<5\u202fmin) targets are defined, nor any recovery testing procedures.",
+      "mitigation": "Specify RTO/RPO targets, implement automated backup verification, and schedule regular DR drills.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 3,
+        "claim": "Risk: Undefined Disaster Recovery Objectives \u2014 Backup/recovery is mentioned, but no RTO (<1\u202fh) or RPO (<5\u202fmin) targets are defined, nor any recovery testing procedures.",
+        "confidence": 62,
+        "verdict": "SUPPORTED",
+        "reason": "General concept is grounded in source context; specific details are extrapolated."
+      }
+    },
+    {
+      "title": "Unclear HL7 FHIR / DICOM Integration",
+      "category": "ARCHITECTURE",
+      "severity": "LOW",
+      "description": "The document lists HL7 FHIR and DICOM as expected standards but provides no integration approach, data models, or interface specifications.",
+      "mitigation": "Define API contracts for FHIR resources, DICOM storage handling, and include validation layers for interoperability.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 4,
+        "claim": "Risk: Unclear HL7 FHIR / DICOM Integration \u2014 The document lists HL7 FHIR and DICOM as expected standards but provides no integration approach, data models, or interface specifications.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    }
+  ],
+  "conflicts_and_ambiguities": [
+    {
+      "issue": "Ambiguous \"secure authentication\" wording",
+      "context": "\"secure authentication, password encryption, session management, HTTPS\"",
+      "suggested_resolution": "Specify authentication mechanisms (e.g., MFA, OAuth2 scopes), password hashing algorithm (e.g., bcrypt with cost factor), session timeout values, and TLS version.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 14,
+        "claim": "Ambiguity: Ambiguous \"secure authentication\" wording \u2014 \"secure authentication, password encryption, session management, HTTPS\"",
+        "confidence": 87,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 9 source keywords in document context."
+      }
+    },
+    {
+      "issue": "Role\u2011based access vs. least\u2011privilege detail missing",
+      "context": "\"role\u2011based access for Admin, Doctor, Nurse, ...\"",
+      "suggested_resolution": "Provide an RBAC matrix that enumerates permissions per role and reference principle of least privilege.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 15,
+        "claim": "Ambiguity: Role\u2011based access vs. least\u2011privilege detail missing \u2014 \"role\u2011based access for Admin, Doctor, Nurse, ...\"",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 9 source keywords in document context."
+      }
+    },
+    {
+      "issue": "Deployment environment choice is vague",
+      "context": "\"cloud or on\u2011premise deployment\"",
+      "suggested_resolution": "Select a deployment model, document data residency requirements, and outline security controls for each environment.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 16,
+        "claim": "Ambiguity: Deployment environment choice is vague \u2014 \"cloud or on\u2011premise deployment\"",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 4 source keywords in document context."
+      }
+    },
+    {
+      "issue": "Performance expectations lack measurable criteria",
+      "context": "\"fast API responses\"",
+      "suggested_resolution": "Define quantitative targets (e.g., 95th percentile <200\u202fms for read APIs) and load testing approach.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 17,
+        "claim": "Ambiguity: Performance expectations lack measurable criteria \u2014 \"fast API responses\"",
+        "confidence": 62,
+        "verdict": "SUPPORTED",
+        "reason": "General concept is grounded in source context; specific details are extrapolated."
+      }
+    }
+  ],
+  "missing_sections_and_details": [
+    {
+      "section_name": "HIPAA & GDPR Compliance Mapping",
+      "priority": "CRITICAL",
+      "why_missing": "Without explicit mapping, auditors cannot verify that required safeguards (access control, audit, breach notification) are addressed, exposing the project to regulatory penalties.",
+      "recommended_addition": "Add a table linking each functional and non\u2011functional requirement to HIPAA Security Rule safeguards (e.g., 164.312(a)(1) Access Control) and GDPR Articles (e.g., Art. 32 Security of processing). Include data subject rights procedures.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 5,
+        "claim": "Missing Gap: HIPAA & GDPR Compliance Mapping \u2014 Without explicit mapping, auditors cannot verify that required safeguards (access control, audit, breach notification) are addressed, exposing the project to regulatory penalties.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    },
+    {
+      "section_name": "Encryption at Rest Specification",
+      "priority": "HIGH",
+      "why_missing": "PHI must be encrypted at rest (AES\u2011256) per HIPAA; the document only mentions password encryption, leaving storage protection undefined.",
+      "recommended_addition": "State that all database columns containing PHI are encrypted using AES\u2011256 with transparent data encryption (TDE) and describe key management (e.g., HSM, rotation every 90 days).",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 6,
+        "claim": "Missing Gap: Encryption at Rest Specification \u2014 PHI must be encrypted at rest (AES\u2011256) per HIPAA; the document only mentions password encryption, leaving storage protection undefined.",
+        "confidence": 62,
+        "verdict": "SUPPORTED",
+        "reason": "General concept is grounded in source context; specific details are extrapolated."
+      }
+    },
+    {
+      "section_name": "Disaster Recovery & Business Continuity Plan",
+      "priority": "HIGH",
+      "why_missing": "RTO/RPO targets are required for healthcare systems; absence creates operational risk during outages.",
+      "recommended_addition": "Define RTO <1\u202fhour, RPO <5\u202fminutes, backup frequency, off\u2011site replication strategy, and periodic DR test schedule.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 7,
+        "claim": "Missing Gap: Disaster Recovery & Business Continuity Plan \u2014 RTO/RPO targets are required for healthcare systems; absence creates operational risk during outages.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    },
+    {
+      "section_name": "HL7 FHIR and DICOM Integration Details",
+      "priority": "MEDIUM",
+      "why_missing": "Interoperability with external EHRs and imaging systems is a core healthcare requirement; lacking details hampers integration planning.",
+      "recommended_addition": "Describe FHIR resource endpoints (Patient, Observation, MedicationRequest), version (R4), and DICOM storage workflow (PACS interface, SOP Class support).",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 8,
+        "claim": "Missing Gap: HL7 FHIR and DICOM Integration Details \u2014 Interoperability with external EHRs and imaging systems is a core healthcare requirement; lacking details hampers integration planning.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    },
+    {
+      "section_name": "Audit Log Retention & Immutability Policy",
+      "priority": "MEDIUM",
+      "why_missing": "Audit logs are mentioned but no retention period or tamper\u2011proof mechanism is defined, risking non\u2011compliance with 164.312(b).",
+      "recommended_addition": "Specify log retention (e.g., 6 years), write\u2011once storage, cryptographic hash chaining, and regular integrity verification.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 9,
+        "claim": "Missing Gap: Audit Log Retention & Immutability Policy \u2014 Audit logs are mentioned but no retention period or tamper\u2011proof mechanism is defined, risking non\u2011compliance with 164.312(b).",
+        "confidence": 62,
+        "verdict": "SUPPORTED",
+        "reason": "General concept is grounded in source context; specific details are extrapolated."
+      }
+    }
+  ],
+  "rtm_matrix": [
+    {
+      "req_id": "REQ-01",
+      "business_goal": "Patient registration and profile management",
+      "technical_component": "Patients module / Registration API",
+      "test_case_verification": "Automated test creates a patient record via POST /api/patients and verifies persistence and audit log entry.",
+      "status": "GAP",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 10,
+        "claim": "Traceability: REQ-01 Patient registration and profile management via Patients module / Registration API",
+        "confidence": 91,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 7 source keywords in document context."
+      }
+    },
+    {
+      "req_id": "REQ-02",
+      "business_goal": "Appointment scheduling and queue management",
+      "technical_component": "Appointments module / Scheduling service",
+      "test_case_verification": "Integration test books an appointment, checks slot availability, and validates notification trigger.",
+      "status": "GAP",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 11,
+        "claim": "Traceability: REQ-02 Appointment scheduling and queue management via Appointments module / Scheduling service",
+        "confidence": 88,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 7 source keywords in document context."
+      }
+    },
+    {
+      "req_id": "REQ-03",
+      "business_goal": "Electronic Medical Record (EMR) capture and retrieval",
+      "technical_component": "EMR module / Clinical notes API",
+      "test_case_verification": "Unit test stores a clinical note and retrieves it, confirming data integrity and access control enforcement.",
+      "status": "GAP",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 12,
+        "claim": "Traceability: REQ-03 Electronic Medical Record (EMR) capture and retrieval via EMR module / Clinical notes API",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 6 source keywords in document context."
+      }
+    },
+    {
+      "req_id": "REQ-04",
+      "business_goal": "Secure authentication and session management",
+      "technical_component": "Authentication service (JWT/OAuth)",
+      "test_case_verification": "Penetration test verifies token issuance, expiration, and revocation; automated test checks MFA flow if implemented.",
+      "status": "PARTIAL",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 13,
+        "claim": "Traceability: REQ-04 Secure authentication and session management via Authentication service (JWT/OAuth)",
+        "confidence": 87,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 6 source keywords in document context."
+      }
+    }
+  ],
+  "ai_recommendations": [
+    "Add a detailed compliance matrix linking each requirement to HIPAA, GDPR, and HL7/FHIR/DICOM standards.",
+    "Specify concrete security controls: encryption algorithms (AES\u2011256), key management, MFA, password hashing, and immutable audit logging.",
+    "Define measurable non\u2011functional targets (e.g., API latency <200\u202fms, 99.9% availability, RTO <1\u202fh, RPO <5\u202fmin) and include test plans for verification."
+  ],
+  "domain_profile": {
+    "domain": "HEALTHCARE",
+    "compliance": [
+      "HIPAA",
+      "GDPR (if EU patients)",
+      "HL7 FHIR",
+      "DICOM"
+    ],
+    "standard_nfrs": [
+      "PHI encryption at rest (AES-256)",
+      "audit trail immutability",
+      "RTO < 1h / RPO < 5min"
+    ]
+  },
+  "verification_summary": {
+    "verdicts": [
+      {
+        "claim_index": 0,
+        "claim": "Risk: Insufficient Encryption Detail \u2014 The document only mentions \"password encryption\" and \"HTTPS\" without specifying encryption algorithms, key management, or encryption of data at rest (e.g., AES\u2011256 for PHI).",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 9 source keywords in document context."
+      },
+      {
+        "claim_index": 1,
+        "claim": "Risk: Missing Audit Trail Immutability Controls \u2014 Audit logs are listed as a feature, but there is no mention of tamper\u2011evidence, write\u2011once storage, or retention periods required by HIPAA and GDPR.",
+        "confidence": 62,
+        "verdict": "SUPPORTED",
+        "reason": "General concept is grounded in source context; specific details are extrapolated."
+      },
+      {
+        "claim_index": 2,
+        "claim": "Risk: Lack of HIPAA/GDPR Compliance Mapping \u2014 The document does not reference any HIPAA Security Rule safeguards, GDPR Articles, or required data subject rights handling.",
+        "confidence": 62,
+        "verdict": "SUPPORTED",
+        "reason": "General concept is grounded in source context; specific details are extrapolated."
+      },
+      {
+        "claim_index": 3,
+        "claim": "Risk: Undefined Disaster Recovery Objectives \u2014 Backup/recovery is mentioned, but no RTO (<1\u202fh) or RPO (<5\u202fmin) targets are defined, nor any recovery testing procedures.",
+        "confidence": 62,
+        "verdict": "SUPPORTED",
+        "reason": "General concept is grounded in source context; specific details are extrapolated."
+      },
+      {
+        "claim_index": 4,
+        "claim": "Risk: Unclear HL7 FHIR / DICOM Integration \u2014 The document lists HL7 FHIR and DICOM as expected standards but provides no integration approach, data models, or interface specifications.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 5,
+        "claim": "Missing Gap: HIPAA & GDPR Compliance Mapping \u2014 Without explicit mapping, auditors cannot verify that required safeguards (access control, audit, breach notification) are addressed, exposing the project to regulatory penalties.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 6,
+        "claim": "Missing Gap: Encryption at Rest Specification \u2014 PHI must be encrypted at rest (AES\u2011256) per HIPAA; the document only mentions password encryption, leaving storage protection undefined.",
+        "confidence": 62,
+        "verdict": "SUPPORTED",
+        "reason": "General concept is grounded in source context; specific details are extrapolated."
+      },
+      {
+        "claim_index": 7,
+        "claim": "Missing Gap: Disaster Recovery & Business Continuity Plan \u2014 RTO/RPO targets are required for healthcare systems; absence creates operational risk during outages.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 8,
+        "claim": "Missing Gap: HL7 FHIR and DICOM Integration Details \u2014 Interoperability with external EHRs and imaging systems is a core healthcare requirement; lacking details hampers integration planning.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 9,
+        "claim": "Missing Gap: Audit Log Retention & Immutability Policy \u2014 Audit logs are mentioned but no retention period or tamper\u2011proof mechanism is defined, risking non\u2011compliance with 164.312(b).",
+        "confidence": 62,
+        "verdict": "SUPPORTED",
+        "reason": "General concept is grounded in source context; specific details are extrapolated."
+      },
+      {
+        "claim_index": 10,
+        "claim": "Traceability: REQ-01 Patient registration and profile management via Patients module / Registration API",
+        "confidence": 91,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 7 source keywords in document context."
+      },
+      {
+        "claim_index": 11,
+        "claim": "Traceability: REQ-02 Appointment scheduling and queue management via Appointments module / Scheduling service",
+        "confidence": 88,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 7 source keywords in document context."
+      },
+      {
+        "claim_index": 12,
+        "claim": "Traceability: REQ-03 Electronic Medical Record (EMR) capture and retrieval via EMR module / Clinical notes API",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 6 source keywords in document context."
+      },
+      {
+        "claim_index": 13,
+        "claim": "Traceability: REQ-04 Secure authentication and session management via Authentication service (JWT/OAuth)",
+        "confidence": 87,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 6 source keywords in document context."
+      },
+      {
+        "claim_index": 14,
+        "claim": "Ambiguity: Ambiguous \"secure authentication\" wording \u2014 \"secure authentication, password encryption, session management, HTTPS\"",
+        "confidence": 87,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 9 source keywords in document context."
+      },
+      {
+        "claim_index": 15,
+        "claim": "Ambiguity: Role\u2011based access vs. least\u2011privilege detail missing \u2014 \"role\u2011based access for Admin, Doctor, Nurse, ...\"",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 9 source keywords in document context."
+      },
+      {
+        "claim_index": 16,
+        "claim": "Ambiguity: Deployment environment choice is vague \u2014 \"cloud or on\u2011premise deployment\"",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 4 source keywords in document context."
+      },
+      {
+        "claim_index": 17,
+        "claim": "Ambiguity: Performance expectations lack measurable criteria \u2014 \"fast API responses\"",
+        "confidence": 62,
+        "verdict": "SUPPORTED",
+        "reason": "General concept is grounded in source context; specific details are extrapolated."
+      }
+    ],
+    "verified_count": 14,
+    "flagged_count": 4,
+    "flagged_items": [
+      {
+        "claim_index": 4,
+        "claim": "Risk: Unclear HL7 FHIR / DICOM Integration \u2014 The document lists HL7 FHIR and DICOM as expected standards but provides no integration approach, data models, or interface specifications.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 5,
+        "claim": "Missing Gap: HIPAA & GDPR Compliance Mapping \u2014 Without explicit mapping, auditors cannot verify that required safeguards (access control, audit, breach notification) are addressed, exposing the project to regulatory penalties.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 7,
+        "claim": "Missing Gap: Disaster Recovery & Business Continuity Plan \u2014 RTO/RPO targets are required for healthcare systems; absence creates operational risk during outages.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 8,
+        "claim": "Missing Gap: HL7 FHIR and DICOM Integration Details \u2014 Interoperability with external EHRs and imaging systems is a core healthcare requirement; lacking details hampers integration planning.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    ],
+    "total_claims": 18
+  },
+  "content_hash": "38b5c983f958604b08efb5ef9d2be6168744cd5be22005df955004942877f0f6",
+  "id": "fec20232-b585-4cd6-906e-e2b9fffd29c4",
+  "analyzed_at": "2026-08-31T17:01:37.860053+00:00",
+  "filename": "A Hospital Management System.pdf",
+  "file_id": null,
+  "conversation_id": null
+}

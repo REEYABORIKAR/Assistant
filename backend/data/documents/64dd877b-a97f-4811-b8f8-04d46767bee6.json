@@ -1,0 +1,263 @@
+{
+  "doc_type": "BRD",
+  "title": "Business Requirements Document \u2014 Hospital Patient Portal",
+  "version": "v1.0",
+  "status": "PENDING_APPROVAL",
+  "revision_history": [],
+  "parent_id": null,
+  "sections": [
+    {
+      "title": "1. Executive Summary & Strategic Rationale",
+      "body": "The Hospital Patient Portal is designed to provide secure, compliant digital access to patient health information, appointment scheduling, and communication with healthcare providers. This document outlines the business requirements necessary to ensure the system meets healthcare industry standards, specifically adhering to HIPAA, GDPR (if applicable to EU patients), HL7 FHIR, and DICOM frameworks. The strategic rationale for this portal is to enhance patient engagement, reduce administrative overhead, and ensure robust data security and privacy."
+    },
+    {
+      "title": "2. Business Objectives & Success Metrics",
+      "body": "The primary business objectives include improving patient satisfaction through self-service capabilities, ensuring strict compliance with healthcare data protection regulations, and optimizing operational efficiency. Success metrics will be defined based on user adoption rates, system uptime, compliance audit results, and reduction in manual administrative tasks. Specific metrics will be established in collaboration with stakeholders to align with organizational goals."
+    },
+    {
+      "title": "3. Scope & Operational Boundaries (In/Out of Scope)",
+      "body": "In Scope: Secure patient authentication, access to medical records, appointment scheduling, and secure messaging with healthcare providers. Out of Scope: Clinical decision support systems, electronic health record (EHR) management, and billing/payment processing. The operational boundaries will be further defined in subsequent documentation phases to ensure alignment with organizational capabilities and regulatory requirements."
+    },
+    {
+      "title": "4. Key Stakeholders & Governance Personas",
+      "body": "Key stakeholders include patients, healthcare providers, IT security teams, compliance officers, and hospital administrators. Governance personas will be established to oversee system development, ensure regulatory compliance, and manage stakeholder communications. Specific roles and responsibilities will be detailed in the governance framework document."
+    },
+    {
+      "title": "5. Business Requirements Specification Matrix",
+      "table": [
+        [
+          "BRD ID",
+          "Requirement Title",
+          "Description",
+          "Priority",
+          "Acceptance Criteria"
+        ],
+        [
+          "BRD-001",
+          "Secure Patient Authentication",
+          "Implement multi-factor authentication for patient access to the portal.",
+          "High",
+          "Patients can securely log in using multi-factor authentication; unauthorized access attempts are logged and blocked."
+        ],
+        [
+          "BRD-002",
+          "Access to Medical Records",
+          "Provide patients with secure access to their medical records, including lab results and discharge summaries.",
+          "High",
+          "Patients can view and download their medical records; access is logged and auditable."
+        ],
+        [
+          "BRD-003",
+          "Appointment Scheduling",
+          "Enable patients to schedule, reschedule, and cancel appointments online.",
+          "Medium",
+          "Patients can successfully schedule appointments; changes are reflected in the provider's calendar."
+        ],
+        [
+          "BRD-004",
+          "Secure Messaging",
+          "Allow secure, encrypted messaging between patients and healthcare providers.",
+          "High",
+          "Messages are encrypted in transit and at rest; delivery and read receipts are available."
+        ],
+        [
+          "BRD-005",
+          "Compliance with HIPAA",
+          "Ensure all data handling practices comply with HIPAA regulations.",
+          "High",
+          "System passes HIPAA compliance audit; all PHI is encrypted and access is restricted to authorized personnel."
+        ]
+      ]
+    },
+    {
+      "title": "6. Assumptions & Operational Constraints",
+      "body": "Assumptions include that patients have access to the internet and a compatible device, and that healthcare providers will actively use the portal for communication. Operational constraints include the need for continuous system availability, strict data encryption standards (AES-256 for PHI at rest), and adherence to recovery time objectives (RTO < 1h) and recovery point objectives (RPO < 5min). These constraints will be validated during the system design phase."
+    },
+    {
+      "title": "7. Risk & Compliance Baseline",
+      "body": "The risk baseline includes potential data breaches, non-compliance with healthcare regulations, and system downtime. Mitigation strategies involve implementing robust encryption, regular security audits, and disaster recovery plans. The compliance baseline is anchored in HIPAA, GDPR (if applicable), HL7 FHIR, and DICOM standards, ensuring that all data handling, transmission, and storage practices meet the highest industry benchmarks."
+    }
+  ],
+  "_source_audit": {},
+  "_domain_profile": {
+    "domain": "HEALTHCARE",
+    "compliance": [
+      "HIPAA",
+      "GDPR (if EU patients)",
+      "HL7 FHIR",
+      "DICOM"
+    ],
+    "standard_nfrs": [
+      "PHI encryption at rest (AES-256)",
+      "audit trail immutability",
+      "RTO < 1h / RPO < 5min"
+    ]
+  },
+  "_doc_excerpt": "",
+  "verification_summary": {
+    "verdicts": [
+      {
+        "claim_index": 0,
+        "claim": "1. Executive Summary & Strategic Rationale: The Hospital Patient Portal is designed to provide secure, compliant digital access to patient health information, appoi",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source text contains only the title 'Hospital Patient Portal' and lacks any executive summary or strategic rationale."
+      },
+      {
+        "claim_index": 1,
+        "claim": "2. Business Objectives & Success Metrics: The primary business objectives include improving patient satisfaction through self-service capabilities, ensuring stric",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source text does not contain any business objectives or success metrics."
+      },
+      {
+        "claim_index": 2,
+        "claim": "3. Scope & Operational Boundaries (In/Out of Scope): In Scope: Secure patient authentication, access to medical records, appointment scheduling, and secure messaging with he",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source text does not define scope or operational boundaries."
+      },
+      {
+        "claim_index": 3,
+        "claim": "4. Key Stakeholders & Governance Personas: Key stakeholders include patients, healthcare providers, IT security teams, compliance officers, and hospital administra",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source text does not list key stakeholders or governance personas."
+      },
+      {
+        "claim_index": 4,
+        "claim": "BRD-001: Secure Patient Authentication \u2014 Implement multi-factor authentication for patient access to the portal. High",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source text does not contain requirement BRD-001 or details on multi-factor authentication."
+      },
+      {
+        "claim_index": 5,
+        "claim": "BRD-002: Access to Medical Records \u2014 Provide patients with secure access to their medical records, including lab results and discharge summaries. High",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source text does not contain requirement BRD-002 or details on medical record access."
+      },
+      {
+        "claim_index": 6,
+        "claim": "BRD-003: Appointment Scheduling \u2014 Enable patients to schedule, reschedule, and cancel appointments online. Medium",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source text does not contain requirement BRD-003 or details on appointment scheduling."
+      },
+      {
+        "claim_index": 7,
+        "claim": "BRD-004: Secure Messaging \u2014 Allow secure, encrypted messaging between patients and healthcare providers. High",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source text does not contain requirement BRD-004 or details on secure messaging."
+      },
+      {
+        "claim_index": 8,
+        "claim": "BRD-005: Compliance with HIPAA \u2014 Ensure all data handling practices comply with HIPAA regulations. High",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source text does not contain requirement BRD-005 or references to HIPAA compliance."
+      },
+      {
+        "claim_index": 9,
+        "claim": "6. Assumptions & Operational Constraints: Assumptions include that patients have access to the internet and a compatible device, and that healthcare providers wil",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source text does not list assumptions or operational constraints."
+      },
+      {
+        "claim_index": 10,
+        "claim": "7. Risk & Compliance Baseline: The risk baseline includes potential data breaches, non-compliance with healthcare regulations, and system downtime. Mit",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source text does not include a risk and compliance baseline section."
+      }
+    ],
+    "verified_count": 0,
+    "flagged_count": 11,
+    "flagged_items": [
+      {
+        "claim_index": 0,
+        "claim": "1. Executive Summary & Strategic Rationale: The Hospital Patient Portal is designed to provide secure, compliant digital access to patient health information, appoi",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source text contains only the title 'Hospital Patient Portal' and lacks any executive summary or strategic rationale."
+      },
+      {
+        "claim_index": 1,
+        "claim": "2. Business Objectives & Success Metrics: The primary business objectives include improving patient satisfaction through self-service capabilities, ensuring stric",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source text does not contain any business objectives or success metrics."
+      },
+      {
+        "claim_index": 2,
+        "claim": "3. Scope & Operational Boundaries (In/Out of Scope): In Scope: Secure patient authentication, access to medical records, appointment scheduling, and secure messaging with he",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source text does not define scope or operational boundaries."
+      },
+      {
+        "claim_index": 3,
+        "claim": "4. Key Stakeholders & Governance Personas: Key stakeholders include patients, healthcare providers, IT security teams, compliance officers, and hospital administra",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source text does not list key stakeholders or governance personas."
+      },
+      {
+        "claim_index": 4,
+        "claim": "BRD-001: Secure Patient Authentication \u2014 Implement multi-factor authentication for patient access to the portal. High",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source text does not contain requirement BRD-001 or details on multi-factor authentication."
+      },
+      {
+        "claim_index": 5,
+        "claim": "BRD-002: Access to Medical Records \u2014 Provide patients with secure access to their medical records, including lab results and discharge summaries. High",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source text does not contain requirement BRD-002 or details on medical record access."
+      },
+      {
+        "claim_index": 6,
+        "claim": "BRD-003: Appointment Scheduling \u2014 Enable patients to schedule, reschedule, and cancel appointments online. Medium",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source text does not contain requirement BRD-003 or details on appointment scheduling."
+      },
+      {
+        "claim_index": 7,
+        "claim": "BRD-004: Secure Messaging \u2014 Allow secure, encrypted messaging between patients and healthcare providers. High",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source text does not contain requirement BRD-004 or details on secure messaging."
+      },
+      {
+        "claim_index": 8,
+        "claim": "BRD-005: Compliance with HIPAA \u2014 Ensure all data handling practices comply with HIPAA regulations. High",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source text does not contain requirement BRD-005 or references to HIPAA compliance."
+      },
+      {
+        "claim_index": 9,
+        "claim": "6. Assumptions & Operational Constraints: Assumptions include that patients have access to the internet and a compatible device, and that healthcare providers wil",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source text does not list assumptions or operational constraints."
+      },
+      {
+        "claim_index": 10,
+        "claim": "7. Risk & Compliance Baseline: The risk baseline includes potential data breaches, non-compliance with healthcare regulations, and system downtime. Mit",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source text does not include a risk and compliance baseline section."
+      }
+    ],
+    "total_claims": 11
+  },
+  "id": "64dd877b-a97f-4811-b8f8-04d46767bee6",
+  "pdf_export_url": "/api/v1/documents/64dd877b-a97f-4811-b8f8-04d46767bee6/export/pdf?title=Hospital Patient Portal&type=BRD",
+  "conversation_id": null
+}

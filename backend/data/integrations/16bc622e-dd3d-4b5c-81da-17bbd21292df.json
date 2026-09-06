@@ -1,0 +1,46 @@
+{
+  "jira": {
+    "id": "jira",
+    "status": "DISCONNECTED",
+    "config": {},
+    "last_synced_at": "2026-08-31T18:31:58.724194+00:00",
+    "last_sync_status": "DISCONNECTED",
+    "sync_stats": {
+      "items_synced": 21,
+      "last_action": "Exported 7 items to Jira"
+    },
+    "recent_events": [
+      {
+        "time": "18:32:19",
+        "level": "WARN",
+        "message": "Integration JIRA disconnected by tenant administrator."
+      },
+      {
+        "time": "18:31:58",
+        "level": "SUCCESS",
+        "message": "Synchronized 7 requirement items to JIRA (REFYNE SRS & RTM Traceability Specificat...)."
+      },
+      {
+        "time": "17:26:41",
+        "level": "SUCCESS",
+        "message": "Synchronized 7 requirement items to JIRA (REFYNE SRS & RTM Traceability Specificat...)."
+      },
+      {
+        "time": "17:26:19",
+        "level": "SUCCESS",
+        "message": "Synchronized 7 requirement items to JIRA (REFYNE SRS & RTM Traceability Specificat...)."
+      },
+      {
+        "time": "17:26:17",
+        "level": "INFO",
+        "message": "Connection credentials updated for JIRA."
+      },
+      {
+        "time": "17:26:01",
+        "level": "INFO",
+        "message": "Connection credentials updated for JIRA."
+      }
+    ],
+    "updated_at": "2026-08-31T17:26:17.989485+00:00"
+  }
+}

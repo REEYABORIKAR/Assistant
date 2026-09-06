@@ -1,0 +1,303 @@
+{
+  "readiness_score": 92,
+  "clarity_score": 70,
+  "completeness_score": 78,
+  "security_score": 80,
+  "rtm_score": 75,
+  "summary": "Audit of 'AI-Driven Requirement Engineering Assistant1 (1).pdf' (Project Name- AI-Driven Requirement Engineering Assistant) \u2014 Domain: ECOMMERCE: Extracted 2073 words across 171 requirement statements. The document establishes functional scope but requires formal PCI-DSS, GDPR/CCPA (customer PII) compliance definitions, API contracts, and security hardening.",
+  "risk_factors": [
+    {
+      "title": "High Ambiguity & Untestable Language (Project Name- AI-Driven Requirement Engineering Assistant)",
+      "category": "ARCHITECTURE",
+      "severity": "HIGH",
+      "description": "Specification contains subjective and untestable phrasing including 'fast'. Engineering teams cannot derive deterministic acceptance tests.",
+      "mitigation": "Rewrite requirements into verifiable Gherkin syntax (Given/When/Then) with quantifiable metrics (e.g. latency, error rates).",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 0,
+        "claim": "Risk: High Ambiguity & Untestable Language (Project Name- AI-Driven Requirement Engineering Assistant) \u2014 Specification contains subjective and untestable phrasing including 'fast'. Engineering teams cannot derive deterministic acceptance tests.",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 13 source keywords in document context."
+      }
+    },
+    {
+      "title": "ECOMMERCE Data Protection & PCI-DSS Compliance Gap",
+      "category": "SECURITY",
+      "severity": "HIGH",
+      "description": "Document specifies financial transactions or payments without defining PCI-DSS, GDPR/CCPA (customer PII) tokenization, webhook verification, or idempotent charge safety.",
+      "mitigation": "Integrate certified payment gateway with client-side tokenization (e.g., Stripe Elements) and zero plain-text card data retention.",
+      "source_ref": "Page 4",
+      "verification": {
+        "claim_index": 1,
+        "claim": "Risk: ECOMMERCE Data Protection & PCI-DSS Compliance Gap \u2014 Document specifies financial transactions or payments without defining PCI-DSS, GDPR/CCPA (customer PII) tokenization, webhook verification, or idempotent charge safety.",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 14 source keywords in document context."
+      }
+    }
+  ],
+  "conflicts_and_ambiguities": [
+    {
+      "issue": "Vague requirement phrase: 'fast'",
+      "context": "Document text contains ambiguous phrase 'fast' without technical boundaries or SLA targets.",
+      "suggested_resolution": "Replace 'fast' with objective, measurable performance constraints or automated QA acceptance criteria.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 10,
+        "claim": "Ambiguity: Vague requirement phrase: 'fast' \u2014 Document text contains ambiguous phrase 'fast' without technical boundaries or SLA targets.",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 8 source keywords in document context."
+      }
+    }
+  ],
+  "missing_sections_and_details": [
+    {
+      "section_name": "ECOMMERCE Regulatory Compliance & Security Controls (PCI-DSS, GDPR/CCPA (customer PII))",
+      "priority": "HIGH",
+      "why_missing": "The specification lacks formal compliance mapping for PCI-DSS, GDPR/CCPA (customer PII) and industry standard NFRs.",
+      "recommended_addition": "Specify explicit adherence to PCI-DSS, GDPR/CCPA (customer PII), audit logging, data retention, and NFR benchmarks (cart consistency under concurrent stock updates, P95 checkout latency < 300ms).",
+      "source_ref": "Page 7",
+      "verification": {
+        "claim_index": 2,
+        "claim": "Missing Gap: ECOMMERCE Regulatory Compliance & Security Controls (PCI-DSS, GDPR/CCPA (customer PII)) \u2014 The specification lacks formal compliance mapping for PCI-DSS, GDPR/CCPA (customer PII) and industry standard NFRs.",
+        "confidence": 76,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 10 source keywords in document context."
+      }
+    },
+    {
+      "section_name": "Non-Functional Requirements (NFR): SLAs & Throughput",
+      "priority": "HIGH",
+      "why_missing": "Missing latency thresholds (cart consistency under concurrent stock updates, P95 checkout latency < 300ms), concurrent user targets, and database connection limits.",
+      "recommended_addition": "Define target throughput, 99.9% uptime SLA, and disaster recovery benchmarks: cart consistency under concurrent stock updates, P95 checkout latency < 300ms.",
+      "source_ref": "Page 2",
+      "verification": {
+        "claim_index": 3,
+        "claim": "Missing Gap: Non-Functional Requirements (NFR): SLAs & Throughput \u2014 Missing latency thresholds (cart consistency under concurrent stock updates, P95 checkout latency < 300ms), concurrent user targets, and database connection limits.",
+        "confidence": 76,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 10 source keywords in document context."
+      }
+    },
+    {
+      "section_name": "Data Architecture & Schema Definitions",
+      "priority": "MEDIUM",
+      "why_missing": "Data models, foreign key relationships, and migration strategies are unaddressed.",
+      "recommended_addition": "Provide entity relationship diagrams (ERD) and JSON schema validation rules.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 4,
+        "claim": "Missing Gap: Data Architecture & Schema Definitions \u2014 Data models, foreign key relationships, and migration strategies are unaddressed.",
+        "confidence": 75,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 3 source keywords in document context."
+      }
+    }
+  ],
+  "rtm_matrix": [
+    {
+      "req_id": "REQ-01",
+      "business_goal": "Project Name- AI-Driven Requirement Engineering Assistant",
+      "technical_component": "Core Service Engine",
+      "test_case_verification": "Automated test for 'Project Name- AI-Driven Requirement Engi...'",
+      "status": "COVERED",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 5,
+        "claim": "Traceability: REQ-01 Project Name- AI-Driven Requirement Engineering Assistant via Core Service Engine",
+        "confidence": 92,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 11 source keywords in document context."
+      }
+    },
+    {
+      "req_id": "REQ-02",
+      "business_goal": "Prepared By- Reeya & Mahek",
+      "technical_component": "API & Gateway Layer",
+      "test_case_verification": "Automated test for 'Prepared By- Reeya & Mahek...'",
+      "status": "PARTIAL",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 6,
+        "claim": "Traceability: REQ-02 Prepared By- Reeya & Mahek via API & Gateway Layer",
+        "confidence": 88,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 7 source keywords in document context."
+      }
+    },
+    {
+      "req_id": "REQ-03",
+      "business_goal": "Northfield Retail Group operates 46 physical stores across the western region and currently has no d",
+      "technical_component": "Core Service Engine",
+      "test_case_verification": "Automated test for 'Northfield Retail Group operates 46 phys...'",
+      "status": "COVERED",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 7,
+        "claim": "Traceability: REQ-03 Northfield Retail Group operates 46 physical stores across the western region and currently has no d via Core Service Engine",
+        "confidence": 93,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 16 source keywords in document context."
+      }
+    },
+    {
+      "req_id": "REQ-04",
+      "business_goal": "consumer digital sales channel. Management has approved funding for NovaCart, a customer-facing e-co",
+      "technical_component": "API & Gateway Layer",
+      "test_case_verification": "Automated test for 'consumer digital sales channel. Manageme...'",
+      "status": "PARTIAL",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 8,
+        "claim": "Traceability: REQ-04 consumer digital sales channel. Management has approved funding for NovaCart, a customer-facing e-co via API & Gateway Layer",
+        "confidence": 91,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 15 source keywords in document context."
+      }
+    },
+    {
+      "req_id": "REQ-05",
+      "business_goal": "platform that will allow shoppers to browse, purchase and track products online while giving store o",
+      "technical_component": "Core Service Engine",
+      "test_case_verification": "Automated test for 'platform that will allow shoppers to bro...'",
+      "status": "COVERED",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 9,
+        "claim": "Traceability: REQ-05 platform that will allow shoppers to browse, purchase and track products online while giving store o via Core Service Engine",
+        "confidence": 93,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 17 source keywords in document context."
+      }
+    }
+  ],
+  "ai_recommendations": [
+    "Address 2 identified risk factors before technical architecture signoff.",
+    "Refactor all ambiguous requirement statements into testable Given/When/Then acceptance criteria.",
+    "Complete the Missing Sections including PCI-DSS, GDPR/CCPA (customer PII) controls and NFR benchmarks."
+  ],
+  "domain_profile": {
+    "domain": "ECOMMERCE",
+    "compliance": [
+      "PCI-DSS",
+      "GDPR/CCPA (customer PII)"
+    ],
+    "standard_nfrs": [
+      "cart consistency under concurrent stock updates",
+      "P95 checkout latency < 300ms"
+    ]
+  },
+  "verification_summary": {
+    "verdicts": [
+      {
+        "claim_index": 0,
+        "claim": "Risk: High Ambiguity & Untestable Language (Project Name- AI-Driven Requirement Engineering Assistant) \u2014 Specification contains subjective and untestable phrasing including 'fast'. Engineering teams cannot derive deterministic acceptance tests.",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 13 source keywords in document context."
+      },
+      {
+        "claim_index": 1,
+        "claim": "Risk: ECOMMERCE Data Protection & PCI-DSS Compliance Gap \u2014 Document specifies financial transactions or payments without defining PCI-DSS, GDPR/CCPA (customer PII) tokenization, webhook verification, or idempotent charge safety.",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 14 source keywords in document context."
+      },
+      {
+        "claim_index": 2,
+        "claim": "Missing Gap: ECOMMERCE Regulatory Compliance & Security Controls (PCI-DSS, GDPR/CCPA (customer PII)) \u2014 The specification lacks formal compliance mapping for PCI-DSS, GDPR/CCPA (customer PII) and industry standard NFRs.",
+        "confidence": 76,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 10 source keywords in document context."
+      },
+      {
+        "claim_index": 3,
+        "claim": "Missing Gap: Non-Functional Requirements (NFR): SLAs & Throughput \u2014 Missing latency thresholds (cart consistency under concurrent stock updates, P95 checkout latency < 300ms), concurrent user targets, and database connection limits.",
+        "confidence": 76,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 10 source keywords in document context."
+      },
+      {
+        "claim_index": 4,
+        "claim": "Missing Gap: Data Architecture & Schema Definitions \u2014 Data models, foreign key relationships, and migration strategies are unaddressed.",
+        "confidence": 75,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 3 source keywords in document context."
+      },
+      {
+        "claim_index": 5,
+        "claim": "Traceability: REQ-01 Project Name- AI-Driven Requirement Engineering Assistant via Core Service Engine",
+        "confidence": 92,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 11 source keywords in document context."
+      },
+      {
+        "claim_index": 6,
+        "claim": "Traceability: REQ-02 Prepared By- Reeya & Mahek via API & Gateway Layer",
+        "confidence": 88,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 7 source keywords in document context."
+      },
+      {
+        "claim_index": 7,
+        "claim": "Traceability: REQ-03 Northfield Retail Group operates 46 physical stores across the western region and currently has no d via Core Service Engine",
+        "confidence": 93,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 16 source keywords in document context."
+      },
+      {
+        "claim_index": 8,
+        "claim": "Traceability: REQ-04 consumer digital sales channel. Management has approved funding for NovaCart, a customer-facing e-co via API & Gateway Layer",
+        "confidence": 91,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 15 source keywords in document context."
+      },
+      {
+        "claim_index": 9,
+        "claim": "Traceability: REQ-05 platform that will allow shoppers to browse, purchase and track products online while giving store o via Core Service Engine",
+        "confidence": 93,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 17 source keywords in document context."
+      },
+      {
+        "claim_index": 10,
+        "claim": "Ambiguity: Vague requirement phrase: 'fast' \u2014 Document text contains ambiguous phrase 'fast' without technical boundaries or SLA targets.",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 8 source keywords in document context."
+      }
+    ],
+    "verified_count": 11,
+    "flagged_count": 0,
+    "flagged_items": [],
+    "total_claims": 11
+  },
+  "content_hash": "a4142f67fa154ab9c022a9ac85d712111b15ed772a45680d2a75702924f9f2cb",
+  "is_cached": true,
+  "audit_diff": {
+    "score_delta": 47,
+    "previous_score": 45,
+    "current_score": 92,
+    "resolved_risks_count": 5,
+    "resolved_risks": [
+      "Lack of Specific PHI Encryption Standards",
+      "Absence of Audit Trail Immutability",
+      "Missing Interoperability Standards (HL7 FHIR/DICOM)",
+      "Undefined Disaster Recovery Benchmarks",
+      "Ambiguous Role-Based Access Control (RBAC) Granularity"
+    ],
+    "new_risks_count": 2,
+    "new_risks": [
+      "High Ambiguity & Untestable Language (Project Name- AI-Driven Requirement Engineering Assistant)",
+      "ECOMMERCE Data Protection & PCI-DSS Compliance Gap"
+    ],
+    "has_prior_audit": true
+  },
+  "id": "b7fdb5ba-4852-4924-aa7c-87a04afab1d3",
+  "analyzed_at": "2026-09-01T19:40:26.227811+00:00",
+  "filename": "AI-Driven Requirement Engineering Assistant1 (1).pdf",
+  "file_id": "5f247460-dc68-4ea2-92df-e7f349642b52",
+  "conversation_id": "64078355-bf6e-49c3-bc84-9edc5de8fa88"
+}

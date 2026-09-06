@@ -1,0 +1,1417 @@
+--- Page 1 ---
+Project Name- AI-Driven Requirement Engineering Assistant 
+Prepared By- Reeya & Mahek 
+Date- 21-07-2026 
+ 
+ 
+Client Business Idea 
+1.1 Business Objective 
+Northfield Retail Group operates 46 physical stores across the western region and currently has no direct-to-
+consumer digital sales channel. Management has approved funding for NovaCart, a customer-facing e-commerce 
+platform that will allow shoppers to browse, purchase and track products online while giving store operations staff a 
+single system to manage catalogue, inventory and fulfilment. The platform is expected to become the company's 
+primary growth channel over the next three fiscal years. 
+1.2 Current Business Problem 
+Sales today are confined to physical footfall, which caps revenue to store catchment areas and store operating hours. 
+Customers who want to check stock, compare products or place an order outside of store hours have no channel to 
+do so, and the company has already lost measurable market share to regional competitors that operate online 
+storefronts. Customer service also fields a high volume of phone enquiries about order status because there is no 
+self-service tracking capability. 
+1.3 Expected Business Value 
+● A new digital revenue stream projected to contribute 18% of total company revenue within 24 months of 
+launch. 
+● Reduction in inbound customer service call volume through self-service order tracking and order history. 
+● Improved inventory visibility across the store network through a unified product catalogue. 
+● A foundation for future loyalty, personalisation and marketplace initiatives. 
+1.4 Business Goals 
+● Launch a functioning e-commerce storefront within two fiscal quarters. 
+● Provide customers a self-service channel for registration, ordering and tracking. 
+● Give store operations a single administrative system for catalogue and order management. 
+1.5 Business Objectives 
+Objective ID Objective Measure 
+OBJ-01 Enable customers to create an account and authenticate securely Registration completion rate 
+≥ 70% 
+OBJ-02 Provide fast, relevant product discovery Search-to-product-view 
+conversion ≥ 40% 
+OBJ-03 Provide a frictionless cart and checkout experience Cart abandonment rate ≤ 
+65% within 6 months 
+OBJ-04 Give customers visibility of order status and history Order-status call volume 
+reduced by 30%
+
+--- Page 2 ---
+1.6 Business Success Criteria 
+● Platform goes live within the approved budget and timeline. 
+● Customers can independently register, search, purchase and track orders without contacting support. 
+● Store operations staff can manage products, inventory and orders from a single administration console. 
+● No Sev-1 defects open at go-live; UAT sign-off obtained from all business stakeholders. 
+1.7 Business Assumptions  
+● The client will provide product catalogue data (SKU, price, images, description) in a structured format prior 
+to development of the catalogue module. 
+● A third-party payment gateway will be contracted separately and made available for integration by Sprint 3. 
+● Store inventory systems can expose stock levels through an existing internal API. 
+1.8 Business Constraints 
+● The solution must be delivered within a fixed six-month timeline agreed with the sponsor. 
+● The platform must comply with PCI-DSS requirements as no cardholder data may be stored locally. 
+● The initial release is limited to the four core customer journeys agreed with the client: registration and login, 
+product search and details, cart and checkout, and order tracking and history. 
+ 
+2. Requirement Gathering 
+2.1 Stakeholders and Roles 
+Stakeholder Role Interest / Responsibility 
+Arvind Deshmukh Client Sponsor Funds and owns overall business outcome 
+Rina Sinha Product Owner Owns product backlog, prioritisation and sign-off 
+Store Operations Manager Business SME Represents inventory and fulfilment process 
+Customer Service Lead Business SME Represents order enquiry and support process 
+Thomas Abraham Delivery Manager Owns delivery timeline and resourcing 
+Karan Mehta Solution Architect Owns technical design and non-functional requirements 
+Priya Nair QA Lead Owns test strategy and quality sign-off 
+Meera Kulkarni Business Analyst Owns requirement elicitation, BRD and SRS 
+ 
+2.2 Meeting Summary 
+Meeting Date Attendees Agenda 
+Kick-off Workshop 03 Jun 2026 Sponsor, PO, BA, Architect Confirm scope, business goals, 
+four core journeys 
+Requirement Deep-dive 05 Jun 2026 PO, Store Ops, Customer 
+Service, BA 
+Walk through registration, 
+search, cart, tracking needs 
+Prototype Review 17 Jun 2026 PO, BA, Architect, UX Review clickable wireframes 
+for the four journeys 
+BRD Sign-off 25 Jun 2026 Sponsor, PO, Delivery 
+Manager 
+Review and approve BRD and 
+scope boundaries
+
+--- Page 3 ---
+2.3 Client Questions and Responses 
+Question Response 
+Should customers be allowed to check out as guests? No. Guest checkout is out of scope for Release 1; all 
+orders require a registered account. 
+How frequently is stock data refreshed? Twice daily from the internal inventory system via batch 
+API. 
+Is a single payment gateway sufficient at launch? Yes, one PCI-compliant gateway is sufficient for Release 
+1. 
+Should customers be able to cancel an order after 
+placement? 
+Yes, cancellation is allowed only while the order is in 
+'Processing' status. 
+2.4 Desired Features 
+● Simple registration and login using email or mobile number. 
+● Fast keyword search with category, price and availability filters. 
+● Persistent shopping cart with quantity updates and a clear checkout flow. 
+● Real-time order tracking and a searchable order history. 
+2.5 Business Rules Captured 
+Rule ID Business Rule 
+BRULE-01 A customer account must be verified by email or mobile OTP before first login. 
+BRULE-02 Checkout is permitted only for authenticated customers; guest checkout is not supported. 
+BRULE-03 An item can be added to cart only if available stock quantity is greater than zero. 
+BRULE-04 An order can be cancelled by the customer only while its status is 'Processing'. 
+BRULE-05 Order history must be retained and viewable for a minimum of 24 months. 
+ 
+3. Requirement Analysis 
+FR ID Complete Consistent Feasible Testable Ambiguity Priority Business 
+Value 
+Tech. 
+Complexity Risk 
+FR-001 Yes Yes Yes Yes None Must High Low Low 
+FR-002 Yes Yes Yes Yes None Must High Medium Medium 
+FR-003 Yes Yes Yes Yes None Must High Low Low 
+FR-004 Yes Yes Yes Yes None Must Medium Medium Medium 
+FR-005 Yes Yes Yes Yes None Must High Medium Medium 
+FR-006 Yes Yes Yes Yes Low Should Medium Medium Low 
+FR-007 Yes Yes Yes Yes None Must High Low Low 
+FR-008 Yes Yes Yes Yes None Must High Medium Medium 
+FR-009 Yes Yes Yes Yes None Must High High High 
+FR-010 Yes Yes Yes Yes None Must High High High 
+FR-011 Yes Yes Yes Yes None Must High Medium Medium 
+FR-012 Yes Yes Yes Yes None Should Medium Low Low 
+FR-013 Yes Yes Yes Yes Low Should Medium Medium Medium 
+FR-014 Yes Yes Yes Yes None Should Medium Medium Medium
+
+--- Page 4 ---
+4. Business Requirement Document (BRD) 
+4.1. Introduction 
+4.1.1 Purpose 
+This document describes the business requirements for developing an e-commerce website. It helps the 
+client and development team understand the project goals and expected features. It also acts as a reference 
+throughout the project lifecycle. 
+4.1.2 Business Need 
+The client currently sells products only through physical stores. Customers cannot shop online or track their 
+orders. The new website will provide an online shopping platform to improve customer experience. 
+4.1.3 Project Overview 
+This is an online shopping website where customers can register, search products, place orders, and track 
+deliveries. Store administrators can manage products, inventory, and customer orders through an admin 
+panel. 
+4.2. Business Objectives 
+The main objective is to build a secure and user-friendly e-commerce website. The system should increase 
+online sales, improve customer satisfaction, and reduce manual work. Customers should be able to complete 
+purchases easily. 
+Objective ID Objective 
+OBJ-01 Enable customers to create and securely access an account 
+OBJ-02 Provide fast and relevant product discovery 
+OBJ-03 Provide a low-friction cart and checkout experience 
+OBJ-04 Give customers self-service visibility of order status and history 
+4.3. Problem Statement 
+Customers currently have to visit physical stores to purchase products. They cannot check product 
+availability or order status online. This leads to reduced customer convenience and limits business growth. A 
+customer wishing to buy a product today must visit a physical store during trading hours, locate the item on 
+the shelf or ask staff to check the paper catalogue, and pay at a till. There is no way to check stock, compare 
+products or place an order remotely. 
+4.4. Project Scope 
+In Scope 
+ Customer Registration  
+ Login  
+ Product Search  
+ Shopping Cart  
+ Checkout  
+ Order Tracking
+
+--- Page 5 ---
+Out of Scope 
+ Loyalty Program  
+ Mobile Application  
+ Multi-language Support 
+4.5. Stakeholder  
+4.5.1. Stakeholder Analysis 
+Stakeholder Role Responsibility Influence Interest 
+Arvind Deshmukh Client Sponsor Funds the initiative and owns the 
+business outcome High High 
+Rina Sinha Product Owner Owns backlog priority and business 
+sign-off High High 
+Store Operations Manager Business SME Represents inventory and fulfilment 
+process Medium High 
+Customer Service Lead Business SME Represents order enquiry and support 
+process Medium High 
+Thomas Abraham Delivery Manager Owns delivery timeline and resourcing Medium Medium 
+Karan Mehta Solution Architect Owns technical design and non-
+functional requirements Medium Medium 
+Priya Nair QA Lead Owns test strategy and quality sign-off Low Medium 
+Meera Kulkarni Business Analyst Owns requirement capture and this 
+document Low High 
+4.5.2. Stakeholder Requirements 
+Customer Requirements 
+● A simple way to create an account and log in using either email or mobile number. 
+● Fast, relevant product search with the ability to filter results. 
+● A cart that reliably reflects item availability and price. 
+● Visibility of order status and access to a full order history. 
+Business Requirements 
+● A digital channel that contributes measurable incremental revenue. 
+● Reduced dependency on phone-based customer service for order status enquiries. 
+Operational Requirements 
+● A single console for managing product listings, stock levels and order fulfilment. 
+● Stock data synchronised from the existing internal inventory system without requiring a separate manual 
+process. 
+Reporting Requirements 
+● Visibility of registration, conversion and cart abandonment metrics for the Product Owner. 
+● Order and fulfilment status reporting for store operations.
+
+--- Page 6 ---
+Administrative Requirements 
+● Role-based access so that only authorised staff can amend catalogue, inventory or order records. 
+● An audit trail of changes made to product and order data through the administration console. 
+ 
+4.6. Business Requirements 
+BR ID Requirement Priority Source 
+BR-001 Customer Registration — customers shall be able to create a new 
+account using email or mobile number Must Have Kick-off Workshop 
+BR-002 Login — registered customers shall be able to authenticate and 
+access their account Must Have Kick-off Workshop 
+BR-003 Product Search — customers shall be able to search and browse 
+products with detailed product information Must Have Requirement Deep-
+dive 
+BR-004 Shopping Cart — customers shall be able to add, update and remove 
+items in a cart prior to purchase Must Have Requirement Deep-
+dive 
+BR-005 Checkout — customers shall be able to complete a purchase by 
+providing delivery and payment details Must Have Requirement Deep-
+dive 
+BR-006 Order Tracking — customers shall be able to track active orders and 
+view order history Must Have Observation, Deep-
+dive Session 
+ 
+4.7  Business Rules 
+Rule ID Business Rule 
+BRULE-01 A customer account must be verified by email or mobile OTP before first login. 
+BRULE-02 Checkout is permitted only for authenticated customers; guest checkout is not supported. 
+BRULE-03 An item can be added to cart only if available stock quantity is greater than zero. 
+BRULE-04 An order can be cancelled by the customer only while its status is 'Processing'. 
+BRULE-05 Order history must be retained and viewable for a minimum of 24 months. 
+BRULE-06 A customer account is locked for 30 minutes after three consecutive failed login attempts. 
+4.8  Functional Overview 
+  Module  Description 
+  Customer 
+Module  Customers can register, log in, verify their account, and reset their password. 
+  Product 
+Module  Customers can search products, apply filters, and view product details. 
+ Shopping Cart 
+Module  Customers can add, update, or remove items from their shopping cart. 
+ Order 
+Management 
+Module 
+ Customers can place orders, make payments, and track their order status. 
+ Admin 
+Module  Admin can manage products, inventory, and customer orders.
+
+--- Page 7 ---
+4.9. Non-Functional Business Requirements 
+ 
+Category Requirement 
+Performance Search results shall return within 2 seconds and checkout transitions within 3 seconds 
+under normal load. 
+Availability The platform shall maintain 99.5% uptime measured monthly, excluding planned 
+maintenance. 
+Security Credentials shall be stored using salted one-way hashing; all traffic shall be encrypted in 
+transit. 
+Reliability Order and payment transactions shall be idempotent; retries shall never create duplicate 
+orders or charges. 
+Maintainability The codebase shall follow approved coding standards with a minimum 80% automated 
+test coverage on backend services. 
+Scalability The platform shall scale horizontally to absorb seasonal peak traffic of up to 5x average 
+daily load. 
+Accessibility Core customer journeys shall conform to WCAG 2.1 AA accessibility guidelines. 
+Compliance All payment processing shall be PCI-DSS compliant; no raw cardholder data shall be stored 
+by NovaCart. 
+Localization The platform shall support a single language and currency at launch, with the data model 
+structured to allow future localisation. 
+4.10. Assumptions 
+ID Assumption 
+ASM-01 Product and inventory data will be supplied in structured, machine-readable format ahead of 
+catalogue development. 
+ASM-02 A single PCI-compliant payment gateway is sufficient for the initial release. 
+ASM-03 Twice-daily inventory refresh is an acceptable stock-accuracy cadence for the online storefront. 
+ASM-04 No guest checkout is required; all customers purchase through a registered account. 
+4.11. Constraints 
+ID Constraint 
+CON-01 Budget — the project must be delivered within the sponsor-approved budget envelope. 
+CON-02 Timeline — a fixed six-month delivery window from kick-off to go-live. 
+CON-03 Technology — the solution must run on the client's approved cloud hosting platform. 
+CON-04 Compliance — no cardholder data may be stored locally; PCI-DSS applies to all payment handling. 
+CON-05 Resources — the delivery team is fixed at one frontend, one backend and one QA pod for the duration 
+of the release. 
+4.12. Dependencies 
+ID Dependency Owner 
+DEP-01 PCI-compliant payment gateway contract and sandbox credentials Procurement / Client 
+DEP-02 Internal inventory API availability and stability Client IT 
+DEP-03 Approved cloud hosting environment provisioned before development starts Client IT / Solution 
+Architect 
+DEP-04 Brand and UX guideline sign-off for storefront design Client Marketing
+
+--- Page 8 ---
+4.13. Risks 
+Risk ID Description Impact Mitigation 
+RISK-01 Payment gateway contract not finalised before 
+development reaches the checkout module High 
+Begin integration against sandbox 
+credentials in parallel with 
+procurement 
+RISK-02 Inventory API data quality issues affecting 
+catalogue accuracy Medium 
+Run data validation prior to 
+catalogue import; flag anomalies to 
+Store Operations 
+RISK-03 Order status updates not propagating to 
+customers within the performance target Medium 
+Add monitoring and cache-
+invalidation checks to the order 
+status service 
+RISK-04 Underestimated checkout complexity causing 
+schedule slippage Medium Scope an early technical spike for 
+checkout ahead of full build 
+RISK-05 Scope creep beyond the six agreed business 
+requirements High All additions routed through a 
+formal change request process 
+4.14. Acceptance Criteria 
+BR ID Business Acceptance Criteria 
+BR-001 A new customer can register using email or mobile number, verify the account via OTP, and the account 
+cannot be created twice against the same email or mobile number. 
+BR-002 A verified customer can log in with correct credentials and is locked out after three consecutive failed 
+attempts. 
+BR-003 A customer can search by keyword, filter by category, price range and availability, and view accurate 
+product detail including current stock status. 
+BR-004 A customer can add, update the quantity of, and remove items from a cart, with the cart total always 
+reflecting current contents. 
+BR-005 A customer can complete checkout by providing a valid delivery address and payment details, resulting 
+in a confirmed order only on successful payment authorisation. 
+BR-006 A customer can view real-time status for an active order and a complete list of past orders, and can 
+cancel an order only while it remains in 'Processing' status. 
+ 
+4.15. Traceability  
+Business Requirement Related Functional Requirement 
+BR-001 Customer Registration FR-001 Account creation with email/mobile and password; FR-002 OTP-
+based account verification 
+BR-002 Login FR-003 Credential-based authentication; FR-004 Password recovery 
+BR-003 Product Search FR-005 Keyword search; FR-006 Category, price and availability filtering; FR-
+007 Product detail display 
+BR-004 Shopping Cart FR-008 Add, update and remove cart items 
+BR-005 Checkout FR-009 Delivery address capture and checkout submission; FR-010 Payment 
+gateway processing 
+BR-006 Order Tracking FR-011 Real-time order status; FR-012 Order history; FR-013 Order 
+cancellation
+
+--- Page 9 ---
+5. Software Requirement Specification (SRS) 
+5.1. Introduction 
+5.1.1 Purpose 
+This Software Requirement Specification (SRS) describes the functional and non-functional requirements of 
+the e-commerce system. It serves as a guide for developers, testers, and stakeholders during the software 
+development process. 
+5.1.2 Scope 
+The system allows customers to register, log in, search products, add items to the cart, complete purchases, 
+and track their orders. It also provides an admin panel for managing products and orders. 
+5.1.3 Definitions 
+Term Definition 
+OTP One-Time Password 
+SKU Stock Keeping Unit 
+Cart Temporary shopping basket 
+Checkout Order completion process 
+5.1.4 References 
+ Business Requirement Document (BRD)  
+ Client Requirements  
+ IEEE SRS Standard  
+5.2. Overall Description 
+5.2.1 Product Perspective 
+This is a web-based e-commerce application that enables customers to shop online. It integrates with a 
+payment gateway and inventory management system to process orders efficiently. 
+5.2.2 Product Functions 
+ Customer Registration & Login  
+ Product Search  
+ Shopping Cart & Checkout  
+ Order Tracking  
+5.2.3 User Classes 
+User Description 
+Customer Purchases products online 
+Admin Manages products and orders 
+Delivery Staff Updates order status 
+5.2.4 Operating Environment 
+The application runs on modern web browsers such as Chrome, Edge, Firefox, and Safari. It is hosted on a 
+cloud server and supports both desktop and mobile devices.
+
+--- Page 10 ---
+5.3. Functional Requirements 
+FR ID Business Req. Functional Requirement 
+FR-001 BR-001 The system shall allow a new user to register using email or mobile number and a 
+password. 
+FR-002 BR-001 The system shall verify a new account via a one-time password sent by email or SMS 
+before first login. 
+FR-003 BR-001 The system shall allow a registered customer to log in with valid credentials. 
+FR-004 BR-001 The system shall allow a customer to reset a forgotten password via a verified email 
+or mobile channel. 
+FR-005 BR-002 The system shall allow a customer to search products by keyword. 
+FR-006 BR-002 The system shall allow a customer to filter search results by category, price range 
+and availability. 
+FR-007 BR-002 The system shall display a product detail page including images, price, description, 
+specifications and stock status. 
+FR-008 BR-003 The system shall allow a customer to add, update the quantity of, or remove an item 
+from the shopping cart. 
+FR-009 BR-003 The system shall allow a customer to complete checkout by providing a delivery 
+address and payment details. 
+FR-010 BR-003 The system shall process payment through an integrated, PCI-compliant payment 
+gateway. 
+FR-011 BR-004 The system shall allow a customer to view the real-time status of an active order. 
+FR-012 BR-004 The system shall allow a customer to view a history of previously placed orders. 
+FR-013 BR-004 The system shall allow a customer to cancel an order while it is in 'Processing' status. 
+FR-014 BR-002/BR-004 The system shall allow a store administrator to manage product catalogue, 
+inventory and order records. 
+ 
+5.4. Non-Functional Requirements 
+Category  Requirement 
+Performance Product search results should be displayed within 2 seconds under normal load. Checkout should be completed within 3 
+seconds. 
+Security User passwords must be encrypted using a secure hashing algorithm. All communication should use HTTPS/TLS, and 
+payment details should never be stored in the database. 
+Availability The application should maintain at least 99.5% uptime, excluding planned maintenance periods. 
+Reliability The system should process orders without creating duplicate transactions, even if a request is retried due to network 
+issues. 
+Maintainability The application should follow coding standards, maintain clear documentation, and support easy bug fixing and future 
+enhancements. 
+Usability The website should be easy to use, mobile-friendly, and accessible to all users with a simple and responsive interface. 
+Scalability The system should support increasing numbers of users and handle high traffic during peak shopping periods without 
+affecting performance. 
+Compliance The application should comply with PCI-DSS for payment security and follow applicable data privacy and protection 
+regulations. 
+5.5. Database Requirements 
+The database stores customer details, product information, shopping carts, orders, and payment records. 
+Data should be secure, consistent, and backed up regularly.
+
+--- Page 11 ---
+5.6. Business Rules 
+Rule ID Business Rule Related Requirement 
+BRULE-01 An email address or mobile number must be unique across customer accounts. BR-001 
+BRULE-02 A new account must be verified by OTP before first login. BR-001 
+BRULE-03 Only registered, authenticated customers may place an order; guest checkout is not supported. BR-003 
+BRULE-04 An item may be added to the cart only if available stock quantity is greater than zero. BR-002 / BR-003 
+BRULE-05 Payment must be successfully authorised before an order is confirmed. BR-003 
+BRULE-06 An order may be cancelled by the customer only while its status is "Processing"; it cannot be 
+cancelled after shipping. 
+BR-004 
+BRULE-07 Order history must be retained and viewable for a minimum of 24 months. BR-004 
+ 
+5.7. Use Case Specifications 
+UC-001 — Customer Registration (BR-001) 
+ Actor: Customer 
+ Precondition: The user is not already registered. 
+ Main Flow: Customer submits email/mobile number and password → system validates uniqueness 
+→ account created in unverified state → OTP sent → customer enters OTP → account verified. 
+ Exception: Duplicate email/mobile is rejected with an error message. 
+ Postcondition: A new, verified customer account exists. 
+UC-002 — Customer Login (BR-001) 
+ Actor: Customer 
+ Precondition: Customer holds a verified account. 
+ Main Flow: Customer enters credentials → system validates → session established. 
+ Exception: Three consecutive failed attempts lock the account temporarily. 
+ Postcondition: Customer is authenticated with an active session. 
+UC-003 — Search and View Product (BR-002) 
+ Actor: Customer 
+ Precondition: Product catalogue is populated. 
+ Main Flow: Customer searches by keyword or filters by category/price/availability → system 
+returns matching products → customer selects a product → detail page displays price, images, 
+description and stock status. 
+ Exception: No matching products returns a "no results" message. 
+ Postcondition: Customer has the information needed to decide whether to purchase. 
+UC-004 — Manage Cart and Checkout (BR-003) 
+ Actor: Customer 
+ Precondition: Customer is authenticated and viewing a product or existing cart. 
+ Main Flow: Customer adds/updates/removes cart items → proceeds to checkout → provides 
+delivery address and payment details → payment is authorised → order is confirmed. 
+ Exception: Insufficient stock blocks the cart update; incomplete address blocks checkout; a declined 
+payment blocks order creation. 
+ Postcondition: A confirmed, paid order exists. 
+UC-005 — Track and Review Orders (BR-004) 
+ Actor: Customer 
+ Precondition: Customer has placed at least one order.
+
+--- Page 12 ---
+ Main Flow: Customer views real-time status of an active order or lists past orders in order history; 
+may cancel an order while it is "Processing". 
+ Exception: Cancellation is blocked once the order has shipped. 
+ Postcondition: Customer has current visibility of order status and full order history. 
+5.8. Acceptance Criteria 
+Related Requirement Acceptance Criteria 
+BR-001 Customer can register successfully with email or mobile number; account requires OTP verification; customer can 
+log in using valid credentials and can recover a forgotten password. 
+BR-002 Customer can search and filter products; product detail pages display accurate price, description and stock status. 
+BR-003 Customer can manage cart contents and complete checkout successfully only after payment is authorised. 
+BR-004 Order status is visible in real time after purchase, past orders appear in order history, and cancellation is only 
+possible while an order is "Processing". 
+5.9. Requirement Traceability Matrix (RTM) 
+BR ID Requirement FR ID Test Case 
+BR-001 Customer Registration & Login FR-001, FR-002, FR-003, FR-004 TC-001, TC-002, TC-003 
+BR-002 Product Search & Product Details FR-005, FR-006, FR-007 TC-004, TC-005 
+BR-003 Shopping Cart & Checkout FR-008, FR-009, FR-010 TC-006, TC-007 
+BR-004 Order Tracking & Order History FR-011, FR-012, FR-013 TC-008, TC-009 
+BR-002/BR-004 Administration (Catalogue, Inventory, Orders) FR-014 TC-010 
+ 
+5.10. Assumptions 
+ Internet connection is available.  
+ Payment gateway is operational.  
+ Product information is provided by the client.  
+ Users have a modern web browser.  
+5.11. Constraints 
+ Project duration is six months.  
+ Budget is limited.  
+ Web application only (no mobile app).  
+ Fixed development team.  
+5.12. Risks 
+ Requirement changes during development.  
+ Payment gateway integration delays.  
+ Server downtime.  
+ Data security threats.  
+5.13. Future Enhancements 
+ Mobile application.  
+ Loyalty rewards program.  
+ Product recommendations.  
+ Multi-language support.
+
+--- Page 13 ---
+5.14. Glossary 
+Term Meaning 
+BRD Business Requirement Document 
+SRS Software Requirement Specification 
+OTP One-Time Password 
+RTM Requirement Traceability Matrix 
+SKU Stock Keeping Unit 
+PCI-DSS Payment Card Industry Data Security Standard 
+5.15. References 
+ Business Requirement Document (BRD)  
+ Client Requirement Documents  
+ IEEE SRS Guidelines  
+ Project Meeting Notes  
+5.16. Appendix 
+ Use Case Diagram  
+ Activity Diagram  
+ ER Diagram  
+ Screen Mockups 
+  
+6. Jira Project Creation 
+ 
+Attribute Value 
+Project Name E-Commerce Platform 
+Project Type Scrum (Software) 
+Workflow Backlog → To Do → In Progress → In Review → QA → Done 
+Statuses Backlog, To Do, In Progress, In Review, QA, Blocked, Done 
+Issue Types Epic, Story, Task, Sub-task, Bug 
+Labels customer-facing, admin-console, payment, search, tracking, security 
+Components Frontend, Backend, Database, Payment Integration, Inventory Integration 
+Versions 1.0-alpha, 1.0-beta, 1.0-GA 
+Releases Release 1.0 GA — target end of Sprint 6 
+ 
+7. Epics 
+Epic ID Epic Name Business 
+Requirement Description 
+EP-001 Customer Authentication & Account 
+Management BR-001 Registration, OTP verification, login and 
+password recovery. 
+EP-002 Product Catalogue & Search BR-002 Search, filtering and product detail 
+presentation. 
+EP-003 Shopping Cart & Checkout BR-003 Cart management, checkout flow and 
+payment processing. 
+EP-004 Order Tracking & Order History BR-004 Real-time order status, history and 
+cancellation. 
+EP-005 Administration & Reporting BR-002 / BR-004 Staff-facing catalogue, inventory and 
+order management console.
+
+--- Page 14 ---
+8. User Stories 
+Story ID Epic Title Priority Points Sprint 
+US-001 EP-001 Customer Registration Must Have 5 Sprint 1 
+US-002 EP-001 Account Verification via OTP Must Have 3 Sprint 1 
+US-003 EP-001 Customer Login Must Have 3 Sprint 1 
+US-004 EP-001 Password Recovery Should Have 3 Sprint 2 
+US-005 EP-002 Keyword Product Search Must Have 5 Sprint 1 
+US-006 EP-002 Filter Search Results Should Have 5 Sprint 2 
+US-007 EP-002 View Product Detail Page Must Have 3 Sprint 1 
+US-008 EP-003 Add Item to Cart Must Have 3 Sprint 2 
+US-009 EP-003 Update or Remove Cart Item Must Have 3 Sprint 2 
+US-010 EP-003 Checkout with Delivery Details Must Have 8 Sprint 3 
+US-011 EP-003 Pay for Order via Payment Gateway Must Have 8 Sprint 3 
+US-012 EP-004 Track Active Order Status Must Have 5 Sprint 4 
+US-013 EP-004 View Order History Should Have 3 Sprint 4 
+US-014 EP-004 Cancel an Order Should Have 5 Sprint 4 
+US-015 EP-005 Manage Product Catalogue Should Have 5 Sprint 3 
+US-016 EP-005 Manage Orders and Inventory Should Have 5 Sprint 4 
+US-001 — Customer Registration 
+Field Value 
+Acceptance Criteria ID AC-001, AC-002 
+Business Value High 
+Priority Must Have 
+Story Points 5 
+Dependencies None 
+Assignee TBD at Sprint Planning 
+Sprint Sprint 1 
+Labels customer-facing 
+Definition of Ready Story refined, acceptance criteria agreed, dependencies identified, estimated by the 
+team 
+Definition of Done Code complete, unit tests passing, peer reviewed, deployed to QA, acceptance 
+criteria verified, no open Sev-1/Sev-2 defects 
+US-002 — Account Verification via OTP 
+Field Value 
+Acceptance Criteria ID AC-003, AC-004 
+Business Value High 
+Priority Must Have 
+Story Points 3 
+Dependencies US-001 
+Assignee TBD at Sprint Planning 
+Sprint Sprint 1 
+Labels customer-facing 
+Definition of Ready Story refined, acceptance criteria agreed, dependencies identified, estimated by the 
+team
+
+--- Page 15 ---
+Field Value 
+Definition of Done Code complete, unit tests passing, peer reviewed, deployed to QA, acceptance 
+criteria verified, no open Sev-1/Sev-2 defects 
+US-003 — Customer Login 
+Field Value 
+Acceptance Criteria ID AC-005, AC-006 
+Business Value High 
+Priority Must Have 
+Story Points 3 
+Dependencies US-002 
+Assignee TBD at Sprint Planning 
+Sprint Sprint 1 
+Labels customer-facing 
+Definition of Ready Story refined, acceptance criteria agreed, dependencies identified, estimated by the 
+team 
+Definition of Done Code complete, unit tests passing, peer reviewed, deployed to QA, acceptance 
+criteria verified, no open Sev-1/Sev-2 defects 
+US-004 — Password Recovery 
+Field Value 
+Acceptance Criteria ID AC-007, AC-008 
+Business Value Medium 
+Priority Should Have 
+Story Points 3 
+Dependencies US-003 
+Assignee TBD at Sprint Planning 
+Sprint Sprint 2 
+Labels customer-facing 
+Definition of Ready Story refined, acceptance criteria agreed, dependencies identified, estimated by the 
+team 
+Definition of Done Code complete, unit tests passing, peer reviewed, deployed to QA, acceptance 
+criteria verified, no open Sev-1/Sev-2 defects 
+US-005 — Keyword Product Search 
+Field Value 
+Acceptance Criteria ID AC-009, AC-010 
+Business Value High 
+Priority Must Have 
+Story Points 5 
+Dependencies None 
+Assignee TBD at Sprint Planning 
+Sprint Sprint 1 
+Labels customer-facing 
+Definition of Ready Story refined, acceptance criteria agreed, dependencies identified, estimated by the 
+team 
+Definition of Done Code complete, unit tests passing, peer reviewed, deployed to QA, acceptance 
+criteria verified, no open Sev-1/Sev-2 defects
+
+--- Page 16 ---
+US-006 — Filter Search Results 
+Field Value 
+Acceptance Criteria ID AC-011, AC-012 
+Business Value Medium 
+Priority Should Have 
+Story Points 5 
+Dependencies US-005 
+Assignee TBD at Sprint Planning 
+Sprint Sprint 2 
+Labels customer-facing 
+Definition of Ready Story refined, acceptance criteria agreed, dependencies identified, estimated by the 
+team 
+Definition of Done Code complete, unit tests passing, peer reviewed, deployed to QA, acceptance 
+criteria verified, no open Sev-1/Sev-2 defects 
+US-007 — View Product Detail Page 
+Field Value 
+Acceptance Criteria ID AC-013, AC-014 
+Business Value High 
+Priority Must Have 
+Story Points 3 
+Dependencies US-005 
+Assignee TBD at Sprint Planning 
+Sprint Sprint 1 
+Labels customer-facing 
+Definition of Ready Story refined, acceptance criteria agreed, dependencies identified, estimated by the 
+team 
+Definition of Done Code complete, unit tests passing, peer reviewed, deployed to QA, acceptance 
+criteria verified, no open Sev-1/Sev-2 defects 
+US-008 — Add Item to Cart 
+Field Value 
+Acceptance Criteria ID AC-015, AC-016 
+Business Value High 
+Priority Must Have 
+Story Points 3 
+Dependencies US-007 
+Assignee TBD at Sprint Planning 
+Sprint Sprint 2 
+Labels customer-facing 
+Definition of Ready Story refined, acceptance criteria agreed, dependencies identified, estimated by the 
+team 
+Definition of Done Code complete, unit tests passing, peer reviewed, deployed to QA, acceptance 
+criteria verified, no open Sev-1/Sev-2 defects 
+US-009 — Update or Remove Cart Item 
+Field Value 
+Acceptance Criteria ID AC-017, AC-018
+
+--- Page 17 ---
+Field Value 
+Business Value High 
+Priority Must Have 
+Story Points 3 
+Dependencies US-008 
+Assignee TBD at Sprint Planning 
+Sprint Sprint 2 
+Labels customer-facing 
+Definition of Ready Story refined, acceptance criteria agreed, dependencies identified, estimated by the 
+team 
+Definition of Done Code complete, unit tests passing, peer reviewed, deployed to QA, acceptance 
+criteria verified, no open Sev-1/Sev-2 defects 
+ 
+US-010 — Checkout with Delivery Details 
+Field Value 
+Acceptance Criteria ID AC-019, AC-020 
+Business Value High 
+Priority Must Have 
+Story Points 8 
+Dependencies US-009 
+Assignee TBD at Sprint Planning 
+Sprint Sprint 3 
+Labels customer-facing 
+Definition of Ready Story refined, acceptance criteria agreed, dependencies identified, estimated by the 
+team 
+Definition of Done Code complete, unit tests passing, peer reviewed, deployed to QA, acceptance 
+criteria verified, no open Sev-1/Sev-2 defects 
+US-011 — Pay for Order via Payment Gateway 
+Field Value 
+Acceptance Criteria ID AC-021, AC-022 
+Business Value High 
+Priority Must Have 
+Story Points 8 
+Dependencies US-010 
+Assignee TBD at Sprint Planning 
+Sprint Sprint 3 
+Labels customer-facing 
+Definition of Ready Story refined, acceptance criteria agreed, dependencies identified, estimated by the 
+team 
+Definition of Done Code complete, unit tests passing, peer reviewed, deployed to QA, acceptance 
+criteria verified, no open Sev-1/Sev-2 defects 
+US-012 — Track Active Order Status 
+Field Value 
+Acceptance Criteria ID AC-023, AC-024
+
+--- Page 18 ---
+Field Value 
+Business Value High 
+Priority Must Have 
+Story Points 5 
+Dependencies US-011 
+Assignee TBD at Sprint Planning 
+Sprint Sprint 4 
+Labels customer-facing 
+Definition of Ready Story refined, acceptance criteria agreed, dependencies identified, estimated by the 
+team 
+Definition of Done Code complete, unit tests passing, peer reviewed, deployed to QA, acceptance 
+criteria verified, no open Sev-1/Sev-2 defects 
+US-013 — View Order History 
+Field Value 
+Acceptance Criteria ID AC-025, AC-026 
+Business Value Medium 
+Priority Should Have 
+Story Points 3 
+Dependencies US-011 
+Assignee TBD at Sprint Planning 
+Sprint Sprint 4 
+Labels customer-facing 
+Definition of Ready Story refined, acceptance criteria agreed, dependencies identified, estimated by the 
+team 
+Definition of Done Code complete, unit tests passing, peer reviewed, deployed to QA, acceptance 
+criteria verified, no open Sev-1/Sev-2 defects 
+US-014 — Cancel an Order 
+Field Value 
+Acceptance Criteria ID AC-027, AC-028 
+Business Value Medium 
+Priority Should Have 
+Story Points 5 
+Dependencies US-012 
+Assignee TBD at Sprint Planning 
+Sprint Sprint 4 
+Labels customer-facing 
+Definition of Ready Story refined, acceptance criteria agreed, dependencies identified, estimated by the 
+team 
+Definition of Done Code complete, unit tests passing, peer reviewed, deployed to QA, acceptance 
+criteria verified, no open Sev-1/Sev-2 defects 
+US-015 — Manage Product Catalogue 
+Field Value 
+Acceptance Criteria ID AC-029, AC-030 
+Business Value Medium
+
+--- Page 19 ---
+Field Value 
+Priority Should Have 
+Story Points 5 
+Dependencies US-007 
+Assignee TBD at Sprint Planning 
+Sprint Sprint 3 
+Labels admin-console 
+Definition of Ready Story refined, acceptance criteria agreed, dependencies identified, estimated by the 
+team 
+Definition of Done Code complete, unit tests passing, peer reviewed, deployed to QA, acceptance 
+criteria verified, no open Sev-1/Sev-2 defects 
+ 
+US-016 — Manage Orders and Inventory 
+Field Value 
+Acceptance Criteria ID AC-031, AC-032 
+Business Value Medium 
+Priority Should Have 
+Story Points 5 
+Dependencies US-012 
+Assignee TBD at Sprint Planning 
+Sprint Sprint 4 
+Labels admin-console 
+Definition of Ready Story refined, acceptance criteria agreed, dependencies identified, estimated by the 
+team 
+Definition of Done Code complete, unit tests passing, peer reviewed, deployed to QA, acceptance 
+criteria verified, no open Sev-1/Sev-2 defects 
+ 
+9. Acceptance Criteria  
+AC ID Story Scenario Gherkin 
+AC-001 US-001 Successful registration 
+Given a visitor on the registration page, When they submit a valid email, 
+mobile number and password, Then an account is created in an 
+unverified state and an OTP is sent. 
+AC-002 US-001 Duplicate account 
+rejected 
+Given a visitor enters an email already registered, When they submit 
+the registration form, Then the system rejects the request with a 
+duplicate-account error and does not create a new account. 
+AC-003 US-002 Successful OTP 
+verification 
+Given an unverified account, When the customer enters the correct OTP 
+within the validity window, Then the account status changes to verified. 
+AC-004 US-002 Expired or incorrect 
+OTP 
+Given an unverified account, When the customer enters an incorrect or 
+expired OTP, Then verification is rejected and the customer may request 
+a new OTP. 
+AC-005 US-003 Successful login 
+Given a verified account, When the customer enters the correct 
+email/mobile and password, Then the customer is logged in and 
+redirected to the homepage. 
+AC-006 US-003 Invalid credentials 
+Given a verified account, When the customer enters an incorrect 
+password three consecutive times, Then the account is temporarily 
+locked and the customer is notified. 
+AC-007 US-004 Password reset 
+request 
+Given a registered customer on the forgot-password page, When they 
+submit their registered email, Then a reset link is sent and expires after 
+30 minutes.
+
+--- Page 20 ---
+AC ID Story Scenario Gherkin 
+AC-008 US-004 Reset link reuse 
+Given a customer has already used a password reset link, When they 
+attempt to use the same link again, Then the system rejects it as 
+expired. 
+AC-009 US-005 Keyword search 
+returns results 
+Given products exist matching a keyword, When the customer searches 
+that keyword, Then matching products are displayed ranked by 
+relevance. 
+AC-010 US-005 No matching results 
+Given no products match a keyword, When the customer searches that 
+keyword, Then a 'no results found' message with suggested categories is 
+displayed. 
+AC-011 US-006 Filter by price range 
+Given search results are displayed, When the customer applies a 
+minimum and maximum price filter, Then only products within that 
+range remain visible. 
+AC-012 US-006 Filter with no matches 
+Given a customer applies filters with no matching products, When the 
+filter is applied, Then the system displays a message indicating no 
+products match the selected filters. 
+AC-013 US-007 Product detail displays 
+correctly 
+Given a customer selects a product from search results, When the 
+product detail page loads, Then price, images, description and stock 
+status are displayed accurately. 
+AC-014 US-007 Out-of-stock product 
+Given a product has zero available stock, When the customer views its 
+detail page, Then the Add to Cart action is disabled and an out-of-stock 
+label is shown. 
+AC-015 US-008 Add in-stock item to 
+cart 
+Given a product with available stock, When the customer selects Add to 
+Cart, Then the item appears in the cart with quantity one. 
+AC-016 US-008 Add out-of-stock item 
+blocked 
+Given a product with zero stock, When the customer attempts to add it 
+to cart, Then the system prevents the action and displays an error. 
+AC-017 US-009 Update cart quantity 
+Given an item is in the cart, When the customer changes its quantity to 
+a valid number within available stock, Then the cart total recalculates 
+immediately. 
+AC-018 US-009 Remove cart item Given an item is in the cart, When the customer selects Remove, Then 
+the item is removed and the cart total recalculates. 
+AC-019 US-010 Valid checkout 
+submission 
+Given a cart with at least one item, When the customer provides a valid 
+delivery address and proceeds, Then the system advances to the 
+payment step. 
+AC-020 US-010 Incomplete address 
+Given the customer leaves a mandatory address field blank, When they 
+attempt to proceed to payment, Then the system displays a validation 
+error and blocks progression. 
+AC-021 US-011 Successful payment 
+Given valid payment details are submitted at the gateway, When the 
+payment is authorised, Then an order is created and a confirmation is 
+shown to the customer. 
+AC-022 US-011 Declined payment 
+Given the payment gateway declines a transaction, When the decline 
+response is received, Then no order is created and the customer is 
+prompted to retry with different payment details. 
+AC-023 US-012 View current order 
+status 
+Given a customer has an active order, When they open order tracking, 
+Then the current status and last updated timestamp are displayed. 
+AC-024 US-012 No active orders Given a customer has no active orders, When they open order tracking, 
+Then a message indicating no active orders is displayed. 
+AC-025 US-013 View order history list Given a customer has previously placed orders, When they open order 
+history, Then all past orders are listed with date, total and status. 
+AC-026 US-013 Empty order history Given a customer has never placed an order, When they open order 
+history, Then a message indicating no past orders is displayed. 
+AC-027 US-014 Cancel while 
+processing 
+Given an order is in 'Processing' status, When the customer selects 
+Cancel Order, Then the order status changes to 'Cancelled' and any 
+payment hold is released. 
+AC-028 US-014 Cancel blocked after 
+dispatch 
+Given an order has moved to 'Shipped' status, When the customer 
+attempts to cancel, Then the system blocks the action and explains that 
+the order can no longer be cancelled.
+
+--- Page 21 ---
+AC ID Story Scenario Gherkin 
+AC-029 US-015 Add new product 
+Given an administrator on the catalogue console, When they submit a 
+valid new product record, Then the product becomes visible in 
+customer search results. 
+AC-030 US-015 Reject invalid product 
+data 
+Given an administrator submits a product with a missing mandatory 
+field, When they attempt to save, Then the system rejects the 
+submission with a validation message. 
+AC-031 US-016 Update order status 
+Given an administrator views an order, When they update its status to 
+'Shipped', Then the customer-facing tracking view reflects the new 
+status immediately. 
+AC-032 US-016 Adjust stock level 
+Given an administrator updates the stock quantity for a SKU, When the 
+change is saved, Then the customer-facing availability indicator reflects 
+the new quantity. 
+10.Test Cases 
+ 
+TC ID FR Story Module Precondition Steps Expected 
+Result Priority Severity Automated 
+TC-001 FR-
+001 
+US-
+001 Authentication 
+No account 
+exists for test 
+email 
+Register using 
+a new email, 
+mobile and 
+password 
+Account 
+created in 
+UNVERIFIED 
+state, OTP sent 
+High Major Yes 
+TC-002 FR-
+001 
+US-
+001 Authentication Account 
+already exists 
+Attempt 
+registration 
+with an 
+existing email 
+Duplicate-
+account error 
+shown, no new 
+account 
+created 
+Medium Minor Yes 
+TC-003 FR-
+002 
+US-
+002 Authentication 
+Unverified 
+account with 
+active OTP 
+Enter correct 
+OTP within 
+validity 
+window 
+Account status 
+changes to 
+VERIFIED 
+High Major Yes 
+TC-004 FR-
+003 
+US-
+003 Authentication 
+Verified 
+account 
+exists 
+Log in with 
+correct 
+credentials 
+Customer 
+logged in, 
+redirected to 
+homepage 
+High Critical Yes 
+TC-005 FR-
+003 
+US-
+003 Authentication 
+Verified 
+account 
+exists 
+Enter 
+incorrect 
+password 3 
+times 
+Account 
+temporarily 
+locked, 
+notification 
+shown 
+Medium Major Yes 
+TC-006 FR-
+005 
+US-
+005 Catalogue 
+Products 
+exist in 
+catalogue 
+Search using a 
+known 
+matching 
+keyword 
+Matching 
+products 
+displayed, 
+ranked by 
+relevance 
+High Major Yes 
+TC-007 FR-
+006 
+US-
+006 Catalogue 
+Search 
+results 
+displayed 
+Apply price 
+range and 
+availability 
+filter 
+Only matching 
+products 
+remain visible 
+Medium Minor Yes 
+TC-008 FR-
+007 
+US-
+007 Catalogue 
+Product with 
+zero stock 
+exists 
+Open its 
+product detail 
+page 
+Add to Cart 
+disabled, out-
+of-stock label 
+shown 
+Medium Major Yes 
+TC-009 FR-
+008 
+US-
+008 Cart 
+Product with 
+available 
+stock exists 
+Add product 
+to cart 
+Item appears in 
+cart with 
+quantity one 
+High Major Yes 
+TC-010 FR-
+008 
+US-
+009 Cart Item present 
+in cart 
+Update 
+quantity 
+beyond 
+System blocks 
+update, stock 
+error displayed 
+Medium Major Yes
+
+--- Page 22 ---
+TC ID FR Story Module Precondition Steps Expected 
+Result Priority Severity Automated 
+available 
+stock 
+TC-011 FR-
+009 
+US-
+010 Checkout 
+Cart has at 
+least one 
+item 
+Submit 
+checkout with 
+a valid 
+delivery 
+address 
+Checkout 
+advances to 
+payment step 
+High Critical Yes 
+TC-012 FR-
+009 
+US-
+010 Checkout 
+Cart has at 
+least one 
+item 
+Submit 
+checkout with 
+a blank 
+mandatory 
+field 
+Validation 
+error shown, 
+progression 
+blocked 
+Medium Major Yes 
+TC-013 FR-
+010 
+US-
+011 Payment 
+Checkout 
+reaches 
+payment step 
+Submit valid 
+tokenised 
+payment 
+details 
+Payment 
+authorised, 
+order 
+confirmation 
+shown 
+High Critical Yes 
+TC-014 FR-
+010 
+US-
+011 Payment 
+Checkout 
+reaches 
+payment step 
+Submit 
+payment 
+details that 
+gateway 
+declines 
+No order 
+created, retry 
+prompt shown 
+High Critical Yes 
+TC-015 FR-
+011 
+US-
+012 Order Tracking 
+Customer has 
+an active 
+order 
+Open order 
+tracking view 
+Current status 
+and last-
+updated 
+timestamp 
+shown 
+High Major Yes 
+TC-016 FR-
+012 
+US-
+013 Order Tracking Customer has 
+past orders 
+Open order 
+history view 
+Past orders 
+listed with 
+date, total and 
+status 
+Medium Minor Yes 
+TC-017 FR-
+013 
+US-
+014 Order Tracking 
+Order in 
+Processing 
+status 
+Select Cancel 
+Order 
+Status changes 
+to Cancelled, 
+hold released 
+Medium Major Yes 
+TC-018 FR-
+013 
+US-
+014 Order Tracking 
+Order in 
+Shipped 
+status 
+Attempt to 
+cancel the 
+order 
+Cancellation 
+blocked with 
+explanatory 
+message 
+Medium Major Yes 
+TC-019 FR-
+014 
+US-
+015 Administration Administrator 
+logged in 
+Add a new 
+product with 
+all mandatory 
+fields 
+Product visible 
+in customer 
+search results 
+Medium Minor No 
+TC-020 FR-
+014 
+US-
+016 Administration 
+Administrator 
+logged in, 
+order exists 
+Update order 
+status to 
+Shipped 
+Customer 
+tracking view 
+reflects new 
+status 
+immediately 
+Medium Major No
+
+--- Page 23 ---
+11. Requirement Traceability Matrix (RTM) 
+BR FR Epic Story AC Task Unit Test QA TC Bug Version Status 
+BR-001 FR-
+001 
+EP-
+001 US-001 AC-001, AC-
+002 
+TASK-
+001 registerCustomer() TC-001, 
+TC-002 — 1.0-
+alpha Closed 
+BR-001 FR-
+002 
+EP-
+001 US-002 AC-003, AC-
+004 
+TASK-
+001 verifyOtp() TC-003 — 1.0-
+alpha Closed 
+BR-001 FR-
+003 
+EP-
+001 US-003 AC-005, AC-
+006 
+TASK-
+001 authenticateCustomer() TC-004, 
+TC-005 — 1.0-
+alpha Closed 
+BR-001 FR-
+004 
+EP-
+001 US-004 AC-007, AC-
+008 
+TASK-
+001 resetPassword() — — 1.0-beta Closed 
+BR-002 FR-
+005 
+EP-
+002 US-005 AC-009, AC-
+010 
+TASK-
+002 searchProducts() TC-006 — 1.0-
+alpha Closed 
+BR-002 FR-
+006 
+EP-
+002 US-006 AC-011, AC-
+012 
+TASK-
+002 filterProducts() TC-007 — 1.0-beta Closed 
+BR-002 FR-
+007 
+EP-
+002 US-007 AC-013, AC-
+014 
+TASK-
+002 getProductDetail() TC-008 BUG-
+001 
+1.0-
+alpha Closed 
+BR-003 FR-
+008 
+EP-
+003 
+US-008 / 
+US-009 
+AC-015 – 
+AC-018 
+TASK-
+002 
+addToCart() / 
+updateCart() 
+TC-009, 
+TC-010 — 1.0-beta Closed 
+BR-003 FR-
+009 
+EP-
+003 US-010 AC-019, AC-
+020 
+TASK-
+003 submitCheckout() TC-011, 
+TC-012 
+BUG-
+002 1.0-beta Closed 
+BR-003 FR-
+010 
+EP-
+003 US-011 AC-021, AC-
+022 
+TASK-
+004 processPayment() TC-013, 
+TC-014 — 1.0-beta Closed 
+BR-004 FR-
+011 
+EP-
+004 US-012 AC-023, AC-
+024 
+TASK-
+005 getOrderStatus() TC-015 BUG-
+003 1.0-GA In 
+Progress 
+BR-004 FR-
+012 
+EP-
+004 US-013 AC-025, AC-
+026 
+TASK-
+005 getOrderHistory() TC-016 — 1.0-GA Closed 
+BR-004 FR-
+013 
+EP-
+004 US-014 AC-027, AC-
+028 
+TASK-
+005 cancelOrder() TC-017, 
+TC-018 — 1.0-GA Closed 
+BR-
+002/BR-
+004 
+FR-
+014 
+EP-
+005 
+US-015 / 
+US-016 
+AC-029 – 
+AC-032 
+TASK-
+002/005 
+manageCatalogue() / 
+manageOrder() 
+TC-019, 
+TC-020 
+BUG-
+003 1.0-GA In 
+Progress

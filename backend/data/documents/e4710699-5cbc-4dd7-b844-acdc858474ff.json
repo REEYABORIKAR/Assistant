@@ -1,0 +1,257 @@
+{
+  "doc_type": "BRD",
+  "title": "Business Requirements Document \u2014 Hospital Management System",
+  "version": "v1.0",
+  "status": "APPROVED",
+  "revision_history": [],
+  "parent_id": null,
+  "sections": [
+    {
+      "title": "1. Executive Summary & Strategic Rationale",
+      "body": "The Hospital Management System (HMS) is designed to serve as a centralized platform for managing comprehensive hospital operations. The strategic rationale for this system is to streamline and digitize critical workflows including patient information management, medical records, appointments, staff coordination, billing, pharmacy, laboratory services, and inventory. By consolidating these functions into a unified system with role-based access control, the organization aims to enhance operational efficiency, improve patient care quality, and ensure strict compliance with healthcare data privacy standards. The system will support a full lifecycle of patient care, from initial registration and appointment scheduling through to consultation, diagnosis, treatment, laboratory/pharmacy interventions, billing, and follow-up, as well as inpatient admission, bed allocation, and discharge processes."
+    },
+    {
+      "title": "2. Business Objectives & Success Metrics",
+      "body": "**Business Objectives:**\n1. Centralize hospital operations to eliminate data silos across departments (e.g., EMR, Billing, Pharmacy, Laboratory).\n2. Implement robust role-based access control (RBAC) to ensure secure and authorized access for Admin, Doctor, Nurse, Receptionist, Pharmacist, Lab Technician, Accountant, and Patient personas.\n3. Automate end-to-end clinical and administrative workflows to reduce manual errors and processing time.\n4. Provide a self-service patient portal for viewing appointments, prescriptions, reports, bills, and medical history.\n5. Ensure high availability and scalability of the system to support continuous hospital operations.\n\n**Success Metrics:**\n- 100% of patient records and medical history accessible via the centralized EMR module.\n- Reduction in appointment scheduling and billing processing time through automated workflows.\n- Zero unauthorized access incidents to Protected Health Information (PHI) as verified by audit logs.\n- System uptime meeting high-availability benchmarks with fast API response times."
+    },
+    {
+      "title": "3. Scope & Operational Boundaries (In/Out of Scope)",
+      "body": "**In Scope:**\n- **Patient Management:** Registration, profile management, OPD/IPD management, admission/discharge/transfer, and patient portal access.\n- **Clinical Operations:** Appointment scheduling, queue management, doctor availability, electronic medical records (EMR), diagnosis, prescriptions, treatment history, allergies, vital signs, and nursing notes.\n- **Support Services:** Laboratory test requests/reports, pharmacy prescriptions/medicine inventory, bed/ward management.\n- **Financial Operations:** Billing, payments, insurance management, invoices, receipts, and hospital expense tracking.\n- **Administrative Operations:** Staff management, inventory/procurement, dashboards, notifications, search/filtering, reports, audit logs, data validation, backup/recovery, and security.\n- **Architecture:** Responsive web UI, REST APIs, JWT/OAuth-based authentication, and modular backend design.\n\n**Out of Scope:**\n- Hardware procurement and physical infrastructure deployment (cloud or on-premise deployment is supported, but hardware selection is outside this BRD's scope).\n- Integration with external third-party systems not explicitly mentioned (e.g., external insurance networks, though insurance management is in scope).\n- Mobile native application development (focus is on responsive web UI)."
+    },
+    {
+      "title": "4. Key Stakeholders & Governance Personas",
+      "body": "The system is designed to serve the following key stakeholders and governance personas, each with specific role-based access and responsibilities:\n\n- **Admin:** Oversees system configuration, user management, and overall hospital operations.\n- **Doctor:** Manages appointments, patient records, diagnosis, prescriptions, and clinical notes via dedicated dashboards.\n- **Nurse:** Handles nursing notes, vital signs, and patient care coordination.\n- **Receptionist:** Manages patient registration, appointment scheduling, and queue management.\n- **Pharmacist:** Manages pharmacy prescriptions and medicine inventory.\n- **Lab Technician:** Processes laboratory test requests and generates reports.\n- **Accountant:** Manages billing, payments, insurance, invoices, and hospital expenses.\n- **Patient:** Accesses personal appointments, prescriptions, reports, bills, and medical history via the patient portal."
+    },
+    {
+      "title": "5. Business Requirements Specification Matrix",
+      "table": [
+        [
+          "BRD ID",
+          "Requirement Title",
+          "Description",
+          "Priority",
+          "Acceptance Criteria"
+        ],
+        [
+          "BRD-001",
+          "Patient Registration & Profile Management",
+          "System must allow registration of patients and management of their profiles, including OPD/IPD status.",
+          "High",
+          "Patient can be registered with all required fields; profile is accessible to authorized roles."
+        ],
+        [
+          "BRD-002",
+          "Appointment Scheduling & Queue Management",
+          "System must support scheduling appointments, managing queues, and tracking doctor availability.",
+          "High",
+          "Appointments can be scheduled, rescheduled, and canceled; queue status is visible to receptionists and doctors."
+        ],
+        [
+          "BRD-003",
+          "Electronic Medical Records (EMR)",
+          "System must maintain comprehensive EMR including diagnosis, prescriptions, treatment history, allergies, vital signs, and nursing notes.",
+          "High",
+          "All clinical data is recorded, retrievable, and accessible to authorized clinical staff."
+        ],
+        [
+          "BRD-004",
+          "Laboratory Test Management",
+          "System must handle laboratory test requests and generate/store reports.",
+          "Medium",
+          "Lab technicians can receive requests, process tests, and upload reports visible to doctors and patients."
+        ],
+        [
+          "BRD-005",
+          "Pharmacy & Medicine Inventory",
+          "System must manage pharmacy prescriptions and track medicine inventory levels.",
+          "Medium",
+          "Prescriptions are linked to inventory; stock levels are updated upon dispensing."
+        ],
+        [
+          "BRD-006",
+          "Bed/Ward Management",
+          "System must manage bed/ward allocation, including admission, discharge, and transfer workflows.",
+          "High",
+          "Bed availability is real-time; admission/discharge/transfer updates bed status accurately."
+        ],
+        [
+          "BRD-007",
+          "Billing & Payments",
+          "System must generate invoices, process payments, manage insurance claims, and track hospital expenses.",
+          "High",
+          "Invoices are generated based on services rendered; payments are recorded and reconciled."
+        ],
+        [
+          "BRD-008",
+          "Staff Management",
+          "System must manage staff profiles, roles, and access permissions.",
+          "Medium",
+          "Staff can be added, updated, and assigned roles; access is enforced based on role."
+        ],
+        [
+          "BRD-009",
+          "Inventory & Procurement",
+          "System must track hospital inventory and manage procurement processes.",
+          "Low",
+          "Inventory levels are monitored; procurement requests can be initiated and tracked."
+        ],
+        [
+          "BRD-010",
+          "Patient Portal",
+          "System must provide a portal for patients to view appointments, prescriptions, reports, bills, and medical history.",
+          "Medium",
+          "Patients can log in and view their personal data securely."
+        ],
+        [
+          "BRD-011",
+          "Dashboards & Notifications",
+          "System must provide role-specific dashboards and send notifications for key events.",
+          "Medium",
+          "Dashboards display relevant metrics; notifications are triggered for appointments, test results, etc."
+        ],
+        [
+          "BRD-012",
+          "Audit Logs & Security",
+          "System must maintain audit logs, enforce role-based authorization, and ensure data privacy.",
+          "High",
+          "All access and actions are logged; unauthorized access is blocked; PHI is encrypted."
+        ],
+        [
+          "BRD-013",
+          "Backup & Recovery",
+          "System must perform regular backups and support data recovery.",
+          "High",
+          "Backups are automated; recovery procedures are tested and documented."
+        ]
+      ]
+    },
+    {
+      "title": "6. Assumptions & Operational Constraints",
+      "body": "**Assumptions:**\n1. The system will be deployed in a cloud or on-premise environment as determined by the organization's IT strategy.\n2. All users (staff and patients) will have valid credentials and access to the internet to use the web-based system.\n3. Data entry accuracy is the responsibility of the users; the system will provide validation but not guarantee data quality.\n4. The system will integrate with existing hospital workflows without requiring significant process re-engineering.\n\n**Operational Constraints:**\n1. **Technology Stack:** The system must use React/Next.js for the frontend, FastAPI/Node.js/Spring Boot for the backend, PostgreSQL/MySQL for the database, REST APIs for communication, JWT/OAuth for authentication, and Redis for caching/queues.\n2. **Compliance:** The system must comply with HIPAA and GDPR (if EU patients are involved) regarding PHI encryption, audit trail immutability, and data privacy.\n3. **Performance:** The system must support fast API responses and high availability to ensure uninterrupted hospital operations.\n4. **Scalability:** The architecture must be scalable to handle increasing patient volumes and data growth."
+    },
+    {
+      "title": "7. Risk & Compliance Baseline",
+      "body": "**Compliance Frameworks:**\n- **HIPAA:** The system must ensure the privacy and security of Protected Health Information (PHI). This includes encryption of PHI at rest (AES-256), secure authentication, and immutable audit trails.\n- **GDPR:** If EU patients are involved, the system must comply with GDPR regulations regarding data subject rights, data minimization, and cross-border data transfers.\n- **HL7 FHIR & DICOM:** The system should support standard healthcare data exchange formats for interoperability with other healthcare systems.\n\n**Risk Mitigation:**\n- **Data Breach:** Mitigated by enforcing role-based access control, encrypting PHI at rest and in transit (HTTPS), and maintaining comprehensive audit logs.\n- **System Downtime:** Mitigated by implementing high-availability architecture, regular backups, and disaster recovery plans with RTO < 1h and RPO < 5min.\n- **Data Integrity:** Mitigated by implementing database integrity checks, data validation rules, and regular backups.\n- **Unauthorized Access:** Mitigated by using JWT/OAuth-based authentication, secure password encryption, and session management."
+    }
+  ],
+  "_source_audit": {},
+  "_domain_profile": {
+    "domain": "HEALTHCARE",
+    "compliance": [
+      "HIPAA",
+      "GDPR (if EU patients)",
+      "HL7 FHIR",
+      "DICOM"
+    ],
+    "standard_nfrs": [
+      "PHI encryption at rest (AES-256)",
+      "audit trail immutability",
+      "RTO < 1h / RPO < 5min"
+    ]
+  },
+  "_doc_excerpt": "File: A Hospital Management System.pdf\n--- Page 1 ---\nHospital Management System \nA Hospital Management System (HMS)  should provide a centralized platform for \nmanaging hospital operations, patient information, medical records, appointments, doctors, \nnurses, staff, billing, pharmacy, laboratory, and inventory. The system should support  role-\nbased access  for Admin, Doctor, Nurse, Receptionist, Pharmacist, Lab Technician, \nAccountant, and Patient. Core requirements should include patient registration and profile \nmanagement, appointment scheduling and queue management, doctor availability, O PD/IPD \nmanagement, admission/discharge/transfer, electronic medical records, diagnosis, \nprescriptions, treatment history, allergies, vital signs, nursing notes, laboratory test requests \nand reports, pharmacy prescriptions and medicine inventory, bed/ward m anagement, billing \nand payments, insurance management, invoices and receipts, hospital expenses, staff \nmanagement, and inventory/procurement. Patients should be able to view appointments, \nprescriptions, reports, bills, and medical history through a portal,  while doctors should have \ndashboards for appointments, patient records, diagnosis, prescriptions, and clinical notes. \nThe system should also provide  dashboards, notifications, search/filtering, reports, audit \nlogs, data validation, backup/recovery, security, and role -based authorization . \nFunctional requirements should cover complete workflows such as  patient registration \u2192 \nappointment \u2192 consultation \u2192 diagnosis \u2192 laboratory/pharmacy \u2192 billing \u2192 follow -\nup, and admission \u2192 bed allocation \u2192 treatment \u2192 investigations \u2192 discharge \u2192 final \nbilling. Non -functional requirements should include responsive web UI, scalability, high \navailability, fast API responses , secure authentication, password encryption, session \nmanagement, HTTPS, database integrity, auditability, privacy of medical information, error \nhandling, logging, and regular backups. A suitable architecture can use  React/Next.js for \nfrontend, FastAPI/Node.js/Spring Boot for backend, PostgreSQL/MySQL for database, \nREST APIs, JWT/OAuth-based authentication, Redis for caching/queues, and cloud or \non-premise deployment , with separate modules for  Authentication, Patients, \nAppointments, EMR, Doctors, Nursing, L aboratory, Pharmacy, Billing, Inventory, \nStaff, Reports, Notifications, and Administration.",
+  "verification_summary": {
+    "verdicts": [
+      {
+        "claim_index": 0,
+        "claim": "1. Executive Summary & Strategic Rationale: The Hospital Management System (HMS) is designed to serve as a centralized platform for managing comprehensive hospital ",
+        "confidence": 95,
+        "verdict": "SUPPORTED",
+        "reason": "The source explicitly defines HMS as a centralized platform for managing hospital operations."
+      },
+      {
+        "claim_index": 1,
+        "claim": "2. Business Objectives & Success Metrics: **Business Objectives:**\n1. Centralize hospital operations to eliminate data silos across departments (e.g., EMR, Billin",
+        "confidence": 40,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source lists functional requirements but does not define specific business objectives or success metrics like eliminating data silos."
+      },
+      {
+        "claim_index": 2,
+        "claim": "3. Scope & Operational Boundaries (In/Out of Scope): **In Scope:**\n- **Patient Management:** Registration, profile management, OPD/IPD management, admission/discharge/transf",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "The source lists patient registration, profile management, and OPD/IPD management as core requirements."
+      },
+      {
+        "claim_index": 3,
+        "claim": "4. Key Stakeholders & Governance Personas: The system is designed to serve the following key stakeholders and governance personas, each with specific role-based ac",
+        "confidence": 90,
+        "verdict": "SUPPORTED",
+        "reason": "The source explicitly lists roles such as Admin, Doctor, Nurse, and Patient for role-based access."
+      },
+      {
+        "claim_index": 4,
+        "claim": "BRD-001: Patient Registration & Profile Management \u2014 System must allow registration of patients and management of their profiles, including OPD/IPD status. High",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Patient registration and profile management are listed as core requirements, though the 'High' priority rating is an extrapolation."
+      },
+      {
+        "claim_index": 5,
+        "claim": "BRD-002: Appointment Scheduling & Queue Management \u2014 System must support scheduling appointments, managing queues, and tracking doctor availability. High",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Appointment scheduling, queue management, and doctor availability are explicitly mentioned as core requirements."
+      },
+      {
+        "claim_index": 6,
+        "claim": "BRD-003: Electronic Medical Records (EMR) \u2014 System must maintain comprehensive EMR including diagnosis, prescriptions, treatment history, allergies, vital signs, and nursing notes. High",
+        "confidence": 90,
+        "verdict": "SUPPORTED",
+        "reason": "The source lists diagnosis, prescriptions, treatment history, allergies, vital signs, and nursing notes under electronic medical records."
+      },
+      {
+        "claim_index": 7,
+        "claim": "BRD-004: Laboratory Test Management \u2014 System must handle laboratory test requests and generate/store reports. Medium",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Laboratory test requests and reports are explicitly included in the core requirements list."
+      },
+      {
+        "claim_index": 8,
+        "claim": "BRD-005: Pharmacy & Medicine Inventory \u2014 System must manage pharmacy prescriptions and track medicine inventory levels. Medium",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Pharmacy prescriptions and medicine inventory are explicitly listed as core requirements."
+      },
+      {
+        "claim_index": 9,
+        "claim": "6. Assumptions & Operational Constraints: **Assumptions:**\n1. The system will be deployed in a cloud or on-premise environment as determined by the organization's",
+        "confidence": 75,
+        "verdict": "SUPPORTED",
+        "reason": "The source mentions cloud or on-premise deployment as part of the suitable architecture."
+      },
+      {
+        "claim_index": 10,
+        "claim": "7. Risk & Compliance Baseline: **Compliance Frameworks:**\n- **HIPAA:** The system must ensure the privacy and security of Protected Health Information ",
+        "confidence": 30,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source mentions privacy of medical information but does not explicitly cite HIPAA as a compliance framework."
+      }
+    ],
+    "verified_count": 9,
+    "flagged_count": 2,
+    "flagged_items": [
+      {
+        "claim_index": 1,
+        "claim": "2. Business Objectives & Success Metrics: **Business Objectives:**\n1. Centralize hospital operations to eliminate data silos across departments (e.g., EMR, Billin",
+        "confidence": 40,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source lists functional requirements but does not define specific business objectives or success metrics like eliminating data silos."
+      },
+      {
+        "claim_index": 10,
+        "claim": "7. Risk & Compliance Baseline: **Compliance Frameworks:**\n- **HIPAA:** The system must ensure the privacy and security of Protected Health Information ",
+        "confidence": 30,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source mentions privacy of medical information but does not explicitly cite HIPAA as a compliance framework."
+      }
+    ],
+    "total_claims": 11
+  },
+  "id": "e4710699-5cbc-4dd7-b844-acdc858474ff",
+  "pdf_export_url": "/api/v1/documents/e4710699-5cbc-4dd7-b844-acdc858474ff/export/pdf?title=Requirements Chat 9&type=BRD",
+  "conversation_id": "4788ec6b-1f05-45b6-8b41-9d21f99b4b88",
+  "approved_at": "2026-08-31T18:25:38.769926+00:00"
+}

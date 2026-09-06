@@ -1,0 +1,221 @@
+{
+  "doc_type": "BRD",
+  "title": "Business Requirements Document \u2014 Hospital Patient Portal",
+  "version": "v1.0",
+  "status": "PENDING_APPROVAL",
+  "revision_history": [],
+  "parent_id": null,
+  "sections": [
+    {
+      "title": "1. Executive Summary & Strategic Rationale",
+      "body": "The Hospital Patient Portal is a proposed digital platform designed to facilitate secure communication and information exchange between hospital staff and patients. The strategic rationale for this system is to improve patient engagement, streamline administrative workflows, and ensure secure handling of Protected Health Information (PHI). As the source document excerpt is unavailable, the specific strategic drivers, current operational pain points, and long-term digital transformation goals are currently undefined and require stakeholder input to establish the foundational business case."
+    },
+    {
+      "title": "2. Business Objectives & Success Metrics",
+      "body": "The primary business objectives for the Hospital Patient Portal are to enhance patient experience, reduce administrative burden on hospital staff, and ensure strict compliance with healthcare data privacy regulations. However, specific, measurable success metrics (e.g., patient adoption rates, reduction in call center volume, or time-to-resolution for patient inquiries) are not defined in the available source material. Defining these KPIs is an open item requiring stakeholder alignment."
+    },
+    {
+      "title": "3. Scope & Operational Boundaries (In/Out of Scope)",
+      "body": "The operational scope of the Hospital Patient Portal is expected to encompass secure patient authentication, viewing of medical records, appointment scheduling, and secure messaging with healthcare providers. The exact boundaries of the system, including specific modules to be included (In-Scope) and explicitly excluded (Out-of-Scope, such as billing integration or third-party wearable device data ingestion), are not detailed in the provided source. Clarifying these operational boundaries is a critical open item for the project initiation phase."
+    },
+    {
+      "title": "4. Key Stakeholders & Governance Personas",
+      "body": "Key stakeholders for the Hospital Patient Portal typically include hospital administration, IT security officers, clinical staff (doctors, nurses), and the end-users (patients). Specific governance personas, their respective roles, and their approval authorities are not identified in the source material. Identifying the primary decision-makers and the governance structure for requirement changes is an open item requiring stakeholder input."
+    },
+    {
+      "title": "5. Business Requirements Specification Matrix",
+      "table": [
+        [
+          "BRD ID",
+          "Requirement Title",
+          "Description",
+          "Priority",
+          "Acceptance Criteria"
+        ],
+        [
+          "BRD-001",
+          "Secure Patient Authentication",
+          "The system must provide a secure method for patients to log in and verify their identity.",
+          "High",
+          "Open item: Specific authentication protocols (e.g., MFA) and success criteria require stakeholder definition."
+        ],
+        [
+          "BRD-002",
+          "PHI Data Protection",
+          "The system must protect Protected Health Information in accordance with applicable healthcare regulations.",
+          "High",
+          "Open item: Specific data handling and access control criteria require stakeholder definition."
+        ],
+        [
+          "BRD-003",
+          "Medical Record Access",
+          "Patients must be able to view their relevant medical records securely.",
+          "Medium",
+          "Open item: Scope of records (e.g., lab results, discharge summaries) and access criteria require stakeholder definition."
+        ]
+      ]
+    },
+    {
+      "title": "6. Assumptions & Operational Constraints",
+      "body": "Assumptions regarding the technical infrastructure, patient digital literacy, and integration with existing hospital systems (e.g., Electronic Health Records) are not stated in the source document. Operational constraints, such as budget limitations, timeline expectations, or specific hardware requirements for patient access, are currently undefined. Documenting these assumptions and constraints is an open item requiring stakeholder input."
+    },
+    {
+      "title": "7. Risk & Compliance Baseline",
+      "body": "The Hospital Patient Portal must adhere to strict healthcare compliance frameworks, including HIPAA and GDPR (if applicable to EU patients), as well as data interchange standards like HL7 FHIR and DICOM. The compliance baseline mandates PHI encryption at rest using AES-256, immutability of audit trails, and high availability standards with a Recovery Time Objective (RTO) of less than 1 hour and a Recovery Point Objective (RPO) of less than 5 minutes. Specific risk factors, mitigation strategies, and compliance verification procedures are not detailed in the source material and require further stakeholder analysis."
+    }
+  ],
+  "_source_audit": {},
+  "_domain_profile": {
+    "domain": "HEALTHCARE",
+    "compliance": [
+      "HIPAA",
+      "GDPR (if EU patients)",
+      "HL7 FHIR",
+      "DICOM"
+    ],
+    "standard_nfrs": [
+      "PHI encryption at rest (AES-256)",
+      "audit trail immutability",
+      "RTO < 1h / RPO < 5min"
+    ]
+  },
+  "_doc_excerpt": "",
+  "verification_summary": {
+    "verdicts": [
+      {
+        "claim_index": 0,
+        "claim": "1. Executive Summary & Strategic Rationale: The Hospital Patient Portal is a proposed digital platform designed to facilitate secure communication and information e",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source only contains the title 'Hospital Patient Portal' and lacks any executive summary or strategic rationale."
+      },
+      {
+        "claim_index": 1,
+        "claim": "2. Business Objectives & Success Metrics: The primary business objectives for the Hospital Patient Portal are to enhance patient experience, reduce administrative",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No business objectives or success metrics are present in the single-line source text."
+      },
+      {
+        "claim_index": 2,
+        "claim": "3. Scope & Operational Boundaries (In/Out of Scope): The operational scope of the Hospital Patient Portal is expected to encompass secure patient authentication, viewing of ",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not define operational scope or boundaries."
+      },
+      {
+        "claim_index": 3,
+        "claim": "4. Key Stakeholders & Governance Personas: Key stakeholders for the Hospital Patient Portal typically include hospital administration, IT security officers, clinic",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No stakeholders or governance personas are listed in the source."
+      },
+      {
+        "claim_index": 4,
+        "claim": "BRD-001: Secure Patient Authentication \u2014 The system must provide a secure method for patients to log in and verify their identity. High",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source contains no specific requirements or BRD-001 details."
+      },
+      {
+        "claim_index": 5,
+        "claim": "BRD-002: PHI Data Protection \u2014 The system must protect Protected Health Information in accordance with applicable healthcare regulations. High",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source contains no specific requirements or BRD-002 details."
+      },
+      {
+        "claim_index": 6,
+        "claim": "BRD-003: Medical Record Access \u2014 Patients must be able to view their relevant medical records securely. Medium",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source contains no specific requirements or BRD-003 details."
+      },
+      {
+        "claim_index": 7,
+        "claim": "6. Assumptions & Operational Constraints: Assumptions regarding the technical infrastructure, patient digital literacy, and integration with existing hospital sys",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No assumptions or operational constraints are mentioned in the source."
+      },
+      {
+        "claim_index": 8,
+        "claim": "7. Risk & Compliance Baseline: The Hospital Patient Portal must adhere to strict healthcare compliance frameworks, including HIPAA and GDPR (if applica",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No risk or compliance baseline information is provided in the source."
+      }
+    ],
+    "verified_count": 0,
+    "flagged_count": 9,
+    "flagged_items": [
+      {
+        "claim_index": 0,
+        "claim": "1. Executive Summary & Strategic Rationale: The Hospital Patient Portal is a proposed digital platform designed to facilitate secure communication and information e",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source only contains the title 'Hospital Patient Portal' and lacks any executive summary or strategic rationale."
+      },
+      {
+        "claim_index": 1,
+        "claim": "2. Business Objectives & Success Metrics: The primary business objectives for the Hospital Patient Portal are to enhance patient experience, reduce administrative",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No business objectives or success metrics are present in the single-line source text."
+      },
+      {
+        "claim_index": 2,
+        "claim": "3. Scope & Operational Boundaries (In/Out of Scope): The operational scope of the Hospital Patient Portal is expected to encompass secure patient authentication, viewing of ",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not define operational scope or boundaries."
+      },
+      {
+        "claim_index": 3,
+        "claim": "4. Key Stakeholders & Governance Personas: Key stakeholders for the Hospital Patient Portal typically include hospital administration, IT security officers, clinic",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No stakeholders or governance personas are listed in the source."
+      },
+      {
+        "claim_index": 4,
+        "claim": "BRD-001: Secure Patient Authentication \u2014 The system must provide a secure method for patients to log in and verify their identity. High",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source contains no specific requirements or BRD-001 details."
+      },
+      {
+        "claim_index": 5,
+        "claim": "BRD-002: PHI Data Protection \u2014 The system must protect Protected Health Information in accordance with applicable healthcare regulations. High",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source contains no specific requirements or BRD-002 details."
+      },
+      {
+        "claim_index": 6,
+        "claim": "BRD-003: Medical Record Access \u2014 Patients must be able to view their relevant medical records securely. Medium",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source contains no specific requirements or BRD-003 details."
+      },
+      {
+        "claim_index": 7,
+        "claim": "6. Assumptions & Operational Constraints: Assumptions regarding the technical infrastructure, patient digital literacy, and integration with existing hospital sys",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No assumptions or operational constraints are mentioned in the source."
+      },
+      {
+        "claim_index": 8,
+        "claim": "7. Risk & Compliance Baseline: The Hospital Patient Portal must adhere to strict healthcare compliance frameworks, including HIPAA and GDPR (if applica",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No risk or compliance baseline information is provided in the source."
+      }
+    ],
+    "total_claims": 9
+  },
+  "id": "f1e57cf6-bc1d-40fb-b182-82f74ab85f4a",
+  "pdf_export_url": "/api/v1/documents/f1e57cf6-bc1d-40fb-b182-82f74ab85f4a/export/pdf?title=Hospital Patient Portal&type=BRD",
+  "conversation_id": null
+}

@@ -1,0 +1,503 @@
+{
+  "readiness_score": 45,
+  "clarity_score": 60,
+  "completeness_score": 35,
+  "security_score": 40,
+  "rtm_score": 30,
+  "summary": "The document provides a high-level functional overview of a Hospital Management System (HMS), listing core modules (EMR, Billing, Pharmacy, etc.) and a suggested tech stack (React, FastAPI, PostgreSQL). However, it lacks specific technical specifications, compliance details (HIPAA/GDPR), data models, API contracts, and non-functional benchmarks required for enterprise healthcare implementation. It reads as a conceptual brief rather than a detailed requirements specification.",
+  "risk_factors": [
+    {
+      "title": "Lack of Specific PHI Encryption Standards",
+      "category": "SECURITY",
+      "severity": "HIGH",
+      "description": "The document mentions 'password encryption' and 'privacy of medical information' but does not specify AES-256 for data at rest or TLS 1.2+ for data in transit, which are mandatory for HIPAA compliance regarding Protected Health Information (PHI).",
+      "mitigation": "Explicitly mandate AES-256 encryption for all database fields containing PHI and enforce TLS 1.2/1.3 for all API communications.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 0,
+        "claim": "Risk: Lack of Specific PHI Encryption Standards \u2014 The document mentions 'password encryption' and 'privacy of medical information' but does not specify AES-256 for data at rest or TLS 1.2+ for data in transit, which are mandatory for HIPAA compliance regarding Protected Health Information (PHI).",
+        "confidence": 90,
+        "verdict": "SUPPORTED",
+        "reason": "The excerpt mentions password encryption and privacy but no specific PHI encryption standards."
+      }
+    },
+    {
+      "title": "Ambiguous Audit Trail Requirements",
+      "category": "SECURITY",
+      "severity": "HIGH",
+      "description": "The document lists 'audit logs' as a feature but does not define immutability, retention periods, or specific events to be logged (e.g., who accessed which patient record and when). This creates a significant HIPAA compliance gap.",
+      "mitigation": "Define an immutable audit log schema capturing user ID, action, timestamp, IP address, and resource ID for all CRUD operations on PHI. Specify retention periods (e.g., 6 years) and tamper-evident storage.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 1,
+        "claim": "Risk: Ambiguous Audit Trail Requirements \u2014 The document lists 'audit logs' as a feature but does not define immutability, retention periods, or specific events to be logged (e.g., who accessed which patient record and when). This creates a significant HIPAA compliance gap.",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Audit logs are listed without immutability, retention, or event details."
+      }
+    },
+    {
+      "title": "Missing Interoperability Standards (HL7 FHIR/DICOM)",
+      "category": "ARCHITECTURE",
+      "severity": "HIGH",
+      "description": "The system includes Laboratory and EMR modules but does not mention HL7 FHIR or DICOM standards. This will prevent integration with external labs, imaging systems, or other healthcare providers, isolating the hospital's data.",
+      "mitigation": "Specify HL7 FHIR R4 API endpoints for patient demographics and clinical data, and DICOM support for imaging storage and retrieval.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 2,
+        "claim": "Risk: Missing Interoperability Standards (HL7 FHIR/DICOM) \u2014 The system includes Laboratory and EMR modules but does not mention HL7 FHIR or DICOM standards. This will prevent integration with external labs, imaging systems, or other healthcare providers, isolating the hospital's data.",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "No HL7 FHIR or DICOM standards are referenced despite lab and EMR modules."
+      }
+    },
+    {
+      "title": "Undefined Disaster Recovery Benchmarks",
+      "category": "OPERATIONAL",
+      "severity": "MEDIUM",
+      "description": "The document mentions 'backup/recovery' and 'high availability' but provides no RTO (Recovery Time Objective) or RPO (Recovery Point Objective). For a hospital, downtime can be life-threatening.",
+      "mitigation": "Define RTO < 1 hour and RPO < 5 minutes for critical clinical modules. Specify active-passive or active-active database replication strategies.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 3,
+        "claim": "Risk: Undefined Disaster Recovery Benchmarks \u2014 The document mentions 'backup/recovery' and 'high availability' but provides no RTO (Recovery Time Objective) or RPO (Recovery Point Objective). For a hospital, downtime can be life-threatening.",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Backup/recovery and high availability are mentioned without RTO/RPO metrics."
+      }
+    },
+    {
+      "title": "Generic Authentication Mechanism",
+      "category": "SECURITY",
+      "severity": "MEDIUM",
+      "description": "The document suggests 'JWT/OAuth-based authentication' without specifying Multi-Factor Authentication (MFA) or role-based access control (RBAC) granularity. Healthcare systems require strict MFA for staff accessing PHI.",
+      "mitigation": "Mandate MFA for all staff roles (Admin, Doctor, Nurse, etc.) and define fine-grained RBAC policies that restrict data access based on role and department.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 4,
+        "claim": "Risk: Generic Authentication Mechanism \u2014 The document suggests 'JWT/OAuth-based authentication' without specifying Multi-Factor Authentication (MFA) or role-based access control (RBAC) granularity. Healthcare systems require strict MFA for staff accessing PHI.",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Authentication is described as JWT/OAuth without any MFA requirement."
+      }
+    }
+  ],
+  "conflicts_and_ambiguities": [
+    {
+      "issue": "Vague Definition of 'Secure Authentication'",
+      "context": "Non-functional requirements should include... secure authentication, password encryption, session management...",
+      "suggested_resolution": "Replace 'secure authentication' with specific standards: 'OAuth 2.0 with PKCE, JWT with short expiry (15 mins), and mandatory MFA for all non-patient roles.'",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 18,
+        "claim": "Ambiguity: Vague Definition of 'Secure Authentication' \u2014 Non-functional requirements should include... secure authentication, password encryption, session management...",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Secure authentication is mentioned without detailed implementation criteria."
+      }
+    },
+    {
+      "issue": "Unclear Data Ownership and Consent Management",
+      "context": "Patients should be able to view appointments, prescriptions, reports, bills, and medical history through a portal...",
+      "suggested_resolution": "Add a requirement for patient consent management, allowing patients to grant/revoke access to specific data categories (GDPR/HIPAA right to access and portability).",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 19,
+        "claim": "Ambiguity: Unclear Data Ownership and Consent Management \u2014 Patients should be able to view appointments, prescriptions, reports, bills, and medical history through a portal...",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Patient portal access is described but data ownership and consent are not defined."
+      }
+    },
+    {
+      "issue": "Ambiguous 'High Availability' Target",
+      "context": "Non-functional requirements should include... high availability...",
+      "suggested_resolution": "Define specific uptime targets (e.g., 99.95% for clinical modules, 99.9% for administrative modules) and failover mechanisms.",
+      "source_ref": "Page 1"
+    }
+  ],
+  "missing_sections_and_details": [
+    {
+      "section_name": "HIPAA/GDPR Compliance Specification",
+      "priority": "CRITICAL",
+      "why_missing": "Without explicit compliance mapping, the system cannot be legally deployed in regulated healthcare environments. Missing details on data minimization, right to erasure, and breach notification procedures.",
+      "recommended_addition": "Add a section detailing HIPAA Security Rule compliance (Access Control, Audit Controls, Integrity, Transmission Security) and GDPR Article 32 (Security of Processing). Include data retention policies and breach notification workflows.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 5,
+        "claim": "Missing Gap: HIPAA/GDPR Compliance Specification \u2014 Without explicit compliance mapping, the system cannot be legally deployed in regulated healthcare environments. Missing details on data minimization, right to erasure, and breach notification procedures.",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "The document lacks any explicit HIPAA or GDPR compliance mapping."
+      }
+    },
+    {
+      "section_name": "Data Model and Schema Design",
+      "priority": "HIGH",
+      "why_missing": "The document lists entities (Patient, Doctor, Appointment) but lacks a data model. This makes it impossible to assess data integrity, relationships, or PHI isolation.",
+      "recommended_addition": "Provide an Entity-Relationship Diagram (ERD) or JSON schema for core entities, highlighting PHI fields and encryption keys.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 6,
+        "claim": "Missing Gap: Data Model and Schema Design \u2014 The document lists entities (Patient, Doctor, Appointment) but lacks a data model. This makes it impossible to assess data integrity, relationships, or PHI isolation.",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Entities are listed but no data model or schema design is provided."
+      }
+    },
+    {
+      "section_name": "API Specification and Interoperability",
+      "priority": "HIGH",
+      "why_missing": "No mention of API standards (REST/GraphQL) or healthcare-specific standards (FHIR/DICOM). This hinders integration with external systems.",
+      "recommended_addition": "Define API endpoints using OpenAPI 3.0. Specify HL7 FHIR R4 resources for Patient, Observation, and MedicationRequest. Define DICOM C-STORE/C-FIND services for imaging.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 7,
+        "claim": "Missing Gap: API Specification and Interoperability \u2014 No mention of API standards (REST/GraphQL) or healthcare-specific standards (FHIR/DICOM). This hinders integration with external systems.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "REST APIs are mentioned, but no healthcare\u2011specific API standards are included."
+      }
+    },
+    {
+      "section_name": "Non-Functional Requirements (NFR) Benchmarks",
+      "priority": "HIGH",
+      "why_missing": "Lack of quantitative metrics for performance, availability, and security. 'Fast API responses' is subjective and untestable.",
+      "recommended_addition": "Define specific NFRs: API response time < 200ms (95th percentile), RTO < 1h, RPO < 5min, concurrent users support (e.g., 1000), and encryption standards (AES-256, TLS 1.2+).",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 8,
+        "claim": "Missing Gap: Non-Functional Requirements (NFR) Benchmarks \u2014 Lack of quantitative metrics for performance, availability, and security. 'Fast API responses' is subjective and untestable.",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Non\u2011functional requirements are qualitative, lacking measurable performance targets."
+      }
+    },
+    {
+      "section_name": "Security Architecture and Threat Model",
+      "priority": "CRITICAL",
+      "why_missing": "No mention of OWASP Top 10 mitigations, input validation, or threat modeling. Healthcare systems are high-value targets for ransomware.",
+      "recommended_addition": "Include a threat model (STRIDE) and specify mitigations for SQL injection, XSS, CSRF, and data exfiltration. Define network segmentation and firewall rules.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 9,
+        "claim": "Missing Gap: Security Architecture and Threat Model \u2014 No mention of OWASP Top 10 mitigations, input validation, or threat modeling. Healthcare systems are high-value targets for ransomware.",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "No OWASP, input validation, or threat\u2011model details appear in the excerpt."
+      }
+    }
+  ],
+  "rtm_matrix": [
+    {
+      "req_id": "REQ-01",
+      "business_goal": "Patient Registration and Profile Management",
+      "technical_component": "Patient Module",
+      "test_case_verification": "Verify that patient data is encrypted at rest (AES-256) and that duplicate patient detection works based on MRN/SSN.",
+      "status": "GAP",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 10,
+        "claim": "Traceability: REQ-01 Patient Registration and Profile Management via Patient Module",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Patient registration is described and a Patients module is listed."
+      }
+    },
+    {
+      "req_id": "REQ-02",
+      "business_goal": "Appointment Scheduling and Queue Management",
+      "technical_component": "Appointment Module",
+      "test_case_verification": "Verify that appointment conflicts are prevented and that queue status updates in real-time via WebSocket or polling.",
+      "status": "GAP",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 11,
+        "claim": "Traceability: REQ-02 Appointment Scheduling and Queue Management via Appointment Module",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Appointment scheduling is specified and an Appointments module is included."
+      }
+    },
+    {
+      "req_id": "REQ-03",
+      "business_goal": "Electronic Medical Records (EMR) Management",
+      "technical_component": "EMR Module",
+      "test_case_verification": "Verify that clinical notes are immutable after submission and that access is logged with user ID and timestamp.",
+      "status": "GAP",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 12,
+        "claim": "Traceability: REQ-03 Electronic Medical Records (EMR) Management via EMR Module",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Electronic medical records are required and an EMR module is enumerated."
+      }
+    },
+    {
+      "req_id": "REQ-04",
+      "business_goal": "Laboratory Test Requests and Reports",
+      "technical_component": "Laboratory Module",
+      "test_case_verification": "Verify that lab results are transmitted via HL7 FHIR Observation resource and that critical values trigger immediate alerts.",
+      "status": "GAP",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 13,
+        "claim": "Traceability: REQ-04 Laboratory Test Requests and Reports via Laboratory Module",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Laboratory test requests are listed and a Laboratory module is present."
+      }
+    },
+    {
+      "req_id": "REQ-05",
+      "business_goal": "Pharmacy Prescriptions and Medicine Inventory",
+      "technical_component": "Pharmacy Module",
+      "test_case_verification": "Verify that prescription dispensing updates inventory levels and that drug interactions are checked against patient allergies.",
+      "status": "GAP",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 14,
+        "claim": "Traceability: REQ-05 Pharmacy Prescriptions and Medicine Inventory via Pharmacy Module",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Pharmacy prescriptions and inventory are required and a Pharmacy module is named."
+      }
+    },
+    {
+      "req_id": "REQ-06",
+      "business_goal": "Billing and Payments",
+      "technical_component": "Billing Module",
+      "test_case_verification": "Verify that invoices are generated correctly based on services rendered and that payment status is updated in real-time.",
+      "status": "GAP",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 15,
+        "claim": "Traceability: REQ-06 Billing and Payments via Billing Module",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Billing and payments are required and a Billing module is specified."
+      }
+    },
+    {
+      "req_id": "REQ-07",
+      "business_goal": "Role-Based Access Control (RBAC)",
+      "technical_component": "Authentication/Authorization Module",
+      "test_case_verification": "Verify that a Nurse cannot access Billing data and that a Doctor can only view patients assigned to them.",
+      "status": "PARTIAL",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 16,
+        "claim": "Traceability: REQ-07 Role-Based Access Control (RBAC) via Authentication/Authorization Module",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Role\u2011based access is required and an Authentication module is listed."
+      }
+    },
+    {
+      "req_id": "REQ-08",
+      "business_goal": "Audit Logging",
+      "technical_component": "Audit Module",
+      "test_case_verification": "Verify that all access to PHI is logged and that logs are tamper-evident and retained for 6 years.",
+      "status": "GAP",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 17,
+        "claim": "Traceability: REQ-08 Audit Logging via Audit Module",
+        "confidence": 30,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "An explicit Audit module is not part of the listed modules."
+      }
+    }
+  ],
+  "ai_recommendations": [
+    "Expand the document to include a detailed HIPAA/GDPR compliance matrix, mapping each functional requirement to specific regulatory controls (e.g., Access Control, Audit Controls).",
+    "Define specific Non-Functional Requirements (NFRs) with quantitative benchmarks: RTO < 1h, RPO < 5min, API latency < 200ms, and 99.95% uptime for clinical modules.",
+    "Incorporate HL7 FHIR R4 and DICOM standards into the architecture to ensure interoperability with external labs, imaging systems, and other healthcare providers.",
+    "Specify a detailed security architecture including AES-256 encryption for PHI at rest, TLS 1.2+ for data in transit, and mandatory Multi-Factor Authentication (MFA) for all staff roles.",
+    "Add a data model section with an Entity-Relationship Diagram (ERD) that highlights PHI fields and their encryption/decryption mechanisms."
+  ],
+  "domain_profile": {
+    "domain": "HEALTHCARE",
+    "compliance": [
+      "HIPAA",
+      "GDPR (if EU patients)",
+      "HL7 FHIR",
+      "DICOM"
+    ],
+    "standard_nfrs": [
+      "PHI encryption at rest (AES-256)",
+      "audit trail immutability",
+      "RTO < 1h / RPO < 5min"
+    ]
+  },
+  "verification_summary": {
+    "verdicts": [
+      {
+        "claim_index": 0,
+        "claim": "Risk: Lack of Specific PHI Encryption Standards \u2014 The document mentions 'password encryption' and 'privacy of medical information' but does not specify AES-256 for data at rest or TLS 1.2+ for data in transit, which are mandatory for HIPAA compliance regarding Protected Health Information (PHI).",
+        "confidence": 90,
+        "verdict": "SUPPORTED",
+        "reason": "The excerpt mentions password encryption and privacy but no specific PHI encryption standards."
+      },
+      {
+        "claim_index": 1,
+        "claim": "Risk: Ambiguous Audit Trail Requirements \u2014 The document lists 'audit logs' as a feature but does not define immutability, retention periods, or specific events to be logged (e.g., who accessed which patient record and when). This creates a significant HIPAA compliance gap.",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Audit logs are listed without immutability, retention, or event details."
+      },
+      {
+        "claim_index": 2,
+        "claim": "Risk: Missing Interoperability Standards (HL7 FHIR/DICOM) \u2014 The system includes Laboratory and EMR modules but does not mention HL7 FHIR or DICOM standards. This will prevent integration with external labs, imaging systems, or other healthcare providers, isolating the hospital's data.",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "No HL7 FHIR or DICOM standards are referenced despite lab and EMR modules."
+      },
+      {
+        "claim_index": 3,
+        "claim": "Risk: Undefined Disaster Recovery Benchmarks \u2014 The document mentions 'backup/recovery' and 'high availability' but provides no RTO (Recovery Time Objective) or RPO (Recovery Point Objective). For a hospital, downtime can be life-threatening.",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Backup/recovery and high availability are mentioned without RTO/RPO metrics."
+      },
+      {
+        "claim_index": 4,
+        "claim": "Risk: Generic Authentication Mechanism \u2014 The document suggests 'JWT/OAuth-based authentication' without specifying Multi-Factor Authentication (MFA) or role-based access control (RBAC) granularity. Healthcare systems require strict MFA for staff accessing PHI.",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Authentication is described as JWT/OAuth without any MFA requirement."
+      },
+      {
+        "claim_index": 5,
+        "claim": "Missing Gap: HIPAA/GDPR Compliance Specification \u2014 Without explicit compliance mapping, the system cannot be legally deployed in regulated healthcare environments. Missing details on data minimization, right to erasure, and breach notification procedures.",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "The document lacks any explicit HIPAA or GDPR compliance mapping."
+      },
+      {
+        "claim_index": 6,
+        "claim": "Missing Gap: Data Model and Schema Design \u2014 The document lists entities (Patient, Doctor, Appointment) but lacks a data model. This makes it impossible to assess data integrity, relationships, or PHI isolation.",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Entities are listed but no data model or schema design is provided."
+      },
+      {
+        "claim_index": 7,
+        "claim": "Missing Gap: API Specification and Interoperability \u2014 No mention of API standards (REST/GraphQL) or healthcare-specific standards (FHIR/DICOM). This hinders integration with external systems.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "REST APIs are mentioned, but no healthcare\u2011specific API standards are included."
+      },
+      {
+        "claim_index": 8,
+        "claim": "Missing Gap: Non-Functional Requirements (NFR) Benchmarks \u2014 Lack of quantitative metrics for performance, availability, and security. 'Fast API responses' is subjective and untestable.",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Non\u2011functional requirements are qualitative, lacking measurable performance targets."
+      },
+      {
+        "claim_index": 9,
+        "claim": "Missing Gap: Security Architecture and Threat Model \u2014 No mention of OWASP Top 10 mitigations, input validation, or threat modeling. Healthcare systems are high-value targets for ransomware.",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "No OWASP, input validation, or threat\u2011model details appear in the excerpt."
+      },
+      {
+        "claim_index": 10,
+        "claim": "Traceability: REQ-01 Patient Registration and Profile Management via Patient Module",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Patient registration is described and a Patients module is listed."
+      },
+      {
+        "claim_index": 11,
+        "claim": "Traceability: REQ-02 Appointment Scheduling and Queue Management via Appointment Module",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Appointment scheduling is specified and an Appointments module is included."
+      },
+      {
+        "claim_index": 12,
+        "claim": "Traceability: REQ-03 Electronic Medical Records (EMR) Management via EMR Module",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Electronic medical records are required and an EMR module is enumerated."
+      },
+      {
+        "claim_index": 13,
+        "claim": "Traceability: REQ-04 Laboratory Test Requests and Reports via Laboratory Module",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Laboratory test requests are listed and a Laboratory module is present."
+      },
+      {
+        "claim_index": 14,
+        "claim": "Traceability: REQ-05 Pharmacy Prescriptions and Medicine Inventory via Pharmacy Module",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Pharmacy prescriptions and inventory are required and a Pharmacy module is named."
+      },
+      {
+        "claim_index": 15,
+        "claim": "Traceability: REQ-06 Billing and Payments via Billing Module",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Billing and payments are required and a Billing module is specified."
+      },
+      {
+        "claim_index": 16,
+        "claim": "Traceability: REQ-07 Role-Based Access Control (RBAC) via Authentication/Authorization Module",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Role\u2011based access is required and an Authentication module is listed."
+      },
+      {
+        "claim_index": 17,
+        "claim": "Traceability: REQ-08 Audit Logging via Audit Module",
+        "confidence": 30,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "An explicit Audit module is not part of the listed modules."
+      },
+      {
+        "claim_index": 18,
+        "claim": "Ambiguity: Vague Definition of 'Secure Authentication' \u2014 Non-functional requirements should include... secure authentication, password encryption, session management...",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Secure authentication is mentioned without detailed implementation criteria."
+      },
+      {
+        "claim_index": 19,
+        "claim": "Ambiguity: Unclear Data Ownership and Consent Management \u2014 Patients should be able to view appointments, prescriptions, reports, bills, and medical history through a portal...",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Patient portal access is described but data ownership and consent are not defined."
+      }
+    ],
+    "verified_count": 18,
+    "flagged_count": 2,
+    "flagged_items": [
+      {
+        "claim_index": 7,
+        "claim": "Missing Gap: API Specification and Interoperability \u2014 No mention of API standards (REST/GraphQL) or healthcare-specific standards (FHIR/DICOM). This hinders integration with external systems.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "REST APIs are mentioned, but no healthcare\u2011specific API standards are included."
+      },
+      {
+        "claim_index": 17,
+        "claim": "Traceability: REQ-08 Audit Logging via Audit Module",
+        "confidence": 30,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "An explicit Audit module is not part of the listed modules."
+      }
+    ],
+    "total_claims": 20
+  },
+  "content_hash": "38b5c983f958604b08efb5ef9d2be6168744cd5be22005df955004942877f0f6",
+  "id": "e45881c1-4b47-43ea-a987-140d9cd1a7ab",
+  "analyzed_at": "2026-09-01T19:40:17.721088+00:00",
+  "filename": "A Hospital Management System.pdf",
+  "file_id": "b79c7fb5-9bd2-43d9-b028-ffd10d931379",
+  "conversation_id": "64078355-bf6e-49c3-bc84-9edc5de8fa88"
+}

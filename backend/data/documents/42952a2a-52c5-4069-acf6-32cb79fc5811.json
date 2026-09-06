@@ -1,0 +1,110 @@
+{
+  "doc_type": "BRD",
+  "title": "Business Requirements Document \u2014 Hospital Patient Portal",
+  "version": "v1.0",
+  "status": "PENDING_APPROVAL",
+  "revision_history": [],
+  "parent_id": null,
+  "sections": [
+    {
+      "title": "1. Executive Summary & Strategic Rationale",
+      "body": "The Hospital Patient Portal is designed to provide secure, compliant digital access to patient health information, appointment scheduling, and communication channels. This document outlines the business requirements necessary to ensure the system meets healthcare industry standards, specifically focusing on data privacy, security, and interoperability. The strategic rationale for this project is to enhance patient engagement, reduce administrative overhead, and ensure strict compliance with applicable healthcare regulations."
+    },
+    {
+      "title": "2. Business Objectives & Success Metrics",
+      "body": "The primary business objectives are to establish a secure platform for patient interaction and to achieve full compliance with healthcare data protection laws. Success metrics will be defined based on system uptime, patient adoption rates, and successful audit outcomes. Specific quantitative targets (e.g., exact percentage of patient adoption or specific uptime SLAs) are currently open items requiring stakeholder input, as the source material does not specify numerical benchmarks."
+    },
+    {
+      "title": "3. Scope & Operational Boundaries (In/Out of Scope)",
+      "body": "The scope includes the development of a patient-facing web and mobile interface for viewing health records, scheduling appointments, and secure messaging. The system must integrate with existing hospital infrastructure to retrieve and display data. Out of scope are the development of clinical decision support tools or the replacement of the core Electronic Health Record (EHR) system. Specific operational boundaries regarding third-party vendor integrations are not explicitly defined in the source material and require further stakeholder clarification."
+    },
+    {
+      "title": "4. Key Stakeholders & Governance Personas",
+      "body": "Key stakeholders include hospital administration, IT security officers, compliance officers, and end-users (patients and healthcare providers). Governance personas will include a Data Protection Officer (DPO) to oversee GDPR/HIPAA compliance and a Chief Information Security Officer (CISO) to manage security protocols. The specific roles and responsibilities of these personas are not detailed in the source material."
+    }
+  ],
+  "_source_audit": {},
+  "_domain_profile": {
+    "domain": "HEALTHCARE",
+    "compliance": [
+      "HIPAA",
+      "GDPR (if EU patients)",
+      "HL7 FHIR",
+      "DICOM"
+    ],
+    "standard_nfrs": [
+      "PHI encryption at rest (AES-256)",
+      "audit trail immutability",
+      "RTO < 1h / RPO < 5min"
+    ]
+  },
+  "_doc_excerpt": "",
+  "verification_summary": {
+    "verdicts": [
+      {
+        "claim_index": 0,
+        "claim": "1. Executive Summary & Strategic Rationale: The Hospital Patient Portal is designed to provide secure, compliant digital access to patient health information, appoi",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Source only contains the title and provides no executive summary details."
+      },
+      {
+        "claim_index": 1,
+        "claim": "2. Business Objectives & Success Metrics: The primary business objectives are to establish a secure platform for patient interaction and to achieve full complianc",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No business objectives or metrics are mentioned in the source."
+      },
+      {
+        "claim_index": 2,
+        "claim": "3. Scope & Operational Boundaries (In/Out of Scope): The scope includes the development of a patient-facing web and mobile interface for viewing health records, scheduling a",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Scope and operational boundaries are not described in the source."
+      },
+      {
+        "claim_index": 3,
+        "claim": "4. Key Stakeholders & Governance Personas: Key stakeholders include hospital administration, IT security officers, compliance officers, and end-users (patients and",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Key stakeholders and governance personas are absent from the source."
+      }
+    ],
+    "verified_count": 0,
+    "flagged_count": 4,
+    "flagged_items": [
+      {
+        "claim_index": 0,
+        "claim": "1. Executive Summary & Strategic Rationale: The Hospital Patient Portal is designed to provide secure, compliant digital access to patient health information, appoi",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Source only contains the title and provides no executive summary details."
+      },
+      {
+        "claim_index": 1,
+        "claim": "2. Business Objectives & Success Metrics: The primary business objectives are to establish a secure platform for patient interaction and to achieve full complianc",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No business objectives or metrics are mentioned in the source."
+      },
+      {
+        "claim_index": 2,
+        "claim": "3. Scope & Operational Boundaries (In/Out of Scope): The scope includes the development of a patient-facing web and mobile interface for viewing health records, scheduling a",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Scope and operational boundaries are not described in the source."
+      },
+      {
+        "claim_index": 3,
+        "claim": "4. Key Stakeholders & Governance Personas: Key stakeholders include hospital administration, IT security officers, compliance officers, and end-users (patients and",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Key stakeholders and governance personas are absent from the source."
+      }
+    ],
+    "total_claims": 4
+  },
+  "id": "42952a2a-52c5-4069-acf6-32cb79fc5811",
+  "pdf_export_url": "/api/v1/documents/42952a2a-52c5-4069-acf6-32cb79fc5811/export/pdf?title=Hospital Patient Portal&type=BRD",
+  "conversation_id": null
+}

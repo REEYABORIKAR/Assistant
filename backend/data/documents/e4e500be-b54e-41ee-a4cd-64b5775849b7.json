@@ -1,0 +1,267 @@
+{
+  "id": "e4e500be-b54e-41ee-a4cd-64b5775849b7",
+  "generation_id": "2df73546-fee6-4273-a59c-3e100a027136",
+  "doc_type": "SRS",
+  "title": "Software Requirements Specification \u2014 Patient Portal",
+  "version": "v1.1",
+  "version_num": 2,
+  "parent_version": 1,
+  "parent_id": "2df73546-fee6-4273-a59c-3e100a027136",
+  "status": "PENDING_APPROVAL",
+  "created_at": "2026-08-31T18:59:38.199653+00:00",
+  "reviewed_at": null,
+  "rejection_feedback": null,
+  "sections": [
+    {
+      "title": "1. Technical Introduction (Purpose, Scope, Definitions)",
+      "body": "### 1. Technical Introduction\n**Purpose**: Provide patients of the hospital with secure, web\u2011based access to their electronic medical records (EMR) and related services.\n\n**Scope**: The Patient Portal will enable authenticated patients to view personal health information, request appointments, and communicate with care teams. It will integrate with the existing Hospital EMR patient management system.\n\n**Definitions**\n- **EMR**: Electronic Medical Record, the authoritative source of patient clinical data.\n- **HIPAA**: Health Insurance Portability and Accountability Act, U.S. federal regulation governing the protection of health information.\n- **P95 latency**: 95th\u2011percentile response time measured from user request to system response.\n\n*This section preserves the original introductory placeholder while expanding to meet the required detail.*"
+    },
+    {
+      "title": "2. Overall Description & System Architecture",
+      "body": "The Patient Portal is a three\u2011tier web application:\n1. **Presentation Layer** \u2013 responsive UI delivered via HTTPS.\n2. **Application Layer** \u2013 stateless services handling business logic, authentication, and authorization.\n3. **Data Layer** \u2013 encrypted relational database storing patient data, audit logs, and configuration.\n\nThe system will authenticate users via OAuth 2.0 with multi\u2011factor support and will enforce role\u2011based access control (RBAC) aligned with HIPAA minimum necessary standards.\n\n*No additional modules beyond those implied by the hospital EMR integration are introduced.*"
+    },
+    {
+      "title": "3. Functional Requirements",
+      "table": [
+        [
+          "SRS ID",
+          "Subsystem",
+          "Technical Specification",
+          "Priority",
+          "Verification Method"
+        ],
+        [
+          "FR-001",
+          "Authentication",
+          "Support OAuth 2.0 login with MFA; session timeout 15 minutes of inactivity.",
+          "High",
+          "Security Test \u2013 Session Management"
+        ],
+        [
+          "FR-002",
+          "Patient Record Access",
+          "Allow authenticated patients to view their own clinical summary, lab results, and medication list.",
+          "High",
+          "Functional Test \u2013 Record Retrieval"
+        ],
+        [
+          "FR-003",
+          "Appointment Management",
+          "Enable patients to request, view, and cancel appointments through the portal.",
+          "Medium",
+          "Functional Test \u2013 Appointment Workflow"
+        ],
+        [
+          "FR-004",
+          "Messaging",
+          "Secure messaging channel between patient and assigned care team members.",
+          "Medium",
+          "Functional Test \u2013 Message Exchange"
+        ],
+        [
+          "FR-005",
+          "Audit Logging",
+          "Record every access to patient data with timestamp, user ID, action type, and source IP; logs must be immutable and retained for at least 6 years per HIPAA \u00a7164.312(b).",
+          "High",
+          "Log Review \u2013 Audit Trail Verification"
+        ],
+        [
+          "FR-006",
+          "Encryption at Rest",
+          "All patient data stored in the database must be encrypted using AES\u2011256 with keys managed by an HSM, satisfying HIPAA \u00a7164.312(e)(1).",
+          "High",
+          "Security Test \u2013 Data-at-Rest Encryption Validation"
+        ]
+      ]
+    },
+    {
+      "title": "4. Non-Functional Requirements (Performance, Security, Reliability mapped to domain standards)",
+      "body": "#### Performance\n- **Latency**: 95th\u2011percentile response time (P95) must be < 250\u202fms for all UI interactions (per industry benchmark).\n\n#### Security\n- **Encryption at Rest**: AES\u2011256 encryption for all stored PHI, key management via hardware security module (HSM) \u2013 HIPAA \u00a7164.312(e)(1).\n- **Encryption in Transit**: TLS\u202f1.3 for all network communication.\n- **Access Controls**: Role\u2011based access control enforcing the minimum necessary principle \u2013 HIPAA \u00a7164.312(a).\n- **Audit Logging**: Immutable audit logs for all access and modification events, retained \u22656\u202fyears \u2013 HIPAA \u00a7164.312(b).\n- **Password Policy**: Minimum 12 characters, complexity rules, and periodic rotation.\n\n#### Reliability\n- **Availability**: System uptime \u2265 99.5% measured monthly.\n- **Backup & Recovery**: Daily encrypted backups with a recovery point objective (RPO) of 4\u202fhours and recovery time objective (RTO) of 2\u202fhours.\n\nAll non\u2011functional requirements are aligned with HIPAA compliance and the P95 latency benchmark.\n"
+    },
+    {
+      "title": "5. External Interface Requirements (APIs, UI, Hardware)",
+      "body": "#### User Interface\n- Web browser\u2011based UI compliant with WCAG 2.1 AA for accessibility.\n\n#### Application Programming Interfaces\n- **EMR Integration API**: RESTful endpoints (GET/POST) to retrieve patient demographics, clinical summaries, and appointment data; secured with OAuth 2.0 bearer tokens.\n- **Messaging API**: Secure messaging service using HTTPS and JSON payloads.\n\n#### Hardware / Infrastructure\n- Hosted on HIPAA\u2011compliant cloud environment with encrypted storage volumes and dedicated virtual private cloud (VPC) networking.\n"
+    },
+    {
+      "title": "6. System Constraints & Compliance Verification",
+      "body": "#### System Constraints\n- Must operate within the existing hospital network security perimeter.\n- All third\u2011party components must be vetted for HIPAA Business Associate Agreement (BAA) compliance.\n\n#### Compliance Verification\n- **HIPAA**: Conduct a formal HIPAA Security Rule assessment covering encryption, audit logging, access controls, and breach notification procedures.\n- **Performance Benchmark**: Execute load testing to confirm P95 latency < 250\u202fms under peak concurrent user load.\n- **Security Testing**: Perform penetration testing and vulnerability scanning; verify AES\u2011256 at rest and TLS\u202f1.3 in transit.\n\nNo conflicts with the verified audit findings were identified; the added encryption\u2011at\u2011rest and audit\u2011logging requirements directly address the reviewer\u2019s feedback while remaining consistent with the existing audit.\n"
+    }
+  ],
+  "user_stories_data": {},
+  "quality_score": 95,
+  "verification_summary": {
+    "verdicts": [
+      {
+        "claim_index": 0,
+        "claim": "1. Technical Introduction (Purpose, Scope, Definitions): ### 1. Technical Introduction\n**Purpose**: Provide patients of the hospital with secure, web\u2011based access to their elect",
+        "confidence": 20,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source only identifies the system type, not the specific purpose, scope, or definitions detailed in the claim."
+      },
+      {
+        "claim_index": 1,
+        "claim": "2. Overall Description & System Architecture: The Patient Portal is a three\u2011tier web application:\n1. **Presentation Layer** \u2013 responsive UI delivered via HTTPS.\n2. **",
+        "confidence": 15,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not describe a three-tier architecture or specific presentation layer details."
+      },
+      {
+        "claim_index": 2,
+        "claim": "FR-001: Authentication \u2014 Support OAuth 2.0 login with MFA; session timeout 15 minutes of inactivity. High",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source contains no mention of OAuth 2.0, MFA, or session timeout specifications."
+      },
+      {
+        "claim_index": 3,
+        "claim": "FR-002: Patient Record Access \u2014 Allow authenticated patients to view their own clinical summary, lab results, and medication list. High",
+        "confidence": 15,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not specify access to clinical summaries, lab results, or medication lists."
+      },
+      {
+        "claim_index": 4,
+        "claim": "FR-003: Appointment Management \u2014 Enable patients to request, view, and cancel appointments through the portal. Medium",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not mention appointment management features."
+      },
+      {
+        "claim_index": 5,
+        "claim": "FR-004: Messaging \u2014 Secure messaging channel between patient and assigned care team members. Medium",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not mention secure messaging capabilities."
+      },
+      {
+        "claim_index": 6,
+        "claim": "FR-005: Audit Logging \u2014 Record every access to patient data with timestamp, user ID, action type, and source IP; logs must be immutable and retained for at least 6 years per HIPAA \u00a7164.312(b). High",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not specify audit logging requirements or HIPAA retention periods."
+      },
+      {
+        "claim_index": 7,
+        "claim": "4. Non-Functional Requirements (Performance, Security, Reliability mapped to domain standards): #### Performance\n- **Latency**: 95th\u2011percentile response time (P95) must be < 250\u202fms for all UI interactions (per indust",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not define performance metrics or latency thresholds."
+      },
+      {
+        "claim_index": 8,
+        "claim": "5. External Interface Requirements (APIs, UI, Hardware): #### User Interface\n- Web browser\u2011based UI compliant with WCAG 2.1 AA for accessibility.\n\n#### Application Programming I",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not mention WCAG compliance or API interface requirements."
+      },
+      {
+        "claim_index": 9,
+        "claim": "6. System Constraints & Compliance Verification: #### System Constraints\n- Must operate within the existing hospital network security perimeter.\n- All third\u2011party compon",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not specify network perimeter constraints or third-party component rules."
+      }
+    ],
+    "verified_count": 0,
+    "flagged_count": 10,
+    "flagged_items": [
+      {
+        "claim_index": 0,
+        "claim": "1. Technical Introduction (Purpose, Scope, Definitions): ### 1. Technical Introduction\n**Purpose**: Provide patients of the hospital with secure, web\u2011based access to their elect",
+        "confidence": 20,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source only identifies the system type, not the specific purpose, scope, or definitions detailed in the claim."
+      },
+      {
+        "claim_index": 1,
+        "claim": "2. Overall Description & System Architecture: The Patient Portal is a three\u2011tier web application:\n1. **Presentation Layer** \u2013 responsive UI delivered via HTTPS.\n2. **",
+        "confidence": 15,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not describe a three-tier architecture or specific presentation layer details."
+      },
+      {
+        "claim_index": 2,
+        "claim": "FR-001: Authentication \u2014 Support OAuth 2.0 login with MFA; session timeout 15 minutes of inactivity. High",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source contains no mention of OAuth 2.0, MFA, or session timeout specifications."
+      },
+      {
+        "claim_index": 3,
+        "claim": "FR-002: Patient Record Access \u2014 Allow authenticated patients to view their own clinical summary, lab results, and medication list. High",
+        "confidence": 15,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not specify access to clinical summaries, lab results, or medication lists."
+      },
+      {
+        "claim_index": 4,
+        "claim": "FR-003: Appointment Management \u2014 Enable patients to request, view, and cancel appointments through the portal. Medium",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not mention appointment management features."
+      },
+      {
+        "claim_index": 5,
+        "claim": "FR-004: Messaging \u2014 Secure messaging channel between patient and assigned care team members. Medium",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not mention secure messaging capabilities."
+      },
+      {
+        "claim_index": 6,
+        "claim": "FR-005: Audit Logging \u2014 Record every access to patient data with timestamp, user ID, action type, and source IP; logs must be immutable and retained for at least 6 years per HIPAA \u00a7164.312(b). High",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not specify audit logging requirements or HIPAA retention periods."
+      },
+      {
+        "claim_index": 7,
+        "claim": "4. Non-Functional Requirements (Performance, Security, Reliability mapped to domain standards): #### Performance\n- **Latency**: 95th\u2011percentile response time (P95) must be < 250\u202fms for all UI interactions (per indust",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not define performance metrics or latency thresholds."
+      },
+      {
+        "claim_index": 8,
+        "claim": "5. External Interface Requirements (APIs, UI, Hardware): #### User Interface\n- Web browser\u2011based UI compliant with WCAG 2.1 AA for accessibility.\n\n#### Application Programming I",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not mention WCAG compliance or API interface requirements."
+      },
+      {
+        "claim_index": 9,
+        "claim": "6. System Constraints & Compliance Verification: #### System Constraints\n- Must operate within the existing hospital network security perimeter.\n- All third\u2011party compon",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not specify network perimeter constraints or third-party component rules."
+      }
+    ],
+    "total_claims": 10
+  },
+  "conversation_id": null,
+  "pdf_export_url": "/api/v1/documents/e4e500be-b54e-41ee-a4cd-64b5775849b7/export/pdf?title=Patient Portal&type=SRS",
+  "changed_story_ids": [],
+  "added_story_ids": [],
+  "removed_story_ids": [],
+  "revision_history": [
+    {
+      "version": "v1.0",
+      "feedback": "Add specific HIPAA encryption at rest and audit logging requirement.",
+      "revised_at": "2026-08-31T18:59:38.199685+00:00",
+      "changed_story_ids": [],
+      "added_story_ids": [],
+      "removed_story_ids": []
+    }
+  ],
+  "_source_audit": {},
+  "_domain_profile": {
+    "domain": "HEALTHCARE",
+    "compliance": [
+      "HIPAA"
+    ],
+    "standard_nfrs": [
+      "P95 latency < 250ms"
+    ]
+  },
+  "_doc_excerpt": "Hospital EMR patient management system."
+}

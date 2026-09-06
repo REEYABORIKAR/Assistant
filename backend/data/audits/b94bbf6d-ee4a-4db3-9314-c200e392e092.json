@@ -1,0 +1,153 @@
+{
+  "readiness_score": 5,
+  "clarity_score": 10,
+  "completeness_score": 5,
+  "security_score": 0,
+  "rtm_score": 0,
+  "summary": "The document is a non-functional placeholder consisting of seven highly subjective, untestable statements regarding a food delivery mobile app. It lacks all standard software engineering artifacts, including scope, user roles, technical constraints, and acceptance criteria. It is completely unready for development, design, or testing.",
+  "risk_factors": [
+    {
+      "title": "Unquantifiable Performance Requirements",
+      "category": "ARCHITECTURE",
+      "severity": "HIGH",
+      "description": "Requirement #3 states 'Delivery should happen fast' without defining latency, throughput, or SLA metrics. This makes it impossible to design the backend infrastructure or select appropriate cloud services.",
+      "mitigation": "Define specific SLAs, e.g., 'API response time < 200ms for 95th percentile' and 'Order status update latency < 5 seconds'."
+    },
+    {
+      "title": "Undefined Payment Security and Compliance",
+      "category": "SECURITY",
+      "severity": "HIGH",
+      "description": "Requirement #4 ('Customers can pay somehow') provides no guidance on PCI-DSS compliance, tokenization, or supported payment gateways. This creates a critical security and legal liability risk.",
+      "mitigation": "Specify PCI-DSS Level 1 compliance, mandate the use of a certified third-party payment processor (e.g., Stripe, PayPal), and define data encryption standards (TLS 1.3) for transaction data."
+    },
+    {
+      "title": "Absence of Data Privacy Controls",
+      "category": "DATA_PRIVACY",
+      "severity": "HIGH",
+      "description": "The document does not mention GDPR, CCPA, or data retention policies. A food delivery app collects sensitive PII (address, phone, payment info), making this a severe regulatory risk.",
+      "mitigation": "Add a section on Data Privacy detailing PII handling, consent mechanisms, data residency requirements, and user rights (right to be forgotten)."
+    },
+    {
+      "title": "Undefined User Roles and Access Control",
+      "category": "SECURITY",
+      "severity": "MEDIUM",
+      "description": "Requirement #5 ('Restaurants should manage things') is vague. Without defined roles (Customer, Restaurant Admin, Driver, Super Admin), it is impossible to implement Role-Based Access Control (RBAC).",
+      "mitigation": "Define a detailed User Role Matrix specifying permissions for each actor (e.g., Restaurant Admin can edit menu but not view other restaurants' sales)."
+    }
+  ],
+  "conflicts_and_ambiguities": [
+    {
+      "issue": "Subjective Quality Metrics",
+      "context": "The app should be awesome.",
+      "suggested_resolution": "Replace with measurable UX metrics, such as 'Task completion rate for ordering > 90%' or 'App Store rating target > 4.5 stars'."
+    },
+    {
+      "issue": "Vague Functional Scope",
+      "context": "Food ordering must be easy.",
+      "suggested_resolution": "Define specific user flows: 'User can search by cuisine, filter by rating, and add items to cart in no more than 3 taps.'"
+    },
+    {
+      "issue": "Undefined Payment Mechanism",
+      "context": "Customers can pay somehow.",
+      "suggested_resolution": "Specify supported payment methods (Credit Card, Apple Pay, Wallet) and error handling procedures for failed transactions."
+    },
+    {
+      "issue": "Ambiguous Management Capabilities",
+      "context": "Restaurants should manage things.",
+      "suggested_resolution": "List specific management features: 'Manage menu availability, view daily sales reports, and update delivery zones.'"
+    }
+  ],
+  "missing_sections_and_details": [
+    {
+      "section_name": "Project Scope and Boundaries",
+      "priority": "CRITICAL",
+      "why_missing": "Without scope, the project will suffer from scope creep. It is unclear if this includes driver app, restaurant web portal, or just customer mobile app.",
+      "recommended_addition": "Define In-Scope (Customer iOS/Android App, Restaurant Web Dashboard) and Out-of-Scope (Driver App, Hardware Integration) items."
+    },
+    {
+      "section_name": "Functional Requirements (User Stories)",
+      "priority": "CRITICAL",
+      "why_missing": "The current statements are not functional requirements. Developers cannot code 'awesome' or 'easy'.",
+      "recommended_addition": "Create detailed user stories with acceptance criteria (Given/When/Then format) for all core features: Registration, Browsing, Ordering, Payment, Tracking, and Reviews."
+    },
+    {
+      "section_name": "Non-Functional Requirements (NFRs)",
+      "priority": "CRITICAL",
+      "why_missing": "No performance, availability, or scalability targets are defined. The system may fail under load.",
+      "recommended_addition": "Specify: 'System must support 10,000 concurrent users', '99.9% uptime SLA', 'Auto-scaling for peak meal times'."
+    },
+    {
+      "section_name": "Security and Compliance",
+      "priority": "CRITICAL",
+      "why_missing": "No mention of authentication, authorization, encryption, or regulatory compliance (PCI, GDPR).",
+      "recommended_addition": "Detail OAuth2.0/JWT authentication, AES-256 encryption for data at rest, TLS 1.3 for data in transit, and PCI-DSS compliance for payment processing."
+    },
+    {
+      "section_name": "Data Model and Integration",
+      "priority": "HIGH",
+      "why_missing": "No information on how data flows between customer, restaurant, and delivery systems.",
+      "recommended_addition": "Define API contracts (REST/GraphQL), database schema for core entities (User, Order, Menu, Payment), and third-party integrations (Maps, SMS, Payments)."
+    }
+  ],
+  "rtm_matrix": [
+    {
+      "req_id": "REQ-01",
+      "business_goal": "App should be awesome",
+      "technical_component": "N/A",
+      "test_case_verification": "N/A - Unmeasurable",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-02",
+      "business_goal": "Food ordering must be easy",
+      "technical_component": "N/A",
+      "test_case_verification": "N/A - Unmeasurable",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-03",
+      "business_goal": "Delivery should happen fast",
+      "technical_component": "N/A",
+      "test_case_verification": "N/A - No SLA defined",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-04",
+      "business_goal": "Customers can pay somehow",
+      "technical_component": "Payment Gateway",
+      "test_case_verification": "N/A - No specific payment methods or error handling defined",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-05",
+      "business_goal": "Restaurants should manage things",
+      "technical_component": "Restaurant Admin Portal",
+      "test_case_verification": "N/A - No specific management functions defined",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-06",
+      "business_goal": "Notifications would be nice",
+      "technical_component": "Notification Service",
+      "test_case_verification": "N/A - No trigger events or channels defined",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-07",
+      "business_goal": "Reports can be added later",
+      "technical_component": "Reporting Module",
+      "test_case_verification": "N/A - Deferred, no timeline or scope",
+      "status": "GAP"
+    }
+  ],
+  "ai_recommendations": [
+    "Reject this document immediately. It is not a requirements specification but a list of vague wishes. Do not proceed to design or development based on this text.",
+    "Engage a Business Analyst to conduct stakeholder interviews to translate the vague statements into measurable, testable functional and non-functional requirements using the INVEST criteria (Independent, Negotiable, Valuable, Estimable, Small, Testable).",
+    "Mandate the inclusion of a Security and Compliance section that explicitly addresses PCI-DSS for payments and GDPR/CCPA for user data, as these are non-negotiable for a food delivery platform handling PII and financial transactions."
+  ],
+  "id": "b94bbf6d-ee4a-4db3-9314-c200e392e092",
+  "analyzed_at": "2026-08-29T18:48:57.019330+00:00",
+  "filename": "Very_Bad_Requirements_Sample.pdf",
+  "file_id": null,
+  "conversation_id": null
+}

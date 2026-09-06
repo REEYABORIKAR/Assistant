@@ -1,0 +1,26 @@
+{
+  "jira": {
+    "id": "jira",
+    "status": "CONNECTED",
+    "config": {
+      "baseUrl": "https://refyne.atlassian.net",
+      "email": "test@test.com",
+      "apiToken": "tok",
+      "projectKey": "REQ"
+    },
+    "last_synced_at": null,
+    "last_sync_status": "IDLE",
+    "sync_stats": {
+      "items_synced": 0,
+      "last_action": "Configured"
+    },
+    "recent_events": [
+      {
+        "time": "18:23:16",
+        "level": "INFO",
+        "message": "Connection credentials updated for JIRA."
+      }
+    ],
+    "updated_at": "2026-09-01T18:23:16.645601+00:00"
+  }
+}

@@ -1,0 +1,453 @@
+{
+  "readiness_score": 70,
+  "clarity_score": 78,
+  "completeness_score": 65,
+  "security_score": 55,
+  "rtm_score": 68,
+  "summary": "The document outlines the business case, high\u2011level functional requirements and a basic set of non\u2011functional expectations for NovaCart, an e\u2011commerce storefront for Northfield Retail Group. It defines core journeys (registration, search, cart, checkout, order tracking), captures several business rules, and lists a handful of performance, availability and security goals. However, detailed technical specifications, compliance mappings (PCI\u2011DSS, GDPR/CCPA), concurrency handling, and measurable latency targets are missing.",
+  "risk_factors": [
+    {
+      "title": "Insufficient PCI\u2011DSS Detail",
+      "category": "SECURITY",
+      "severity": "HIGH",
+      "description": "The document only states that no cardholder data may be stored locally and that a PCI\u2011compliant gateway will be used, but it lacks requirements for tokenization, encryption of data in transit and at rest, secure key management, and regular PCI\u2011DSS validation.",
+      "mitigation": "Add explicit PCI\u2011DSS controls: use tokenization for card numbers, enforce TLS 1.2+ for all communications, encrypt any stored PAN fragments, implement strict access controls, and schedule quarterly PCI\u2011DSS compliance assessments.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 0,
+        "claim": "Risk: Insufficient PCI\u2011DSS Detail \u2014 The document only states that no cardholder data may be stored locally and that a PCI\u2011compliant gateway will be used, but it lacks requirements for tokenization, encryption of data in transit and at rest, secure key management, and regular PCI\u2011DSS validation.",
+        "confidence": 87,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 25 source keywords in document context."
+      }
+    },
+    {
+      "title": "Potential Cart Inconsistency Due to Infrequent Stock Sync",
+      "category": "ARCHITECTURE",
+      "severity": "MEDIUM",
+      "description": "Stock data is refreshed only twice daily via batch API, while the cart must prevent adding out\u2011of\u2011stock items. This can lead to customers adding items that are no longer available, violating BRULE\u201103.",
+      "mitigation": "Introduce real\u2011time inventory checks via a low\u2011latency API or event\u2011driven stock updates, and implement optimistic concurrency control with reservation tokens for cart items.",
+      "source_ref": "Page 2",
+      "verification": {
+        "claim_index": 1,
+        "claim": "Risk: Potential Cart Inconsistency Due to Infrequent Stock Sync \u2014 Stock data is refreshed only twice daily via batch API, while the cart must prevent adding out\u2011of\u2011stock items. This can lead to customers adding items that are no longer available, violating BRULE\u201103.",
+        "confidence": 87,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 25 source keywords in document context."
+      }
+    },
+    {
+      "title": "Missing GDPR/CCPA Data\u2011Privacy Controls",
+      "category": "DATA_PRIVACY",
+      "severity": "HIGH",
+      "description": "The document does not address lawful basis for processing personal data, consent collection, right\u2011to\u2011be\u2011forgotten, data minimisation, or data\u2011subject access request handling.",
+      "mitigation": "Define privacy impact assessment, include consent mechanisms for marketing communications, implement data\u2011subject request workflows, and ensure PII is encrypted at rest with retention policies aligned to GDPR/CCPA.",
+      "source_ref": "Page 6",
+      "verification": {
+        "claim_index": 2,
+        "claim": "Risk: Missing GDPR/CCPA Data\u2011Privacy Controls \u2014 The document does not address lawful basis for processing personal data, consent collection, right\u2011to\u2011be\u2011forgotten, data minimisation, or data\u2011subject access request handling.",
+        "confidence": 76,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 10 source keywords in document context."
+      }
+    },
+    {
+      "title": "Undefined Performance Benchmark for Checkout Latency",
+      "category": "OPERATIONAL",
+      "severity": "MEDIUM",
+      "description": "Non\u2011functional requirements specify search results within 2\u202fseconds and checkout transitions within 3\u202fseconds, but the e\u2011commerce benchmark calls for P95 checkout latency <\u202f300\u202fms, which is not addressed.",
+      "mitigation": "Add precise performance targets (e.g., P95 checkout latency \u2264\u202f300\u202fms) and outline load\u2011testing strategy to verify under peak traffic.",
+      "source_ref": "Page 7",
+      "verification": {
+        "claim_index": 3,
+        "claim": "Risk: Undefined Performance Benchmark for Checkout Latency \u2014 Non\u2011functional requirements specify search results within 2\u202fseconds and checkout transitions within 3\u202fseconds, but the e\u2011commerce benchmark calls for P95 checkout latency <\u202f300\u202fms, which is not addressed.",
+        "confidence": 84,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 19 source keywords in document context."
+      }
+    },
+    {
+      "title": "Lack of OWASP Top\u201110 Mitigations",
+      "category": "SECURITY",
+      "severity": "MEDIUM",
+      "description": "No explicit controls for injection, XSS, CSRF, broken authentication, or security logging are documented.",
+      "mitigation": "Incorporate OWASP Top\u201110 requirements into the security section, including input validation, output encoding, CSRF tokens, MFA for admin access, and security\u2011event logging.",
+      "source_ref": "Page 7",
+      "verification": {
+        "claim_index": 4,
+        "claim": "Risk: Lack of OWASP Top\u201110 Mitigations \u2014 No explicit controls for injection, XSS, CSRF, broken authentication, or security logging are documented.",
+        "confidence": 65,
+        "verdict": "SUPPORTED",
+        "reason": "General concept is grounded in source context; specific details are extrapolated."
+      }
+    }
+  ],
+  "conflicts_and_ambiguities": [
+    {
+      "issue": "Guest checkout scope vs cancellation policy",
+      "context": "\"Guest checkout is out of scope for Release 1; all orders require a registered account.\" vs \"Cancellation is allowed only while the order is in 'Processing' status.\"",
+      "suggested_resolution": "Clarify that cancellation is only applicable to registered\u2011user orders and explicitly state that guest orders (if ever introduced) will follow a separate cancellation flow.",
+      "source_ref": "Page 2",
+      "verification": {
+        "claim_index": 16,
+        "claim": "Ambiguity: Guest checkout scope vs cancellation policy \u2014 \"Guest checkout is out of scope for Release 1; all orders require a registered account.\" vs \"Cancellation is allowed only while the order is in 'Processing' status.\"",
+        "confidence": 93,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 21 source keywords in document context."
+      }
+    },
+    {
+      "issue": "Stock refresh frequency vs real\u2011time cart validation",
+      "context": "\"How frequently is stock data refreshed? Twice daily...\" vs \"An item can be added to cart only if available stock quantity is greater than zero.\"",
+      "suggested_resolution": "Specify a real\u2011time stock check API for cart operations and define the batch refresh as a supplemental sync, not the sole source of truth.",
+      "source_ref": "Page 2",
+      "verification": {
+        "claim_index": 17,
+        "claim": "Ambiguity: Stock refresh frequency vs real\u2011time cart validation \u2014 \"How frequently is stock data refreshed? Twice daily...\" vs \"An item can be added to cart only if available stock quantity is greater than zero.\"",
+        "confidence": 92,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 24 source keywords in document context."
+      }
+    },
+    {
+      "issue": "Performance wording inconsistency",
+      "context": "\"Search results shall return within 2 seconds and checkout transitions within 3 seconds\" vs industry benchmark of P95 checkout latency <\u202f300\u202fms.",
+      "suggested_resolution": "Replace the generic 3\u2011second checkout transition statement with a measurable P95 latency target of \u2264\u202f300\u202fms and define the testing methodology.",
+      "source_ref": "Page 7",
+      "verification": {
+        "claim_index": 18,
+        "claim": "Ambiguity: Performance wording inconsistency \u2014 \"Search results shall return within 2 seconds and checkout transitions within 3 seconds\" vs industry benchmark of P95 checkout latency <\u202f300\u202fms.",
+        "confidence": 84,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 13 source keywords in document context."
+      }
+    }
+  ],
+  "missing_sections_and_details": [
+    {
+      "section_name": "Detailed PCI\u2011DSS Controls",
+      "priority": "CRITICAL",
+      "why_missing": "Without explicit PCI\u2011DSS technical controls the solution may store or transmit card data insecurely, exposing the organization to compliance violations and fines.",
+      "recommended_addition": "Include requirements for tokenization, TLS 1.2+ encryption, secure key management, regular vulnerability scanning, and quarterly PCI\u2011DSS self\u2011assessment reports.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 5,
+        "claim": "Missing Gap: Detailed PCI\u2011DSS Controls \u2014 Without explicit PCI\u2011DSS technical controls the solution may store or transmit card data insecurely, exposing the organization to compliance violations and fines.",
+        "confidence": 81,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 13 source keywords in document context."
+      }
+    },
+    {
+      "section_name": "GDPR/CCPA Privacy Requirements",
+      "priority": "HIGH",
+      "why_missing": "The platform processes personal identifiers (email, mobile) but lacks consent, data\u2011subject rights, and retention policies, risking regulatory penalties.",
+      "recommended_addition": "Add sections covering lawful basis, consent capture, right to access/erase, data minimisation, encryption of PII at rest, and a Data Protection Impact Assessment (DPIA).",
+      "source_ref": "Page 6",
+      "verification": {
+        "claim_index": 6,
+        "claim": "Missing Gap: GDPR/CCPA Privacy Requirements \u2014 The platform processes personal identifiers (email, mobile) but lacks consent, data\u2011subject rights, and retention policies, risking regulatory penalties.",
+        "confidence": 75,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 7 source keywords in document context."
+      }
+    },
+    {
+      "section_name": "Concurrency and Cart Consistency Strategy",
+      "priority": "HIGH",
+      "why_missing": "Only batch stock updates are described, which cannot guarantee cart consistency under concurrent purchases, leading to overselling.",
+      "recommended_addition": "Define real\u2011time inventory API, optimistic locking or reservation tokens, and idempotent cart update operations with conflict resolution rules.",
+      "source_ref": "Page 2",
+      "verification": {
+        "claim_index": 7,
+        "claim": "Missing Gap: Concurrency and Cart Consistency Strategy \u2014 Only batch stock updates are described, which cannot guarantee cart consistency under concurrent purchases, leading to overselling.",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 11 source keywords in document context."
+      }
+    },
+    {
+      "section_name": "Performance Benchmark Details (P95 Checkout Latency)",
+      "priority": "MEDIUM",
+      "why_missing": "The document provides generic response times but does not meet the e\u2011commerce benchmark of <\u202f300\u202fms checkout latency, making performance validation ambiguous.",
+      "recommended_addition": "Specify P95 checkout latency \u2264\u202f300\u202fms, load\u2011test scenarios (e.g., 5\u202f000 concurrent users), and acceptable error rates.",
+      "source_ref": "Page 7",
+      "verification": {
+        "claim_index": 8,
+        "claim": "Missing Gap: Performance Benchmark Details (P95 Checkout Latency) \u2014 The document provides generic response times but does not meet the e\u2011commerce benchmark of <\u202f300\u202fms checkout latency, making performance validation ambiguous.",
+        "confidence": 77,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 11 source keywords in document context."
+      }
+    },
+    {
+      "section_name": "Logging, Monitoring, and Incident Response",
+      "priority": "MEDIUM",
+      "why_missing": "No requirements for audit logging, security event monitoring, or incident response are present, which are essential for PCI\u2011DSS and operational resilience.",
+      "recommended_addition": "Require centralized log aggregation, retention of security logs for at least 12 months, real\u2011time alerting on suspicious activity, and a documented incident response plan.",
+      "source_ref": "Page 7",
+      "verification": {
+        "claim_index": 9,
+        "claim": "Missing Gap: Logging, Monitoring, and Incident Response \u2014 No requirements for audit logging, security event monitoring, or incident response are present, which are essential for PCI\u2011DSS and operational resilience.",
+        "confidence": 79,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 10 source keywords in document context."
+      }
+    }
+  ],
+  "rtm_matrix": [
+    {
+      "req_id": "BR-001",
+      "business_goal": "Enable customers to create an account and authenticate securely",
+      "technical_component": "Customer Registration Service",
+      "test_case_verification": "Automated UI test: register with email and mobile, verify OTP flow, assert account creation in DB",
+      "status": "COVERED",
+      "source_ref": "Page 6",
+      "verification": {
+        "claim_index": 10,
+        "claim": "Traceability: BR-001 Enable customers to create an account and authenticate securely via Customer Registration Service",
+        "confidence": 92,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 11 source keywords in document context."
+      }
+    },
+    {
+      "req_id": "BR-002",
+      "business_goal": "Provide secure login for registered customers",
+      "technical_component": "Authentication Service (OAuth2/JWT)",
+      "test_case_verification": "Integration test: login with valid credentials, verify token issuance, enforce lockout after 3 failed attempts",
+      "status": "COVERED",
+      "source_ref": "Page 6",
+      "verification": {
+        "claim_index": 11,
+        "claim": "Traceability: BR-002 Provide secure login for registered customers via Authentication Service (OAuth2/JWT)",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 8 source keywords in document context."
+      }
+    },
+    {
+      "req_id": "BR-003",
+      "business_goal": "Fast, relevant product discovery",
+      "technical_component": "Search Service (Elasticsearch)",
+      "test_case_verification": "Performance test: 10\u202f000 concurrent searches, assert 95th percentile response \u2264\u202f2\u202fs",
+      "status": "PARTIAL",
+      "source_ref": "Page 6",
+      "verification": {
+        "claim_index": 12,
+        "claim": "Traceability: BR-003 Fast, relevant product discovery via Search Service (Elasticsearch)",
+        "confidence": 89,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 8 source keywords in document context."
+      }
+    },
+    {
+      "req_id": "BR-004",
+      "business_goal": "Frictionless cart and checkout experience",
+      "technical_component": "Cart Service & Checkout API",
+      "test_case_verification": "End\u2011to\u2011end test: add items, update quantities, complete checkout, verify order creation and idempotency on retry",
+      "status": "GAP",
+      "source_ref": "Page 6",
+      "verification": {
+        "claim_index": 13,
+        "claim": "Traceability: BR-004 Frictionless cart and checkout experience via Cart Service & Checkout API",
+        "confidence": 92,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 10 source keywords in document context."
+      }
+    },
+    {
+      "req_id": "BR-005",
+      "business_goal": "Secure payment processing",
+      "technical_component": "Payment Integration Layer",
+      "test_case_verification": "Mock payment gateway test: ensure no PAN stored, token received, PCI\u2011DSS scope limited",
+      "status": "GAP",
+      "source_ref": "Page 6",
+      "verification": {
+        "claim_index": 14,
+        "claim": "Traceability: BR-005 Secure payment processing via Payment Integration Layer",
+        "confidence": 88,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 7 source keywords in document context."
+      }
+    },
+    {
+      "req_id": "BR-006",
+      "business_goal": "Order tracking and history visibility",
+      "technical_component": "Order Management Service",
+      "test_case_verification": "API test: retrieve order status and history for past 24\u202fmonths, validate data retention policy",
+      "status": "COVERED",
+      "source_ref": "Page 6",
+      "verification": {
+        "claim_index": 15,
+        "claim": "Traceability: BR-006 Order tracking and history visibility via Order Management Service",
+        "confidence": 92,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 9 source keywords in document context."
+      }
+    }
+  ],
+  "ai_recommendations": [
+    "Add a dedicated Security Requirements section mapping each PCI\u2011DSS and OWASP control to a concrete implementation detail.",
+    "Introduce GDPR/CCPA privacy clauses covering consent, data subject rights, encryption of PII at rest, and a documented data retention and deletion process.",
+    "Implement a real\u2011time inventory service with reservation tokens to guarantee cart consistency and prevent overselling during high\u2011traffic periods."
+  ],
+  "domain_profile": {
+    "domain": "ECOMMERCE",
+    "compliance": [
+      "PCI-DSS",
+      "GDPR/CCPA (customer PII)"
+    ],
+    "standard_nfrs": [
+      "cart consistency under concurrent stock updates",
+      "P95 checkout latency < 300ms"
+    ]
+  },
+  "verification_summary": {
+    "verdicts": [
+      {
+        "claim_index": 0,
+        "claim": "Risk: Insufficient PCI\u2011DSS Detail \u2014 The document only states that no cardholder data may be stored locally and that a PCI\u2011compliant gateway will be used, but it lacks requirements for tokenization, encryption of data in transit and at rest, secure key management, and regular PCI\u2011DSS validation.",
+        "confidence": 87,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 25 source keywords in document context."
+      },
+      {
+        "claim_index": 1,
+        "claim": "Risk: Potential Cart Inconsistency Due to Infrequent Stock Sync \u2014 Stock data is refreshed only twice daily via batch API, while the cart must prevent adding out\u2011of\u2011stock items. This can lead to customers adding items that are no longer available, violating BRULE\u201103.",
+        "confidence": 87,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 25 source keywords in document context."
+      },
+      {
+        "claim_index": 2,
+        "claim": "Risk: Missing GDPR/CCPA Data\u2011Privacy Controls \u2014 The document does not address lawful basis for processing personal data, consent collection, right\u2011to\u2011be\u2011forgotten, data minimisation, or data\u2011subject access request handling.",
+        "confidence": 76,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 10 source keywords in document context."
+      },
+      {
+        "claim_index": 3,
+        "claim": "Risk: Undefined Performance Benchmark for Checkout Latency \u2014 Non\u2011functional requirements specify search results within 2\u202fseconds and checkout transitions within 3\u202fseconds, but the e\u2011commerce benchmark calls for P95 checkout latency <\u202f300\u202fms, which is not addressed.",
+        "confidence": 84,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 19 source keywords in document context."
+      },
+      {
+        "claim_index": 4,
+        "claim": "Risk: Lack of OWASP Top\u201110 Mitigations \u2014 No explicit controls for injection, XSS, CSRF, broken authentication, or security logging are documented.",
+        "confidence": 65,
+        "verdict": "SUPPORTED",
+        "reason": "General concept is grounded in source context; specific details are extrapolated."
+      },
+      {
+        "claim_index": 5,
+        "claim": "Missing Gap: Detailed PCI\u2011DSS Controls \u2014 Without explicit PCI\u2011DSS technical controls the solution may store or transmit card data insecurely, exposing the organization to compliance violations and fines.",
+        "confidence": 81,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 13 source keywords in document context."
+      },
+      {
+        "claim_index": 6,
+        "claim": "Missing Gap: GDPR/CCPA Privacy Requirements \u2014 The platform processes personal identifiers (email, mobile) but lacks consent, data\u2011subject rights, and retention policies, risking regulatory penalties.",
+        "confidence": 75,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 7 source keywords in document context."
+      },
+      {
+        "claim_index": 7,
+        "claim": "Missing Gap: Concurrency and Cart Consistency Strategy \u2014 Only batch stock updates are described, which cannot guarantee cart consistency under concurrent purchases, leading to overselling.",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 11 source keywords in document context."
+      },
+      {
+        "claim_index": 8,
+        "claim": "Missing Gap: Performance Benchmark Details (P95 Checkout Latency) \u2014 The document provides generic response times but does not meet the e\u2011commerce benchmark of <\u202f300\u202fms checkout latency, making performance validation ambiguous.",
+        "confidence": 77,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 11 source keywords in document context."
+      },
+      {
+        "claim_index": 9,
+        "claim": "Missing Gap: Logging, Monitoring, and Incident Response \u2014 No requirements for audit logging, security event monitoring, or incident response are present, which are essential for PCI\u2011DSS and operational resilience.",
+        "confidence": 79,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 10 source keywords in document context."
+      },
+      {
+        "claim_index": 10,
+        "claim": "Traceability: BR-001 Enable customers to create an account and authenticate securely via Customer Registration Service",
+        "confidence": 92,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 11 source keywords in document context."
+      },
+      {
+        "claim_index": 11,
+        "claim": "Traceability: BR-002 Provide secure login for registered customers via Authentication Service (OAuth2/JWT)",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 8 source keywords in document context."
+      },
+      {
+        "claim_index": 12,
+        "claim": "Traceability: BR-003 Fast, relevant product discovery via Search Service (Elasticsearch)",
+        "confidence": 89,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 8 source keywords in document context."
+      },
+      {
+        "claim_index": 13,
+        "claim": "Traceability: BR-004 Frictionless cart and checkout experience via Cart Service & Checkout API",
+        "confidence": 92,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 10 source keywords in document context."
+      },
+      {
+        "claim_index": 14,
+        "claim": "Traceability: BR-005 Secure payment processing via Payment Integration Layer",
+        "confidence": 88,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 7 source keywords in document context."
+      },
+      {
+        "claim_index": 15,
+        "claim": "Traceability: BR-006 Order tracking and history visibility via Order Management Service",
+        "confidence": 92,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 9 source keywords in document context."
+      },
+      {
+        "claim_index": 16,
+        "claim": "Ambiguity: Guest checkout scope vs cancellation policy \u2014 \"Guest checkout is out of scope for Release 1; all orders require a registered account.\" vs \"Cancellation is allowed only while the order is in 'Processing' status.\"",
+        "confidence": 93,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 21 source keywords in document context."
+      },
+      {
+        "claim_index": 17,
+        "claim": "Ambiguity: Stock refresh frequency vs real\u2011time cart validation \u2014 \"How frequently is stock data refreshed? Twice daily...\" vs \"An item can be added to cart only if available stock quantity is greater than zero.\"",
+        "confidence": 92,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 24 source keywords in document context."
+      },
+      {
+        "claim_index": 18,
+        "claim": "Ambiguity: Performance wording inconsistency \u2014 \"Search results shall return within 2 seconds and checkout transitions within 3 seconds\" vs industry benchmark of P95 checkout latency <\u202f300\u202fms.",
+        "confidence": 84,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 13 source keywords in document context."
+      }
+    ],
+    "verified_count": 19,
+    "flagged_count": 0,
+    "flagged_items": [],
+    "total_claims": 19
+  },
+  "content_hash": "a4142f67fa154ab9c022a9ac85d712111b15ed772a45680d2a75702924f9f2cb",
+  "id": "5d8f7226-ab98-4875-bc0b-49080d6c3c55",
+  "analyzed_at": "2026-09-01T18:31:26.773828+00:00",
+  "filename": "AI-Driven Requirement Engineering Assistant1 (1).pdf",
+  "file_id": null,
+  "conversation_id": null
+}

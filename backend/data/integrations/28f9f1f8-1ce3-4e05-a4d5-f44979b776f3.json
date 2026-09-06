@@ -1,0 +1,32 @@
+{
+  "jira": {
+    "id": "jira",
+    "status": "CONNECTED",
+    "config": {
+      "baseUrl": "https://refyne.atlassian.net",
+      "email": "reeyaporikar@gmail.com",
+      "apiToken": "test-token",
+      "projectKey": "REQ",
+      "issueType": "Story"
+    },
+    "last_synced_at": null,
+    "last_sync_status": "IDLE",
+    "sync_stats": {
+      "items_synced": 0,
+      "last_action": "Configured"
+    },
+    "recent_events": [
+      {
+        "time": "17:24:07",
+        "level": "INFO",
+        "message": "Connection credentials updated for JIRA."
+      },
+      {
+        "time": "17:20:46",
+        "level": "INFO",
+        "message": "Connection credentials updated for JIRA."
+      }
+    ],
+    "updated_at": "2026-08-31T17:24:07.673136+00:00"
+  }
+}

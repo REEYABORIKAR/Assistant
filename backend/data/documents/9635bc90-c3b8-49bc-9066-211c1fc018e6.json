@@ -1,0 +1,227 @@
+{
+  "doc_type": "BRD",
+  "title": "Business Requirements Document \u2014 what are the objective",
+  "version": "v1.1",
+  "status": "APPROVED",
+  "revision_history": [
+    {
+      "version": "v1.0",
+      "feedback": "The main improvement required is to make the Hospital Management System requirements specific, measurable, complete, and implementation-ready by clearly defining the business objectives, scope, stakeholders, hospital workflows, functional requirements, business rules, assumptions, risks, security and privacy requirements, performance and availability targets, integrations, and acceptance criteria. Each requirement should have a unique ID, priority, measurable acceptance criteria, and clear mapping to the relevant module, API, database, UI, and test case. The current document leaves objectives, scope, stakeholders, and assumptions as open items, so these should be replaced with actual HMS-specific details rather than generic placeholders.",
+      "revised_at": "2026-08-30T16:49:53.161780+00:00"
+    }
+  ],
+  "parent_id": null,
+  "sections": [
+    {
+      "title": "1. Executive Summary & Strategic Rationale",
+      "body": "This Business Requirements Document (BRD) defines the strategic rationale for the implementation of a comprehensive Hospital Management System (HMS). The primary strategic objective is to digitize core clinical and administrative workflows to enhance patient care quality, reduce operational overhead, and ensure regulatory compliance. By transitioning from manual or fragmented legacy processes to a unified digital platform, the organization aims to achieve measurable improvements in operational efficiency, data integrity, and patient safety. This document serves as the authoritative source for business requirements, bridging the gap between high-level strategic goals and technical implementation specifications. It addresses previous gaps by explicitly defining the business context, specific operational workflows, and measurable success criteria required for a production-ready HMS deployment."
+    },
+    {
+      "title": "2. Business Objectives & Success Metrics",
+      "body": "The following business objectives are established to guide the development and acceptance of the HMS. Each objective is paired with a measurable Key Performance Indicator (KPI) to ensure verifiable success.\n\n1. **Operational Efficiency**: Reduce average patient check-in and check-out time by 40% compared to baseline manual processes. *KPI: Average transaction time < 5 minutes.*\n2. **Data Integrity & Accessibility**: Ensure 100% of patient medical records are accessible to authorized clinical staff within 2 seconds. *KPI: P95 latency for record retrieval < 250ms.*\n3. **Regulatory Compliance**: Achieve and maintain full compliance with SOC 2, ISO 27001, and GDPR (for patient data privacy). *KPI: Zero critical compliance audit findings.*\n4. **System Reliability**: Guarantee continuous availability for critical clinical functions. *KPI: 99.9% uptime SLA for core modules.*\n5. **Revenue Cycle Management**: Reduce billing errors and claim rejection rates by 25%. *KPI: Claim rejection rate < 5%.*"
+    },
+    {
+      "title": "3. Scope & Operational Boundaries (In/Out of Scope)",
+      "body": "**In Scope (Phase 1):**\n- **Patient Management**: Registration, demographics, and medical history tracking.\n- **Appointment Scheduling**: Doctor availability, booking, and rescheduling workflows.\n- **Clinical Records**: Electronic Health Records (EHR) with secure access controls.\n- **Billing & Invoicing**: Service coding, invoice generation, and payment processing integration.\n- **User Management**: Role-based access control (RBAC) for doctors, nurses, admins, and billing staff.\n- **Reporting**: Basic operational dashboards for patient volume and revenue.\n\n**Out of Scope (Phase 1):**\n- **Pharmacy Inventory Management**: To be addressed in Phase 2.\n- **Lab Result Integration**: Direct interface with external lab equipment is excluded from the initial release.\n- **Telemedicine Module**: Video consultation features are not included in this scope.\n- **HR & Payroll**: Staff management beyond system access provisioning is out of scope."
+    },
+    {
+      "title": "4. Key Stakeholders & Governance Personas",
+      "body": "The following stakeholders and governance personas are identified as critical to the project's success and compliance:\n\n- **Chief Medical Officer (CMO)**: Final approver for clinical workflow logic and EHR data structures. Responsible for ensuring clinical accuracy.\n- **Chief Information Officer (CIO)**: Oversees technical architecture, integration standards, and IT security posture (SOC 2/ISO 27001).\n- **Data Protection Officer (DPO)**: Ensures GDPR compliance regarding patient data privacy, consent management, and data retention policies.\n- **Hospital Administrator**: Primary business owner for operational workflows, billing rules, and resource allocation.\n- **Clinical Staff (Doctors/Nurses)**: End-users requiring intuitive interfaces for patient care; provide feedback on usability and workflow efficiency.\n- **Billing Department**: End-users responsible for revenue cycle management; define requirements for invoicing and payment processing.\n- **IT Security Team**: Responsible for implementing AES-256 encryption, access controls, and audit logging."
+    },
+    {
+      "title": "5. Business Requirements Specification Matrix",
+      "table": [
+        [
+          "BRD ID",
+          "Requirement Title",
+          "Description",
+          "Priority",
+          "Acceptance Criteria"
+        ],
+        [
+          "BRD-001",
+          "Patient Registration",
+          "System must allow administrative staff to create new patient profiles with unique IDs, demographics, and emergency contacts.",
+          "High",
+          "1. Patient record created with unique ID.\n2. Duplicate check prevents same SSN/DOB combination.\n3. Data saved to database within 250ms."
+        ],
+        [
+          "BRD-002",
+          "Appointment Scheduling",
+          "System must enable booking of appointments based on doctor availability and room resources.",
+          "High",
+          "1. Appointment created only if slot is available.\n2. Conflict detection prevents double-booking.\n3. Confirmation notification generated."
+        ],
+        [
+          "BRD-003",
+          "Electronic Health Records (EHR)",
+          "System must store and retrieve patient medical history securely with role-based access.",
+          "Critical",
+          "1. Only authorized roles can view/edit records.\n2. All access attempts logged.\n3. Data encrypted at rest (AES-256)."
+        ],
+        [
+          "BRD-004",
+          "Billing & Invoicing",
+          "System must generate invoices based on services rendered and process payments.",
+          "High",
+          "1. Invoice total matches service codes.\n2. Payment status updates in real-time.\n3. Audit trail of all financial transactions."
+        ],
+        [
+          "BRD-005",
+          "Role-Based Access Control (RBAC)",
+          "System must enforce strict access permissions based on user roles (Doctor, Nurse, Admin, Billing).",
+          "Critical",
+          "1. Users can only access modules assigned to their role.\n2. Unauthorized access attempts are blocked and logged.\n3. Admin can modify role permissions."
+        ],
+        [
+          "BRD-006",
+          "Audit Logging",
+          "System must maintain an immutable log of all critical actions (view, edit, delete) for compliance.",
+          "Critical",
+          "1. Log entries include user ID, timestamp, and action.\n2. Logs are tamper-proof.\n3. Logs retained for minimum 7 years per compliance standards."
+        ],
+        [
+          "BRD-007",
+          "Data Privacy & Consent",
+          "System must manage patient consent for data sharing and ensure GDPR compliance.",
+          "High",
+          "1. Consent flags stored per patient.\n2. Data sharing blocked if consent is revoked.\n3. Right to erasure workflow implemented."
+        ],
+        [
+          "BRD-008",
+          "Operational Reporting",
+          "System must provide dashboards for patient volume, revenue, and doctor utilization.",
+          "Medium",
+          "1. Reports generate within 5 seconds.\n2. Data accuracy matches database records.\n3. Export to PDF/CSV supported."
+        ]
+      ]
+    },
+    {
+      "title": "6. Assumptions & Operational Constraints",
+      "body": "**Assumptions:**\n1. The hospital has a stable internet connection and on-premise or cloud infrastructure capable of supporting the HMS.\n2. Staff will undergo training on the new system prior to go-live.\n3. Legacy data migration will be completed and validated before the new system goes live.\n4. Integration points with external payment gateways and insurance providers are available and documented.\n\n**Operational Constraints:**\n1. **Compliance**: The system must adhere to SOC 2, ISO 27001, and GDPR standards. This includes AES-256 encryption for data at rest and in transit.\n2. **Performance**: The system must meet P95 latency targets of < 250ms for core transactions and maintain a 99.9% uptime SLA.\n3. **Technology Stack**: The solution must be web-based and accessible via standard browsers (Chrome, Firefox, Edge).\n4. **Data Retention**: Patient records must be retained for a minimum of 7 years in accordance with local healthcare regulations."
+    },
+    {
+      "title": "7. Risk & Compliance Baseline",
+      "body": "**Risk Assessment:**\n1. **Data Breach Risk**: High impact. Mitigated by AES-256 encryption, RBAC, and regular security audits (SOC 2/ISO 27001).\n2. **Data Migration Errors**: Medium impact. Mitigated by rigorous data validation scripts and parallel running of legacy and new systems during transition.\n3. **User Adoption Resistance**: Medium impact. Mitigated by comprehensive training programs and user feedback loops during UAT.\n4. **Integration Failures**: Medium impact. Mitigated by robust API error handling and retry mechanisms.\n\n**Compliance Baseline:**\n- **SOC 2**: Controls for security, availability, processing integrity, confidentiality, and privacy.\n- **ISO 27001**: Information Security Management System (ISMS) standards for risk management.\n- **GDPR**: Data protection and privacy rights for EU patients, including consent management and data portability.\n\n**NFR Benchmarks:**\n- **Latency**: P95 < 250ms for all critical user-facing transactions.\n- **Availability**: 99.9% uptime for core clinical and administrative modules.\n- **Security**: AES-256 encryption for all sensitive data at rest and TLS 1.2+ for data in transit."
+    }
+  ],
+  "_source_audit": {},
+  "_domain_profile": {
+    "domain": "GENERIC_ENTERPRISE",
+    "compliance": [
+      "SOC 2",
+      "GDPR (if applicable)",
+      "ISO 27001"
+    ],
+    "standard_nfrs": [
+      "P95 latency targets < 250ms",
+      "99.9% uptime SLA",
+      "AES-256 data encryption"
+    ]
+  },
+  "_doc_excerpt": "",
+  "verification_summary": {
+    "verdicts": [
+      {
+        "claim_index": 0,
+        "claim": "1. Executive Summary & Strategic Rationale: This Business Requirements Document (BRD) defines the strategic rationale for the implementation of a comprehensive Hosp",
+        "confidence": 30,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Excerpt does not contain an executive summary or strategic rationale statement."
+      },
+      {
+        "claim_index": 1,
+        "claim": "2. Business Objectives & Success Metrics: The following business objectives are established to guide the development and acceptance of the HMS. Each objective is ",
+        "confidence": 30,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No business objectives or success metrics are shown in the provided text."
+      },
+      {
+        "claim_index": 2,
+        "claim": "3. Scope & Operational Boundaries (In/Out of Scope): **In Scope (Phase 1):**\n- **Patient Management**: Registration, demographics, and medical history tracking.\n- **Appointm",
+        "confidence": 90,
+        "verdict": "SUPPORTED",
+        "reason": "Excerpt lists the In\u2011Scope Phase\u202f1 items matching the claim."
+      },
+      {
+        "claim_index": 3,
+        "claim": "4. Key Stakeholders & Governance Personas: The following stakeholders and governance personas are identified as critical to the project's success and compliance:\n\n",
+        "confidence": 90,
+        "verdict": "SUPPORTED",
+        "reason": "Stakeholders and governance personas are explicitly mentioned."
+      },
+      {
+        "claim_index": 4,
+        "claim": "BRD-001: Patient Registration \u2014 System must allow administrative staff to create new patient profiles with unique IDs, demographics, and emergency contacts. High",
+        "confidence": 95,
+        "verdict": "SUPPORTED",
+        "reason": "BRD\u2011001 description matches the claim verbatim."
+      },
+      {
+        "claim_index": 5,
+        "claim": "BRD-002: Appointment Scheduling \u2014 System must enable booking of appointments based on doctor availability and room resources. High",
+        "confidence": 95,
+        "verdict": "SUPPORTED",
+        "reason": "BRD\u2011002 description matches the claim verbatim."
+      },
+      {
+        "claim_index": 6,
+        "claim": "BRD-003: Electronic Health Records (EHR) \u2014 System must store and retrieve patient medical history securely with role-based access. Critical",
+        "confidence": 95,
+        "verdict": "SUPPORTED",
+        "reason": "BRD\u2011003 description matches the claim verbatim."
+      },
+      {
+        "claim_index": 7,
+        "claim": "BRD-004: Billing & Invoicing \u2014 System must generate invoices based on services rendered and process payments. High",
+        "confidence": 95,
+        "verdict": "SUPPORTED",
+        "reason": "BRD\u2011004 description matches the claim verbatim."
+      },
+      {
+        "claim_index": 8,
+        "claim": "BRD-005: Role-Based Access Control (RBAC) \u2014 System must enforce strict access permissions based on user roles (Doctor, Nurse, Admin, Billing). Critical",
+        "confidence": 95,
+        "verdict": "SUPPORTED",
+        "reason": "BRD\u2011005 description matches the claim verbatim."
+      },
+      {
+        "claim_index": 9,
+        "claim": "6. Assumptions & Operational Constraints: **Assumptions:**\n1. The hospital has a stable internet connection and on-premise or cloud infrastructure capable of supp",
+        "confidence": 90,
+        "verdict": "SUPPORTED",
+        "reason": "Assumptions section is present and aligns with the claim."
+      },
+      {
+        "claim_index": 10,
+        "claim": "7. Risk & Compliance Baseline: **Risk Assessment:**\n1. **Data Breach Risk**: High impact. Mitigated by AES-256 encryption, RBAC, and regular security a",
+        "confidence": 90,
+        "verdict": "SUPPORTED",
+        "reason": "Risk assessment entry for data breach risk is included."
+      }
+    ],
+    "verified_count": 9,
+    "flagged_count": 2,
+    "flagged_items": [
+      {
+        "claim_index": 0,
+        "claim": "1. Executive Summary & Strategic Rationale: This Business Requirements Document (BRD) defines the strategic rationale for the implementation of a comprehensive Hosp",
+        "confidence": 30,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Excerpt does not contain an executive summary or strategic rationale statement."
+      },
+      {
+        "claim_index": 1,
+        "claim": "2. Business Objectives & Success Metrics: The following business objectives are established to guide the development and acceptance of the HMS. Each objective is ",
+        "confidence": 30,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No business objectives or success metrics are shown in the provided text."
+      }
+    ],
+    "total_claims": 11
+  },
+  "id": "9635bc90-c3b8-49bc-9066-211c1fc018e6",
+  "pdf_export_url": "/api/v1/documents/9635bc90-c3b8-49bc-9066-211c1fc018e6/export/pdf?title=what are the objective&type=BRD",
+  "conversation_id": "70e6ce41-fa91-46a2-9313-c9ca33915818",
+  "approved_at": "2026-08-30T16:50:10.372328+00:00"
+}

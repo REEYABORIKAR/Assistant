@@ -1,0 +1,27 @@
+{
+  "readiness_score": 0,
+  "clarity_score": 0,
+  "completeness_score": 0,
+  "security_score": 0,
+  "rtm_score": 0,
+  "summary": "No readable text content found in 'AI-Driven Requirement Engineering Assistant.pdf'. Please upload a standard PDF, DOCX, or text file.",
+  "risk_factors": [],
+  "conflicts_and_ambiguities": [],
+  "missing_sections_and_details": [
+    {
+      "section_name": "Full Document Specification",
+      "priority": "CRITICAL",
+      "why_missing": "Document is empty or unreadable.",
+      "recommended_addition": "Upload a valid document containing functional and non-functional requirements."
+    }
+  ],
+  "rtm_matrix": [],
+  "ai_recommendations": [
+    "Upload a specification document with clear functional requirements."
+  ],
+  "id": "a58b4741-3c9f-4ab2-a014-c4dbca200ff1",
+  "analyzed_at": "2026-08-29T13:59:39.260761+00:00",
+  "filename": "AI-Driven Requirement Engineering Assistant.pdf",
+  "file_id": null,
+  "conversation_id": null
+}

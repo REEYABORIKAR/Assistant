@@ -1,0 +1,274 @@
+{
+  "doc_type": "USER_STORIES",
+  "title": "Business Requirements Document \u2014 hii",
+  "version": "v1.0",
+  "status": "APPROVED",
+  "revision_history": [],
+  "parent_id": null,
+  "sections": [
+    {
+      "title": "1. Agile Methodology & Persona Mapping",
+      "body": "This document outlines the Agile user stories for the Hospital Management System (HMS), structured to support iterative development and continuous delivery. The system is designed to provide a centralized platform for managing hospital operations, patient information, medical records, appointments, and administrative functions. \n\n**Personas:**\n- **Admin**: Oversees system configuration, user management, and high-level reporting.\n- **Doctor**: Manages patient consultations, diagnoses, prescriptions, and clinical notes.\n- **Nurse**: Handles patient care, vital signs, nursing notes, and bed management.\n- **Receptionist**: Manages patient registration, appointment scheduling, and queue management.\n- **Pharmacist**: Manages pharmacy prescriptions, medicine inventory, and dispensing.\n- **Lab Technician**: Processes laboratory test requests and generates reports.\n- **Accountant**: Manages billing, payments, insurance, invoices, and hospital expenses.\n- **Patient**: Views appointments, prescriptions, reports, bills, and medical history via a portal.\n\n**Methodology:**\n- User stories are organized into Epics based on core functional modules.\n- Each story follows the format: *As a [Persona], I want [Capability] so that [Business Value].*\n- Priorities are assigned based on criticality to hospital operations and compliance requirements (e.g., HIPAA, GDPR)."
+    },
+    {
+      "title": "2. Epics & User Stories Matrix",
+      "table": [
+        [
+          "Story ID",
+          "Epic",
+          "Persona",
+          "Capability Statement",
+          "Business Value",
+          "Priority"
+        ],
+        [
+          "US-001",
+          "Authentication & Access Control",
+          "Admin",
+          "Manage user roles and permissions for all system personas",
+          "Ensure role-based access control (RBAC) compliance and security",
+          "High"
+        ],
+        [
+          "US-002",
+          "Authentication & Access Control",
+          "Patient",
+          "Securely log in to the patient portal using JWT/OAuth",
+          "Enable safe access to personal health information",
+          "High"
+        ],
+        [
+          "US-003",
+          "Patient Management",
+          "Receptionist",
+          "Register new patients and manage their profiles",
+          "Centralize patient data for efficient hospital operations",
+          "High"
+        ],
+        [
+          "US-004",
+          "Patient Management",
+          "Patient",
+          "View and update personal medical history and allergies",
+          "Empower patients with access to their health records",
+          "Medium"
+        ],
+        [
+          "US-005",
+          "Appointment Scheduling",
+          "Receptionist",
+          "Schedule appointments and manage queues based on doctor availability",
+          "Optimize doctor schedules and reduce patient wait times",
+          "High"
+        ],
+        [
+          "US-006",
+          "Appointment Scheduling",
+          "Patient",
+          "View upcoming appointments and receive notifications",
+          "Improve patient engagement and reduce no-shows",
+          "Medium"
+        ],
+        [
+          "US-007",
+          "Electronic Medical Records (EMR)",
+          "Doctor",
+          "Access and update patient EMRs, including diagnosis and treatment history",
+          "Ensure accurate and up-to-date clinical records",
+          "High"
+        ],
+        [
+          "US-008",
+          "Electronic Medical Records (EMR)",
+          "Nurse",
+          "Record vital signs and nursing notes in the patient EMR",
+          "Support continuous patient monitoring and care",
+          "High"
+        ],
+        [
+          "US-009",
+          "Laboratory Management",
+          "Lab Technician",
+          "Process laboratory test requests and generate reports",
+          "Streamline lab workflows and ensure timely results",
+          "High"
+        ],
+        [
+          "US-010",
+          "Laboratory Management",
+          "Doctor",
+          "View laboratory reports in the patient dashboard",
+          "Facilitate informed clinical decision-making",
+          "High"
+        ],
+        [
+          "US-011",
+          "Pharmacy Management",
+          "Pharmacist",
+          "Manage medicine inventory and dispense prescriptions",
+          "Ensure availability of medications and reduce stockouts",
+          "High"
+        ],
+        [
+          "US-012",
+          "Pharmacy Management",
+          "Patient",
+          "View prescriptions and refill status in the patient portal",
+          "Enhance patient convenience and medication adherence",
+          "Medium"
+        ],
+        [
+          "US-013",
+          "Billing & Payments",
+          "Accountant",
+          "Generate invoices, process payments, and manage insurance claims",
+          "Ensure accurate financial tracking and revenue cycle management",
+          "High"
+        ],
+        [
+          "US-014",
+          "Billing & Payments",
+          "Patient",
+          "View bills and payment history in the patient portal",
+          "Increase transparency and reduce billing disputes",
+          "Medium"
+        ],
+        [
+          "US-015",
+          "Inventory & Procurement",
+          "Admin",
+          "Manage hospital inventory and procurement processes",
+          "Optimize resource utilization and reduce costs",
+          "Medium"
+        ],
+        [
+          "US-016",
+          "Reports & Analytics",
+          "Admin",
+          "Generate operational and financial reports",
+          "Support data-driven decision-making",
+          "Medium"
+        ],
+        [
+          "US-017",
+          "Notifications",
+          "All Personas",
+          "Receive system notifications for critical events (e.g., appointment reminders, low inventory)",
+          "Improve responsiveness and operational efficiency",
+          "Medium"
+        ],
+        [
+          "US-018",
+          "Audit & Compliance",
+          "Admin",
+          "View immutable audit logs for all system activities",
+          "Ensure compliance with HIPAA and GDPR requirements",
+          "High"
+        ]
+      ]
+    },
+    {
+      "title": "3. Release Slicing & Implementation Dependencies",
+      "body": "**Release Slicing:**\n- **Release 1 (MVP):** Authentication, Patient Management, Appointment Scheduling, EMR, and Billing. These modules form the core operational backbone of the HMS.\n- **Release 2:** Laboratory Management, Pharmacy Management, and Notifications. These modules enhance clinical workflows and patient engagement.\n- **Release 3:** Inventory & Procurement, Reports & Analytics, and Advanced Audit Features. These modules support administrative efficiency and compliance.\n\n**Implementation Dependencies:**\n- **Authentication & Access Control** must be implemented first, as all other modules depend on secure user access.\n- **Patient Management** is a prerequisite for Appointment Scheduling, EMR, and Billing.\n- **EMR** is a prerequisite for Laboratory Management and Pharmacy Management, as these modules rely on patient clinical data.\n- **Billing** depends on Appointment Scheduling, EMR, and Laboratory/Pharmacy Management for accurate invoice generation.\n- **Audit & Compliance** features must be integrated across all modules to ensure end-to-end traceability and regulatory compliance."
+    }
+  ],
+  "_source_audit": {},
+  "_domain_profile": {
+    "domain": "HEALTHCARE",
+    "compliance": [
+      "HIPAA",
+      "GDPR (if EU patients)",
+      "HL7 FHIR",
+      "DICOM"
+    ],
+    "standard_nfrs": [
+      "PHI encryption at rest (AES-256)",
+      "audit trail immutability",
+      "RTO < 1h / RPO < 5min"
+    ]
+  },
+  "_doc_excerpt": "File: A Hospital Management System.pdf\n--- Page 1 ---\nHospital Management System \nA Hospital Management System (HMS)  should provide a centralized platform for \nmanaging hospital operations, patient information, medical records, appointments, doctors, \nnurses, staff, billing, pharmacy, laboratory, and inventory. The system should support  role-\nbased access  for Admin, Doctor, Nurse, Receptionist, Pharmacist, Lab Technician, \nAccountant, and Patient. Core requirements should include patient registration and profile \nmanagement, appointment scheduling and queue management, doctor availability, O PD/IPD \nmanagement, admission/discharge/transfer, electronic medical records, diagnosis, \nprescriptions, treatment history, allergies, vital signs, nursing notes, laboratory test requests \nand reports, pharmacy prescriptions and medicine inventory, bed/ward m anagement, billing \nand payments, insurance management, invoices and receipts, hospital expenses, staff \nmanagement, and inventory/procurement. Patients should be able to view appointments, \nprescriptions, reports, bills, and medical history through a portal,  while doctors should have \ndashboards for appointments, patient records, diagnosis, prescriptions, and clinical notes. \nThe system should also provide  dashboards, notifications, search/filtering, reports, audit \nlogs, data validation, backup/recovery, security, and role -based authorization . \nFunctional requirements should cover complete workflows such as  patient registration \u2192 \nappointment \u2192 consultation \u2192 diagnosis \u2192 laboratory/pharmacy \u2192 billing \u2192 follow -\nup, and admission \u2192 bed allocation \u2192 treatment \u2192 investigations \u2192 discharge \u2192 final \nbilling. Non -functional requirements should include responsive web UI, scalability, high \navailability, fast API responses , secure authentication, password encryption, session \nmanagement, HTTPS, database integrity, auditability, privacy of medical information, error \nhandling, logging, and regular backups. A suitable architecture can use  React/Next.js for \nfrontend, FastAPI/Node.js/Spring Boot for backend, PostgreSQL/MySQL for database, \nREST APIs, JWT/OAuth-based authentication, Redis for caching/queues, and cloud or \non-premise deployment , with separate modules for  Authentication, Patients, \nAppointments, EMR, Doctors, Nursing, L aboratory, Pharmacy, Billing, Inventory, \nStaff, Reports, Notifications, and Administration.",
+  "verification_summary": {
+    "verdicts": [
+      {
+        "claim_index": 0,
+        "claim": "1. Agile Methodology & Persona Mapping: This document outlines the Agile user stories for the Hospital Management System (HMS), structured to support iterative ",
+        "confidence": 20,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The excerpt contains no mention of Agile methodology or user stories."
+      },
+      {
+        "claim_index": 1,
+        "claim": "US-001: Authentication & Access Control \u2014 Admin Manage user roles and permissions for all system personas",
+        "confidence": 60,
+        "verdict": "SUPPORTED",
+        "reason": "Role\u2011based access is described, implying an admin can manage roles and permissions."
+      },
+      {
+        "claim_index": 2,
+        "claim": "US-002: Authentication & Access Control \u2014 Patient Securely log in to the patient portal using JWT/OAuth",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "JWT/OAuth authentication is listed and patients are said to use a portal."
+      },
+      {
+        "claim_index": 3,
+        "claim": "US-003: Patient Management \u2014 Receptionist Register new patients and manage their profiles",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Patient registration and profile management are required, with Receptionist among the roles."
+      },
+      {
+        "claim_index": 4,
+        "claim": "US-004: Patient Management \u2014 Patient View and update personal medical history and allergies",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source mentions patients can view medical history but does not state they can update it."
+      },
+      {
+        "claim_index": 5,
+        "claim": "US-005: Appointment Scheduling \u2014 Receptionist Schedule appointments and manage queues based on doctor availability",
+        "confidence": 75,
+        "verdict": "SUPPORTED",
+        "reason": "Appointment scheduling, queue management, and doctor availability are required, and Receptionist is a defined role."
+      },
+      {
+        "claim_index": 6,
+        "claim": "3. Release Slicing & Implementation Dependencies: **Release Slicing:**\n- **Release 1 (MVP):** Authentication, Patient Management, Appointment Scheduling, EMR, and Billing",
+        "confidence": 30,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No release\u2011slicing or MVP grouping is described in the excerpt."
+      }
+    ],
+    "verified_count": 4,
+    "flagged_count": 3,
+    "flagged_items": [
+      {
+        "claim_index": 0,
+        "claim": "1. Agile Methodology & Persona Mapping: This document outlines the Agile user stories for the Hospital Management System (HMS), structured to support iterative ",
+        "confidence": 20,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The excerpt contains no mention of Agile methodology or user stories."
+      },
+      {
+        "claim_index": 4,
+        "claim": "US-004: Patient Management \u2014 Patient View and update personal medical history and allergies",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source mentions patients can view medical history but does not state they can update it."
+      },
+      {
+        "claim_index": 6,
+        "claim": "3. Release Slicing & Implementation Dependencies: **Release Slicing:**\n- **Release 1 (MVP):** Authentication, Patient Management, Appointment Scheduling, EMR, and Billing",
+        "confidence": 30,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No release\u2011slicing or MVP grouping is described in the excerpt."
+      }
+    ],
+    "total_claims": 7
+  },
+  "id": "0a31c0ba-9003-4714-b420-2f6f3e81297b",
+  "pdf_export_url": "/api/v1/documents/0a31c0ba-9003-4714-b420-2f6f3e81297b/export/pdf?title=hii&type=USER_STORIES",
+  "conversation_id": "d3dd6a09-8cc5-4a39-ab9a-61f772180578",
+  "approved_at": "2026-08-31T18:05:47.789788+00:00"
+}

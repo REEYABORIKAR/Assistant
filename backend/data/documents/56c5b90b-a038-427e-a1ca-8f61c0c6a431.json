@@ -1,0 +1,44 @@
+{
+  "id": "56c5b90b-a038-427e-a1ca-8f61c0c6a431",
+  "generation_id": "gen_422283f9",
+  "doc_type": "USER_STORIES",
+  "title": "Hospital Management System User Stories",
+  "version": "v1.0",
+  "version_num": 1,
+  "parent_version": null,
+  "parent_id": null,
+  "status": "PENDING_APPROVAL",
+  "created_at": "2026-08-30T10:12:00Z",
+  "sections": [
+    {
+      "title": "1. Overview",
+      "body": "Initial user story backlog."
+    }
+  ],
+  "user_stories_data": {
+    "requirements": [
+      {
+        "req_id": "REQ-PAT-01",
+        "module": "Patient Management",
+        "title": "Registration"
+      }
+    ],
+    "personas": [
+      {
+        "persona_id": "P-REC",
+        "name": "Receptionist",
+        "responsibilities": [
+          "Registration"
+        ]
+      }
+    ],
+    "stories": [
+      {
+        "story_id": "US-PAT-01",
+        "capability": "register patient",
+        "business_value": "unique record"
+      }
+    ],
+    "traceability": []
+  }
+}

@@ -1,0 +1,29 @@
+--- Page 1 ---
+Hospital Management System 
+A Hospital Management System (HMS)  should provide a centralized platform for 
+managing hospital operations, patient information, medical records, appointments, doctors, 
+nurses, staff, billing, pharmacy, laboratory, and inventory. The system should support  role-
+based access  for Admin, Doctor, Nurse, Receptionist, Pharmacist, Lab Technician, 
+Accountant, and Patient. Core requirements should include patient registration and profile 
+management, appointment scheduling and queue management, doctor availability, O PD/IPD 
+management, admission/discharge/transfer, electronic medical records, diagnosis, 
+prescriptions, treatment history, allergies, vital signs, nursing notes, laboratory test requests 
+and reports, pharmacy prescriptions and medicine inventory, bed/ward m anagement, billing 
+and payments, insurance management, invoices and receipts, hospital expenses, staff 
+management, and inventory/procurement. Patients should be able to view appointments, 
+prescriptions, reports, bills, and medical history through a portal,  while doctors should have 
+dashboards for appointments, patient records, diagnosis, prescriptions, and clinical notes. 
+The system should also provide  dashboards, notifications, search/filtering, reports, audit 
+logs, data validation, backup/recovery, security, and role -based authorization . 
+Functional requirements should cover complete workflows such as  patient registration → 
+appointment → consultation → diagnosis → laboratory/pharmacy → billing → follow -
+up, and admission → bed allocation → treatment → investigations → discharge → final 
+billing. Non -functional requirements should include responsive web UI, scalability, high 
+availability, fast API responses , secure authentication, password encryption, session 
+management, HTTPS, database integrity, auditability, privacy of medical information, error 
+handling, logging, and regular backups. A suitable architecture can use  React/Next.js for 
+frontend, FastAPI/Node.js/Spring Boot for backend, PostgreSQL/MySQL for database, 
+REST APIs, JWT/OAuth-based authentication, Redis for caching/queues, and cloud or 
+on-premise deployment , with separate modules for  Authentication, Patients, 
+Appointments, EMR, Doctors, Nursing, L aboratory, Pharmacy, Billing, Inventory, 
+Staff, Reports, Notifications, and Administration.

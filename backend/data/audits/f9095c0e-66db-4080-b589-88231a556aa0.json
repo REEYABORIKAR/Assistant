@@ -1,0 +1,152 @@
+{
+  "readiness_score": 45,
+  "clarity_score": 55,
+  "completeness_score": 30,
+  "security_score": 20,
+  "rtm_score": 25,
+  "summary": "The document outlines an AI\u2011driven HR analytics platform called HR\u2011Pulse, describing 20+ high\u2011level features such as meeting sentiment analysis, manager effectiveness scoring, promotion readiness detection, bias detection, digital twins, workforce simulation and an executive dashboard. It focuses on business value statements and presentation guidance but provides no technical architecture, data handling, security, compliance, performance, or testing details.",
+  "risk_factors": [
+    {
+      "title": "Employee Personal Data Exposure",
+      "category": "DATA_PRIVACY",
+      "severity": "HIGH",
+      "description": "The platform processes highly sensitive employee data (sentiments, health indicators, performance reviews, complaints) without any mention of data minimisation, consent, encryption, or retention policies.",
+      "mitigation": "Define GDPR/HIPAA compliant data handling procedures, implement encryption at rest and in transit, obtain explicit employee consent, and enforce strict access controls."
+    },
+    {
+      "title": "AI Bias and Discrimination",
+      "category": "SECURITY",
+      "severity": "HIGH",
+      "description": "Features such as Workplace Fairness Detector, Promotion Readiness AI, and Bias Detection lack any bias\u2011mitigation strategy, model explainability, or audit logs.",
+      "mitigation": "Integrate bias detection pipelines, maintain model audit trails, provide explainable AI outputs, and conduct regular fairness assessments against protected attributes."
+    },
+    {
+      "title": "Insufficient Access Control",
+      "category": "SECURITY",
+      "severity": "MEDIUM",
+      "description": "No authentication, role\u2011based access control, or audit logging is described for sensitive modules like Complaint Investigation Agent or HR Action Impact Tracker.",
+      "mitigation": "Implement RBAC, MFA for HR administrators, and immutable audit logs for all AI\u2011driven decisions."
+    },
+    {
+      "title": "Model Drift and Reliability",
+      "category": "OPERATIONAL",
+      "severity": "MEDIUM",
+      "description": "Continuous AI predictions (burnout, attrition, conflict) are proposed without monitoring, retraining, or validation processes.",
+      "mitigation": "Establish model monitoring dashboards, schedule periodic retraining with fresh data, and define performance thresholds with rollback mechanisms."
+    },
+    {
+      "title": "Integration Security Gaps",
+      "category": "ARCHITECTURE",
+      "severity": "MEDIUM",
+      "description": "Integrations with Teams, Zoom, Google Meet are mentioned but no security considerations (OAuth scopes, token handling) are provided.",
+      "mitigation": "Adopt secure OAuth flows, validate third\u2011party certificates, and enforce least\u2011privilege scopes for each integration."
+    }
+  ],
+  "conflicts_and_ambiguities": [
+    {
+      "issue": "Undefined metric for \"Team Health Score\" (e.g., 68%).",
+      "context": "\"Meeting Health Score: 68%\" is presented without explaining the calculation, weighting, or threshold criteria.",
+      "suggested_resolution": "Specify the algorithm, data sources, weighting factors, and confidence intervals used to compute the score."
+    },
+    {
+      "issue": "Ambiguous definition of \"Bias\" in Workplace Fairness Detector.",
+      "context": "Feature states it \"Detects bias in promotions, rewards, opportunities, performance reviews\" but does not define which protected attributes are considered.",
+      "suggested_resolution": "List the protected classes (e.g., gender, ethnicity) and describe the statistical tests or thresholds used to flag bias."
+    },
+    {
+      "issue": "Conflicting statements about AI autonomy.",
+      "context": "The document claims the system is an \"autonomous HR analyst\" yet also describes a \"human\u2011in\u2011the\u2011loop\" dashboard for executives.",
+      "suggested_resolution": "Clarify the decision\u2011making boundaries: which actions are fully automated versus which require human approval."
+    },
+    {
+      "issue": "Vague description of \"Policy Gap Detector\" output.",
+      "context": "Example shows \"48 employees asked about WFH\" and a \"Policy Clarity Score: Low\" without defining the scoring rubric.",
+      "suggested_resolution": "Provide a clear scoring model, thresholds for low/medium/high, and remediation workflow."
+    }
+  ],
+  "missing_sections_and_details": [
+    {
+      "section_name": "System Architecture Overview & Data Flow Diagram",
+      "priority": "CRITICAL",
+      "why_missing": "Without an architecture diagram, engineers cannot assess component boundaries, integration points, or data residency, leading to design rework and security blind spots.",
+      "recommended_addition": "Include a high\u2011level diagram showing data ingestion (meeting transcripts, surveys), AI processing pipelines, storage layers, APIs to Teams/Zoom/Google Meet, and the executive dashboard. Detail technology stack (e.g., cloud provider, container orchestration, database)."
+    },
+    {
+      "section_name": "Security & Privacy Requirements (GDPR/HIPAA)",
+      "priority": "CRITICAL",
+      "why_missing": "The platform handles personal and health\u2011related employee data; lack of privacy controls exposes the organization to regulatory fines and reputational damage.",
+      "recommended_addition": "Add a dedicated NFR section covering data encryption, consent management, right\u2011to\u2011be\u2011forgotten, data residency, breach notification, and regular privacy impact assessments."
+    },
+    {
+      "section_name": "Bias Mitigation & Explainability Strategy",
+      "priority": "HIGH",
+      "why_missing": "AI decisions affect career progression and compensation; without explainability, decisions may be contested and could lead to discrimination lawsuits.",
+      "recommended_addition": "Define model interpretability techniques (SHAP, LIME), bias audit schedule, and a process for providing human\u2011readable explanations to affected employees."
+    },
+    {
+      "section_name": "Non\u2011Functional Requirements (Performance, Scalability, Availability)",
+      "priority": "HIGH",
+      "why_missing": "Real\u2011time analysis of meeting transcripts and large\u2011scale sentiment processing require clear performance targets; missing NFRs risk system overload.",
+      "recommended_addition": "Specify latency (<2\u202fseconds per transcript), throughput (e.g., 10\u202fk meetings/day), 99.9% uptime, and autoscaling rules."
+    },
+    {
+      "section_name": "Testing & Validation Plan",
+      "priority": "MEDIUM",
+      "why_missing": "No test cases, validation criteria, or acceptance metrics are provided, making verification impossible.",
+      "recommended_addition": "Create unit, integration, and end\u2011to\u2011end test suites; define acceptance thresholds for model accuracy (e.g., F1\u202f>\u202f0.85 for sentiment), false\u2011positive rates for bias detection, and UI usability tests."
+    },
+    {
+      "section_name": "Traceability Matrix (RTM)",
+      "priority": "MEDIUM",
+      "why_missing": "The document lists features but does not map them to business goals, technical components, or test cases, hindering compliance and auditability.",
+      "recommended_addition": "Provide a table linking each requirement ID to business objective, responsible subsystem, verification method, and status."
+    }
+  ],
+  "rtm_matrix": [
+    {
+      "req_id": "REQ-01",
+      "business_goal": "Provide real\u2011time meeting sentiment analysis to improve team health.",
+      "technical_component": "AI Meeting Sentiment Analyzer Service",
+      "test_case_verification": "Validate that transcript ingestion + sentiment model returns a health score within \u00b15% of manually annotated baseline on 100 test meetings.",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-02",
+      "business_goal": "Detect manager effectiveness for targeted coaching.",
+      "technical_component": "Manager Effectiveness Scoring Engine",
+      "test_case_verification": "Cross\u2011validate AI score against 12\u2011month HR performance review outcomes; require correlation coefficient \u22650.7.",
+      "status": "PARTIAL"
+    },
+    {
+      "req_id": "REQ-03",
+      "business_goal": "Identify promotion\u2011ready employees.",
+      "technical_component": "Promotion Readiness AI Model",
+      "test_case_verification": "Precision @10% \u2265 0.80 when compared to HR promotion decisions over the past year.",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-04",
+      "business_goal": "Detect bias in compensation and promotion processes.",
+      "technical_component": "Workplace Fairness Detector",
+      "test_case_verification": "Run statistical parity tests on simulated data; flagging must occur when disparity >5% for protected groups.",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-05",
+      "business_goal": "Provide executives with an AI\u2011driven strategic dashboard.",
+      "technical_component": "AI Chief People Officer Dashboard",
+      "test_case_verification": "User acceptance test with 5 senior HR leaders confirming that all key metrics (trust score, burnout risk, attrition forecast) are displayed and drill\u2011down works.",
+      "status": "PARTIAL"
+    }
+  ],
+  "ai_recommendations": [
+    "Add a comprehensive Architecture & Data Flow section with security boundaries, cloud services, and integration protocols.",
+    "Develop a full Security and Privacy NFR chapter covering GDPR/HIPAA compliance, encryption, consent, data retention, and incident response.",
+    "Create a Traceability Matrix linking every AI feature to business objectives, technical components, test cases, and compliance checks; update status as development progresses."
+  ],
+  "id": "f9095c0e-66db-4080-b589-88231a556aa0",
+  "analyzed_at": "2026-08-30T07:50:06.478936+00:00",
+  "filename": "HR-pulse.pdf",
+  "file_id": null,
+  "conversation_id": null
+}

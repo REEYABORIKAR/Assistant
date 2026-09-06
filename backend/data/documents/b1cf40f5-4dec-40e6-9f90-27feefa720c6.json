@@ -1,0 +1,221 @@
+{
+  "doc_type": "BRD",
+  "title": "Business Requirements Document \u2014 what are the objective",
+  "version": "v1.0",
+  "status": "APPROVED",
+  "revision_history": [],
+  "parent_id": null,
+  "sections": [
+    {
+      "title": "1. Executive Summary & Strategic Rationale",
+      "body": "No raw excerpt was provided for this project. The project title is 'what are the objective', which lacks the specificity required to establish a strategic rationale. This document is generated based on the verified audit findings, which indicate no missing sections, no risk factors, and an empty draft RTM. Consequently, the strategic rationale is currently undefined and requires stakeholder input to establish the business case."
+    },
+    {
+      "title": "2. Business Objectives & Success Metrics",
+      "body": "The source material does not specify any business objectives or success metrics. The project title 'what are the objective' suggests a lack of defined goals. This is an open item requiring stakeholder input to define measurable success criteria aligned with the GENERIC_ENTERPRISE domain standards."
+    },
+    {
+      "title": "3. Scope & Operational Boundaries (In/Out of Scope)",
+      "body": "No scope or operational boundaries are defined in the source document. The absence of a raw excerpt and the generic nature of the project title prevent the determination of in-scope and out-of-scope items. This section is an open item requiring stakeholder input to define the operational boundaries of the project."
+    },
+    {
+      "title": "4. Key Stakeholders & Governance Personas",
+      "body": "No stakeholders or governance personas are identified in the source document. The verified audit findings do not provide any information regarding project stakeholders. This is an open item requiring stakeholder input to identify and define the roles and responsibilities of key project participants."
+    },
+    {
+      "title": "5. Business Requirements Specification Matrix",
+      "table": [
+        [
+          "BRD ID",
+          "Requirement Title",
+          "Description",
+          "Priority",
+          "Acceptance Criteria"
+        ],
+        [
+          "BRD-001",
+          "Define Business Objectives",
+          "Stakeholders must define clear, measurable business objectives for the project.",
+          "High",
+          "Objectives are documented and approved by project sponsor."
+        ],
+        [
+          "BRD-002",
+          "Establish Scope Boundaries",
+          "Stakeholders must define the in-scope and out-of-scope items for the project.",
+          "High",
+          "Scope document is reviewed and signed off by all key stakeholders."
+        ],
+        [
+          "BRD-003",
+          "Identify Key Stakeholders",
+          "Stakeholders must identify all key project participants and their roles.",
+          "High",
+          "Stakeholder register is created and approved by project manager."
+        ]
+      ]
+    },
+    {
+      "title": "6. Assumptions & Operational Constraints",
+      "body": "No assumptions or operational constraints are specified in the source document. The verified audit findings do not provide any information regarding project assumptions or constraints. This is an open item requiring stakeholder input to document all assumptions and operational constraints that may impact the project."
+    },
+    {
+      "title": "7. Risk & Compliance Baseline",
+      "body": "The verified audit findings indicate no risk factors. However, the project must comply with the GENERIC_ENTERPRISE domain standards, which include SOC 2, GDPR (if applicable), and ISO 27001. The standard NFR benchmarks for this domain are P95 latency targets < 250ms, 99.9% uptime SLA, and AES-256 data encryption. These compliance frameworks and NFR benchmarks will serve as the baseline for the project's risk and compliance management."
+    }
+  ],
+  "_source_audit": {},
+  "_domain_profile": {
+    "domain": "GENERIC_ENTERPRISE",
+    "compliance": [
+      "SOC 2",
+      "GDPR (if applicable)",
+      "ISO 27001"
+    ],
+    "standard_nfrs": [
+      "P95 latency targets < 250ms",
+      "99.9% uptime SLA",
+      "AES-256 data encryption"
+    ]
+  },
+  "_doc_excerpt": "",
+  "verification_summary": {
+    "verdicts": [
+      {
+        "claim_index": 0,
+        "claim": "1. Executive Summary & Strategic Rationale: No raw excerpt was provided for this project. The project title is 'what are the objective', which lacks the specificity",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The excerpt contains only a fragment and does not provide an executive summary or project title details."
+      },
+      {
+        "claim_index": 1,
+        "claim": "2. Business Objectives & Success Metrics: The source material does not specify any business objectives or success metrics. The project title 'what are the objecti",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No business objectives or success metrics are present in the source text."
+      },
+      {
+        "claim_index": 2,
+        "claim": "3. Scope & Operational Boundaries (In/Out of Scope): No scope or operational boundaries are defined in the source document. The absence of a raw excerpt and the generic natu",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The excerpt does not define any scope or operational boundaries."
+      },
+      {
+        "claim_index": 3,
+        "claim": "4. Key Stakeholders & Governance Personas: No stakeholders or governance personas are identified in the source document. The verified audit findings do not provide",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No stakeholders or governance personas are mentioned in the source."
+      },
+      {
+        "claim_index": 4,
+        "claim": "BRD-001: Define Business Objectives \u2014 Stakeholders must define clear, measurable business objectives for the project. High",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not contain any BRD-001 requirement or related content."
+      },
+      {
+        "claim_index": 5,
+        "claim": "BRD-002: Establish Scope Boundaries \u2014 Stakeholders must define the in-scope and out-of-scope items for the project. High",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No information about scope boundaries appears in the excerpt."
+      },
+      {
+        "claim_index": 6,
+        "claim": "BRD-003: Identify Key Stakeholders \u2014 Stakeholders must identify all key project participants and their roles. High",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The excerpt lacks any mention of stakeholder identification."
+      },
+      {
+        "claim_index": 7,
+        "claim": "6. Assumptions & Operational Constraints: No assumptions or operational constraints are specified in the source document. The verified audit findings do not provi",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No assumptions, constraints, or risk/compliance details are provided."
+      },
+      {
+        "claim_index": 8,
+        "claim": "7. Risk & Compliance Baseline: The verified audit findings indicate no risk factors. However, the project must comply with the GENERIC_ENTERPRISE domai",
+        "confidence": 50,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Not evaluated by verifier \u2014 treat as unconfirmed pending re-check."
+      }
+    ],
+    "verified_count": 0,
+    "flagged_count": 9,
+    "flagged_items": [
+      {
+        "claim_index": 0,
+        "claim": "1. Executive Summary & Strategic Rationale: No raw excerpt was provided for this project. The project title is 'what are the objective', which lacks the specificity",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The excerpt contains only a fragment and does not provide an executive summary or project title details."
+      },
+      {
+        "claim_index": 1,
+        "claim": "2. Business Objectives & Success Metrics: The source material does not specify any business objectives or success metrics. The project title 'what are the objecti",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No business objectives or success metrics are present in the source text."
+      },
+      {
+        "claim_index": 2,
+        "claim": "3. Scope & Operational Boundaries (In/Out of Scope): No scope or operational boundaries are defined in the source document. The absence of a raw excerpt and the generic natu",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The excerpt does not define any scope or operational boundaries."
+      },
+      {
+        "claim_index": 3,
+        "claim": "4. Key Stakeholders & Governance Personas: No stakeholders or governance personas are identified in the source document. The verified audit findings do not provide",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No stakeholders or governance personas are mentioned in the source."
+      },
+      {
+        "claim_index": 4,
+        "claim": "BRD-001: Define Business Objectives \u2014 Stakeholders must define clear, measurable business objectives for the project. High",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not contain any BRD-001 requirement or related content."
+      },
+      {
+        "claim_index": 5,
+        "claim": "BRD-002: Establish Scope Boundaries \u2014 Stakeholders must define the in-scope and out-of-scope items for the project. High",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No information about scope boundaries appears in the excerpt."
+      },
+      {
+        "claim_index": 6,
+        "claim": "BRD-003: Identify Key Stakeholders \u2014 Stakeholders must identify all key project participants and their roles. High",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The excerpt lacks any mention of stakeholder identification."
+      },
+      {
+        "claim_index": 7,
+        "claim": "6. Assumptions & Operational Constraints: No assumptions or operational constraints are specified in the source document. The verified audit findings do not provi",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No assumptions, constraints, or risk/compliance details are provided."
+      },
+      {
+        "claim_index": 8,
+        "claim": "7. Risk & Compliance Baseline: The verified audit findings indicate no risk factors. However, the project must comply with the GENERIC_ENTERPRISE domai",
+        "confidence": 50,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Not evaluated by verifier \u2014 treat as unconfirmed pending re-check."
+      }
+    ],
+    "total_claims": 9
+  },
+  "id": "b1cf40f5-4dec-40e6-9f90-27feefa720c6",
+  "pdf_export_url": "/api/v1/documents/b1cf40f5-4dec-40e6-9f90-27feefa720c6/export/pdf?title=what are the objective&type=BRD",
+  "conversation_id": "70e6ce41-fa91-46a2-9313-c9ca33915818",
+  "approved_at": "2026-08-30T16:45:01.107515+00:00"
+}

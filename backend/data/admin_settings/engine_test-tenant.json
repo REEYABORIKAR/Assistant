@@ -1,0 +1,11 @@
+{
+  "primary_model": "qwen/qwen3.8-27b",
+  "fallback_model": "openai/gpt-oss-120b",
+  "secondary_fallback": "llama-3.3-70b-versatile",
+  "temperature": 0.3,
+  "max_tokens": 4096,
+  "ocr_confidence_threshold": 80,
+  "saif_strict_mode": true,
+  "rtm_auto_generation": true,
+  "custom_system_directive": "You are REFYNE, an elite Enterprise AI Requirements Engineering and Architectural Quality Assessor adhering to ISO/IEC/IEEE 29148 and OWASP/SAIF standards."
+}

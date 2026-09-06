@@ -1,0 +1,19 @@
+--- Page 1 ---
+Requirements Notes (Very Poor Quality)
+Project: Food Delivery Mobile App
+1. The app should be awesome.
+2. Food ordering must be easy.
+3. Delivery should happen fast.
+4. Customers can pay somehow.
+5. Restaurants should manage things.
+6. Notifications would be nice.
+7. Reports can be added later.
+Major Problems
+ No project scope.
+ No functional grouping.
+ No user roles defined.
+ Highly ambiguous wording.
+ No validation rules.
+ No security requirements.
+ No acceptance criteria.
+ Not testable or measurable.

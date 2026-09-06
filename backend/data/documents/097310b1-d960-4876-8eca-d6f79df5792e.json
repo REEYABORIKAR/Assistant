@@ -1,0 +1,214 @@
+{
+  "doc_type": "BRD",
+  "title": "Business Requirements Document \u2014 abc Chat",
+  "version": "v1.0",
+  "status": "PENDING_APPROVAL",
+  "revision_history": [],
+  "parent_id": null,
+  "sections": [
+    {
+      "title": "1. Executive Summary & Strategic Rationale",
+      "body": "The proposed HR Management System (HRMS) is a full-stack web and mobile application designed to centralize and automate core human resources operations. The strategic rationale for this system is to replace fragmented HR processes with a unified, API-driven platform that supports end-to-end employee lifecycle management\u2014from recruitment and onboarding to payroll, performance, and offboarding. By implementing strict Role-Based Access Control (RBAC) and secure authentication, the system ensures data privacy and operational integrity. The platform is designed to be production-ready, scalable, and compliant with banking industry standards, providing a robust foundation for managing organizational headcount, financial payroll operations, and employee engagement."
+    },
+    {
+      "title": "2. Business Objectives & Success Metrics",
+      "body": "**Business Objectives:**\n1. Centralize employee master data, departments, and organizational structures.\n2. Automate end-to-end workflows including recruitment, onboarding, attendance, leave, and payroll.\n3. Ensure secure, role-based access for Super Admin, HR/Admin, Manager, Recruiter, Employee, and Finance/Payroll users.\n4. Provide comprehensive analytics and reporting for HR, Finance, and Management.\n\n**Success Metrics:**\n- 100% coverage of core HR modules (Onboarding, Payroll, Recruitment, Performance, Offboarding).\n- Successful implementation of configurable approval chains for HR, managers, finance, and admins.\n- Achieve 99.99% uptime for the centralized backend API and web/mobile interfaces.\n- Complete audit trail generation for all critical financial and employee data modifications."
+    },
+    {
+      "title": "3. Scope & Operational Boundaries (In/Out of Scope)",
+      "body": "**In Scope:**\n- **Core HR:** Employee master data, departments, designations, branches, onboarding/offboarding, profiles, document management.\n- **Time & Attendance:** Attendance, shift/roster management, leave/holiday management, WFH/remote-work requests, timesheets.\n- **Payroll & Finance:** Payroll processing, salary structures, deductions, bonuses, reimbursements, payslips, tax/statutory info, expense management, travel requests.\n- **Recruitment:** Applicant tracking, job postings, candidate pipeline, interviews, offers, joining management.\n- **Performance & Development:** Goals/KPIs, appraisals, feedback, training and learning.\n- **Administration:** Asset management, grievances, announcements, notifications, policies, HR letters/certificates, surveys, self-service portals, dashboards/reports.\n- **Technical Infrastructure:** Secure authentication (JWT/MFA-ready), RBAC, relational database, file storage, notification service, background jobs, logging, monitoring, encryption, backups, API integrations.\n\n**Out of Scope:**\n- The source document does not explicitly define out-of-scope items. However, specific third-party ERP integrations (beyond generic API integrations) and physical hardware procurement are not detailed in the excerpt and are considered out of scope for this initial BRD phase pending stakeholder clarification."
+    },
+    {
+      "title": "4. Key Stakeholders & Governance Personas",
+      "body": "The system defines the following governance personas and stakeholders:\n- **Super Admin:** Full system configuration, master-data management, and organizational settings.\n- **HR/Admin:** Management of employee lifecycle, recruitment, performance, and HR policies.\n- **Manager:** Approval workflows for leave, expenses, and performance reviews; team analytics.\n- **Recruiter:** Management of job postings, candidate pipelines, and interview scheduling.\n- **Employee:** Self-service portal for leave requests, timesheets, expense claims, and profile management.\n- **Finance/Payroll:** Management of payroll processing, salary structures, deductions, bonuses, reimbursements, payslips, tax/statutory info, expense management, and travel requests."
+    },
+    {
+      "title": "5. Business Requirements Specification Matrix",
+      "table": [
+        [
+          "BRD ID",
+          "Requirement Title",
+          "Description",
+          "Priority",
+          "Acceptance Criteria"
+        ],
+        [
+          "BRD-001",
+          "Core HR Data Management",
+          "Centralize employee master data, departments, designations, branches, onboarding/offboarding, profiles, and document management.",
+          "High",
+          "100% of core HR modules are covered and functional."
+        ],
+        [
+          "BRD-002",
+          "Time & Attendance Management",
+          "Manage attendance, shift/roster, leave/holiday, WFH/remote-work requests, and timesheets.",
+          "High",
+          "All time and attendance workflows are automated and accessible."
+        ],
+        [
+          "BRD-003",
+          "Payroll & Finance Management",
+          "Process payroll, manage salary structures, deductions, bonuses, reimbursements, payslips, tax/statutory info, expense management, and travel requests.",
+          "High",
+          "Payroll processing is accurate and all financial data modifications are audited."
+        ],
+        [
+          "BRD-004",
+          "Recruitment Management",
+          "Track applicants, manage job postings, candidate pipelines, interviews, offers, and joining management.",
+          "Medium",
+          "Recruitment workflows are fully automated and trackable."
+        ],
+        [
+          "BRD-005",
+          "Performance & Development",
+          "Manage goals/KPIs, appraisals, feedback, and training/learning.",
+          "Medium",
+          "Performance reviews and development plans are accessible and updatable."
+        ],
+        [
+          "BRD-006",
+          "Administration & Self-Service",
+          "Manage assets, grievances, announcements, notifications, policies, HR letters/certificates, surveys, and self-service portals.",
+          "Medium",
+          "All administrative tasks are accessible via the self-service portal."
+        ],
+        [
+          "BRD-007",
+          "Technical Infrastructure",
+          "Implement secure authentication (JWT/MFA-ready), RBAC, relational database, file storage, notification service, background jobs, logging, monitoring, encryption, backups, and API integrations.",
+          "High",
+          "System achieves 99.99% uptime and complete audit trail generation."
+        ]
+      ]
+    },
+    {
+      "title": "6. Assumptions & Operational Constraints",
+      "body": "The system assumes that all core HR processes will be centralized within the proposed platform. Operational constraints include the need for strict Role-Based Access Control (RBAC) and secure authentication to ensure data privacy and operational integrity. The platform must be production-ready, scalable, and compliant with banking industry standards."
+    },
+    {
+      "title": "7. Risk & Compliance Baseline",
+      "body": "The system must comply with HIPAA, GDPR (if EU patients), HL7 FHIR, and DICOM standards. Standard NFR benchmarks for this domain include PHI encryption at rest (AES-256), audit trail immutability, RTO < 1h / RPO < 5min. The source document does not explicitly address these compliance frameworks, which is an open item requiring stakeholder input."
+    }
+  ],
+  "_source_audit": {},
+  "_domain_profile": {
+    "domain": "HEALTHCARE",
+    "compliance": [
+      "HIPAA",
+      "GDPR (if EU patients)",
+      "HL7 FHIR",
+      "DICOM"
+    ],
+    "standard_nfrs": [
+      "PHI encryption at rest (AES-256)",
+      "audit trail immutability",
+      "RTO < 1h / RPO < 5min"
+    ]
+  },
+  "_doc_excerpt": "File: BRD_Business Requirements Document \u2014 Requirements Chat 2.pdf\n--- Page 1 ---\nREFYNE AI REQUIREMENT SUITE \u2014 BRD\nBusiness Requirements Document \u2014 Requirements Chat 2\nWorkspace: REFYNE Enterprise Workspace  |  Version: v1.0  |  Status: APPROVED\n1. Executive Summary & Strategic Rationale\nThe proposed HR Management System (HRMS) is a full-stack web and mobile application designed to centralize and automate core\nhuman resources operations. The strategic rationale for this system is to replace fragmented HR processes with a unified, API-driven\nplatform that supports end-to-end employee lifecycle management\u2014from recruitment and onboarding to payroll, performance, and\noffboarding. By implementing strict Role-Based Access Control (RBAC) and secure authentication, the system ensures data privacy\nand operational integrity. The platform is designed to be production-ready, scalable, and compliant with banking industry standards,\nproviding a robust foundation for managing organizational headcount, financial payroll operations, and employee engagement.\n2. Business Objectives & Success Metrics\n**Business Objectives:**\n1. Centralize employee master data, departments, and organizational structures.\n2. Automate end-to-end workflows including recruitment, onboarding, attendance, leave, and payroll.\n3. Ensure secure, role-based access for Super Admin, HR/Admin, Manager, Recruiter, Employee, and Finance/Payroll users.\n4. Provide comprehensive analytics and reporting for HR, Finance, and Management.\n**Success Metrics:**\n- 100% coverage of core HR modules (Onboarding, Payroll, Recruitment, Performance, Offboarding).\n- Successful implementation of configurable approval chains for HR, managers, finance, and admins.\n- Achieve 99.99% uptime for the centralized backend API and web/mobile interfaces.\n- Complete audit trail generation for all critical financial and employee data modifications.\n3. Scope & Operational Boundaries (In/Out of Scope)\n**In Scope:**\n- **Core HR:** Employee master data, departments, designations, branches, onboarding/offboarding, profiles, document\nmanagement.\n- **Time & Attendance:** Attendance, shift/roster management, leave/holiday management, WFH/remote-work requests, timesheets.\n- **Payroll & Finance:** Payroll processing, salary structures, deductions, bonuses, reimbursements, payslips, tax/statutory info,\nexpense management, travel requests.\n- **Recruitment:** Applicant tracking, job postings, candidate pipeline, interviews, offers, joining management.\n- **Performance & Development:** Goals/KPIs, appraisals, feedback, training and learning.\n- **Administration:** Asset management, grievances, announcements, notifications, policies, HR letters/certificates, surveys,\nself-service portals, dashboards/reports.\n- **Technical Infrastructure:** Secure authentication (JWT/MFA-ready), RBAC, relational database, file storage, notification service,\nbackground jobs, logging, monitoring, encryption, backups, API integrations.\n**Out of Scope:**\n- The source document does not explicitly define out-of-scope items. However, specific third-party ERP integrations (beyond generic\nAPI integrations) and physical hardware procurement are not detailed in the excerpt and are considered out of scope for this initial\nBRD phase pending stakeholder clarification.\nPage 1 of 3\nCONFIDENTIAL & PROPRIETARY \u2014 REFYNE WORKSPACE GOVERNANCE\n\n--- Page 2 ---\n4. Key Stakeholders & Governance Personas\nThe system defines the following governance personas and stakeholders:\n- **Super Admin:** Full system configuration, master-data management, and organizational settings.\n- **HR/Admin:** Management of employee lifecycle, recruitment, performance, and HR policies.\n- **Manager:** Approval workflows for leave, expenses, and performance reviews; team analytics.\n- **Recruiter:** Management of job postings, candidate pipelines, and interview scheduling.\n- **Employee:** Self-service portal for leave requests, timesheets, expense claims, and profile management.\n- **Finance/Pay",
+  "verification_summary": {
+    "verdicts": [
+      {
+        "claim_index": 0,
+        "claim": "1. Executive Summary & Strategic Rationale: The proposed HR Management System (HRMS) is a full-stack web and mobile application designed to centralize and automate ",
+        "confidence": 100,
+        "verdict": "SUPPORTED",
+        "reason": "The source text explicitly states the HRMS is a full-stack web and mobile application designed to centralize and automate core HR operations."
+      },
+      {
+        "claim_index": 1,
+        "claim": "2. Business Objectives & Success Metrics: **Business Objectives:**\n1. Centralize employee master data, departments, and organizational structures.\n2. Automate end",
+        "confidence": 100,
+        "verdict": "SUPPORTED",
+        "reason": "The source lists these exact business objectives under Section 2."
+      },
+      {
+        "claim_index": 2,
+        "claim": "3. Scope & Operational Boundaries (In/Out of Scope): **In Scope:**\n- **Core HR:** Employee master data, departments, designations, branches, onboarding/offboarding, profiles",
+        "confidence": 100,
+        "verdict": "SUPPORTED",
+        "reason": "The source explicitly lists Core HR components including employee master data, departments, and onboarding/offboarding under In Scope."
+      },
+      {
+        "claim_index": 3,
+        "claim": "4. Key Stakeholders & Governance Personas: The system defines the following governance personas and stakeholders:\n- **Super Admin:** Full system configuration, mas",
+        "confidence": 100,
+        "verdict": "SUPPORTED",
+        "reason": "The source defines these specific governance personas and their roles in Section 4."
+      },
+      {
+        "claim_index": 4,
+        "claim": "BRD-001: Core HR Data Management \u2014 Centralize employee master data, departments, designations, branches, onboarding/offboarding, profiles, and document management. High",
+        "confidence": 95,
+        "verdict": "SUPPORTED",
+        "reason": "The scope items match the source, though the 'High' priority rating is an extrapolation not explicitly stated in the text."
+      },
+      {
+        "claim_index": 5,
+        "claim": "BRD-002: Time & Attendance Management \u2014 Manage attendance, shift/roster, leave/holiday, WFH/remote-work requests, and timesheets. High",
+        "confidence": 95,
+        "verdict": "SUPPORTED",
+        "reason": "The functional scope matches the source, though the 'High' priority rating is an extrapolation."
+      },
+      {
+        "claim_index": 6,
+        "claim": "BRD-003: Payroll & Finance Management \u2014 Process payroll, manage salary structures, deductions, bonuses, reimbursements, payslips, tax/statutory info, expense management, and travel requests. High",
+        "confidence": 95,
+        "verdict": "SUPPORTED",
+        "reason": "The functional scope matches the source, though the 'High' priority rating is an extrapolation."
+      },
+      {
+        "claim_index": 7,
+        "claim": "BRD-004: Recruitment Management \u2014 Track applicants, manage job postings, candidate pipelines, interviews, offers, and joining management. Medium",
+        "confidence": 95,
+        "verdict": "SUPPORTED",
+        "reason": "The functional scope matches the source, though the 'Medium' priority rating is an extrapolation."
+      },
+      {
+        "claim_index": 8,
+        "claim": "BRD-005: Performance & Development \u2014 Manage goals/KPIs, appraisals, feedback, and training/learning. Medium",
+        "confidence": 95,
+        "verdict": "SUPPORTED",
+        "reason": "The functional scope matches the source, though the 'Medium' priority rating is an extrapolation."
+      },
+      {
+        "claim_index": 9,
+        "claim": "6. Assumptions & Operational Constraints: The system assumes that all core HR processes will be centralized within the proposed platform. Operational constraints ",
+        "confidence": 40,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Section 6 'Assumptions & Operational Constraints' is not present in the provided excerpt, and specific constraints are not detailed."
+      },
+      {
+        "claim_index": 10,
+        "claim": "7. Risk & Compliance Baseline: The system must comply with HIPAA, GDPR (if EU patients), HL7 FHIR, and DICOM standards. Standard NFR benchmarks for thi",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source mentions banking industry standards, not HIPAA, GDPR, HL7 FHIR, or DICOM, which are medical/healthcare standards."
+      }
+    ],
+    "verified_count": 9,
+    "flagged_count": 2,
+    "flagged_items": [
+      {
+        "claim_index": 9,
+        "claim": "6. Assumptions & Operational Constraints: The system assumes that all core HR processes will be centralized within the proposed platform. Operational constraints ",
+        "confidence": 40,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Section 6 'Assumptions & Operational Constraints' is not present in the provided excerpt, and specific constraints are not detailed."
+      },
+      {
+        "claim_index": 10,
+        "claim": "7. Risk & Compliance Baseline: The system must comply with HIPAA, GDPR (if EU patients), HL7 FHIR, and DICOM standards. Standard NFR benchmarks for thi",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source mentions banking industry standards, not HIPAA, GDPR, HL7 FHIR, or DICOM, which are medical/healthcare standards."
+      }
+    ],
+    "total_claims": 11
+  },
+  "id": "097310b1-d960-4876-8eca-d6f79df5792e",
+  "pdf_export_url": "/api/v1/documents/097310b1-d960-4876-8eca-d6f79df5792e/export/pdf?title=abc Chat&type=BRD",
+  "conversation_id": "6fb1f505-a373-476f-af54-1a7f754e1106"
+}

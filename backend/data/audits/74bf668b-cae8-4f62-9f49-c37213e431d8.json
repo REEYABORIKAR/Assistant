@@ -1,0 +1,92 @@
+{
+  "readiness_score": 92,
+  "clarity_score": 70,
+  "completeness_score": 78,
+  "security_score": 80,
+  "rtm_score": 75,
+  "summary": "Audit of 'AI-Driven Requirement Engineering Assistant1.pdf' (Project Name- AI-Driven Requirement Engineering Assistant): Extracted 2073 words across 171 requirement statements. The document establishes functional scope but requires formal NFR definitions, API schema contracts, and security hardening.",
+  "risk_factors": [
+    {
+      "title": "High Ambiguity & Untestable Language (Project Name- AI-Driven Requirement Engineering Assistant)",
+      "category": "ARCHITECTURE",
+      "severity": "HIGH",
+      "description": "Specification contains subjective and untestable phrasing including 'fast'. Engineering teams cannot derive deterministic acceptance tests.",
+      "mitigation": "Rewrite requirements into verifiable Gherkin syntax (Given/When/Then) with quantifiable metrics (e.g. latency, error rates)."
+    },
+    {
+      "title": "Payment Processing & PCI-DSS Compliance Gap",
+      "category": "SECURITY",
+      "severity": "HIGH",
+      "description": "Document mentions financial transactions or payments without defining PCI-DSS tokenization, webhook verification, or idempotent charge safety.",
+      "mitigation": "Integrate certified payment gateway with client-side tokenization (e.g., Stripe Elements) and zero plain-text card data retention."
+    }
+  ],
+  "conflicts_and_ambiguities": [
+    {
+      "issue": "Vague requirement phrase: 'fast'",
+      "context": "Document text contains ambiguous phrase 'fast' without technical boundaries or SLA targets.",
+      "suggested_resolution": "Replace 'fast' with objective, measurable performance constraints or automated QA acceptance criteria."
+    }
+  ],
+  "missing_sections_and_details": [
+    {
+      "section_name": "Non-Functional Requirements (NFR): SLAs & Throughput",
+      "priority": "HIGH",
+      "why_missing": "Missing latency thresholds (P95 < 200ms), concurrent user targets, and database connection limits.",
+      "recommended_addition": "Define target throughput (e.g. 500 RPS), 99.9% uptime SLA, and disaster recovery RTO/RPO."
+    },
+    {
+      "section_name": "Data Architecture & Schema Definitions",
+      "priority": "MEDIUM",
+      "why_missing": "Data models, foreign key relationships, and migration strategies are unaddressed.",
+      "recommended_addition": "Provide entity relationship diagrams (ERD) and JSON schema validation rules."
+    }
+  ],
+  "rtm_matrix": [
+    {
+      "req_id": "REQ-01",
+      "business_goal": "Project Name- AI-Driven Requirement Engineering Assistant",
+      "technical_component": "Core Service Engine",
+      "test_case_verification": "Automated test for 'Project Name- AI-Driven Requirement Engi...'",
+      "status": "COVERED"
+    },
+    {
+      "req_id": "REQ-02",
+      "business_goal": "Prepared By- Reeya & Mahek",
+      "technical_component": "API & Gateway Layer",
+      "test_case_verification": "Automated test for 'Prepared By- Reeya & Mahek...'",
+      "status": "PARTIAL"
+    },
+    {
+      "req_id": "REQ-03",
+      "business_goal": "Northfield Retail Group operates 46 physical stores across the western region and currently has no d",
+      "technical_component": "Core Service Engine",
+      "test_case_verification": "Automated test for 'Northfield Retail Group operates 46 phys...'",
+      "status": "COVERED"
+    },
+    {
+      "req_id": "REQ-04",
+      "business_goal": "consumer digital sales channel. Management has approved funding for NovaCart, a customer-facing e-co",
+      "technical_component": "API & Gateway Layer",
+      "test_case_verification": "Automated test for 'consumer digital sales channel. Manageme...'",
+      "status": "PARTIAL"
+    },
+    {
+      "req_id": "REQ-05",
+      "business_goal": "platform that will allow shoppers to browse, purchase and track products online while giving store o",
+      "technical_component": "Core Service Engine",
+      "test_case_verification": "Automated test for 'platform that will allow shoppers to bro...'",
+      "status": "COVERED"
+    }
+  ],
+  "ai_recommendations": [
+    "Address 2 identified risk factors before technical architecture signoff.",
+    "Refactor all ambiguous requirement statements into testable Given/When/Then acceptance criteria.",
+    "Complete the Missing Sections including NFR SLAs and security controls."
+  ],
+  "id": "74bf668b-cae8-4f62-9f49-c37213e431d8",
+  "analyzed_at": "2026-08-29T17:56:38.399126+00:00",
+  "filename": "AI-Driven Requirement Engineering Assistant1.pdf",
+  "file_id": "ff5e2995-c8ab-41e0-9a44-a8bb77dff4ce",
+  "conversation_id": null
+}

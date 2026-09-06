@@ -1,0 +1,33 @@
+{
+  "id": "6e7a2dd2-2979-4077-a491-147304f5e6ae",
+  "generation_id": "gen_e5c32b10",
+  "doc_type": "USER_STORIES",
+  "title": "Hospital Management System",
+  "version": "v1.0",
+  "version_num": 1,
+  "status": "REJECTED",
+  "created_at": "2026-08-30T10:12:00Z",
+  "sections": [],
+  "user_stories_data": {
+    "requirements": [
+      {
+        "req_id": "REQ-PAT-01",
+        "module": "Patient Management",
+        "title": "Registration"
+      }
+    ],
+    "personas": [
+      {
+        "persona_id": "P-REC",
+        "name": "Receptionist",
+        "responsibilities": [
+          "Registration"
+        ]
+      }
+    ],
+    "stories": [],
+    "traceability": []
+  },
+  "rejection_feedback": "Add lab and pharmacy stories",
+  "reviewed_at": "2026-08-31T18:57:56.751964+00:00"
+}

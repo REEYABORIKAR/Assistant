@@ -1,0 +1,213 @@
+{
+  "readiness_score": 25,
+  "clarity_score": 30,
+  "completeness_score": 20,
+  "security_score": 15,
+  "rtm_score": 20,
+  "summary": "Audit of 'Hospital_Portal_v2.pdf' (HEALTHCARE): The uploaded document represents an early-stage requirement draft (14 words). It contains ambiguous language, lacks formal HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM definitions, and requires NFR benchmarking.",
+  "risk_factors": [
+    {
+      "title": "HIPAA / Protected Health Information (PHI) Exposure Risk",
+      "category": "DATA_PRIVACY",
+      "severity": "CRITICAL",
+      "description": "Healthcare data and doctor notes must comply with strict HIPAA encryption at rest (AES-256) and audit logging for patient privacy.",
+      "mitigation": "Enforce field-level encryption, immutable audit trails, and strict multi-tenant boundary checks.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 0,
+        "claim": "Risk: HIPAA / Protected Health Information (PHI) Exposure Risk \u2014 Healthcare data and doctor notes must comply with strict HIPAA encryption at rest (AES-256) and audit logging for patient privacy.",
+        "confidence": 75,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 8 source keywords in document context."
+      }
+    }
+  ],
+  "conflicts_and_ambiguities": [
+    {
+      "issue": "Interface Error Schema Discrepancy (Hospital_Portal_v2.pdf)",
+      "context": "Document outlines 1 core functional paths but does not define standard error handling (400/401/404/500).",
+      "suggested_resolution": "Publish OpenAPI 3.1 specification declaring exact error response bodies and validation codes.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 5,
+        "claim": "Ambiguity: Interface Error Schema Discrepancy (Hospital_Portal_v2.pdf) \u2014 Document outlines 1 core functional paths but does not define standard error handling (400/401/404/500).",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    }
+  ],
+  "missing_sections_and_details": [
+    {
+      "section_name": "HEALTHCARE Regulatory Compliance & Security Controls (HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM)",
+      "priority": "CRITICAL",
+      "why_missing": "The specification lacks formal compliance mapping for HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM and industry standard NFRs.",
+      "recommended_addition": "Specify explicit adherence to HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM, audit logging, data retention, and NFR benchmarks (PHI encryption at rest (AES-256), audit trail immutability, RTO < 1h / RPO < 5min).",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 1,
+        "claim": "Missing Gap: HEALTHCARE Regulatory Compliance & Security Controls (HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM) \u2014 The specification lacks formal compliance mapping for HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM and industry standard NFRs.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    },
+    {
+      "section_name": "Non-Functional Requirements (NFR): SLAs & Throughput",
+      "priority": "HIGH",
+      "why_missing": "Missing latency thresholds (PHI encryption at rest (AES-256), audit trail immutability, RTO < 1h / RPO < 5min), concurrent user targets, and database connection limits.",
+      "recommended_addition": "Define target throughput, 99.9% uptime SLA, and disaster recovery benchmarks: PHI encryption at rest (AES-256), audit trail immutability, RTO < 1h / RPO < 5min.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 2,
+        "claim": "Missing Gap: Non-Functional Requirements (NFR): SLAs & Throughput \u2014 Missing latency thresholds (PHI encryption at rest (AES-256), audit trail immutability, RTO < 1h / RPO < 5min), concurrent user targets, and database connection limits.",
+        "confidence": 65,
+        "verdict": "SUPPORTED",
+        "reason": "General concept is grounded in source context; specific details are extrapolated."
+      }
+    },
+    {
+      "section_name": "Data Architecture & Schema Definitions",
+      "priority": "HIGH",
+      "why_missing": "Data models, foreign key relationships, and migration strategies are unaddressed.",
+      "recommended_addition": "Provide entity relationship diagrams (ERD) and JSON schema validation rules.",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 3,
+        "claim": "Missing Gap: Data Architecture & Schema Definitions \u2014 Data models, foreign key relationships, and migration strategies are unaddressed.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    }
+  ],
+  "rtm_matrix": [
+    {
+      "req_id": "REQ-01",
+      "business_goal": "Hospital Patient Portal with HIPAA AES-256 encryption at rest and strict OAuth2 RBAC roles.",
+      "technical_component": "Core Service Engine",
+      "test_case_verification": "Automated test for 'Hospital Patient Portal with HIPAA AES-2...'",
+      "status": "GAP",
+      "source_ref": "Page 1",
+      "verification": {
+        "claim_index": 4,
+        "claim": "Traceability: REQ-01 Hospital Patient Portal with HIPAA AES-256 encryption at rest and strict OAuth2 RBAC roles. via Core Service Engine",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 12 source keywords in document context."
+      }
+    }
+  ],
+  "ai_recommendations": [
+    "Address 1 identified risk factors before technical architecture signoff.",
+    "Refactor all ambiguous requirement statements into testable Given/When/Then acceptance criteria.",
+    "Complete the Missing Sections including HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM controls and NFR benchmarks."
+  ],
+  "domain_profile": {
+    "domain": "HEALTHCARE",
+    "compliance": [
+      "HIPAA",
+      "GDPR (if EU patients)",
+      "HL7 FHIR",
+      "DICOM"
+    ],
+    "standard_nfrs": [
+      "PHI encryption at rest (AES-256)",
+      "audit trail immutability",
+      "RTO < 1h / RPO < 5min"
+    ]
+  },
+  "verification_summary": {
+    "verdicts": [
+      {
+        "claim_index": 0,
+        "claim": "Risk: HIPAA / Protected Health Information (PHI) Exposure Risk \u2014 Healthcare data and doctor notes must comply with strict HIPAA encryption at rest (AES-256) and audit logging for patient privacy.",
+        "confidence": 75,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 8 source keywords in document context."
+      },
+      {
+        "claim_index": 1,
+        "claim": "Missing Gap: HEALTHCARE Regulatory Compliance & Security Controls (HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM) \u2014 The specification lacks formal compliance mapping for HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM and industry standard NFRs.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 2,
+        "claim": "Missing Gap: Non-Functional Requirements (NFR): SLAs & Throughput \u2014 Missing latency thresholds (PHI encryption at rest (AES-256), audit trail immutability, RTO < 1h / RPO < 5min), concurrent user targets, and database connection limits.",
+        "confidence": 65,
+        "verdict": "SUPPORTED",
+        "reason": "General concept is grounded in source context; specific details are extrapolated."
+      },
+      {
+        "claim_index": 3,
+        "claim": "Missing Gap: Data Architecture & Schema Definitions \u2014 Data models, foreign key relationships, and migration strategies are unaddressed.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 4,
+        "claim": "Traceability: REQ-01 Hospital Patient Portal with HIPAA AES-256 encryption at rest and strict OAuth2 RBAC roles. via Core Service Engine",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 12 source keywords in document context."
+      },
+      {
+        "claim_index": 5,
+        "claim": "Ambiguity: Interface Error Schema Discrepancy (Hospital_Portal_v2.pdf) \u2014 Document outlines 1 core functional paths but does not define standard error handling (400/401/404/500).",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    ],
+    "verified_count": 3,
+    "flagged_count": 3,
+    "flagged_items": [
+      {
+        "claim_index": 1,
+        "claim": "Missing Gap: HEALTHCARE Regulatory Compliance & Security Controls (HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM) \u2014 The specification lacks formal compliance mapping for HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM and industry standard NFRs.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 3,
+        "claim": "Missing Gap: Data Architecture & Schema Definitions \u2014 Data models, foreign key relationships, and migration strategies are unaddressed.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 5,
+        "claim": "Ambiguity: Interface Error Schema Discrepancy (Hospital_Portal_v2.pdf) \u2014 Document outlines 1 core functional paths but does not define standard error handling (400/401/404/500).",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    ],
+    "total_claims": 6
+  },
+  "content_hash": "e5bafabd77ce74c886c60acd0afa0c35d59f1e48102614bb196c79e9ec73c626",
+  "audit_diff": {
+    "score_delta": -35,
+    "previous_score": 60,
+    "current_score": 25,
+    "resolved_risks_count": 2,
+    "resolved_risks": [
+      "Unencrypted PHI Storage",
+      "Missing RBAC"
+    ],
+    "new_risks_count": 1,
+    "new_risks": [
+      "HIPAA / Protected Health Information (PHI) Exposure Risk"
+    ],
+    "has_prior_audit": true
+  },
+  "id": "09c37108-4e85-4cce-9c02-eb7402e7cfc4",
+  "analyzed_at": "2026-09-01T18:54:38.840642+00:00",
+  "filename": "Hospital_Portal_v2.pdf",
+  "file_id": "b381042f-68b3-463c-89bb-8f5b85c31c4a",
+  "conversation_id": null
+}

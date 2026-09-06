@@ -1,0 +1,134 @@
+{
+  "readiness_score": 35,
+  "clarity_score": 40,
+  "completeness_score": 25,
+  "security_score": 15,
+  "rtm_score": 20,
+  "summary": "The document is a high-level conceptual pitch deck or feature list for an 'AI-powered Workforce Intelligence Platform.' It outlines 20+ advanced AI features (sentiment analysis, burnout prediction, workforce simulation) and a demo flow. However, it lacks all technical specifications, data architecture, security protocols, and non-functional requirements. It is not an engineering requirements document but a marketing or presentation outline.",
+  "risk_factors": [
+    {
+      "title": "Critical PII and Biometric Data Exposure",
+      "category": "DATA_PRIVACY",
+      "severity": "HIGH",
+      "description": "The system processes highly sensitive data including meeting transcripts (Teams/Zoom/Meet), anonymous complaints, health-related burnout metrics, and 'Digital Twins' of employees. No mention of encryption, data residency, or consent management.",
+      "mitigation": "Implement end-to-end encryption for all PII. Define strict data retention policies. Obtain explicit, granular consent for meeting transcript analysis. Anonymize data at the ingestion layer where possible."
+    },
+    {
+      "title": "Algorithmic Bias and Discrimination Liability",
+      "category": "SECURITY",
+      "severity": "HIGH",
+      "description": "Features like 'Promotion Readiness AI,' 'Workplace Fairness Detector,' and 'Manager Effectiveness Score' rely on AI to make or influence employment decisions. Without bias auditing, this creates significant legal liability for discrimination (e.g., based on gender, age, or protected classes).",
+      "mitigation": "Implement rigorous bias testing frameworks (e.g., AIF360). Ensure human-in-the-loop for all promotion and disciplinary decisions. Document model explainability for every AI-driven recommendation."
+    },
+    {
+      "title": "Surveillance and Psychological Safety Erosion",
+      "category": "OPERATIONAL",
+      "severity": "HIGH",
+      "description": "Continuous monitoring of 'sentiment,' 'interruptions,' and 'manager dominance' in meetings, combined with 'Rumor Detection,' creates a panopticon effect. This may violate labor laws in certain jurisdictions and destroy employee trust, leading to data poisoning (employees lying to the AI).",
+      "mitigation": "Limit analysis to aggregate team health rather than individual surveillance. Provide transparency on what is being monitored. Allow employees to opt-out of specific AI analyses (e.g., meeting sentiment) without penalty."
+    },
+    {
+      "title": "Lack of Data Source Integration Specifications",
+      "category": "ARCHITECTURE",
+      "severity": "MEDIUM",
+      "description": "The document mentions integrating with Teams, Zoom, and Google Meet but provides no details on API limits, data formats, latency requirements, or how to handle API changes. It also assumes access to 'peer feedback' and 'performance reviews' without defining the source systems.",
+      "mitigation": "Define specific API endpoints, authentication methods (OAuth 2.0), and data schemas for each integration. Establish a data lake architecture to normalize inputs from disparate HRIS and communication tools."
+    }
+  ],
+  "conflicts_and_ambiguities": [
+    {
+      "issue": "Anonymity vs. Individual Profiling",
+      "context": "Feature 2 mentions 'Manager Effectiveness Score' based on 'Complaint frequency' and Feature 9 mentions 'Anonymous Complaint System.' However, Feature 15 'Employee Digital Twin' tracks individual 'Satisfaction' and 'Burnout.'",
+      "suggested_resolution": "Clarify the data model. Can anonymous complaints be linked to specific 'Digital Twins' for burnout prediction? If yes, anonymity is compromised. If no, how does the system attribute burnout risk to specific individuals for intervention? Define the boundary between aggregate analytics and individual profiling."
+    },
+    {
+      "issue": "Scope of 'AI Meeting Sentiment Analyzer'",
+      "context": "Page 1 states: 'Integrate with: Teams, Zoom, Google Meet... Analyze meeting transcript.'",
+      "suggested_resolution": "Specify if this requires real-time processing or post-meeting batch processing. Define the language support (English only? Multi-lingual?). Clarify if audio is processed or only text transcripts. Define the accuracy threshold for 'stress' detection."
+    },
+    {
+      "issue": "Definition of 'Workplace Fairness Detector'",
+      "context": "Page 2 states: 'Detect bias in: Promotions, Rewards... AI flags unusual patterns.'",
+      "suggested_resolution": "Define the statistical methods used to detect bias (e.g., disparate impact analysis). Specify the baseline for 'unusual patterns.' How does the system handle small sample sizes in small teams where statistical significance is low?"
+    }
+  ],
+  "missing_sections_and_details": [
+    {
+      "section_name": "Data Privacy and Compliance Framework",
+      "priority": "CRITICAL",
+      "why_missing": "The system handles GDPR/CCPA-regulated PII and potentially biometric data (sentiment analysis). Without a compliance section, the project is legally non-viable in most regions.",
+      "recommended_addition": "Include a section on GDPR Article 9 (Special Categories of Data), CCPA rights, data minimization principles, and a Data Protection Impact Assessment (DPIA) plan. Specify data retention periods for transcripts and feedback."
+    },
+    {
+      "section_name": "AI Model Architecture and Explainability",
+      "priority": "CRITICAL",
+      "why_missing": "The document lists 20+ AI features but does not specify the underlying models (LLMs, NLP, Time-series forecasting). Without this, engineering cannot estimate compute costs, latency, or accuracy.",
+      "recommended_addition": "Define the AI stack: e.g., 'Use GPT-4 for sentiment analysis, XGBoost for attrition prediction.' Include requirements for model explainability (SHAP values) and retraining frequency."
+    },
+    {
+      "section_name": "Security and Access Control",
+      "priority": "CRITICAL",
+      "why_missing": "No mention of authentication, authorization, or role-based access control (RBAC). Who can see the 'Manager Effectiveness Score'? Who can access the 'Crisis Radar'?",
+      "recommended_addition": "Define RBAC matrix: HR Admin, Manager, Employee, Executive. Specify MFA requirements. Detail encryption standards (AES-256 for data at rest, TLS 1.3 for data in transit)."
+    },
+    {
+      "section_name": "Non-Functional Requirements (NFRs)",
+      "priority": "HIGH",
+      "why_missing": "No performance, scalability, or availability targets. 'AI Analysis: 10 Seconds' is mentioned for 2000 comments, but what about 100,000? What is the uptime requirement?",
+      "recommended_addition": "Define SLAs: 99.9% uptime, <2s API response time for dashboard queries, batch processing window for nightly analytics. Specify scalability targets (e.g., support 10,000 employees)."
+    },
+    {
+      "section_name": "Integration and Data Flow Diagrams",
+      "priority": "HIGH",
+      "why_missing": "The document lists integrations but no data flow. How does data move from Zoom to the AI engine to the Dashboard?",
+      "recommended_addition": "Provide a high-level architecture diagram showing data ingestion, processing (AI/ML), storage (Data Lake/DB), and presentation layers. Define data formats (JSON, CSV) and API contracts."
+    }
+  ],
+  "rtm_matrix": [
+    {
+      "req_id": "REQ-01",
+      "business_goal": "Analyze meeting sentiment from Teams/Zoom/Meet",
+      "technical_component": "Meeting Transcript Ingestion & NLP Engine",
+      "test_case_verification": "Unit test: Verify NLP model correctly classifies 'stress' in sample transcripts. Integration test: Verify API connection to Zoom/Teams and data retrieval.",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-02",
+      "business_goal": "Calculate Manager Effectiveness Score",
+      "technical_component": "Manager Analytics Module",
+      "test_case_verification": "Verify score calculation logic using mock data (sentiment, attrition, complaints). Test dashboard display of score and strengths/weaknesses.",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-03",
+      "business_goal": "Predict Employee Burnout",
+      "technical_component": "Burnout Prediction ML Model",
+      "test_case_verification": "Train model on historical data. Evaluate accuracy (F1-score) on test set. Verify alert generation when risk > 80%.",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-04",
+      "business_goal": "Provide Policy-aware Chatbot (RAG)",
+      "technical_component": "RAG Chatbot & Vector Database",
+      "test_case_verification": "Test retrieval accuracy for policy questions. Verify that answers are grounded in the provided policy documents (no hallucinations).",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-05",
+      "business_goal": "Simulate Workforce Scenarios",
+      "technical_component": "Workforce Simulation Engine",
+      "test_case_verification": "Run simulation with '20% workload increase' input. Verify output metrics (burnout, attrition) are calculated correctly based on defined algorithms.",
+      "status": "GAP"
+    }
+  ],
+  "ai_recommendations": [
+    "Reframe the document from a 'Feature List' to a 'System Requirements Specification (SRS).' Remove marketing language (e.g., 'wow feature,' 'judges') and replace with technical constraints, data definitions, and acceptance criteria.",
+    "Add a dedicated 'Ethical AI and Compliance' section. Address the legal risks of monitoring employee sentiment and predicting burnout. Define clear opt-in/opt-out mechanisms and data anonymization strategies to comply with GDPR and local labor laws.",
+    "Define the 'AI Model Card' for each major feature. Specify the input data, output format, accuracy metrics, and known limitations for the Sentiment Analyzer, Burnout Predictor, and Fairness Detector. This is essential for engineering feasibility and stakeholder trust."
+  ],
+  "id": "26cbd304-c548-4fdc-8a69-8671683c23cc",
+  "analyzed_at": "2026-08-30T06:19:15.962947+00:00",
+  "filename": "HR-pulse.pdf",
+  "file_id": null,
+  "conversation_id": "17570462-dd56-4393-ade9-1a75b060aff7"
+}

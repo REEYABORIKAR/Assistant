@@ -1,0 +1,35 @@
+--- Page 1 ---
+HR Management System 
+ 
+Build a complete HR Management System (HRMS) as a full-stack web and mobile 
+application with role-based access for Super Admin, HR/Admin, Manager, Recruiter, 
+Employee, and Finance/Payroll users. The system should include **secure authentication, 
+role and permission management, employee master data, departments, designations, branches, 
+employee onboarding/offboarding, employee profiles, document management, attendance, 
+shift and roster management, leave and holiday management, work-from-home/remote-work 
+requests, regularization, timesheets, payroll, salary structures, deductions, bonuses, 
+reimbursements, payslips, tax/statutory information, recruitment and applicant tracking, job 
+postings, candidate pipeline, interviews, offers, joining management, performance 
+management, goals/KPIs, appraisals, feedback, training and learning, asset management, 
+employee grievances, announcements, notifications, company policies, HR letters/certificates, 
+expense management, travel requests, approval workflows, surveys, employee self-service, 
+manager self-service, and comprehensive dashboards and reports. Include search, filters, 
+sorting, pagination, bulk import/export, Excel/CSV upload, PDF generation, audit logs, 
+activity history, configurable workflows, email/SMS/push notifications, reminders, 
+calendar integration, and API integrations. The dashboard should provide HR analytics 
+such as headcount, attendance, leave utilization, attrition, recruitment status, payroll 
+summaries, department statistics, performance, pending approvals, and upcoming events. 
+The project should have a modern responsive UI for Web, Android, and iOS, with a 
+centralized backend API, relational database, file/document storage, notification service, 
+background jobs, logging, monitoring, validation, encryption, backups, and strong security 
+including RBAC, JWT/session management, password policies, MFA-ready architecture, 
+API authorization, data privacy, audit trails, and secure document access. Define 
+complete workflows such as Recruitment → Candidate Selection → Offer → Joining → 
+Onboarding → Employee → Attendance/Leave → Payroll → Performance → 
+Promotion/Transfer → Offboarding/Exit, with configurable approval chains for HR, 
+managers, finance, and admins. Include master-data configuration, organization settings, 
+financial/payroll settings, notification templates, workflow configuration, reports, audit logs, 
+and system administration. The final system should be production-ready, scalable, API-
+driven, well-documented, tested, and include BRD, SRS, database schema/ERD, API 
+documentation, RTM, UI/UX specifications, user stories with acceptance criteria, test 
+cases, deployment documentation, and complete role-wise functional requirements.

@@ -1,0 +1,912 @@
+{
+  "doc_type": "BRD",
+  "title": "Business Requirements Document \u2014 refyne Chat",
+  "version": "v1.0",
+  "status": "PENDING_APPROVAL",
+  "revision_history": [],
+  "parent_id": null,
+  "sections": [
+    {
+      "title": "1. Document Control",
+      "table": [
+        [
+          "Field",
+          "Details"
+        ],
+        [
+          "Document Title",
+          "Business Requirements Document \u2014 refyne Chat"
+        ],
+        [
+          "Project Name",
+          "refyne Chat"
+        ],
+        [
+          "Document ID",
+          "BRD-REFYNE-001"
+        ],
+        [
+          "Version",
+          "v1.0"
+        ],
+        [
+          "Date",
+          "2023-10-27"
+        ],
+        [
+          "Prepared By",
+          "[Pending]"
+        ],
+        [
+          "Reviewed By",
+          "[Pending]"
+        ],
+        [
+          "Approved By",
+          "[Pending]"
+        ],
+        [
+          "Status",
+          "PENDING_APPROVAL"
+        ]
+      ]
+    },
+    {
+      "title": "2. Revision History",
+      "table": [
+        [
+          "Version",
+          "Date",
+          "Author",
+          "Description of Changes",
+          "Approved By"
+        ],
+        [
+          "v1.0",
+          "2023-10-27",
+          "[Pending]",
+          "Initial draft generated from source specification",
+          "[Pending]"
+        ]
+      ]
+    },
+    {
+      "title": "3. Introduction",
+      "body": "### 3.1 Purpose\nThis Business Requirements Document (BRD) defines the business needs, scope, and functional/non-functional requirements for the 'refyne Chat' project, which is specified in the source document as a centralized Hospital Management System (HMS). The purpose is to provide a clear, unambiguous baseline for stakeholders, developers, and QA teams to ensure the system meets operational, clinical, and administrative needs.\n\n### 3.2 Project Background\nThe source document outlines a need for a centralized platform to manage hospital operations, patient information, medical records, appointments, and various clinical and administrative workflows. The system is designed to replace or consolidate disparate processes into a unified digital ecosystem supporting multiple user roles.\n\n### 3.3 Business Problem\nCurrently, hospital operations may be fragmented across different systems or manual processes, leading to inefficiencies in patient management, appointment scheduling, billing, and clinical record-keeping. There is a need for a unified system that supports role-based access, real-time data visibility, and secure handling of sensitive medical information.\n\n### 3.4 Business Objectives\n| ID | Objective | Success Measure |\n|----|-----------|-----------------|\n| BO-01 | Centralize hospital operations | Single platform managing patients, appointments, billing, and inventory |\n| BO-02 | Enhance patient experience | Patient portal for viewing appointments, prescriptions, and reports |\n| BO-03 | Improve clinical efficiency | Integrated workflows for OPD/IPD, lab, pharmacy, and EMR |\n| BO-04 | Ensure data security and compliance | Role-based access, encryption, and audit logs per HIPAA/GDPR |\n\n### 3.5 Expected Business Benefits\n- Reduced administrative overhead through automated workflows.\n- Improved patient care via centralized electronic medical records (EMR).\n- Enhanced operational visibility through dashboards and reporting.\n- Compliance with healthcare data protection regulations (HIPAA, GDPR).\n- Scalable architecture supporting future growth and integration."
+    },
+    {
+      "title": "4. Scope",
+      "body": "### 4.1 In Scope\n- Patient registration and profile management.\n- Appointment scheduling and queue management.\n- Doctor availability and scheduling.\n- OPD/IPD management, including admission, discharge, and transfer.\n- Electronic Medical Records (EMR) including diagnosis, prescriptions, treatment history, allergies, vital signs, and nursing notes.\n- Laboratory test requests and reports.\n- Pharmacy prescriptions and medicine inventory.\n- Bed/ward management.\n- Billing, payments, insurance management, invoices, and receipts.\n- Hospital expenses and staff management.\n- Inventory and procurement.\n- Patient portal for viewing appointments, prescriptions, reports, bills, and medical history.\n- Doctor dashboards for appointments, patient records, diagnosis, prescriptions, and clinical notes.\n- System-wide features: dashboards, notifications, search/filtering, reports, audit logs, data validation, backup/recovery, security, and role-based authorization.\n\n### 4.2 Out of Scope\n- Not explicitly defined in source documentation \u2014 pending stakeholder input.\n\n### 4.3 System Boundaries\nThe system is a centralized platform with separate modules for Authentication, Patients, Appointments, EMR, Doctors, Nursing, Laboratory, Pharmacy, Billing, Inventory, Staff, Reports, Notifications, and Administration. It supports cloud or on-premise deployment and integrates with external systems for insurance, payments, and potentially lab/pharmacy vendors (specific integrations not detailed in source)."
+    },
+    {
+      "title": "5. Stakeholder Analysis",
+      "table": [
+        [
+          "Stakeholder ID",
+          "Stakeholder",
+          "Role",
+          "Responsibilities",
+          "Interest"
+        ],
+        [
+          "STK-01",
+          "Hospital Administration",
+          "Decision Maker",
+          "Approve requirements, budget, and system deployment",
+          "Operational efficiency, compliance, cost control"
+        ],
+        [
+          "STK-02",
+          "Doctors",
+          "End User",
+          "Manage appointments, diagnose, prescribe, and maintain EMR",
+          "Clinical workflow efficiency, access to patient data"
+        ],
+        [
+          "STK-03",
+          "Nurses",
+          "End User",
+          "Manage nursing notes, vital signs, and patient care tasks",
+          "Ease of use, real-time patient status"
+        ],
+        [
+          "STK-04",
+          "Receptionists",
+          "End User",
+          "Handle patient registration, appointments, and billing inquiries",
+          "Fast processing, accurate data entry"
+        ],
+        [
+          "STK-05",
+          "Pharmacists",
+          "End User",
+          "Manage prescriptions and medicine inventory",
+          "Inventory accuracy, prescription validation"
+        ],
+        [
+          "STK-06",
+          "Lab Technicians",
+          "End User",
+          "Process lab test requests and generate reports",
+          "Streamlined workflow, report accuracy"
+        ],
+        [
+          "STK-07",
+          "Accountants",
+          "End User",
+          "Manage billing, payments, invoices, and expenses",
+          "Financial accuracy, audit trails"
+        ],
+        [
+          "STK-08",
+          "Patients",
+          "End User",
+          "View appointments, prescriptions, reports, and bills via portal",
+          "Convenience, access to personal health data"
+        ]
+      ]
+    },
+    {
+      "title": "6. User Classes and Roles",
+      "table": [
+        [
+          "Role ID",
+          "User Role",
+          "Description",
+          "Access Level"
+        ],
+        [
+          "ROLE-01",
+          "Admin",
+          "System administrator with full access to all modules and configurations",
+          "Full Access"
+        ],
+        [
+          "ROLE-02",
+          "Doctor",
+          "Manages clinical workflows, EMR, prescriptions, and appointments",
+          "Clinical Access"
+        ],
+        [
+          "ROLE-03",
+          "Nurse",
+          "Manages nursing notes, vital signs, and patient care tasks",
+          "Clinical Access"
+        ],
+        [
+          "ROLE-04",
+          "Receptionist",
+          "Handles patient registration, appointments, and front-desk operations",
+          "Administrative Access"
+        ],
+        [
+          "ROLE-05",
+          "Pharmacist",
+          "Manages pharmacy prescriptions and medicine inventory",
+          "Pharmacy Access"
+        ],
+        [
+          "ROLE-06",
+          "Lab Technician",
+          "Processes lab test requests and generates reports",
+          "Laboratory Access"
+        ],
+        [
+          "ROLE-07",
+          "Accountant",
+          "Manages billing, payments, invoices, and financial records",
+          "Financial Access"
+        ],
+        [
+          "ROLE-08",
+          "Patient",
+          "Views personal health data, appointments, and bills via portal",
+          "Patient Portal Access"
+        ]
+      ]
+    },
+    {
+      "title": "7. Business Process Overview",
+      "body": "### 7.1 AS-IS Process\nNot explicitly defined in source documentation \u2014 pending stakeholder input.\n\n### 7.2 TO-BE Process\nThe TO-BE process involves centralized digital workflows:\n1. **Outpatient (OPD) Workflow**: Patient registration \u2192 Appointment scheduling \u2192 Consultation \u2192 Diagnosis \u2192 Laboratory/Pharmacy \u2192 Billing \u2192 Follow-up.\n2. **Inpatient (IPD) Workflow**: Admission \u2192 Bed allocation \u2192 Treatment \u2192 Investigations \u2192 Discharge \u2192 Final billing.\n\n### 7.3 Process Flow Narrative Description\nPatients are registered and assigned unique profiles. Appointments are scheduled based on doctor availability. During consultations, doctors record diagnoses, prescriptions, and clinical notes in the EMR. Laboratory and pharmacy modules process test requests and prescriptions, respectively. Billing is generated based on services rendered, and payments are processed. For inpatients, bed allocation is managed, and treatment progress is tracked until discharge, followed by final billing. All actions are logged for audit purposes, and patients can access their records via the portal."
+    },
+    {
+      "title": "8. Business Requirements",
+      "table": [
+        [
+          "Requirement ID",
+          "Business Requirement",
+          "Priority",
+          "Stakeholder",
+          "Acceptance Criteria"
+        ],
+        [
+          "BR-001",
+          "Provide centralized platform for hospital operations",
+          "High",
+          "Hospital Administration",
+          "System supports all listed modules and workflows"
+        ],
+        [
+          "BR-002",
+          "Support role-based access for defined user roles",
+          "High",
+          "Hospital Administration",
+          "Each role has appropriate permissions and access controls"
+        ],
+        [
+          "BR-003",
+          "Enable patient registration and profile management",
+          "High",
+          "Receptionist",
+          "Patients can be registered with complete profiles"
+        ],
+        [
+          "BR-004",
+          "Support appointment scheduling and queue management",
+          "High",
+          "Receptionist, Doctor",
+          "Appointments can be scheduled, modified, and tracked"
+        ],
+        [
+          "BR-005",
+          "Manage OPD/IPD workflows including admission/discharge/transfer",
+          "High",
+          "Doctor, Nurse",
+          "Workflows are completed with proper documentation"
+        ],
+        [
+          "BR-006",
+          "Maintain electronic medical records (EMR)",
+          "High",
+          "Doctor, Nurse",
+          "EMR includes diagnosis, prescriptions, treatment history, allergies, vital signs, and nursing notes"
+        ],
+        [
+          "BR-007",
+          "Process laboratory test requests and reports",
+          "Medium",
+          "Lab Technician",
+          "Lab requests can be created, processed, and reported"
+        ],
+        [
+          "BR-008",
+          "Manage pharmacy prescriptions and medicine inventory",
+          "Medium",
+          "Pharmacist",
+          "Prescriptions are validated, and inventory is updated"
+        ],
+        [
+          "BR-009",
+          "Manage bed/ward allocation",
+          "Medium",
+          "Nurse, Admin",
+          "Beds can be allocated, released, and tracked"
+        ],
+        [
+          "BR-010",
+          "Handle billing, payments, insurance, and invoices",
+          "High",
+          "Accountant",
+          "Bills are generated, payments processed, and invoices issued"
+        ],
+        [
+          "BR-011",
+          "Provide patient portal for self-service",
+          "Medium",
+          "Patient",
+          "Patients can view appointments, prescriptions, reports, bills, and medical history"
+        ],
+        [
+          "BR-012",
+          "Provide doctor dashboards for clinical overview",
+          "Medium",
+          "Doctor",
+          "Dashboards display appointments, patient records, and clinical notes"
+        ],
+        [
+          "BR-013",
+          "Ensure system security and auditability",
+          "High",
+          "Hospital Administration",
+          "System enforces security protocols and maintains audit logs"
+        ]
+      ]
+    },
+    {
+      "title": "9. Functional Requirements",
+      "body": "### Module: Authentication\n- **FR-001**: Implement secure authentication using JWT/OAuth.\n  - **Description**: Users must log in with valid credentials.\n  - **Preconditions**: User account exists.\n  - **Input**: Username, password.\n  - **Processing**: Validate credentials, generate JWT token.\n  - **Output**: Authenticated session.\n  - **Business Rules**: Passwords must be encrypted; sessions must expire after inactivity.\n  - **Given/When/Then**: Given a valid user, When they enter correct credentials, Then they are granted access.\n\n### Module: Patients\n- **FR-002**: Manage patient registration and profiles.\n  - **Description**: Create, update, and retrieve patient records.\n  - **Preconditions**: None.\n  - **Input**: Patient demographic and medical data.\n  - **Processing**: Validate data, store in database.\n  - **Output**: Unique patient ID and profile.\n  - **Business Rules**: Patient ID must be unique; required fields must be filled.\n  - **Given/When/Then**: Given a new patient, When registration is submitted, Then a unique profile is created.\n\n### Module: Appointments\n- **FR-003**: Schedule and manage appointments.\n  - **Description**: Book, modify, and cancel appointments.\n  - **Preconditions**: Patient and doctor exist.\n  - **Input**: Appointment date, time, doctor ID.\n  - **Processing**: Check availability, update schedule.\n  - **Output**: Confirmed appointment.\n  - **Business Rules**: Appointments cannot overlap for the same doctor.\n  - **Given/When/Then**: Given an available slot, When an appointment is booked, Then it is confirmed.\n\n### Module: EMR\n- **FR-004**: Maintain electronic medical records.\n  - **Description**: Record diagnosis, prescriptions, treatment history, allergies, vital signs, and nursing notes.\n  - **Preconditions**: Patient exists.\n  - **Input**: Clinical data.\n  - **Processing**: Validate and store data.\n  - **Output**: Updated EMR.\n  - **Business Rules**: EMR entries must be timestamped and attributed to the user.\n  - **Given/When/Then**: Given a patient, When clinical data is entered, Then it is saved to the EMR.\n\n### Module: Laboratory\n- **FR-005**: Process lab test requests and reports.\n  - **Description**: Create lab requests, process tests, and generate reports.\n  - **Preconditions**: Patient exists.\n  - **Input**: Test type, patient ID.\n  - **Processing**: Update status, generate report.\n  - **Output**: Lab report.\n  - **Business Rules**: Reports must be linked to the patient's EMR.\n  - **Given/When/Then**: Given a lab request, When the test is completed, Then the report is available.\n\n### Module: Pharmacy\n- **FR-006**: Manage prescriptions and medicine inventory.\n  - **Description**: Validate prescriptions, dispense medicines, and update inventory.\n  - **Preconditions**: Prescription exists.\n  - **Input**: Prescription ID, quantity.\n  - **Processing**: Check inventory, update stock.\n  - **Output**: Dispensed medicine record.\n  - **Business Rules**: Inventory levels must be tracked; low stock alerts must be triggered.\n  - **Given/When/Then**: Given a valid prescription, When medicine is dispensed, Then inventory is updated.\n\n### Module: Billing\n- **FR-007**: Generate bills and process payments.\n  - **Description**: Create invoices, process payments, and manage insurance claims.\n  - **Preconditions**: Services rendered.\n  - **Input**: Service details, payment method.\n  - **Processing**: Calculate total, update payment status.\n  - **Output**: Invoice and receipt.\n  - **Business Rules**: Payments must be reconciled with invoices.\n  - **Given/When/Then**: Given a completed service, When a bill is generated, Then it is payable."
+    },
+    {
+      "title": "10. Non-Functional Requirements",
+      "body": "### 10.1 Performance\n- Fast API responses (target: < 2 seconds for standard queries).\n- Scalable architecture to handle concurrent users.\n\n### 10.2 Security\n- PHI encryption at rest (AES-256) per HIPAA \u00a7164.312.\n- Secure authentication (JWT/OAuth) and password encryption.\n- HTTPS for all data transmission.\n- Audit trail immutability per HIPAA \u00a7164.312(b).\n\n### 10.3 Availability\n- High availability with RTO < 1h and RPO < 5min per domain benchmarks.\n- Regular backups and disaster recovery plans.\n\n### 10.4 Scalability\n- System must scale horizontally to support increased user load.\n- Cloud or on-premise deployment options.\n\n### 10.5 Usability\n- Responsive web UI for all user roles.\n- Intuitive dashboards and search/filtering capabilities.\n\n### 10.6 Maintainability\n- Modular architecture with separate components for each functional area.\n- Comprehensive logging and error handling.\n\n### 10.7 Compatibility\n- Support for modern web browsers.\n- Integration with external systems via REST APIs."
+    },
+    {
+      "title": "11. Business Rules",
+      "table": [
+        [
+          "Rule ID",
+          "Business Rule",
+          "Description"
+        ],
+        [
+          "BRULE-001",
+          "Unique Patient ID",
+          "Each patient must have a unique identifier in the system."
+        ],
+        [
+          "BRULE-002",
+          "Appointment Overlap Prevention",
+          "Doctors cannot have overlapping appointments."
+        ],
+        [
+          "BRULE-003",
+          "EMR Attribution",
+          "All EMR entries must be attributed to the user who created them."
+        ],
+        [
+          "BRULE-004",
+          "Inventory Tracking",
+          "Pharmacy inventory must be updated in real-time upon dispensing."
+        ],
+        [
+          "BRULE-005",
+          "Payment Reconciliation",
+          "All payments must be reconciled with corresponding invoices."
+        ],
+        [
+          "BRULE-006",
+          "Role-Based Access Control",
+          "Users can only access modules and data permitted by their role."
+        ]
+      ]
+    },
+    {
+      "title": "12. Data Requirements",
+      "body": "### 12.1 Data Entities List\n- Patient\n- Doctor\n- Appointment\n- EMR (Electronic Medical Record)\n- Laboratory Test\n- Prescription\n- Medicine Inventory\n- Bed/Ward\n- Invoice\n- Payment\n- Staff\n\n### 12.2 Data Fields\n| Entity | Field | Data Type | Required | Description |\n|--------|-------|-----------|----------|-------------|\n| Patient | Patient ID | String | Yes | Unique identifier for the patient |\n| Patient | Name | String | Yes | Full name of the patient |\n| Patient | Date of Birth | Date | Yes | Patient's date of birth |\n| Appointment | Appointment ID | String | Yes | Unique identifier for the appointment |\n| Appointment | Date | Date | Yes | Date of the appointment |\n| EMR | Record ID | String | Yes | Unique identifier for the EMR entry |\n| EMR | Diagnosis | String | No | Diagnosis recorded by the doctor |\n| Prescription | Prescription ID | String | Yes | Unique identifier for the prescription |\n| Prescription | Medicine | String | Yes | Name of the prescribed medicine |\n| Invoice | Invoice ID | String | Yes | Unique identifier for the invoice |\n| Invoice | Total Amount | Decimal | Yes | Total amount due |\n\n### 12.3 Data Validation\n- Required fields must be validated before saving.\n- Data types must match defined schemas.\n- Unique constraints must be enforced for IDs.\n\n### 12.4 Data Retention\n- Medical records must be retained per HIPAA and local regulations.\n- Audit logs must be immutable and retained for a minimum of 6 years (per HIPAA)."
+    },
+    {
+      "title": "13. External System Requirements",
+      "table": [
+        [
+          "System",
+          "Integration",
+          "Direction",
+          "Protocol/API"
+        ],
+        [
+          "Insurance Provider",
+          "Claims processing",
+          "Bidirectional",
+          "REST API"
+        ],
+        [
+          "Payment Gateway",
+          "Payment processing",
+          "Bidirectional",
+          "REST API"
+        ],
+        [
+          "Lab Vendor",
+          "Lab report exchange",
+          "Inbound",
+          "HL7 FHIR"
+        ],
+        [
+          "Pharmacy Vendor",
+          "Inventory sync",
+          "Bidirectional",
+          "REST API"
+        ]
+      ]
+    },
+    {
+      "title": "14. Interface Requirements",
+      "body": "### 14.1 User Interface\n- Responsive web UI for all user roles.\n- Dashboards for doctors, nurses, and administrators.\n- Patient portal for self-service.\n- Search and filtering capabilities across all modules.\n\n### 14.2 API Interface\n- REST APIs for all functional modules.\n- JWT/OAuth-based authentication for API access.\n- Standard HTTP methods (GET, POST, PUT, DELETE).\n\n### 14.3 Hardware Interface\n- Not explicitly defined in source documentation \u2014 pending stakeholder input."
+    },
+    {
+      "title": "15. Security Requirements",
+      "table": [
+        [
+          "ID",
+          "Requirement",
+          "Priority"
+        ],
+        [
+          "SEC-001",
+          "PHI encryption at rest (AES-256)",
+          "High"
+        ],
+        [
+          "SEC-002",
+          "Secure authentication (JWT/OAuth)",
+          "High"
+        ],
+        [
+          "SEC-003",
+          "Password encryption",
+          "High"
+        ],
+        [
+          "SEC-004",
+          "Session management with expiration",
+          "High"
+        ],
+        [
+          "SEC-005",
+          "HTTPS for all data transmission",
+          "High"
+        ],
+        [
+          "SEC-006",
+          "Audit trail immutability",
+          "High"
+        ],
+        [
+          "SEC-007",
+          "Role-based access control",
+          "High"
+        ]
+      ]
+    },
+    {
+      "title": "16. Reporting Requirements",
+      "table": [
+        [
+          "Report ID",
+          "Report",
+          "Users",
+          "Frequency",
+          "Export"
+        ],
+        [
+          "RPT-001",
+          "Daily Appointments Summary",
+          "Admin, Doctor",
+          "Daily",
+          "PDF, CSV"
+        ],
+        [
+          "RPT-002",
+          "Monthly Billing Report",
+          "Accountant, Admin",
+          "Monthly",
+          "PDF, Excel"
+        ],
+        [
+          "RPT-003",
+          "Inventory Status Report",
+          "Pharmacist, Admin",
+          "Weekly",
+          "PDF, CSV"
+        ],
+        [
+          "RPT-004",
+          "Patient Demographics Report",
+          "Admin",
+          "Quarterly",
+          "PDF, Excel"
+        ]
+      ]
+    },
+    {
+      "title": "17. Notifications",
+      "table": [
+        [
+          "Notification ID",
+          "Event",
+          "Recipient",
+          "Channel"
+        ],
+        [
+          "NOTIF-001",
+          "Appointment Reminder",
+          "Patient",
+          "Email, SMS"
+        ],
+        [
+          "NOTIF-002",
+          "Lab Report Ready",
+          "Doctor, Patient",
+          "Email, Portal"
+        ],
+        [
+          "NOTIF-003",
+          "Low Inventory Alert",
+          "Pharmacist, Admin",
+          "Email, Dashboard"
+        ],
+        [
+          "NOTIF-004",
+          "Payment Due",
+          "Patient",
+          "Email, SMS"
+        ]
+      ]
+    },
+    {
+      "title": "18. Assumptions and Dependencies",
+      "body": "### Assumptions\n- Users have basic computer literacy.\n- Internet connectivity is available for cloud deployment.\n- External systems (insurance, payments) provide stable APIs.\n\n### Dependencies\n- Integration with external insurance and payment systems.\n- Availability of HL7 FHIR standards for lab data exchange.\n- Compliance with HIPAA and GDPR regulations."
+    },
+    {
+      "title": "19. Constraints",
+      "body": "- **Budget**: Not explicitly defined in source documentation \u2014 pending stakeholder input.\n- **Timeline**: Not explicitly defined in source documentation \u2014 pending stakeholder input.\n- **Technology**: React/Next.js for frontend, FastAPI/Node.js/Spring Boot for backend, PostgreSQL/MySQL for database, Redis for caching/queues.\n- **Regulatory**: Must comply with HIPAA, GDPR, HL7 FHIR, and DICOM standards.\n- **Team**: Not explicitly defined in source documentation \u2014 pending stakeholder input.\n- **Infrastructure**: Cloud or on-premise deployment options."
+    },
+    {
+      "title": "20. Risks",
+      "table": [
+        [
+          "Risk ID",
+          "Risk",
+          "Probability",
+          "Impact",
+          "Mitigation"
+        ],
+        [
+          "RISK-001",
+          "Data breach due to inadequate security",
+          "Medium",
+          "High",
+          "Implement AES-256 encryption, regular security audits"
+        ],
+        [
+          "RISK-002",
+          "Integration failure with external systems",
+          "Medium",
+          "Medium",
+          "Use standardized APIs (HL7 FHIR, REST), conduct integration testing"
+        ],
+        [
+          "RISK-003",
+          "System downtime affecting patient care",
+          "Low",
+          "High",
+          "Implement high availability, regular backups, disaster recovery plans"
+        ],
+        [
+          "RISK-004",
+          "Non-compliance with HIPAA/GDPR",
+          "Low",
+          "High",
+          "Conduct compliance audits, train staff on data protection"
+        ]
+      ]
+    },
+    {
+      "title": "21. Acceptance Criteria",
+      "body": "The system will be accepted when:\n1. All functional requirements (FR-001 to FR-007) are implemented and tested.\n2. All non-functional requirements (performance, security, availability) are met.\n3. User acceptance testing (UAT) is completed with no critical defects.\n4. Compliance with HIPAA and GDPR is verified.\n5. Documentation (user manuals, API docs) is complete and approved."
+    },
+    {
+      "title": "22. Traceability Matrix",
+      "table": [
+        [
+          "Business Req.",
+          "Functional Req.",
+          "Design",
+          "Test Case",
+          "Status"
+        ],
+        [
+          "BR-001",
+          "FR-001, FR-002, FR-003, FR-004, FR-005, FR-006, FR-007",
+          "Modular Architecture",
+          "TC-001 to TC-007",
+          "Pending"
+        ],
+        [
+          "BR-002",
+          "FR-001",
+          "Role-Based Access Control",
+          "TC-008",
+          "Pending"
+        ],
+        [
+          "BR-003",
+          "FR-002",
+          "Patient Module",
+          "TC-009",
+          "Pending"
+        ],
+        [
+          "BR-004",
+          "FR-003",
+          "Appointment Module",
+          "TC-010",
+          "Pending"
+        ],
+        [
+          "BR-005",
+          "FR-004",
+          "EMR Module",
+          "TC-011",
+          "Pending"
+        ],
+        [
+          "BR-006",
+          "FR-004",
+          "EMR Module",
+          "TC-012",
+          "Pending"
+        ],
+        [
+          "BR-007",
+          "FR-005",
+          "Laboratory Module",
+          "TC-013",
+          "Pending"
+        ],
+        [
+          "BR-008",
+          "FR-006",
+          "Pharmacy Module",
+          "TC-014",
+          "Pending"
+        ],
+        [
+          "BR-009",
+          "FR-004",
+          "Bed/Ward Module",
+          "TC-015",
+          "Pending"
+        ],
+        [
+          "BR-010",
+          "FR-007",
+          "Billing Module",
+          "TC-016",
+          "Pending"
+        ],
+        [
+          "BR-011",
+          "FR-002, FR-004",
+          "Patient Portal",
+          "TC-017",
+          "Pending"
+        ],
+        [
+          "BR-012",
+          "FR-003, FR-004",
+          "Doctor Dashboard",
+          "TC-018",
+          "Pending"
+        ],
+        [
+          "BR-013",
+          "FR-001",
+          "Security Module",
+          "TC-019",
+          "Pending"
+        ]
+      ]
+    },
+    {
+      "title": "23. Change Management",
+      "table": [
+        [
+          "Change ID",
+          "Requirement",
+          "Requested By",
+          "Reason",
+          "Impact",
+          "Approval",
+          "Status"
+        ],
+        [
+          "[Pending]",
+          "[Pending]",
+          "[Pending]",
+          "[Pending]",
+          "[Pending]",
+          "[Pending]",
+          "[Pending]"
+        ]
+      ]
+    },
+    {
+      "title": "24. Approval and Sign-Off",
+      "table": [
+        [
+          "Role",
+          "Name",
+          "Signature",
+          "Date"
+        ],
+        [
+          "Project Sponsor",
+          "[Pending]",
+          "[Pending]",
+          "[Pending]"
+        ],
+        [
+          "Business Analyst",
+          "[Pending]",
+          "[Pending]",
+          "[Pending]"
+        ],
+        [
+          "Technical Lead",
+          "[Pending]",
+          "[Pending]",
+          "[Pending]"
+        ],
+        [
+          "Compliance Officer",
+          "[Pending]",
+          "[Pending]",
+          "[Pending]"
+        ]
+      ]
+    },
+    {
+      "title": "25. Appendices",
+      "body": "- Glossary of Terms\n- Data Dictionary\n- ER Diagrams (to be provided by design team)\n- HIPAA Compliance Checklist\n- GDPR Data Protection Impact Assessment (DPIA)"
+    }
+  ],
+  "_source_audit": {},
+  "_domain_profile": {
+    "domain": "HEALTHCARE",
+    "compliance": [
+      "HIPAA",
+      "GDPR (if EU patients)",
+      "HL7 FHIR",
+      "DICOM"
+    ],
+    "standard_nfrs": [
+      "PHI encryption at rest (AES-256)",
+      "audit trail immutability",
+      "RTO < 1h / RPO < 5min"
+    ]
+  },
+  "_doc_excerpt": "File: A Hospital Management System.pdf\n--- Page 1 ---\nHospital Management System \nA Hospital Management System (HMS)  should provide a centralized platform for \nmanaging hospital operations, patient information, medical records, appointments, doctors, \nnurses, staff, billing, pharmacy, laboratory, and inventory. The system should support  role-\nbased access  for Admin, Doctor, Nurse, Receptionist, Pharmacist, Lab Technician, \nAccountant, and Patient. Core requirements should include patient registration and profile \nmanagement, appointment scheduling and queue management, doctor availability, O PD/IPD \nmanagement, admission/discharge/transfer, electronic medical records, diagnosis, \nprescriptions, treatment history, allergies, vital signs, nursing notes, laboratory test requests \nand reports, pharmacy prescriptions and medicine inventory, bed/ward m anagement, billing \nand payments, insurance management, invoices and receipts, hospital expenses, staff \nmanagement, and inventory/procurement. Patients should be able to view appointments, \nprescriptions, reports, bills, and medical history through a portal,  while doctors should have \ndashboards for appointments, patient records, diagnosis, prescriptions, and clinical notes. \nThe system should also provide  dashboards, notifications, search/filtering, reports, audit \nlogs, data validation, backup/recovery, security, and role -based authorization . \nFunctional requirements should cover complete workflows such as  patient registration \u2192 \nappointment \u2192 consultation \u2192 diagnosis \u2192 laboratory/pharmacy \u2192 billing \u2192 follow -\nup, and admission \u2192 bed allocation \u2192 treatment \u2192 investigations \u2192 discharge \u2192 final \nbilling. Non -functional requirements should include responsive web UI, scalability, high \navailability, fast API responses , secure authentication, password encryption, session \nmanagement, HTTPS, database integrity, auditability, privacy of medical information, error \nhandling, logging, and regular backups. A suitable architecture can use  React/Next.js for \nfrontend, FastAPI/Node.js/Spring Boot for backend, PostgreSQL/MySQL for database, \nREST APIs, JWT/OAuth-based authentication, Redis for caching/queues, and cloud or \non-premise deployment , with separate modules for  Authentication, Patients, \nAppointments, EMR, Doctors, Nursing, L aboratory, Pharmacy, Billing, Inventory, \nStaff, Reports, Notifications, and Administration.",
+  "verification_summary": {
+    "verdicts": [
+      {
+        "claim_index": 0,
+        "claim": "Document Title: Business Requirements Document \u2014 refyne Chat \u2014 ",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The excerpt is titled \"Hospital Management System\" and does not mention a BRD titled refyne Chat."
+      },
+      {
+        "claim_index": 1,
+        "claim": "Project Name: refyne Chat \u2014 ",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No reference to a project named refyne Chat appears in the source."
+      },
+      {
+        "claim_index": 2,
+        "claim": "Document ID: BRD-REFYNE-001 \u2014 ",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The document ID BRD-REFYNE-001 is not present in the excerpt."
+      },
+      {
+        "claim_index": 3,
+        "claim": "Version: v1.0 \u2014 ",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Version \"v1.0\" is not cited in the provided text."
+      },
+      {
+        "claim_index": 4,
+        "claim": "Date: 2023-10-27 \u2014 ",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No date such as 2023\u201110\u201127 is included in the source."
+      },
+      {
+        "claim_index": 5,
+        "claim": "v1.0: 2023-10-27 \u2014 [Pending] Initial draft generated from source specification",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The excerpt does not contain a draft status or version/date line."
+      },
+      {
+        "claim_index": 6,
+        "claim": "3. Introduction: ### 3.1 Purpose\nThis Business Requirements Document (BRD) defines the business needs, scope, and functional/non-function",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not contain a numbered BRD introduction section."
+      },
+      {
+        "claim_index": 7,
+        "claim": "4. Scope: ### 4.1 In Scope\n- Patient registration and profile management.\n- Appointment scheduling and queue management.\n- Doctor ",
+        "confidence": 70,
+        "verdict": "SUPPORTED",
+        "reason": "The excerpt lists patient registration, appointment scheduling, queue management, and doctor\u2011related functions, matching the claimed scope items."
+      },
+      {
+        "claim_index": 8,
+        "claim": "STK-01: Hospital Administration \u2014 Decision Maker Approve requirements, budget, and system deployment",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No stakeholder label STK\u201101 or decision\u2011maker responsibilities are described."
+      },
+      {
+        "claim_index": 9,
+        "claim": "STK-02: Doctors \u2014 End User Manage appointments, diagnose, prescribe, and maintain EMR",
+        "confidence": 75,
+        "verdict": "SUPPORTED",
+        "reason": "Doctors are described as handling appointments, diagnosis, prescriptions, and EMR access."
+      },
+      {
+        "claim_index": 10,
+        "claim": "STK-03: Nurses \u2014 End User Manage nursing notes, vital signs, and patient care tasks",
+        "confidence": 75,
+        "verdict": "SUPPORTED",
+        "reason": "Nurses are mentioned with nursing notes and vital signs, aligning with the claim."
+      },
+      {
+        "claim_index": 11,
+        "claim": "STK-04: Receptionists \u2014 End User Handle patient registration, appointments, and billing inquiries",
+        "confidence": 70,
+        "verdict": "SUPPORTED",
+        "reason": "Receptionist role is included and the system covers registration, appointments, and billing functions."
+      }
+    ],
+    "verified_count": 4,
+    "flagged_count": 8,
+    "flagged_items": [
+      {
+        "claim_index": 0,
+        "claim": "Document Title: Business Requirements Document \u2014 refyne Chat \u2014 ",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The excerpt is titled \"Hospital Management System\" and does not mention a BRD titled refyne Chat."
+      },
+      {
+        "claim_index": 1,
+        "claim": "Project Name: refyne Chat \u2014 ",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No reference to a project named refyne Chat appears in the source."
+      },
+      {
+        "claim_index": 2,
+        "claim": "Document ID: BRD-REFYNE-001 \u2014 ",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The document ID BRD-REFYNE-001 is not present in the excerpt."
+      },
+      {
+        "claim_index": 3,
+        "claim": "Version: v1.0 \u2014 ",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Version \"v1.0\" is not cited in the provided text."
+      },
+      {
+        "claim_index": 4,
+        "claim": "Date: 2023-10-27 \u2014 ",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No date such as 2023\u201110\u201127 is included in the source."
+      },
+      {
+        "claim_index": 5,
+        "claim": "v1.0: 2023-10-27 \u2014 [Pending] Initial draft generated from source specification",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The excerpt does not contain a draft status or version/date line."
+      },
+      {
+        "claim_index": 6,
+        "claim": "3. Introduction: ### 3.1 Purpose\nThis Business Requirements Document (BRD) defines the business needs, scope, and functional/non-function",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source does not contain a numbered BRD introduction section."
+      },
+      {
+        "claim_index": 8,
+        "claim": "STK-01: Hospital Administration \u2014 Decision Maker Approve requirements, budget, and system deployment",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No stakeholder label STK\u201101 or decision\u2011maker responsibilities are described."
+      }
+    ],
+    "total_claims": 12
+  },
+  "id": "a66f528a-1fdd-4265-bb24-fe5d6c8f36f1",
+  "pdf_export_url": "/api/v1/documents/a66f528a-1fdd-4265-bb24-fe5d6c8f36f1/export/pdf?title=refyne Chat&type=BRD",
+  "conversation_id": "cfbbf211-b7a9-4fd4-a6f7-add93303291a"
+}

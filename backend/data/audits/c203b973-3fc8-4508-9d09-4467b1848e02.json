@@ -1,0 +1,134 @@
+{
+  "readiness_score": 45,
+  "clarity_score": 60,
+  "completeness_score": 35,
+  "security_score": 40,
+  "rtm_score": 30,
+  "summary": "The document provides a high-level conceptual overview of a Hospital Management System (HMS), listing core functional modules (EMR, Billing, Pharmacy, etc.) and a suggested technology stack (React, FastAPI/Node, PostgreSQL). However, it lacks specific technical specifications, data models, API contracts, and detailed non-functional requirements (NFRs), making it insufficient for immediate engineering execution.",
+  "risk_factors": [
+    {
+      "title": "Lack of Specific Data Privacy Compliance Standards",
+      "category": "DATA_PRIVACY",
+      "severity": "HIGH",
+      "description": "The document mentions 'privacy of medical information' but does not specify compliance with HIPAA, GDPR, or local health data regulations. It lacks details on data residency, encryption at rest, and right-to-be-forgotten mechanisms.",
+      "mitigation": "Explicitly define compliance frameworks (e.g., HIPAA for US, GDPR for EU). Specify encryption standards (AES-256 for data at rest, TLS 1.3 for data in transit) and data retention policies."
+    },
+    {
+      "title": "Ambiguous Authentication and Authorization Model",
+      "category": "SECURITY",
+      "severity": "HIGH",
+      "description": "While 'JWT/OAuth-based authentication' is mentioned, there is no specification for token expiration, refresh token rotation, multi-factor authentication (MFA) for sensitive roles (Doctors/Admins), or granular permission scopes (e.g., Nurse vs. Doctor access to EMR).",
+      "mitigation": "Define a detailed RBAC/ABAC model. Specify MFA requirements for clinical staff. Detail JWT payload structure, expiration times, and revocation mechanisms."
+    },
+    {
+      "title": "Missing High Availability and Disaster Recovery Specifications",
+      "category": "OPERATIONAL",
+      "severity": "HIGH",
+      "description": "The document lists 'high availability' and 'backup/recovery' as NFRs but provides no metrics (RTO/RPO) or architectural details (e.g., active-passive DB replication, load balancing strategy).",
+      "mitigation": "Define specific RTO (Recovery Time Objective) and RPO (Recovery Point Objective) targets. Specify the disaster recovery architecture, including failover procedures and backup frequency."
+    },
+    {
+      "title": "Unspecified Interoperability Standards",
+      "category": "ARCHITECTURE",
+      "severity": "MEDIUM",
+      "description": "The system handles EMRs and Lab reports but does not mention support for standard healthcare data exchange formats like HL7 FHIR or DICOM, which are critical for interoperability with other hospital systems.",
+      "mitigation": "Include support for HL7 FHIR R4 for patient data exchange and DICOM for imaging if applicable. Define integration points with external labs and insurance providers."
+    }
+  ],
+  "conflicts_and_ambiguities": [
+    {
+      "issue": "Vague Definition of 'Fast API Responses'",
+      "context": "Non-functional requirements should include... fast API responses",
+      "suggested_resolution": "Define specific latency targets, e.g., '95th percentile API response time < 200ms for read operations and < 500ms for write operations under normal load.'"
+    },
+    {
+      "issue": "Unclear Scope of 'Inventory/Procurement'",
+      "context": "Core requirements should include... inventory/procurement",
+      "suggested_resolution": "Clarify if this includes medical supplies, pharmaceuticals, or general hospital assets. Specify integration with pharmacy module for automatic stock deduction upon prescription fulfillment."
+    },
+    {
+      "issue": "Ambiguous 'Cloud or On-Premise Deployment'",
+      "context": "with cloud or on-premise deployment",
+      "suggested_resolution": "Specify the primary deployment target. If hybrid, define data synchronization strategies and security boundaries between cloud and on-premise components."
+    }
+  ],
+  "missing_sections_and_details": [
+    {
+      "section_name": "Data Model and Entity Relationships",
+      "priority": "CRITICAL",
+      "why_missing": "Without a defined data schema, engineers cannot design the database structure for complex entities like Patient, Appointment, EMR, and Billing, leading to inconsistent data modeling.",
+      "recommended_addition": "Provide an Entity-Relationship Diagram (ERD) or detailed data dictionary for core entities, including field types, constraints, and relationships (e.g., One-to-Many between Patient and Appointments)."
+    },
+    {
+      "section_name": "API Specification and Contracts",
+      "priority": "CRITICAL",
+      "why_missing": "The document mentions REST APIs but provides no endpoint definitions, request/response schemas, or error handling standards, hindering frontend-backend integration.",
+      "recommended_addition": "Include an OpenAPI/Swagger specification or detailed API contract for key modules (e.g., /api/patients, /api/appointments) with sample payloads and error codes."
+    },
+    {
+      "section_name": "Detailed Non-Functional Requirements (NFRs)",
+      "priority": "HIGH",
+      "why_missing": "NFRs like 'scalability' and 'security' are too vague to be testable or implementable without specific metrics and standards.",
+      "recommended_addition": "Define specific NFRs: e.g., 'System must support 10,000 concurrent users,' 'Uptime 99.9%,' 'Data encryption using AES-256,' 'Audit logs retained for 7 years.'"
+    },
+    {
+      "section_name": "Audit Logging and Compliance Details",
+      "priority": "HIGH",
+      "why_missing": "Audit logs are mentioned but lack detail on what events are logged, log format, and access controls for audit data, which is critical for healthcare compliance.",
+      "recommended_addition": "Specify audit log fields (user, action, timestamp, IP, resource accessed), log storage requirements, and access controls for audit data (read-only for compliance officers)."
+    },
+    {
+      "section_name": "Integration Specifications",
+      "priority": "MEDIUM",
+      "why_missing": "The system interacts with insurance, labs, and pharmacies, but no integration protocols or data formats are defined.",
+      "recommended_addition": "Define integration points with external systems, including data formats (e.g., HL7, FHIR), authentication methods, and error handling for failed integrations."
+    }
+  ],
+  "rtm_matrix": [
+    {
+      "req_id": "REQ-01",
+      "business_goal": "Patient Registration and Profile Management",
+      "technical_component": "Patients Module",
+      "test_case_verification": "Verify that patient data is stored securely with unique ID, and that profile updates are reflected in all related modules (Appointments, Billing).",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-02",
+      "business_goal": "Appointment Scheduling and Queue Management",
+      "technical_component": "Appointments Module",
+      "test_case_verification": "Test that appointments are scheduled within doctor availability, and queue status updates in real-time.",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-03",
+      "business_goal": "Electronic Medical Records (EMR) Management",
+      "technical_component": "EMR Module",
+      "test_case_verification": "Verify that EMR entries are accessible only to authorized roles, and that changes are logged in audit trails.",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-04",
+      "business_goal": "Pharmacy Prescriptions and Medicine Inventory",
+      "technical_component": "Pharmacy Module",
+      "test_case_verification": "Test that prescriptions trigger inventory deduction, and that low stock alerts are generated.",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-05",
+      "business_goal": "Billing and Payments",
+      "technical_component": "Billing Module",
+      "test_case_verification": "Verify that invoices are generated correctly based on services rendered, and that payment status updates are reflected in patient records.",
+      "status": "GAP"
+    }
+  ],
+  "ai_recommendations": [
+    "Expand the document to include a detailed data model and API specification to provide clear engineering guidelines.",
+    "Define specific compliance standards (HIPAA/GDPR) and security protocols (MFA, encryption) to address healthcare data privacy risks.",
+    "Add measurable non-functional requirements (NFRs) such as latency targets, uptime SLAs, and scalability metrics to ensure testability and performance assurance."
+  ],
+  "id": "6dff78f0-d5c4-4759-a7c2-0e7ecb20d3d4",
+  "analyzed_at": "2026-08-30T08:07:38.048277+00:00",
+  "filename": "A Hospital Management System.pdf",
+  "file_id": "c203b973-3fc8-4508-9d09-4467b1848e02",
+  "conversation_id": "0e0e81fd-c793-44b0-9db9-4b603b36b819"
+}

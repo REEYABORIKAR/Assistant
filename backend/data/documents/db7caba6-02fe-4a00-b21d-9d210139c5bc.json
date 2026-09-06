@@ -1,0 +1,772 @@
+{
+  "doc_type": "BRD",
+  "title": "Business Requirements Document \u2014 abc Chat",
+  "version": "v1.0",
+  "status": "PENDING_APPROVAL",
+  "revision_history": [],
+  "parent_id": null,
+  "sections": [
+    {
+      "title": "1. Document Control",
+      "table": [
+        [
+          "Field",
+          "Details"
+        ],
+        [
+          "Document Title",
+          "Business Requirements Document \u2014 abc Chat"
+        ],
+        [
+          "Project Name",
+          "HR Management System (HRMS)"
+        ],
+        [
+          "Document ID",
+          "BRD-ABC-001"
+        ],
+        [
+          "Version",
+          "v1.0"
+        ],
+        [
+          "Date",
+          "2023-10-27"
+        ],
+        [
+          "Prepared By",
+          "[Pending]"
+        ],
+        [
+          "Reviewed By",
+          "[Pending]"
+        ],
+        [
+          "Approved By",
+          "[Pending]"
+        ],
+        [
+          "Status",
+          "PENDING_APPROVAL"
+        ]
+      ]
+    },
+    {
+      "title": "2. Revision History",
+      "table": [
+        [
+          "Version",
+          "Date",
+          "Author",
+          "Description of Changes",
+          "Approved By"
+        ],
+        [
+          "v1.0",
+          "2023-10-27",
+          "[Pending]",
+          "Initial Draft Generation",
+          "[Pending]"
+        ]
+      ]
+    },
+    {
+      "title": "3. Introduction",
+      "body": "### 3.1 Purpose\nThe purpose of this Business Requirements Document (BRD) is to define the business needs, objectives, and scope for the development of a comprehensive Human Resources Management System (HRMS). This document serves as the foundational reference for stakeholders, project managers, and technical teams to align on the functional and non-functional requirements of the system.\n\n### 3.2 Project Background\nThe organization requires a centralized, full-stack web and mobile application to manage end-to-end HR processes. Currently, HR operations may be fragmented or manual, leading to inefficiencies in tracking employee data, payroll, recruitment, and performance. The proposed HRMS will consolidate these functions into a single, secure, and scalable platform.\n\n### 3.3 Business Problem\nThe lack of an integrated HR system results in data silos, manual errors in payroll and attendance, slow recruitment cycles, and limited visibility into workforce analytics. There is a critical need for a system that automates workflows, ensures compliance with banking industry standards (PCI-DSS, SOX, AML/KYC, ISO 27001), and provides real-time insights for decision-making.\n\n### 3.4 Business Objectives\n| ID | Objective | Success Measure |\n|---|---|---|\n| BO-01 | Centralize HR data management | 100% of employee master data migrated and accessible via single pane of glass |\n| BO-02 | Automate payroll and attendance | Reduction of manual payroll processing time by 80% |\n| BO-03 | Streamline recruitment process | Reduction of time-to-hire by 30% |\n| BO-04 | Ensure regulatory compliance | Zero critical compliance violations in annual audit |\n| BO-05 | Enhance employee self-service | 90% of routine HR queries resolved via self-service portal |\n\n### 3.5 Expected Business Benefits\n- Improved operational efficiency through automation of repetitive HR tasks.\n- Enhanced data accuracy and integrity in payroll and employee records.\n- Better employee experience through mobile access and self-service capabilities.\n- Real-time analytics for strategic workforce planning.\n- Stronger security and compliance posture aligned with banking industry standards."
+    },
+    {
+      "title": "4. Scope",
+      "body": "### 4.1 In Scope\nThe project includes the development of a full-stack HRMS with the following modules:\n- Secure Authentication and Role-Based Access Control (RBAC)\n- Employee Master Data Management (Departments, Designations, Branches)\n- Onboarding and Offboarding Workflows\n- Attendance, Shift, and Roster Management\n- Leave and Holiday Management\n- Payroll, Salary Structures, and Deductions\n- Recruitment and Applicant Tracking System (ATS)\n- Performance Management and Appraisals\n- Training and Learning Management\n- Asset Management\n- Expense and Reimbursement Management\n- Notifications and Communication (Email, SMS, Push)\n- Dashboards and Reporting\n- API Integrations and Mobile Applications (Android, iOS)\n\n### 4.2 Out of Scope\n- Payroll tax filing with government authorities (integration only, not submission)\n- Biometric hardware integration (unless specified in future phases)\n- Third-party benefits administration (integration only)\n- Legacy system data migration beyond the defined master data entities\n\n### 4.3 System Boundaries\nThe HRMS will operate as a centralized backend API with a relational database, file storage, and notification services. It will integrate with external systems for email, SMS, and calendar services. The system will support web, Android, and iOS clients. All data processing will occur within the organization's secure infrastructure, adhering to ISO 27001 and PCI-DSS standards."
+    },
+    {
+      "title": "5. Stakeholder Analysis",
+      "table": [
+        [
+          "Stakeholder ID",
+          "Stakeholder",
+          "Role",
+          "Responsibilities",
+          "Interest"
+        ],
+        [
+          "STK-01",
+          "Super Admin",
+          "System Owner",
+          "Overall system configuration, user management, and security oversight",
+          "High"
+        ],
+        [
+          "STK-02",
+          "HR/Admin",
+          "HR Operations",
+          "Manage employee data, onboarding, offboarding, and HR policies",
+          "High"
+        ],
+        [
+          "STK-03",
+          "Manager",
+          "Line Management",
+          "Approve leave, timesheets, and performance reviews for their team",
+          "Medium"
+        ],
+        [
+          "STK-04",
+          "Recruiter",
+          "Talent Acquisition",
+          "Manage job postings, candidate pipelines, and interviews",
+          "Medium"
+        ],
+        [
+          "STK-05",
+          "Employee",
+          "End User",
+          "Access self-service features, submit requests, and view payslips",
+          "High"
+        ],
+        [
+          "STK-06",
+          "Finance/Payroll",
+          "Financial Operations",
+          "Process payroll, manage deductions, and generate financial reports",
+          "High"
+        ]
+      ]
+    },
+    {
+      "title": "6. User Classes and Roles",
+      "table": [
+        [
+          "Role ID",
+          "User Role",
+          "Description",
+          "Access Level"
+        ],
+        [
+          "ROLE-01",
+          "Super Admin",
+          "Full access to all system configurations, user management, and audit logs",
+          "Full"
+        ],
+        [
+          "ROLE-02",
+          "HR/Admin",
+          "Access to employee master data, onboarding, offboarding, and HR workflows",
+          "High"
+        ],
+        [
+          "ROLE-03",
+          "Manager",
+          "Access to team-specific data, approval workflows, and performance management",
+          "Medium"
+        ],
+        [
+          "ROLE-04",
+          "Recruiter",
+          "Access to recruitment modules, job postings, and candidate pipelines",
+          "Medium"
+        ],
+        [
+          "ROLE-05",
+          "Employee",
+          "Access to self-service features, personal data, and payslips",
+          "Low"
+        ],
+        [
+          "ROLE-06",
+          "Finance/Payroll",
+          "Access to payroll processing, salary structures, and financial reports",
+          "High"
+        ]
+      ]
+    },
+    {
+      "title": "7. Business Process Overview",
+      "body": "### 7.1 AS-IS Process\nCurrently, HR processes are managed through disparate tools and manual spreadsheets. Employee data is stored in multiple locations, leading to inconsistencies. Payroll is processed manually, increasing the risk of errors. Recruitment is tracked via email and basic spreadsheets, lacking visibility into candidate pipelines. Performance reviews are conducted annually with limited feedback mechanisms.\n\n### 7.2 TO-BE Process\nThe TO-BE process involves a centralized HRMS that automates end-to-end HR workflows. Employee data is maintained in a single source of truth. Payroll is processed automatically based on attendance and leave data. Recruitment is managed through an integrated ATS with real-time pipeline tracking. Performance management is continuous with regular feedback and appraisals.\n\n### 7.3 Process Flow Narrative Description\nThe core business process flow is: Recruitment \u2192 Candidate Selection \u2192 Offer \u2192 Joining \u2192 Onboarding \u2192 Employee \u2192 Attendance/Leave \u2192 Payroll \u2192 Performance \u2192 Promotion/Transfer \u2192 Offboarding/Exit. Each stage involves configurable approval chains for HR, managers, finance, and admins. The system supports bulk import/export, PDF generation, and audit logs for all transactions."
+    },
+    {
+      "title": "8. Business Requirements",
+      "table": [
+        [
+          "Requirement ID",
+          "Business Requirement",
+          "Priority",
+          "Stakeholder",
+          "Acceptance Criteria"
+        ],
+        [
+          "BR-001",
+          "Secure Authentication and RBAC",
+          "High",
+          "Super Admin",
+          "Users can log in with MFA-ready architecture; roles and permissions are enforced across all modules"
+        ],
+        [
+          "BR-002",
+          "Employee Master Data Management",
+          "High",
+          "HR/Admin",
+          "Employee data (departments, designations, branches) can be created, updated, and deleted with audit trails"
+        ],
+        [
+          "BR-003",
+          "Onboarding and Offboarding Workflows",
+          "High",
+          "HR/Admin",
+          "Onboarding and offboarding processes are automated with configurable approval chains"
+        ],
+        [
+          "BR-004",
+          "Attendance and Leave Management",
+          "High",
+          "Manager",
+          "Attendance and leave requests can be submitted, approved, and tracked in real-time"
+        ],
+        [
+          "BR-005",
+          "Payroll Processing",
+          "High",
+          "Finance/Payroll",
+          "Payroll is calculated automatically based on attendance, leave, and salary structures; payslips are generated as PDFs"
+        ],
+        [
+          "BR-006",
+          "Recruitment and ATS",
+          "Medium",
+          "Recruiter",
+          "Job postings, candidate pipelines, and interviews are managed within the system; offers and joining are tracked"
+        ],
+        [
+          "BR-007",
+          "Performance Management",
+          "Medium",
+          "Manager",
+          "Goals, KPIs, appraisals, and feedback are managed with configurable workflows"
+        ],
+        [
+          "BR-008",
+          "Notifications and Communication",
+          "Medium",
+          "All",
+          "Email, SMS, and push notifications are sent for key events (e.g., leave approval, payroll processing)"
+        ]
+      ]
+    },
+    {
+      "title": "9. Functional Requirements",
+      "body": "### Module: Authentication and RBAC\n- **Description**: Secure login with JWT/session management, password policies, and MFA-ready architecture.\n- **Preconditions**: User account exists and is active.\n- **Input**: Username, password, MFA token (if enabled).\n- **Processing**: Validate credentials, generate JWT token, enforce RBAC.\n- **Output**: Authenticated session with role-specific access.\n- **Business Rules**: Passwords must meet complexity requirements; sessions expire after 30 minutes of inactivity.\n- **Acceptance Criteria**: Given a valid user, when they log in with correct credentials, then they are granted access based on their role.\n\n### Module: Employee Master Data\n- **Description**: Manage employee profiles, departments, designations, and branches.\n- **Preconditions**: User has HR/Admin or Super Admin role.\n- **Input**: Employee details (name, ID, department, designation, branch).\n- **Processing**: Validate data, save to database, log audit trail.\n- **Output**: Updated employee record.\n- **Business Rules**: Employee ID must be unique; department and designation must exist in master data.\n- **Acceptance Criteria**: Given an HR admin, when they create a new employee, then the employee record is saved and visible in the employee list.\n\n### Module: Payroll\n- **Description**: Process payroll based on attendance, leave, and salary structures.\n- **Preconditions**: Attendance and leave data are finalized for the period.\n- **Input**: Salary structure, attendance data, deductions.\n- **Processing**: Calculate gross pay, deductions, and net pay; generate payslips.\n- **Output**: Payroll report and PDF payslips.\n- **Business Rules**: Payroll must be atomic; any error in calculation must roll back the transaction.\n- **Acceptance Criteria**: Given a finance user, when they process payroll for a month, then payslips are generated and accessible to employees."
+    },
+    {
+      "title": "10. Non-Functional Requirements",
+      "body": "### 10.1 Performance\n- The system must support 10,000 concurrent users with a response time of less than 2 seconds for standard queries.\n- Payroll processing for 5,000 employees must complete within 10 minutes.\n\n### 10.2 Security\n- Comply with PCI-DSS, SOX, AML/KYC, and ISO 27001 standards.\n- Implement RBAC, JWT/session management, password policies, and MFA-ready architecture.\n- Ensure data privacy and audit trails for all sensitive operations.\n\n### 10.3 Availability\n- The system must achieve 99.99% uptime, with planned maintenance windows scheduled during off-peak hours.\n\n### 10.4 Scalability\n- The system must scale horizontally to support up to 50,000 employees without performance degradation.\n\n### 10.5 Usability\n- The UI must be modern, responsive, and accessible on web, Android, and iOS devices.\n- Key tasks (e.g., leave request, payslip download) must be completable in no more than 3 clicks.\n\n### 10.6 Maintainability\n- The system must be API-driven, well-documented, and modular to facilitate future enhancements.\n- Audit logs and activity history must be immutable and retained for at least 7 years per SOX requirements.\n\n### 10.7 Compatibility\n- The system must support the latest versions of Chrome, Firefox, Safari, and Edge browsers.\n- Mobile apps must support Android 10+ and iOS 14+."
+    },
+    {
+      "title": "11. Business Rules",
+      "table": [
+        [
+          "Rule ID",
+          "Business Rule",
+          "Description"
+        ],
+        [
+          "BRULE-001",
+          "Unique Employee ID",
+          "Each employee must have a unique identifier across the system"
+        ],
+        [
+          "BRULE-002",
+          "Payroll Atomicity",
+          "Payroll transactions must be atomic; any failure must roll back the entire process"
+        ],
+        [
+          "BRULE-003",
+          "Audit Immutability",
+          "Audit logs must be immutable and retained for at least 7 years"
+        ],
+        [
+          "BRULE-004",
+          "Role-Based Access",
+          "Users can only access modules and data permitted by their role"
+        ],
+        [
+          "BRULE-005",
+          "Leave Approval Chain",
+          "Leave requests must follow the configured approval chain (e.g., Manager \u2192 HR)"
+        ]
+      ]
+    },
+    {
+      "title": "12. Data Requirements",
+      "body": "### 12.1 Data Entities List\n- Employee\n- Department\n- Designation\n- Branch\n- Attendance\n- Leave Request\n- Payroll Record\n- Job Posting\n- Candidate\n- Performance Review\n\n### 12.2 Data Fields\n| Entity | Field | Data Type | Required | Description |\n|---|---|---|---|---|\n| Employee | Employee ID | String | Yes | Unique identifier for the employee |\n| Employee | Name | String | Yes | Full name of the employee |\n| Employee | Department ID | String | Yes | Foreign key to Department |\n| Attendance | Date | Date | Yes | Date of attendance |\n| Attendance | Status | Enum | Yes | Present, Absent, Leave |\n| Payroll Record | Employee ID | String | Yes | Foreign key to Employee |\n| Payroll Record | Gross Pay | Decimal | Yes | Total gross pay |\n| Payroll Record | Net Pay | Decimal | Yes | Total net pay after deductions |\n\n### 12.3 Data Validation\n- Employee ID must be unique and non-editable after creation.\n- Attendance status must be one of the predefined enum values.\n- Payroll calculations must validate against salary structures.\n\n### 12.4 Data Retention\n- Employee master data: Retained for the duration of employment + 7 years.\n- Payroll records: Retained for 7 years per SOX.\n- Audit logs: Retained for 7 years per SOX."
+    },
+    {
+      "title": "13. External System Requirements",
+      "table": [
+        [
+          "System",
+          "Integration",
+          "Direction",
+          "Protocol/API"
+        ],
+        [
+          "Email Service",
+          "Send notifications",
+          "Outbound",
+          "SMTP/API"
+        ],
+        [
+          "SMS Gateway",
+          "Send SMS notifications",
+          "Outbound",
+          "REST API"
+        ],
+        [
+          "Calendar Service",
+          "Sync leave and events",
+          "Bidirectional",
+          "REST API"
+        ],
+        [
+          "File Storage",
+          "Store documents and payslips",
+          "Bidirectional",
+          "S3-compatible API"
+        ]
+      ]
+    },
+    {
+      "title": "14. Interface Requirements",
+      "body": "### 14.1 User Interface\n- Modern, responsive UI for web, Android, and iOS.\n- Dashboards with HR analytics (headcount, attendance, leave utilization, attrition, etc.).\n- Search, filters, sorting, and pagination for all lists.\n- Bulk import/export via Excel/CSV.\n\n### 14.2 API Interface\n- Centralized backend API with RESTful endpoints.\n- JWT-based authentication for API access.\n- Rate limiting and API authorization for security.\n\n### 14.3 Hardware Interface\n- No specific hardware requirements beyond standard servers and storage.\n- Mobile devices must support standard web and native app capabilities."
+    },
+    {
+      "title": "15. Security Requirements",
+      "table": [
+        [
+          "ID",
+          "Requirement",
+          "Priority"
+        ],
+        [
+          "SEC-001",
+          "Implement RBAC for all modules",
+          "High"
+        ],
+        [
+          "SEC-002",
+          "Use JWT/session management for authentication",
+          "High"
+        ],
+        [
+          "SEC-003",
+          "Enforce password policies (complexity, expiration)",
+          "High"
+        ],
+        [
+          "SEC-004",
+          "Support MFA-ready architecture",
+          "High"
+        ],
+        [
+          "SEC-005",
+          "Encrypt data at rest and in transit",
+          "High"
+        ],
+        [
+          "SEC-006",
+          "Maintain immutable audit logs",
+          "High"
+        ]
+      ]
+    },
+    {
+      "title": "16. Reporting Requirements",
+      "table": [
+        [
+          "Report ID",
+          "Report",
+          "Users",
+          "Frequency",
+          "Export"
+        ],
+        [
+          "RPT-001",
+          "Headcount Report",
+          "HR/Admin, Super Admin",
+          "Monthly",
+          "PDF, Excel"
+        ],
+        [
+          "RPT-002",
+          "Attendance Summary",
+          "Manager, HR/Admin",
+          "Weekly",
+          "PDF, Excel"
+        ],
+        [
+          "RPT-003",
+          "Payroll Summary",
+          "Finance/Payroll",
+          "Monthly",
+          "PDF, Excel"
+        ],
+        [
+          "RPT-004",
+          "Recruitment Status",
+          "Recruiter, HR/Admin",
+          "Weekly",
+          "PDF, Excel"
+        ]
+      ]
+    },
+    {
+      "title": "17. Notifications",
+      "table": [
+        [
+          "Notification ID",
+          "Event",
+          "Recipient",
+          "Channel"
+        ],
+        [
+          "NOTIF-001",
+          "Leave Request Submitted",
+          "Manager",
+          "Email, Push"
+        ],
+        [
+          "NOTIF-002",
+          "Leave Approved",
+          "Employee",
+          "Email, SMS, Push"
+        ],
+        [
+          "NOTIF-003",
+          "Payroll Processed",
+          "Employee",
+          "Email, Push"
+        ],
+        [
+          "NOTIF-004",
+          "New Job Posting",
+          "Recruiter",
+          "Email, Push"
+        ]
+      ]
+    },
+    {
+      "title": "18. Assumptions and Dependencies",
+      "body": "### Assumptions\n- The organization has a stable internet connection for cloud-based services.\n- Employees have access to mobile devices for the mobile app.\n- Existing employee data is clean and can be migrated to the new system.\n\n### Dependencies\n- Integration with external email and SMS services.\n- Availability of a secure file storage service.\n- Completion of data migration before go-live."
+    },
+    {
+      "title": "19. Constraints",
+      "body": "- **Budget**: Not yet defined in source documentation \u2014 pending stakeholder input.\n- **Timeline**: Not yet defined in source documentation \u2014 pending stakeholder input.\n- **Technology**: Must use a relational database and API-driven architecture.\n- **Regulatory**: Must comply with PCI-DSS, SOX, AML/KYC, and ISO 27001.\n- **Team**: Not yet defined in source documentation \u2014 pending stakeholder input.\n- **Infrastructure**: Must support 99.99% uptime and horizontal scaling."
+    },
+    {
+      "title": "20. Risks",
+      "table": [
+        [
+          "Risk ID",
+          "Risk",
+          "Probability",
+          "Impact",
+          "Mitigation"
+        ],
+        [
+          "RISK-001",
+          "Data migration errors",
+          "Medium",
+          "High",
+          "Perform multiple test migrations and validate data integrity"
+        ],
+        [
+          "RISK-002",
+          "Security vulnerabilities",
+          "Low",
+          "High",
+          "Conduct regular security audits and penetration testing"
+        ],
+        [
+          "RISK-003",
+          "User adoption resistance",
+          "Medium",
+          "Medium",
+          "Provide comprehensive training and support"
+        ]
+      ]
+    },
+    {
+      "title": "21. Acceptance Criteria",
+      "body": "The system will be accepted when:\n- All functional requirements (BR-001 to BR-008) are implemented and tested.\n- All non-functional requirements (performance, security, availability) are met.\n- Data migration is completed with 100% accuracy.\n- User acceptance testing (UAT) is passed by all stakeholder groups.\n- Security audit confirms compliance with PCI-DSS, SOX, AML/KYC, and ISO 27001."
+    },
+    {
+      "title": "22. Traceability Matrix",
+      "table": [
+        [
+          "Business Req.",
+          "Functional Req.",
+          "Design",
+          "Test Case",
+          "Status"
+        ],
+        [
+          "BR-001",
+          "FR-001: Authentication and RBAC",
+          "Auth Module",
+          "TC-001: Login with MFA",
+          "Pending"
+        ],
+        [
+          "BR-002",
+          "FR-002: Employee Master Data",
+          "Employee Module",
+          "TC-002: Create Employee",
+          "Pending"
+        ],
+        [
+          "BR-003",
+          "FR-003: Onboarding/Offboarding",
+          "Workflow Module",
+          "TC-003: Onboarding Flow",
+          "Pending"
+        ],
+        [
+          "BR-004",
+          "FR-004: Attendance/Leave",
+          "Attendance Module",
+          "TC-004: Leave Approval",
+          "Pending"
+        ],
+        [
+          "BR-005",
+          "FR-005: Payroll Processing",
+          "Payroll Module",
+          "TC-005: Payroll Calculation",
+          "Pending"
+        ],
+        [
+          "BR-006",
+          "FR-006: Recruitment/ATS",
+          "Recruitment Module",
+          "TC-006: Candidate Pipeline",
+          "Pending"
+        ],
+        [
+          "BR-007",
+          "FR-007: Performance Management",
+          "Performance Module",
+          "TC-007: Appraisal Workflow",
+          "Pending"
+        ],
+        [
+          "BR-008",
+          "FR-008: Notifications",
+          "Notification Module",
+          "TC-008: Email/SMS/Push",
+          "Pending"
+        ]
+      ]
+    },
+    {
+      "title": "23. Change Management",
+      "table": [
+        [
+          "Change ID",
+          "Requirement",
+          "Requested By",
+          "Reason",
+          "Impact",
+          "Approval",
+          "Status"
+        ],
+        [
+          "[Pending]",
+          "[Pending]",
+          "[Pending]",
+          "[Pending]",
+          "[Pending]",
+          "[Pending]",
+          "[Pending]"
+        ]
+      ]
+    },
+    {
+      "title": "24. Approval and Sign-Off",
+      "table": [
+        [
+          "Role",
+          "Name",
+          "Signature",
+          "Date"
+        ],
+        [
+          "Super Admin",
+          "[Pending]",
+          "[Pending]",
+          "[Pending]"
+        ],
+        [
+          "HR/Admin",
+          "[Pending]",
+          "[Pending]",
+          "[Pending]"
+        ],
+        [
+          "Finance/Payroll",
+          "[Pending]",
+          "[Pending]",
+          "[Pending]"
+        ]
+      ]
+    },
+    {
+      "title": "25. Appendices",
+      "body": "- Database Schema/ERD\n- API Documentation\n- UI/UX Specifications\n- User Stories with Acceptance Criteria\n- Test Cases\n- Deployment Documentation\n- Glossary of Terms"
+    }
+  ],
+  "_source_audit": {},
+  "_domain_profile": {
+    "domain": "BANKING",
+    "compliance": [
+      "PCI-DSS",
+      "SOX",
+      "AML/KYC",
+      "ISO 27001"
+    ],
+    "standard_nfrs": [
+      "transaction atomicity",
+      "audit immutability",
+      "99.99% uptime"
+    ]
+  },
+  "_doc_excerpt": "File: HR Management System.pdf\n--- Page 1 ---\nHR Management System \n \nBuild a complete HR Management System (HRMS) as a full-stack web and mobile \napplication with role-based access for Super Admin, HR/Admin, Manager, Recruiter, \nEmployee, and Finance/Payroll users. The system should include **secure authentication, \nrole and permission management, employee master data, departments, designations, branches, \nemployee onboarding/offboarding, employee profiles, document management, attendance, \nshift and roster management, leave and holiday management, work-from-home/remote-work \nrequests, regularization, timesheets, payroll, salary structures, deductions, bonuses, \nreimbursements, payslips, tax/statutory information, recruitment and applicant tracking, job \npostings, candidate pipeline, interviews, offers, joining management, performance \nmanagement, goals/KPIs, appraisals, feedback, training and learning, asset management, \nemployee grievances, announcements, notifications, company policies, HR letters/certificates, \nexpense management, travel requests, approval workflows, surveys, employee self-service, \nmanager self-service, and comprehensive dashboards and reports. Include search, filters, \nsorting, pagination, bulk import/export, Excel/CSV upload, PDF generation, audit logs, \nactivity history, configurable workflows, email/SMS/push notifications, reminders, \ncalendar integration, and API integrations. The dashboard should provide HR analytics \nsuch as headcount, attendance, leave utilization, attrition, recruitment status, payroll \nsummaries, department statistics, performance, pending approvals, and upcoming events. \nThe project should have a modern responsive UI for Web, Android, and iOS, with a \ncentralized backend API, relational database, file/document storage, notification service, \nbackground jobs, logging, monitoring, validation, encryption, backups, and strong security \nincluding RBAC, JWT/session management, password policies, MFA-ready architecture, \nAPI authorization, data privacy, audit trails, and secure document access. Define \ncomplete workflows such as Recruitment \u2192 Candidate Selection \u2192 Offer \u2192 Joining \u2192 \nOnboarding \u2192 Employee \u2192 Attendance/Leave \u2192 Payroll \u2192 Performance \u2192 \nPromotion/Transfer \u2192 Offboarding/Exit, with configurable approval chains for HR, \nmanagers, finance, and admins. Include master-data configuration, organization settings, \nfinancial/payroll settings, notification templates, workflow configuration, reports, audit logs, \nand system administration. The final system should be production-ready, scalable, API-\ndriven, well-documented, tested, and include BRD, SRS, database schema/ERD, API \ndocumentation, RTM, UI/UX specifications, user stories with acceptance criteria, test \ncases, deployment documentation, and complete role-wise functional requirements.",
+  "verification_summary": {
+    "verdicts": [
+      {
+        "claim_index": 0,
+        "claim": "Document Title: Business Requirements Document \u2014 abc Chat \u2014 ",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Source excerpt does not mention 'Business Requirements Document \u2014 abc Chat'."
+      },
+      {
+        "claim_index": 1,
+        "claim": "Project Name: HR Management System (HRMS) \u2014 ",
+        "confidence": 95,
+        "verdict": "SUPPORTED",
+        "reason": "Source excerpt directly mentions 'HR Management System' as the project name."
+      },
+      {
+        "claim_index": 2,
+        "claim": "Document ID: BRD-ABC-001 \u2014 ",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Source excerpt does not provide a document ID."
+      },
+      {
+        "claim_index": 3,
+        "claim": "Version: v1.0 \u2014 ",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Source excerpt does not mention a version number."
+      },
+      {
+        "claim_index": 4,
+        "claim": "Date: 2023-10-27 \u2014 ",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Source excerpt does not provide a date."
+      },
+      {
+        "claim_index": 5,
+        "claim": "v1.0: 2023-10-27 \u2014 [Pending] Initial Draft Generation",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Source excerpt does not contain this specific information."
+      },
+      {
+        "claim_index": 6,
+        "claim": "3. Introduction: ### 3.1 Purpose\nThe purpose of this Business Requirements Document (BRD) is to define the business needs, objectives, an",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Source excerpt mentions the purpose of the document in a similar context."
+      },
+      {
+        "claim_index": 7,
+        "claim": "4. Scope: ### 4.1 In Scope\nThe project includes the development of a full-stack HRMS with the following modules:\n- Secure Authenti",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Source excerpt describes the scope of the project."
+      },
+      {
+        "claim_index": 8,
+        "claim": "STK-01: Super Admin \u2014 System Owner Overall system configuration, user management, and security oversight",
+        "confidence": 90,
+        "verdict": "SUPPORTED",
+        "reason": "Source excerpt mentions role-based access for Super Admin."
+      },
+      {
+        "claim_index": 9,
+        "claim": "STK-02: HR/Admin \u2014 HR Operations Manage employee data, onboarding, offboarding, and HR policies",
+        "confidence": 90,
+        "verdict": "SUPPORTED",
+        "reason": "Source excerpt mentions role-based access for HR/Admin."
+      },
+      {
+        "claim_index": 10,
+        "claim": "STK-03: Manager \u2014 Line Management Approve leave, timesheets, and performance reviews for their team",
+        "confidence": 90,
+        "verdict": "SUPPORTED",
+        "reason": "Source excerpt mentions role-based access for Manager."
+      },
+      {
+        "claim_index": 11,
+        "claim": "STK-04: Recruiter \u2014 Talent Acquisition Manage job postings, candidate pipelines, and interviews",
+        "confidence": 90,
+        "verdict": "SUPPORTED",
+        "reason": "Source excerpt mentions role-based access for Recruiter."
+      }
+    ],
+    "verified_count": 7,
+    "flagged_count": 5,
+    "flagged_items": [
+      {
+        "claim_index": 0,
+        "claim": "Document Title: Business Requirements Document \u2014 abc Chat \u2014 ",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Source excerpt does not mention 'Business Requirements Document \u2014 abc Chat'."
+      },
+      {
+        "claim_index": 2,
+        "claim": "Document ID: BRD-ABC-001 \u2014 ",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Source excerpt does not provide a document ID."
+      },
+      {
+        "claim_index": 3,
+        "claim": "Version: v1.0 \u2014 ",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Source excerpt does not mention a version number."
+      },
+      {
+        "claim_index": 4,
+        "claim": "Date: 2023-10-27 \u2014 ",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Source excerpt does not provide a date."
+      },
+      {
+        "claim_index": 5,
+        "claim": "v1.0: 2023-10-27 \u2014 [Pending] Initial Draft Generation",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Source excerpt does not contain this specific information."
+      }
+    ],
+    "total_claims": 12
+  },
+  "id": "db7caba6-02fe-4a00-b21d-9d210139c5bc",
+  "pdf_export_url": "/api/v1/documents/db7caba6-02fe-4a00-b21d-9d210139c5bc/export/pdf?title=abc Chat&type=BRD",
+  "conversation_id": "c28b05ea-6094-4b3a-a518-25710ca6d86d"
+}

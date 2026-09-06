@@ -1,0 +1,179 @@
+{
+  "doc_type": "BRD",
+  "title": "Business Requirements Document \u2014 Requirements Chat 2",
+  "version": "v1.0",
+  "status": "PENDING_APPROVAL",
+  "sections": [
+    {
+      "title": "1. Executive Summary & Strategic Rationale",
+      "body": "Architectural specification and requirements baseline for Requirements Chat 2.\n\nThis Business Requirements Document establishes the foundational business vision, target capabilities, and operational value propositions for **Requirements Chat 2**."
+    },
+    {
+      "title": "2. Business Objectives & Success Metrics",
+      "body": "\u2022 **Primary Objective**: Deliver enterprise-ready functionality for Requirements Chat 2 while guaranteeing HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM compliance.\n\u2022 **Operational Goal**: Provide end-to-end requirement traceability across all delivery stages.\n\u2022 **Target Success Metrics**: 100% test coverage for critical business paths; zero unresolved high-severity compliance gaps."
+    },
+    {
+      "title": "3. Scope & Operational Boundaries",
+      "body": "\u2022 **In Scope**: Ingestion, validation, and execution of functional paths specified for Requirements Chat 2; automated compliance audit against HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM.\n\u2022 **Out of Scope**: Unspecified legacy hardware adapters; non-standard external integrations not defined in source documentation."
+    },
+    {
+      "title": "4. Key Stakeholders & Governance Personas",
+      "body": "1. **Enterprise Product Sponsor**: Approves strategic requirements and business scope.\n2. **Lead Solutions Architect**: Validates domain architecture for HEALTHCARE industry standards.\n3. **Compliance & Security Auditor**: Enforces adherence to HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM.\n4. **Lead QA Engineer**: Certifies acceptance criteria and RTM coverage."
+    },
+    {
+      "title": "5. Business Requirements Specification Matrix",
+      "table": [
+        [
+          "BRD ID",
+          "Requirement Title",
+          "Business Description & Rationale",
+          "Priority",
+          "Acceptance Criteria"
+        ],
+        [
+          "BR-01",
+          "Requirements Chat 2 Core Functional Scope",
+          "System must deliver the primary capabilities specified in project documentation.",
+          "HIGH",
+          "End-to-end integration passes in accordance with HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM."
+        ]
+      ]
+    },
+    {
+      "title": "6. Assumptions & Operational Constraints",
+      "body": "\u2022 **Compliance Constraint**: System must enforce HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM safeguards at all data boundaries.\n\u2022 **NFR Benchmarks**: PHI encryption at rest (AES-256), audit trail immutability, RTO < 1h / RPO < 5min.\n\u2022 **Identified Gaps**: None identified."
+    },
+    {
+      "title": "7. Risk & Compliance Baseline",
+      "body": "No critical risks identified. Baseline security policies adhere to HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM."
+    }
+  ],
+  "revision_history": [],
+  "parent_id": null,
+  "_source_audit": {},
+  "_domain_profile": {
+    "domain": "HEALTHCARE",
+    "compliance": [
+      "HIPAA",
+      "GDPR (if EU patients)",
+      "HL7 FHIR",
+      "DICOM"
+    ],
+    "standard_nfrs": [
+      "PHI encryption at rest (AES-256)",
+      "audit trail immutability",
+      "RTO < 1h / RPO < 5min"
+    ]
+  },
+  "_doc_excerpt": "File: A Hospital Management System.pdf\n--- Page 1 ---\nHospital Management System \nA Hospital Management System (HMS)  should provide a centralized platform for \nmanaging hospital operations, patient information, medical records, appointments, doctors, \nnurses, staff, billing, pharmacy, laboratory, and inventory. The system should support  role-\nbased access  for Admin, Doctor, Nurse, Receptionist, Pharmacist, Lab Technician, \nAccountant, and Patient. Core requirements should include patient registration and profile \nmanagement, appointment scheduling and queue management, doctor availability, O PD/IPD \nmanagement, admission/discharge/transfer, electronic medical records, diagnosis, \nprescriptions, treatment history, allergies, vital signs, nursing notes, laboratory test requests \nand reports, pharmacy prescriptions and medicine inventory, bed/ward m anagement, billing \nand payments, insurance management, invoices and receipts, hospital expenses, staff \nmanagement, and inventory/procurement. Patients should be able to view appointments, \nprescriptions, reports, bills, and medical history through a portal,  while doctors should have \ndashboards for appointments, patient records, diagnosis, prescriptions, and clinical notes. \nThe system should also provide  dashboards, notifications, search/filtering, reports, audit \nlogs, data validation, backup/recovery, security, and role -based authorization . \nFunctional requirements should cover complete workflows such as  patient registration \u2192 \nappointment \u2192 consultation \u2192 diagnosis \u2192 laboratory/pharmacy \u2192 billing \u2192 follow -\nup, and admission \u2192 bed allocation \u2192 treatment \u2192 investigations \u2192 discharge \u2192 final \nbilling. Non -functional requirements should include responsive web UI, scalability, high \navailability, fast API responses , secure authentication, password encryption, session \nmanagement, HTTPS, database integrity, auditability, privacy of medical information, error \nhandling, logging, and regular backups. A suitable architecture can use  React/Next.js for \nfrontend, FastAPI/Node.js/Spring Boot for backend, PostgreSQL/MySQL for database, \nREST APIs, JWT/OAuth-based authentication, Redis for caching/queues, and cloud or \non-premise deployment , with separate modules for  Authentication, Patients, \nAppointments, EMR, Doctors, Nursing, L aboratory, Pharmacy, Billing, Inventory, \nStaff, Reports, Notifications, and Administration.\n\nFile: HR Management System.pdf\n--- Page 1 ---\nHR Management System \n \nBuild a complete HR Management System (HRMS) as a full-stack web and mobile \napplication with role-based access for Super Admin, HR/Admin, Manager, Recruiter, \nEmployee, and Finance/Payroll users. The system should include **secure authentication, \nrole and permission management, employee master data, departments, designations, branches, \nemployee onboarding/offboarding, employee profiles, document management, attendance, \nshift and roster management, leave and holiday management, work-from-home/remote-work \nrequests, regularization, timesheets, payroll, salary structures, deductions, bonuses, \nreimbursements, payslips, tax/statutory information, recruitment and applicant tracking, job \npostings, candidate pipeline, interviews, offers, joining management, performance \nmanagement, goals/KPIs, appraisals, feedback, training and learning, asset management, \nemployee grievances, announcements, notifications, company policies, HR letters/certificates, \nexpense management, travel requests, approval workflows, surveys, employee self-service, \nmanager self-service, and comprehensive dashboards and reports. Include search, filters, \nsorting, pagination, bulk import/export, Excel/CSV upload, PDF generation, audit logs, \nactivity history, configurable workflows, email/SMS/push notifications, reminders, \ncalendar integration, and API integrations. The dashboard should provide HR analytics \nsuch as headcount, attendance, leave utilization, attrition, recruitment status, payroll \nsummaries, department st",
+  "verification_summary": {
+    "verdicts": [
+      {
+        "claim_index": 0,
+        "claim": "1. Executive Summary & Strategic Rationale: Architectural specification and requirements baseline for Requirements Chat 2.\n\nThis Business Requirements Document esta",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Source does not mention an executive summary, strategic rationale, or Requirements Chat 2."
+      },
+      {
+        "claim_index": 1,
+        "claim": "2. Business Objectives & Success Metrics: \u2022 **Primary Objective**: Deliver enterprise-ready functionality for Requirements Chat 2 while guaranteeing HIPAA, GDPR (",
+        "confidence": 15,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No reference to business objectives, success metrics, or HIPAA/GDPR for Requirements Chat 2."
+      },
+      {
+        "claim_index": 2,
+        "claim": "3. Scope & Operational Boundaries: \u2022 **In Scope**: Ingestion, validation, and execution of functional paths specified for Requirements Chat 2; automated co",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Scope and operational boundaries for Requirements Chat 2 are not present in the excerpt."
+      },
+      {
+        "claim_index": 3,
+        "claim": "4. Key Stakeholders & Governance Personas: 1. **Enterprise Product Sponsor**: Approves strategic requirements and business scope.\n2. **Lead Solutions Architect**: ",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Key stakeholder roles like Enterprise Product Sponsor or Lead Solutions Architect are not listed."
+      },
+      {
+        "claim_index": 4,
+        "claim": "BR-01: Requirements Chat 2 Core Functional Scope \u2014 System must deliver the primary capabilities specified in project documentation. HIGH",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "BR-01 requirement for Requirements Chat 2 is not mentioned."
+      },
+      {
+        "claim_index": 5,
+        "claim": "6. Assumptions & Operational Constraints: \u2022 **Compliance Constraint**: System must enforce HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM safeguards at all data bo",
+        "confidence": 20,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Specific compliance constraints (HIPAA, GDPR, HL7 FHIR, DICOM) are not detailed."
+      },
+      {
+        "claim_index": 6,
+        "claim": "7. Risk & Compliance Baseline: No critical risks identified. Baseline security policies adhere to HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM.",
+        "confidence": 20,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Risk and compliance baseline referencing HIPAA, GDPR, HL7 FHIR, DICOM is absent."
+      }
+    ],
+    "verified_count": 0,
+    "flagged_count": 7,
+    "flagged_items": [
+      {
+        "claim_index": 0,
+        "claim": "1. Executive Summary & Strategic Rationale: Architectural specification and requirements baseline for Requirements Chat 2.\n\nThis Business Requirements Document esta",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Source does not mention an executive summary, strategic rationale, or Requirements Chat 2."
+      },
+      {
+        "claim_index": 1,
+        "claim": "2. Business Objectives & Success Metrics: \u2022 **Primary Objective**: Deliver enterprise-ready functionality for Requirements Chat 2 while guaranteeing HIPAA, GDPR (",
+        "confidence": 15,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No reference to business objectives, success metrics, or HIPAA/GDPR for Requirements Chat 2."
+      },
+      {
+        "claim_index": 2,
+        "claim": "3. Scope & Operational Boundaries: \u2022 **In Scope**: Ingestion, validation, and execution of functional paths specified for Requirements Chat 2; automated co",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Scope and operational boundaries for Requirements Chat 2 are not present in the excerpt."
+      },
+      {
+        "claim_index": 3,
+        "claim": "4. Key Stakeholders & Governance Personas: 1. **Enterprise Product Sponsor**: Approves strategic requirements and business scope.\n2. **Lead Solutions Architect**: ",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Key stakeholder roles like Enterprise Product Sponsor or Lead Solutions Architect are not listed."
+      },
+      {
+        "claim_index": 4,
+        "claim": "BR-01: Requirements Chat 2 Core Functional Scope \u2014 System must deliver the primary capabilities specified in project documentation. HIGH",
+        "confidence": 10,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "BR-01 requirement for Requirements Chat 2 is not mentioned."
+      },
+      {
+        "claim_index": 5,
+        "claim": "6. Assumptions & Operational Constraints: \u2022 **Compliance Constraint**: System must enforce HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM safeguards at all data bo",
+        "confidence": 20,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Specific compliance constraints (HIPAA, GDPR, HL7 FHIR, DICOM) are not detailed."
+      },
+      {
+        "claim_index": 6,
+        "claim": "7. Risk & Compliance Baseline: No critical risks identified. Baseline security policies adhere to HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM.",
+        "confidence": 20,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Risk and compliance baseline referencing HIPAA, GDPR, HL7 FHIR, DICOM is absent."
+      }
+    ],
+    "total_claims": 7
+  },
+  "id": "76123b86-4e90-4705-bfa3-92b05458a72b",
+  "pdf_export_url": "/api/v1/documents/76123b86-4e90-4705-bfa3-92b05458a72b/export/pdf?title=Requirements Chat 2&type=BRD",
+  "conversation_id": "6b4755cd-5015-4086-8b24-1075c40f1790"
+}

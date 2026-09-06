@@ -1,0 +1,27 @@
+{
+  "readiness_score": 0,
+  "clarity_score": 0,
+  "completeness_score": 0,
+  "security_score": 0,
+  "rtm_score": 0,
+  "summary": "No readable text content found in 'Very_Bad_Requirements_Sample.pdf'. Please upload a standard PDF, DOCX, or text file.",
+  "risk_factors": [],
+  "conflicts_and_ambiguities": [],
+  "missing_sections_and_details": [
+    {
+      "section_name": "Full Document Specification",
+      "priority": "CRITICAL",
+      "why_missing": "Document is empty or unreadable.",
+      "recommended_addition": "Upload a valid document containing functional and non-functional requirements."
+    }
+  ],
+  "rtm_matrix": [],
+  "ai_recommendations": [
+    "Upload a specification document with clear functional requirements."
+  ],
+  "id": "07ced1af-535c-4c52-ab75-509ae1d57ea6",
+  "analyzed_at": "2026-08-29T17:32:05.083582+00:00",
+  "filename": "Very_Bad_Requirements_Sample.pdf",
+  "file_id": "e4aded6f-4a86-498d-8e73-807bc2646328",
+  "conversation_id": null
+}

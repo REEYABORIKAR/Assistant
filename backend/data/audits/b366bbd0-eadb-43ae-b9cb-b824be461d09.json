@@ -1,0 +1,154 @@
+{
+  "readiness_score": 5,
+  "clarity_score": 10,
+  "completeness_score": 5,
+  "security_score": 0,
+  "rtm_score": 0,
+  "summary": "The document is a non-functional placeholder containing seven highly ambiguous, subjective statements regarding a food delivery mobile app. It lacks all technical specifications, user roles, data models, security protocols, and acceptance criteria, rendering it completely unusable for engineering or development purposes.",
+  "risk_factors": [
+    {
+      "title": "Total Absence of Security Architecture",
+      "category": "SECURITY",
+      "severity": "HIGH",
+      "description": "The document explicitly states 'No security requirements' and provides no mention of authentication, authorization, data encryption, or API security, leaving the system vulnerable to unauthorized access and data breaches.",
+      "mitigation": "Define a comprehensive security architecture including OAuth2/OIDC for authentication, role-based access control (RBAC), end-to-end encryption for PII, and secure API gateway patterns."
+    },
+    {
+      "title": "Undefined Data Privacy and Compliance",
+      "category": "DATA_PRIVACY",
+      "severity": "HIGH",
+      "description": "No mention of GDPR, CCPA, or PCI-DSS compliance, despite handling customer personal data and payment information ('Customers can pay somehow').",
+      "mitigation": "Specify data retention policies, consent management, and PCI-DSS compliance requirements for payment processing, including tokenization of card data."
+    },
+    {
+      "title": "Unmeasurable Performance Requirements",
+      "category": "OPERATIONAL",
+      "severity": "HIGH",
+      "description": "Requirement 3 states 'Delivery should happen fast' without defining latency, throughput, or SLA metrics, making performance testing impossible.",
+      "mitigation": "Define specific SLAs, e.g., 'API response time < 200ms for 95th percentile', 'Order processing latency < 5 seconds', and 'Delivery ETA accuracy within 10 minutes'."
+    },
+    {
+      "title": "Ambiguous Payment Integration",
+      "category": "ARCHITECTURE",
+      "severity": "HIGH",
+      "description": "Requirement 4 states 'Customers can pay somehow' without specifying payment gateways, supported currencies, refund policies, or transaction handling logic.",
+      "mitigation": "Specify supported payment methods (credit card, digital wallets), third-party gateway integrations (e.g., Stripe, PayPal), and transaction state management."
+    }
+  ],
+  "conflicts_and_ambiguities": [
+    {
+      "issue": "Subjective Quality Definition",
+      "context": "The app should be awesome.",
+      "suggested_resolution": "Replace with measurable UX metrics, e.g., 'App Store rating target of 4.5+ stars' or 'Task completion rate > 90% for core ordering flow'."
+    },
+    {
+      "issue": "Undefined 'Easy' Ordering",
+      "context": "Food ordering must be easy.",
+      "suggested_resolution": "Define 'easy' as 'Complete order in no more than 3 taps from app launch' or 'Support address autocomplete and saved addresses'."
+    },
+    {
+      "issue": "Vague Restaurant Management",
+      "context": "Restaurants should manage things.",
+      "suggested_resolution": "Specify restaurant dashboard features: 'Manage menu items (add/edit/delete)', 'Accept/reject orders', 'View daily sales reports'."
+    },
+    {
+      "issue": "Optional Notifications",
+      "context": "Notifications would be nice.",
+      "suggested_resolution": "Define mandatory notification types: 'Order confirmation', 'Driver assigned', 'Order delivered', 'Promotional offers' with push notification infrastructure."
+    }
+  ],
+  "missing_sections_and_details": [
+    {
+      "section_name": "User Roles and Permissions",
+      "priority": "CRITICAL",
+      "why_missing": "No distinction between customer, restaurant, driver, or admin roles, making access control impossible to design.",
+      "recommended_addition": "Define roles: Customer (order, pay, track), Restaurant (manage menu, accept orders), Driver (accept deliveries, navigate), Admin (manage users, view analytics)."
+    },
+    {
+      "section_name": "Functional Requirements",
+      "priority": "CRITICAL",
+      "why_missing": "No detailed functional specifications for ordering, payment, delivery tracking, or restaurant management.",
+      "recommended_addition": "Break down into modules: User Registration, Menu Browsing, Cart Management, Payment Processing, Order Tracking, Driver Assignment, Restaurant Dashboard."
+    },
+    {
+      "section_name": "Non-Functional Requirements (NFRs)",
+      "priority": "CRITICAL",
+      "why_missing": "No performance, scalability, availability, or reliability metrics defined.",
+      "recommended_addition": "Specify: 'Support 10,000 concurrent users', '99.9% uptime', 'Data backup every 24 hours', 'Disaster recovery RTO < 4 hours'."
+    },
+    {
+      "section_name": "Data Model and API Specifications",
+      "priority": "HIGH",
+      "why_missing": "No entity definitions or API contracts, preventing backend development.",
+      "recommended_addition": "Define core entities: User, Restaurant, Menu, Order, Payment, Driver, Delivery. Specify RESTful API endpoints with request/response schemas."
+    },
+    {
+      "section_name": "Acceptance Criteria",
+      "priority": "HIGH",
+      "why_missing": "No testable conditions for verifying requirement fulfillment.",
+      "recommended_addition": "For each requirement, define Given/When/Then acceptance criteria, e.g., 'Given a customer has items in cart, When they click pay, Then payment is processed and order status updates to confirmed'."
+    }
+  ],
+  "rtm_matrix": [
+    {
+      "req_id": "REQ-01",
+      "business_goal": "App should be awesome",
+      "technical_component": "N/A",
+      "test_case_verification": "N/A",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-02",
+      "business_goal": "Food ordering must be easy",
+      "technical_component": "N/A",
+      "test_case_verification": "N/A",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-03",
+      "business_goal": "Delivery should happen fast",
+      "technical_component": "N/A",
+      "test_case_verification": "N/A",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-04",
+      "business_goal": "Customers can pay somehow",
+      "technical_component": "N/A",
+      "test_case_verification": "N/A",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-05",
+      "business_goal": "Restaurants should manage things",
+      "technical_component": "N/A",
+      "test_case_verification": "N/A",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-06",
+      "business_goal": "Notifications would be nice",
+      "technical_component": "N/A",
+      "test_case_verification": "N/A",
+      "status": "GAP"
+    },
+    {
+      "req_id": "REQ-07",
+      "business_goal": "Reports can be added later",
+      "technical_component": "N/A",
+      "test_case_verification": "N/A",
+      "status": "GAP"
+    }
+  ],
+  "ai_recommendations": [
+    "Completely rewrite the document using a structured requirements template with sections for Functional Requirements, Non-Functional Requirements, User Roles, Data Model, Security, and Acceptance Criteria.",
+    "Engage stakeholders to define measurable success metrics for each requirement, replacing subjective terms like 'awesome' and 'easy' with quantifiable KPIs.",
+    "Conduct a threat modeling session to identify security risks and define security controls for authentication, authorization, data encryption, and payment processing.",
+    "Create a detailed user journey map for each role (Customer, Restaurant, Driver) to derive functional requirements and acceptance criteria."
+  ],
+  "id": "b366bbd0-eadb-43ae-b9cb-b824be461d09",
+  "analyzed_at": "2026-08-29T17:47:56.587465+00:00",
+  "filename": "Very_Bad_Requirements_Sample.pdf",
+  "file_id": null,
+  "conversation_id": null
+}

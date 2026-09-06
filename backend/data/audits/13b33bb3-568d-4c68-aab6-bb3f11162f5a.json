@@ -1,0 +1,271 @@
+{
+  "readiness_score": 15,
+  "clarity_score": 20,
+  "completeness_score": 5,
+  "security_score": 30,
+  "rtm_score": 0,
+  "summary": "The provided document consists of a single sentence describing a Hospital Patient Portal with specific encryption and access control standards. It lacks all architectural diagrams, functional requirements, data models, API specifications, and compliance mapping details necessary for engineering implementation.",
+  "risk_factors": [
+    {
+      "title": "Absence of Data Privacy Framework",
+      "category": "DATA_PRIVACY",
+      "severity": "HIGH",
+      "description": "The document mentions HIPAA but provides no details on data classification, retention policies, or GDPR compliance for EU patients, creating a high risk of regulatory non-compliance.",
+      "mitigation": "Define data classification levels (PHI, PII, Non-PHI), specify retention periods, and implement GDPR-compliant data subject rights workflows (access, erasure, portability).",
+      "source_ref": "Line 1",
+      "verification": {
+        "claim_index": 0,
+        "claim": "Risk: Absence of Data Privacy Framework \u2014 The document mentions HIPAA but provides no details on data classification, retention policies, or GDPR compliance for EU patients, creating a high risk of regulatory non-compliance.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    },
+    {
+      "title": "Missing Audit Trail Specification",
+      "category": "SECURITY",
+      "severity": "HIGH",
+      "description": "While RBAC is mentioned, there is no specification for immutable audit logging, which is a critical HIPAA requirement for tracking access to PHI.",
+      "mitigation": "Specify an append-only audit log system with cryptographic hashing to ensure immutability, capturing user, action, timestamp, and resource accessed.",
+      "source_ref": "Line 1",
+      "verification": {
+        "claim_index": 1,
+        "claim": "Risk: Missing Audit Trail Specification \u2014 While RBAC is mentioned, there is no specification for immutable audit logging, which is a critical HIPAA requirement for tracking access to PHI.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    },
+    {
+      "title": "Undefined Interoperability Standards",
+      "category": "ARCHITECTURE",
+      "severity": "MEDIUM",
+      "description": "The document does not specify HL7 FHIR or DICOM standards for data exchange, which are essential for a hospital portal to integrate with EHR and imaging systems.",
+      "mitigation": "Define FHIR R4 resource models for patient data and DICOM web services for imaging access, including specific API endpoints and data formats.",
+      "source_ref": "Line 1",
+      "verification": {
+        "claim_index": 2,
+        "claim": "Risk: Undefined Interoperability Standards \u2014 The document does not specify HL7 FHIR or DICOM standards for data exchange, which are essential for a hospital portal to integrate with EHR and imaging systems.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    }
+  ],
+  "conflicts_and_ambiguities": [
+    {
+      "issue": "Vague Scope of 'Hospital Patient Portal'",
+      "context": "Hospital Patient Portal with HIPAA AES-256 encryption at rest and strict OAuth2 RBAC roles.",
+      "suggested_resolution": "Define the specific modules of the portal (e.g., appointment scheduling, lab results, billing, messaging) and the specific RBAC roles (e.g., Patient, Caregiver, Physician, Admin) with their respective permissions.",
+      "source_ref": "Line 1",
+      "verification": {
+        "claim_index": 7,
+        "claim": "Ambiguity: Vague Scope of 'Hospital Patient Portal' \u2014 Hospital Patient Portal with HIPAA AES-256 encryption at rest and strict OAuth2 RBAC roles.",
+        "confidence": 90,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 15 source keywords in document context."
+      }
+    }
+  ],
+  "missing_sections_and_details": [
+    {
+      "section_name": "Functional Requirements",
+      "priority": "CRITICAL",
+      "why_missing": "Without functional requirements, developers cannot build the core features of the portal, leading to project failure.",
+      "recommended_addition": "List all user stories and functional requirements, such as 'Patient can view lab results', 'Patient can schedule appointments', 'Physician can send secure messages'.",
+      "source_ref": "Line 1",
+      "verification": {
+        "claim_index": 3,
+        "claim": "Missing Gap: Functional Requirements \u2014 Without functional requirements, developers cannot build the core features of the portal, leading to project failure.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    },
+    {
+      "section_name": "Non-Functional Requirements (NFRs)",
+      "priority": "CRITICAL",
+      "why_missing": "NFRs like RTO/RPO, performance, and availability are critical for healthcare systems but are entirely absent.",
+      "recommended_addition": "Specify RTO < 1h, RPO < 5min, 99.9% uptime, and performance benchmarks (e.g., API response time < 200ms).",
+      "source_ref": "Line 1",
+      "verification": {
+        "claim_index": 4,
+        "claim": "Missing Gap: Non-Functional Requirements (NFRs) \u2014 NFRs like RTO/RPO, performance, and availability are critical for healthcare systems but are entirely absent.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    },
+    {
+      "section_name": "Security Architecture",
+      "priority": "CRITICAL",
+      "why_missing": "Only AES-256 and OAuth2 are mentioned; missing details on key management, token expiration, MFA, and network security.",
+      "recommended_addition": "Detail key management (e.g., AWS KMS), OAuth2 token lifetimes, MFA requirements, and network segmentation (e.g., DMZ, internal network).",
+      "source_ref": "Line 1",
+      "verification": {
+        "claim_index": 5,
+        "claim": "Missing Gap: Security Architecture \u2014 Only AES-256 and OAuth2 are mentioned; missing details on key management, token expiration, MFA, and network security.",
+        "confidence": 75,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 3 source keywords in document context."
+      }
+    },
+    {
+      "section_name": "Data Model and Interoperability",
+      "priority": "HIGH",
+      "why_missing": "No specification of how data is structured or exchanged with other systems, which is critical for a hospital portal.",
+      "recommended_addition": "Define the database schema, FHIR resource mappings, and DICOM integration points.",
+      "source_ref": "Line 1",
+      "verification": {
+        "claim_index": 6,
+        "claim": "Missing Gap: Data Model and Interoperability \u2014 No specification of how data is structured or exchanged with other systems, which is critical for a hospital portal.",
+        "confidence": 65,
+        "verdict": "SUPPORTED",
+        "reason": "General concept is grounded in source context; specific details are extrapolated."
+      }
+    }
+  ],
+  "rtm_matrix": [],
+  "ai_recommendations": [
+    "Expand the document to include a detailed functional requirements specification with user stories for each portal module.",
+    "Add a comprehensive security architecture section detailing key management, MFA, network segmentation, and immutable audit logging.",
+    "Define interoperability standards by specifying HL7 FHIR R4 resources and DICOM web services for data exchange with EHR and imaging systems."
+  ],
+  "domain_profile": {
+    "domain": "HEALTHCARE",
+    "compliance": [
+      "HIPAA",
+      "GDPR (if EU patients)",
+      "HL7 FHIR",
+      "DICOM"
+    ],
+    "standard_nfrs": [
+      "PHI encryption at rest (AES-256)",
+      "audit trail immutability",
+      "RTO < 1h / RPO < 5min"
+    ]
+  },
+  "verification_summary": {
+    "verdicts": [
+      {
+        "claim_index": 0,
+        "claim": "Risk: Absence of Data Privacy Framework \u2014 The document mentions HIPAA but provides no details on data classification, retention policies, or GDPR compliance for EU patients, creating a high risk of regulatory non-compliance.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 1,
+        "claim": "Risk: Missing Audit Trail Specification \u2014 While RBAC is mentioned, there is no specification for immutable audit logging, which is a critical HIPAA requirement for tracking access to PHI.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 2,
+        "claim": "Risk: Undefined Interoperability Standards \u2014 The document does not specify HL7 FHIR or DICOM standards for data exchange, which are essential for a hospital portal to integrate with EHR and imaging systems.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 3,
+        "claim": "Missing Gap: Functional Requirements \u2014 Without functional requirements, developers cannot build the core features of the portal, leading to project failure.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 4,
+        "claim": "Missing Gap: Non-Functional Requirements (NFRs) \u2014 NFRs like RTO/RPO, performance, and availability are critical for healthcare systems but are entirely absent.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 5,
+        "claim": "Missing Gap: Security Architecture \u2014 Only AES-256 and OAuth2 are mentioned; missing details on key management, token expiration, MFA, and network security.",
+        "confidence": 75,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 3 source keywords in document context."
+      },
+      {
+        "claim_index": 6,
+        "claim": "Missing Gap: Data Model and Interoperability \u2014 No specification of how data is structured or exchanged with other systems, which is critical for a hospital portal.",
+        "confidence": 65,
+        "verdict": "SUPPORTED",
+        "reason": "General concept is grounded in source context; specific details are extrapolated."
+      },
+      {
+        "claim_index": 7,
+        "claim": "Ambiguity: Vague Scope of 'Hospital Patient Portal' \u2014 Hospital Patient Portal with HIPAA AES-256 encryption at rest and strict OAuth2 RBAC roles.",
+        "confidence": 90,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 15 source keywords in document context."
+      }
+    ],
+    "verified_count": 3,
+    "flagged_count": 5,
+    "flagged_items": [
+      {
+        "claim_index": 0,
+        "claim": "Risk: Absence of Data Privacy Framework \u2014 The document mentions HIPAA but provides no details on data classification, retention policies, or GDPR compliance for EU patients, creating a high risk of regulatory non-compliance.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 1,
+        "claim": "Risk: Missing Audit Trail Specification \u2014 While RBAC is mentioned, there is no specification for immutable audit logging, which is a critical HIPAA requirement for tracking access to PHI.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 2,
+        "claim": "Risk: Undefined Interoperability Standards \u2014 The document does not specify HL7 FHIR or DICOM standards for data exchange, which are essential for a hospital portal to integrate with EHR and imaging systems.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 3,
+        "claim": "Missing Gap: Functional Requirements \u2014 Without functional requirements, developers cannot build the core features of the portal, leading to project failure.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      },
+      {
+        "claim_index": 4,
+        "claim": "Missing Gap: Non-Functional Requirements (NFRs) \u2014 NFRs like RTO/RPO, performance, and availability are critical for healthcare systems but are entirely absent.",
+        "confidence": 45,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Limited direct mention found in source excerpt; flag for stakeholder clarification."
+      }
+    ],
+    "total_claims": 8
+  },
+  "content_hash": "e5bafabd77ce74c886c60acd0afa0c35d59f1e48102614bb196c79e9ec73c626",
+  "audit_diff": {
+    "score_delta": -45,
+    "previous_score": 60,
+    "current_score": 15,
+    "resolved_risks_count": 2,
+    "resolved_risks": [
+      "Missing RBAC",
+      "Unencrypted PHI Storage"
+    ],
+    "new_risks_count": 3,
+    "new_risks": [
+      "Missing Audit Trail Specification",
+      "Absence of Data Privacy Framework",
+      "Undefined Interoperability Standards"
+    ],
+    "has_prior_audit": true
+  },
+  "id": "13b33bb3-568d-4c68-aab6-bb3f11162f5a",
+  "analyzed_at": "2026-09-01T18:23:16.513084+00:00",
+  "filename": "Hospital_Portal_v2.pdf",
+  "file_id": "52bc21f3-4169-452c-977f-261c09a738ea",
+  "conversation_id": null
+}

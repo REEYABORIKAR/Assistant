@@ -1,0 +1,82 @@
+{
+  "jira": {
+    "id": "jira",
+    "status": "CONNECTED",
+    "config": {
+      "email": "reeyaborikar02@gmail.com",
+      "apiToken": "Refyne@2026Secure!",
+      "baseUrl": "https://refyne.atlassian.net",
+      "projectKey": "Req",
+      "issueType": "Task"
+    },
+    "last_synced_at": "2026-09-04T19:29:09.016894+00:00",
+    "last_sync_status": "SUCCESS",
+    "sync_stats": {
+      "items_synced": 55,
+      "last_action": "Exported 7 items to Jira"
+    },
+    "recent_events": [
+      {
+        "time": "19:29:09",
+        "level": "SUCCESS",
+        "message": "Synchronized 7 requirement items to JIRA (REFYNE SRS & RTM Traceability Specificat...)."
+      },
+      {
+        "time": "19:28:52",
+        "level": "SUCCESS",
+        "message": "Synchronized 7 requirement items to JIRA (REFYNE SRS & RTM Traceability Specificat...)."
+      },
+      {
+        "time": "19:17:12",
+        "level": "SUCCESS",
+        "message": "Synchronized 7 requirement items to JIRA (REFYNE SRS & RTM Traceability Specificat...)."
+      },
+      {
+        "time": "19:16:59",
+        "level": "SUCCESS",
+        "message": "Synchronized 7 requirement items to JIRA (REFYNE SRS & RTM Traceability Specificat...)."
+      },
+      {
+        "time": "19:13:44",
+        "level": "SUCCESS",
+        "message": "Synchronized 5 requirement items to JIRA (Document Generation & Approval Queue Exe...)."
+      },
+      {
+        "time": "19:09:06",
+        "level": "SUCCESS",
+        "message": "Synchronized 5 requirement items to JIRA (Document Generation & Approval Queue Exe...)."
+      },
+      {
+        "time": "19:08:55",
+        "level": "SUCCESS",
+        "message": "Synchronized 5 requirement items to JIRA (Document Generation & Approval Queue Exe...)."
+      },
+      {
+        "time": "19:08:46",
+        "level": "SUCCESS",
+        "message": "Synchronized 5 requirement items to JIRA (Document Generation & Approval Queue Exe...)."
+      },
+      {
+        "time": "19:00:31",
+        "level": "INFO",
+        "message": "Connection credentials updated for JIRA."
+      },
+      {
+        "time": "19:00:15",
+        "level": "WARN",
+        "message": "Integration JIRA disconnected by tenant administrator."
+      },
+      {
+        "time": "18:42:33",
+        "level": "SUCCESS",
+        "message": "Synchronized 7 requirement items to JIRA (REFYNE SRS & RTM Traceability Specificat...)."
+      },
+      {
+        "time": "18:42:27",
+        "level": "INFO",
+        "message": "Connection credentials updated for JIRA."
+      }
+    ],
+    "updated_at": "2026-09-04T19:00:31.356892+00:00"
+  }
+}

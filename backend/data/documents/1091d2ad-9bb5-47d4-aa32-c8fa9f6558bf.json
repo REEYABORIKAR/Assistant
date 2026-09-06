@@ -1,0 +1,116 @@
+{
+  "doc_type": "USER_STORIES",
+  "title": "User Stories \u2014 hii",
+  "version": "v1.1",
+  "status": "APPROVED",
+  "revision_history": [
+    {
+      "version": "v1.0",
+      "feedback": "No. The user stories are partially correct, but they are not complete or fully aligned with the Hospital Management System PDF.\n\nI compared the 15 user stories against the requirements in the HMS PDF. The HMS document explicitly covers patient management, appointments and queue management, OPD/IPD, admission/discharge/transfer, EMR, allergies, vitals, nursing, laboratory, pharmacy, beds/wards, billing, insurance, expenses, staff, inventory/procurement, notifications, reports, audit logs, security, and complete clinical workflows.\n\nWhat is correct\n\nThese stories are reasonably aligned:\n\nStory\tAssessment\nUS001 Patient registration\t\u2705 Correct\nUS002 Patient profile\t\u2705 Correct\nUS003 Appointment scheduling\t\u2705 Correct\nUS004 Doctor appointment dashboard\t\u2705 Correct\nUS005 Diagnosis/prescription/treatment\t\u2705 Correct\nUS006 Vitals/nursing notes\t\u2705 Correct\nUS007 Laboratory tests/results\t\u2705 Correct\nUS008 Pharmacy/inventory\t\u2705 Correct\nUS009 Billing/payments\t\u2705 Correct\nUS010 Patient bills/payment\t\u2705 Correct\nUS014 Staff/inventory management\t\u2705 Correct\nUS015 Patient notifications\t\u2705 Correct\n\nThese correspond well to the capabilities listed in the HMS source, including patient profiles, appointments, EMR, diagnosis, prescriptions, nursing, laboratory, pharmacy, billing, staff, inventory, and patient portal functionality.\n\nMajor missing user stories\n\nThis is the biggest problem. The PDF contains several requirements that don't have dedicated stories:\n\nQueue Management\nOPD Management\nIPD Management\nPatient Admission\nBed/Ward Allocation\nPatient Transfer\nPatient Discharge\nAllergy Management\nTreatment History\nInsurance Management\nInvoices & Receipts\nHospital Expenses\nDoctor Availability Management\nSearch & Filtering\nAudit Log Management\nData Validation\nError Handling & Logging\nBackup/Recovery\nAdministration/System Configuration\nDashboard management\n\nThe source specifically describes the admission \u2192 bed allocation \u2192 treatment \u2192 investigations \u2192 discharge \u2192 final billing workflow, as well as the outpatient workflow from registration through follow-up.\n\nSome existing stories are too broad\n\nFor example, US008 says:\n\nPharmacist: view prescriptions and manage medicine inventory\n\nThat's valid, but pharmacy management should probably be split into several stories such as:\n\nView prescription\nDispense medicine\nUpdate medicine stock\nLow-stock alerts\nManage medicine batches/expiry\nPharmacy inventory reports\n\nSimilarly, US014 combines staff management and inventory procurement into one story. These are separate functional areas and should normally be split.\n\nThere are also unsupported details\n\nYour user-story document introduces requirements that are not stated in the HMS PDF.\n\nFor example:\n\nHIPAA/GDPR\nHIPAA \u00a7164.312\nAES-256\nRPO < 5 minutes\nRTO < 1 hour\nAPI response < 200 ms\nAvailability > 99.9%\n\nThe HMS PDF only states general security, privacy, authentication, auditability, backups, scalability, high availability, and fast API responses.\n\nSo if the goal is \"User Stories derived strictly from this PDF,\" those specific numbers and compliance references should not be added unless another requirements document provides them.\n\nRelease slicing also needs correction\n\nYour current releases are:\n\nRelease 1: Patient + Appointment\nRelease 2: Clinical + Supporting Services\nRelease 3: Financial + Administration\n\nBut the source has a much larger workflow. In particular, OPD/IPD, admission, beds/wards, discharge, transfer, insurance, and expenses need to appear somewhere in the backlog.\n\nOverall verdict\n\nI'd rate the current document approximately:\n\nFunctional alignment: 65\u201370%\n\nStructure/format: 90%\n\nCompleteness against the HMS PDF: ~60\u201365%\n\nStrict source accuracy: ~70%, because of the extra HIPAA/GDPR, RPO/RTO, AES-256 and performance figures.\n\nThe existing document is a good first draft, but I would not mark it as the final/approved user-story set for this HMS PDF.",
+      "revised_at": "2026-08-31T17:45:45.181466+00:00"
+    }
+  ],
+  "parent_id": null,
+  "sections": [
+    {
+      "title": "1. Agile Methodology & Persona Mapping",
+      "body": "This document outlines user stories synthesized for **User Stories \u2014 hii** in the **HEALTHCARE** sector. User roles and capabilities are directly grounded in the source specification.\n\n*Note on Applied Revision:* Addresses feedback: 'No. The user stories are partially correct, but they are not complete or fully aligned with the Hospital Management System PDF.\n\nI compared the 15 user stories against the requirements in the HMS PDF. The HMS document explicitly covers patient management, appointments and queue management, OPD/IPD, admission/discharge/transfer, EMR, allergies, vitals, nursing, laboratory, pharmacy, beds/wards, billing, insurance, expenses, staff, inventory/procurement, notifications, reports, audit logs, security, and complete clinical workflows.\n\nWhat is correct\n\nThese stories are reasonably aligned:\n\nStory\tAssessment\nUS001 Patient registration\t\u2705 Correct\nUS002 Patient profile\t\u2705 Correct\nUS003 Appointment scheduling\t\u2705 Correct\nUS004 Doctor appointment dashboard\t\u2705 Correct\nUS005 Diagnosis/prescription/treatment\t\u2705 Correct\nUS006 Vitals/nursing notes\t\u2705 Correct\nUS007 Laboratory tests/results\t\u2705 Correct\nUS008 Pharmacy/inventory\t\u2705 Correct\nUS009 Billing/payments\t\u2705 Correct\nUS010 Patient bills/payment\t\u2705 Correct\nUS014 Staff/inventory management\t\u2705 Correct\nUS015 Patient notifications\t\u2705 Correct\n\nThese correspond well to the capabilities listed in the HMS source, including patient profiles, appointments, EMR, diagnosis, prescriptions, nursing, laboratory, pharmacy, billing, staff, inventory, and patient portal functionality.\n\nMajor missing user stories\n\nThis is the biggest problem. The PDF contains several requirements that don't have dedicated stories:\n\nQueue Management\nOPD Management\nIPD Management\nPatient Admission\nBed/Ward Allocation\nPatient Transfer\nPatient Discharge\nAllergy Management\nTreatment History\nInsurance Management\nInvoices & Receipts\nHospital Expenses\nDoctor Availability Management\nSearch & Filtering\nAudit Log Management\nData Validation\nError Handling & Logging\nBackup/Recovery\nAdministration/System Configuration\nDashboard management\n\nThe source specifically describes the admission \u2192 bed allocation \u2192 treatment \u2192 investigations \u2192 discharge \u2192 final billing workflow, as well as the outpatient workflow from registration through follow-up.\n\nSome existing stories are too broad\n\nFor example, US008 says:\n\nPharmacist: view prescriptions and manage medicine inventory\n\nThat's valid, but pharmacy management should probably be split into several stories such as:\n\nView prescription\nDispense medicine\nUpdate medicine stock\nLow-stock alerts\nManage medicine batches/expiry\nPharmacy inventory reports\n\nSimilarly, US014 combines staff management and inventory procurement into one story. These are separate functional areas and should normally be split.\n\nThere are also unsupported details\n\nYour user-story document introduces requirements that are not stated in the HMS PDF.\n\nFor example:\n\nHIPAA/GDPR\nHIPAA \u00a7164.312\nAES-256\nRPO < 5 minutes\nRTO < 1 hour\nAPI response < 200 ms\nAvailability > 99.9%\n\nThe HMS PDF only states general security, privacy, authentication, auditability, backups, scalability, high availability, and fast API responses.\n\nSo if the goal is \"User Stories derived strictly from this PDF,\" those specific numbers and compliance references should not be added unless another requirements document provides them.\n\nRelease slicing also needs correction\n\nYour current releases are:\n\nRelease 1: Patient + Appointment\nRelease 2: Clinical + Supporting Services\nRelease 3: Financial + Administration\n\nBut the source has a much larger workflow. In particular, OPD/IPD, admission, beds/wards, discharge, transfer, insurance, and expenses need to appear somewhere in the backlog.\n\nOverall verdict\n\nI'd rate the current document approximately:\n\nFunctional alignment: 65\u201370%\n\nStructure/format: 90%\n\nCompleteness against the HMS PDF: ~60\u201365%\n\nStrict source accuracy: ~70%, because of the extra HIPAA/GDPR, RPO/RTO, AES-256 and performance figures.\n\nThe existing document is a good first draft, but I would not mark it as the final/approved user-story set for this HMS PDF.'."
+    },
+    {
+      "title": "2. Epics & User Stories Matrix",
+      "table": [
+        [
+          "Story ID",
+          "Epic / Module",
+          "Persona",
+          "User Story Statement",
+          "Business Value",
+          "Priority"
+        ],
+        [
+          "US-01",
+          "Core System",
+          "Enterprise User",
+          "As an enterprise user, I want to access User Stories \u2014 hii features, so that I can execute operational tasks.",
+          "Core business value",
+          "HIGH"
+        ]
+      ]
+    },
+    {
+      "title": "3. Release Slicing & Implementation Dependencies",
+      "body": "\u2022 **Sprint 1**: Core identity, authentication, and foundational HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM boundary controls.\n\u2022 **Sprint 2**: Primary functional workflows and database persistence.\n\u2022 **Sprint 3**: Automated verification, reporting, and audit export."
+    }
+  ],
+  "_source_audit": {},
+  "_domain_profile": {
+    "domain": "HEALTHCARE",
+    "compliance": [
+      "HIPAA",
+      "GDPR (if EU patients)",
+      "HL7 FHIR",
+      "DICOM"
+    ],
+    "standard_nfrs": [
+      "PHI encryption at rest (AES-256)",
+      "audit trail immutability",
+      "RTO < 1h / RPO < 5min"
+    ]
+  },
+  "_doc_excerpt": "File: A Hospital Management System.pdf\n--- Page 1 ---\nHospital Management System \nA Hospital Management System (HMS)  should provide a centralized platform for \nmanaging hospital operations, patient information, medical records, appointments, doctors, \nnurses, staff, billing, pharmacy, laboratory, and inventory. The system should support  role-\nbased access  for Admin, Doctor, Nurse, Receptionist, Pharmacist, Lab Technician, \nAccountant, and Patient. Core requirements should include patient registration and profile \nmanagement, appointment scheduling and queue management, doctor availability, O PD/IPD \nmanagement, admission/discharge/transfer, electronic medical records, diagnosis, \nprescriptions, treatment history, allergies, vital signs, nursing notes, laboratory test requests \nand reports, pharmacy prescriptions and medicine inventory, bed/ward m anagement, billing \nand payments, insurance management, invoices and receipts, hospital expenses, staff \nmanagement, and inventory/procurement. Patients should be able to view appointments, \nprescriptions, reports, bills, and medical history through a portal,  while doctors should have \ndashboards for appointments, patient records, diagnosis, prescriptions, and clinical notes. \nThe system should also provide  dashboards, notifications, search/filtering, reports, audit \nlogs, data validation, backup/recovery, security, and role -based authorization . \nFunctional requirements should cover complete workflows such as  patient registration \u2192 \nappointment \u2192 consultation \u2192 diagnosis \u2192 laboratory/pharmacy \u2192 billing \u2192 follow -\nup, and admission \u2192 bed allocation \u2192 treatment \u2192 investigations \u2192 discharge \u2192 final \nbilling. Non -functional requirements should include responsive web UI, scalability, high \navailability, fast API responses , secure authentication, password encryption, session \nmanagement, HTTPS, database integrity, auditability, privacy of medical information, error \nhandling, logging, and regular backups. A suitable architecture can use  React/Next.js for \nfrontend, FastAPI/Node.js/Spring Boot for backend, PostgreSQL/MySQL for database, \nREST APIs, JWT/OAuth-based authentication, Redis for caching/queues, and cloud or \non-premise deployment , with separate modules for  Authentication, Patients, \nAppointments, EMR, Doctors, Nursing, L aboratory, Pharmacy, Billing, Inventory, \nStaff, Reports, Notifications, and Administration.",
+  "verification_summary": {
+    "verdicts": [
+      {
+        "claim_index": 0,
+        "claim": "1. Agile Methodology & Persona Mapping: This document outlines user stories synthesized for **User Stories \u2014 hii** in the **HEALTHCARE** sector. User roles and ",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source document does not mention Agile methodology, persona mapping, or the specific user story title 'User Stories \u2014 hii'."
+      },
+      {
+        "claim_index": 1,
+        "claim": "US-01: Core System \u2014 Enterprise User As an enterprise user, I want to access User Stories \u2014 hii features, so that I can execute operational tasks.",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source text does not contain specific user stories, the identifier 'US-01', or the role 'Enterprise User'."
+      },
+      {
+        "claim_index": 2,
+        "claim": "3. Release Slicing & Implementation Dependencies: \u2022 **Sprint 1**: Core identity, authentication, and foundational HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM boundary c",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source document does not define sprint plans, release slicing, or specific compliance standards like HIPAA, GDPR, HL7 FHIR, or DICOM."
+      }
+    ],
+    "verified_count": 0,
+    "flagged_count": 3,
+    "flagged_items": [
+      {
+        "claim_index": 0,
+        "claim": "1. Agile Methodology & Persona Mapping: This document outlines user stories synthesized for **User Stories \u2014 hii** in the **HEALTHCARE** sector. User roles and ",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source document does not mention Agile methodology, persona mapping, or the specific user story title 'User Stories \u2014 hii'."
+      },
+      {
+        "claim_index": 1,
+        "claim": "US-01: Core System \u2014 Enterprise User As an enterprise user, I want to access User Stories \u2014 hii features, so that I can execute operational tasks.",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source text does not contain specific user stories, the identifier 'US-01', or the role 'Enterprise User'."
+      },
+      {
+        "claim_index": 2,
+        "claim": "3. Release Slicing & Implementation Dependencies: \u2022 **Sprint 1**: Core identity, authentication, and foundational HIPAA, GDPR (if EU patients), HL7 FHIR, DICOM boundary c",
+        "confidence": 0,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The source document does not define sprint plans, release slicing, or specific compliance standards like HIPAA, GDPR, HL7 FHIR, or DICOM."
+      }
+    ],
+    "total_claims": 3
+  },
+  "id": "1091d2ad-9bb5-47d4-aa32-c8fa9f6558bf",
+  "pdf_export_url": "/api/v1/documents/1091d2ad-9bb5-47d4-aa32-c8fa9f6558bf/export/pdf?title=hii&type=USER_STORIES",
+  "conversation_id": "d3dd6a09-8cc5-4a39-ab9a-61f772180578",
+  "approved_at": "2026-08-31T17:46:18.526929+00:00"
+}

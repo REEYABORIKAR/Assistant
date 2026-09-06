@@ -1,0 +1,197 @@
+{
+  "id": "faa22e22-8c8a-4f21-8c20-b3ec985e78ce",
+  "generation_id": "ceeb3c79-01be-4ef3-af1e-43c91a2c4e9e",
+  "doc_type": "SRS",
+  "title": "Software Requirements Specification \u2014 Patient Portal",
+  "version": "v1.1",
+  "version_num": 2,
+  "parent_version": 1,
+  "parent_id": "ceeb3c79-01be-4ef3-af1e-43c91a2c4e9e",
+  "status": "PENDING_APPROVAL",
+  "created_at": "2026-08-31T18:58:30.664725+00:00",
+  "reviewed_at": null,
+  "rejection_feedback": null,
+  "sections": [
+    {
+      "title": "1. Technical Introduction (Purpose, Scope, Definitions)",
+      "body": "### 1.1 Purpose\nThis Software Requirements Specification (SRS) defines the technical requirements for the Hospital EMR Patient Portal. The document serves as a baseline for design, implementation, and verification of the system.\n\n### 1.2 Scope\nThe system is a patient-facing portal integrated with the Hospital Electronic Medical Record (EMR) system, enabling patients to manage their health information securely.\n\n### 1.3 Definitions\n- **EMR**: Electronic Medical Record.\n- **PHI**: Protected Health Information.\n- **HIPAA**: Health Insurance Portability and Accountability Act."
+    },
+    {
+      "title": "2. Overall Description & System Architecture",
+      "body": "The Patient Portal operates as a web-based application interfacing with the core Hospital EMR system. The architecture supports secure data exchange, user authentication, and patient self-service capabilities. The system is designed to handle sensitive healthcare data in compliance with industry standards."
+    },
+    {
+      "title": "3. Functional Requirements",
+      "table": [
+        [
+          "SRS ID",
+          "Subsystem",
+          "Technical Specification",
+          "Priority",
+          "Verification Method"
+        ],
+        [
+          "SRS-F-001",
+          "Authentication",
+          "Implement secure user login and session management for patients.",
+          "High",
+          "Manual Testing"
+        ],
+        [
+          "SRS-F-002",
+          "Data Access",
+          "Enable patients to view their medical records and appointment schedules.",
+          "High",
+          "Integration Testing"
+        ]
+      ]
+    },
+    {
+      "title": "4. Non-Functional Requirements (Performance, Security, Reliability mapped to domain standards)",
+      "body": "### 4.1 Performance\nThe system must maintain a P95 latency of less than 250ms for standard portal interactions, per healthcare domain NFR benchmarks.\n\n### 4.2 Security (Revised)\n- **Encryption at Rest**: All Protected Health Information (PHI) stored in the database must be encrypted using AES-256 or an equivalent standard, per HIPAA \u00a7164.312(a)(2)(iv).\n- **Audit Logging**: The system must implement comprehensive audit logging for all access to and modifications of PHI. Logs must record the user, timestamp, action, and data accessed, and must be tamper-evident, per HIPAA \u00a7164.312(b)."
+    },
+    {
+      "title": "5. External Interface Requirements (APIs, UI, Hardware)",
+      "body": "### 5.1 APIs\nThe portal will consume RESTful APIs provided by the Hospital EMR system to retrieve patient data.\n\n### 5.2 UI\nThe user interface must be accessible via standard web browsers and support responsive design for mobile devices."
+    },
+    {
+      "title": "6. System Constraints & Compliance Verification",
+      "body": "The system must comply with all applicable HIPAA regulations. Compliance verification will be conducted through security audits and penetration testing prior to deployment. Data residency and backup policies must align with hospital IT infrastructure standards."
+    }
+  ],
+  "user_stories_data": {},
+  "quality_score": 95,
+  "verification_summary": {
+    "verdicts": [
+      {
+        "claim_index": 0,
+        "claim": "1. Technical Introduction (Purpose, Scope, Definitions): ### 1.1 Purpose\nThis Software Requirements Specification (SRS) defines the technical requirements for the Hospital EMR P",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Source only mentions a hospital EMR system, no SRS purpose section."
+      },
+      {
+        "claim_index": 1,
+        "claim": "2. Overall Description & System Architecture: The Patient Portal operates as a web-based application interfacing with the core Hospital EMR system. The architecture s",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No description of a patient portal or architecture in the source."
+      },
+      {
+        "claim_index": 2,
+        "claim": "SRS-F-001: Authentication \u2014 Implement secure user login and session management for patients. High",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Authentication requirement not present in the excerpt."
+      },
+      {
+        "claim_index": 3,
+        "claim": "SRS-F-002: Data Access \u2014 Enable patients to view their medical records and appointment schedules. High",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Data access requirement not mentioned in the source."
+      },
+      {
+        "claim_index": 4,
+        "claim": "4. Non-Functional Requirements (Performance, Security, Reliability mapped to domain standards): ### 4.1 Performance\nThe system must maintain a P95 latency of less than 250ms for standard portal interactions, per heal",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Performance metrics are absent from the excerpt."
+      },
+      {
+        "claim_index": 5,
+        "claim": "5. External Interface Requirements (APIs, UI, Hardware): ### 5.1 APIs\nThe portal will consume RESTful APIs provided by the Hospital EMR system to retrieve patient data.\n\n### 5.2",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "API interface details are not provided in the source."
+      },
+      {
+        "claim_index": 6,
+        "claim": "6. System Constraints & Compliance Verification: The system must comply with all applicable HIPAA regulations. Compliance verification will be conducted through security",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Compliance statement is not found in the excerpt."
+      }
+    ],
+    "verified_count": 0,
+    "flagged_count": 7,
+    "flagged_items": [
+      {
+        "claim_index": 0,
+        "claim": "1. Technical Introduction (Purpose, Scope, Definitions): ### 1.1 Purpose\nThis Software Requirements Specification (SRS) defines the technical requirements for the Hospital EMR P",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Source only mentions a hospital EMR system, no SRS purpose section."
+      },
+      {
+        "claim_index": 1,
+        "claim": "2. Overall Description & System Architecture: The Patient Portal operates as a web-based application interfacing with the core Hospital EMR system. The architecture s",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "No description of a patient portal or architecture in the source."
+      },
+      {
+        "claim_index": 2,
+        "claim": "SRS-F-001: Authentication \u2014 Implement secure user login and session management for patients. High",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Authentication requirement not present in the excerpt."
+      },
+      {
+        "claim_index": 3,
+        "claim": "SRS-F-002: Data Access \u2014 Enable patients to view their medical records and appointment schedules. High",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Data access requirement not mentioned in the source."
+      },
+      {
+        "claim_index": 4,
+        "claim": "4. Non-Functional Requirements (Performance, Security, Reliability mapped to domain standards): ### 4.1 Performance\nThe system must maintain a P95 latency of less than 250ms for standard portal interactions, per heal",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Performance metrics are absent from the excerpt."
+      },
+      {
+        "claim_index": 5,
+        "claim": "5. External Interface Requirements (APIs, UI, Hardware): ### 5.1 APIs\nThe portal will consume RESTful APIs provided by the Hospital EMR system to retrieve patient data.\n\n### 5.2",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "API interface details are not provided in the source."
+      },
+      {
+        "claim_index": 6,
+        "claim": "6. System Constraints & Compliance Verification: The system must comply with all applicable HIPAA regulations. Compliance verification will be conducted through security",
+        "confidence": 5,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Compliance statement is not found in the excerpt."
+      }
+    ],
+    "total_claims": 7
+  },
+  "conversation_id": null,
+  "pdf_export_url": "/api/v1/documents/faa22e22-8c8a-4f21-8c20-b3ec985e78ce/export/pdf?title=Patient Portal&type=SRS",
+  "changed_story_ids": [],
+  "added_story_ids": [],
+  "removed_story_ids": [],
+  "revision_history": [
+    {
+      "version": "v1.0",
+      "feedback": "Add specific HIPAA encryption at rest and audit logging requirement.",
+      "revised_at": "2026-08-31T18:58:30.664743+00:00",
+      "changed_story_ids": [],
+      "added_story_ids": [],
+      "removed_story_ids": []
+    }
+  ],
+  "_source_audit": {},
+  "_domain_profile": {
+    "domain": "HEALTHCARE",
+    "compliance": [
+      "HIPAA"
+    ],
+    "standard_nfrs": [
+      "P95 latency < 250ms"
+    ]
+  },
+  "_doc_excerpt": "Hospital EMR patient management system."
+}

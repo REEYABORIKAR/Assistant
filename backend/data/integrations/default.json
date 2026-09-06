@@ -1,0 +1,36 @@
+{
+  "jira": {
+    "id": "jira",
+    "status": "CONNECTED",
+    "config": {
+      "baseUrl": "https://hrms-enterprise.atlassian.net",
+      "email": "admin@hrms.com",
+      "apiToken": "ATATT3xFfGF0_HRMS_DEMO_TOKEN",
+      "projectKey": "HRMS"
+    },
+    "last_synced_at": "2026-09-04T19:22:37.336371+00:00",
+    "last_sync_status": "SUCCESS",
+    "sync_stats": {
+      "items_synced": 15,
+      "last_action": "Exported 15 items to Jira"
+    },
+    "recent_events": [
+      {
+        "time": "19:22:37",
+        "level": "SUCCESS",
+        "message": "Synchronized 15 requirement items to JIRA (HRMS Enterprise BRD & RTM Traceability S...)."
+      },
+      {
+        "time": "19:22:37",
+        "level": "INFO",
+        "message": "Connection credentials updated for JIRA."
+      },
+      {
+        "time": "19:21:51",
+        "level": "INFO",
+        "message": "Connection credentials updated for JIRA."
+      }
+    ],
+    "updated_at": "2026-09-04T19:22:37.334776+00:00"
+  }
+}

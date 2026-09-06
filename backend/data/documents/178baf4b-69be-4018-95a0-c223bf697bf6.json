@@ -1,0 +1,210 @@
+{
+  "doc_type": "USER_STORIES",
+  "title": "Business Requirements Document \u2014 hii",
+  "version": "v1.0",
+  "status": "APPROVED",
+  "revision_history": [],
+  "parent_id": null,
+  "sections": [
+    {
+      "title": "1. Agile Methodology & Persona Mapping",
+      "body": "This document outlines the Agile user stories for the Hospital Management System (HMS). The system is designed to provide a centralized platform for managing hospital operations, patient information, medical records, appointments, and more. The Agile methodology will be used to develop the system in iterative sprints, with each sprint delivering a set of user stories that are tested and deployed. The personas for this system include Admin, Doctor, Nurse, Receptionist, Pharmacist, Lab Technician, Accountant, and Patient. Each persona has specific roles and responsibilities within the system, and the user stories are tailored to meet their needs. The system will support role-based access control, ensuring that each persona can only access the features and data relevant to their role. The user stories will be prioritized based on business value and dependencies, and will be tracked using a project management tool such as Jira or Trello."
+    },
+    {
+      "title": "2. Epics & User Stories Matrix",
+      "table": [
+        [
+          "Story ID",
+          "Epic",
+          "Persona",
+          "Capability Statement",
+          "Business Value",
+          "Priority"
+        ],
+        [
+          "US-001",
+          "Authentication & Access Control",
+          "Admin",
+          "Manage user roles and permissions",
+          "Ensure secure and role-based access to the system",
+          "High"
+        ],
+        [
+          "US-002",
+          "Patient Management",
+          "Receptionist",
+          "Register new patients and manage profiles",
+          "Streamline patient onboarding and data management",
+          "High"
+        ],
+        [
+          "US-003",
+          "Appointment Scheduling",
+          "Doctor",
+          "View and manage appointment schedules",
+          "Optimize doctor availability and patient flow",
+          "High"
+        ],
+        [
+          "US-004",
+          "Electronic Medical Records (EMR)",
+          "Doctor",
+          "Access and update patient medical records",
+          "Ensure accurate and up-to-date patient information",
+          "High"
+        ],
+        [
+          "US-005",
+          "Laboratory Management",
+          "Lab Technician",
+          "Process and report laboratory test results",
+          "Improve diagnostic accuracy and turnaround time",
+          "Medium"
+        ],
+        [
+          "US-006",
+          "Pharmacy Management",
+          "Pharmacist",
+          "Manage medicine inventory and prescriptions",
+          "Ensure availability of medications and reduce waste",
+          "Medium"
+        ],
+        [
+          "US-007",
+          "Billing & Payments",
+          "Accountant",
+          "Generate invoices and process payments",
+          "Streamline financial operations and improve cash flow",
+          "High"
+        ],
+        [
+          "US-008",
+          "Patient Portal",
+          "Patient",
+          "View appointments, prescriptions, and medical history",
+          "Enhance patient engagement and transparency",
+          "Medium"
+        ],
+        [
+          "US-009",
+          "Nursing Notes & Vital Signs",
+          "Nurse",
+          "Record and update nursing notes and vital signs",
+          "Support continuous patient monitoring and care",
+          "Medium"
+        ],
+        [
+          "US-010",
+          "Inventory & Procurement",
+          "Admin",
+          "Manage hospital inventory and procurement",
+          "Optimize resource allocation and reduce costs",
+          "Low"
+        ]
+      ]
+    },
+    {
+      "title": "3. Release Slicing & Implementation Dependencies",
+      "body": "The user stories will be sliced into releases based on their priority and dependencies. The first release will focus on core functionalities such as Authentication & Access Control, Patient Management, and Appointment Scheduling. Subsequent releases will include additional features such as Electronic Medical Records, Laboratory Management, and Pharmacy Management. Dependencies between user stories will be managed using a dependency graph, ensuring that prerequisite stories are completed before dependent stories are started. The implementation will follow an Agile approach, with regular sprints and retrospectives to ensure continuous improvement and adaptation to changing requirements."
+    }
+  ],
+  "_source_audit": {},
+  "_domain_profile": {
+    "domain": "HEALTHCARE",
+    "compliance": [
+      "HIPAA",
+      "GDPR (if EU patients)",
+      "HL7 FHIR",
+      "DICOM"
+    ],
+    "standard_nfrs": [
+      "PHI encryption at rest (AES-256)",
+      "audit trail immutability",
+      "RTO < 1h / RPO < 5min"
+    ]
+  },
+  "_doc_excerpt": "File: A Hospital Management System.pdf\n--- Page 1 ---\nHospital Management System \nA Hospital Management System (HMS)  should provide a centralized platform for \nmanaging hospital operations, patient information, medical records, appointments, doctors, \nnurses, staff, billing, pharmacy, laboratory, and inventory. The system should support  role-\nbased access  for Admin, Doctor, Nurse, Receptionist, Pharmacist, Lab Technician, \nAccountant, and Patient. Core requirements should include patient registration and profile \nmanagement, appointment scheduling and queue management, doctor availability, O PD/IPD \nmanagement, admission/discharge/transfer, electronic medical records, diagnosis, \nprescriptions, treatment history, allergies, vital signs, nursing notes, laboratory test requests \nand reports, pharmacy prescriptions and medicine inventory, bed/ward m anagement, billing \nand payments, insurance management, invoices and receipts, hospital expenses, staff \nmanagement, and inventory/procurement. Patients should be able to view appointments, \nprescriptions, reports, bills, and medical history through a portal,  while doctors should have \ndashboards for appointments, patient records, diagnosis, prescriptions, and clinical notes. \nThe system should also provide  dashboards, notifications, search/filtering, reports, audit \nlogs, data validation, backup/recovery, security, and role -based authorization . \nFunctional requirements should cover complete workflows such as  patient registration \u2192 \nappointment \u2192 consultation \u2192 diagnosis \u2192 laboratory/pharmacy \u2192 billing \u2192 follow -\nup, and admission \u2192 bed allocation \u2192 treatment \u2192 investigations \u2192 discharge \u2192 final \nbilling. Non -functional requirements should include responsive web UI, scalability, high \navailability, fast API responses , secure authentication, password encryption, session \nmanagement, HTTPS, database integrity, auditability, privacy of medical information, error \nhandling, logging, and regular backups. A suitable architecture can use  React/Next.js for \nfrontend, FastAPI/Node.js/Spring Boot for backend, PostgreSQL/MySQL for database, \nREST APIs, JWT/OAuth-based authentication, Redis for caching/queues, and cloud or \non-premise deployment , with separate modules for  Authentication, Patients, \nAppointments, EMR, Doctors, Nursing, L aboratory, Pharmacy, Billing, Inventory, \nStaff, Reports, Notifications, and Administration.",
+  "verification_summary": {
+    "verdicts": [
+      {
+        "claim_index": 0,
+        "claim": "1. Agile Methodology & Persona Mapping: This document outlines the Agile user stories for the Hospital Management System (HMS). The system is designed to provid",
+        "confidence": 20,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The excerpt contains no mention of Agile methodology or user stories."
+      },
+      {
+        "claim_index": 1,
+        "claim": "US-001: Authentication & Access Control \u2014 Admin Manage user roles and permissions",
+        "confidence": 55,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Role\u2011based access is described, but admin management of roles/permissions is not explicitly stated."
+      },
+      {
+        "claim_index": 2,
+        "claim": "US-002: Patient Management \u2014 Receptionist Register new patients and manage profiles",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Patient registration and profile management are listed, and Receptionist is included in role\u2011based access."
+      },
+      {
+        "claim_index": 3,
+        "claim": "US-003: Appointment Scheduling \u2014 Doctor View and manage appointment schedules",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Appointment scheduling and doctor dashboards for appointments are explicitly mentioned."
+      },
+      {
+        "claim_index": 4,
+        "claim": "US-004: Electronic Medical Records (EMR) \u2014 Doctor Access and update patient medical records",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Electronic medical records and doctor access to patient records are directly described."
+      },
+      {
+        "claim_index": 5,
+        "claim": "US-005: Laboratory Management \u2014 Lab Technician Process and report laboratory test results",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Laboratory test requests, reports, and a Lab Technician role are included in the requirements."
+      },
+      {
+        "claim_index": 6,
+        "claim": "3. Release Slicing & Implementation Dependencies: The user stories will be sliced into releases based on their priority and dependencies. The first release will focus on ",
+        "confidence": 20,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The text does not discuss release slicing or implementation dependencies."
+      }
+    ],
+    "verified_count": 4,
+    "flagged_count": 3,
+    "flagged_items": [
+      {
+        "claim_index": 0,
+        "claim": "1. Agile Methodology & Persona Mapping: This document outlines the Agile user stories for the Hospital Management System (HMS). The system is designed to provid",
+        "confidence": 20,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The excerpt contains no mention of Agile methodology or user stories."
+      },
+      {
+        "claim_index": 1,
+        "claim": "US-001: Authentication & Access Control \u2014 Admin Manage user roles and permissions",
+        "confidence": 55,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "Role\u2011based access is described, but admin management of roles/permissions is not explicitly stated."
+      },
+      {
+        "claim_index": 6,
+        "claim": "3. Release Slicing & Implementation Dependencies: The user stories will be sliced into releases based on their priority and dependencies. The first release will focus on ",
+        "confidence": 20,
+        "verdict": "LOW_CONFIDENCE",
+        "reason": "The text does not discuss release slicing or implementation dependencies."
+      }
+    ],
+    "total_claims": 7
+  },
+  "id": "178baf4b-69be-4018-95a0-c223bf697bf6",
+  "pdf_export_url": "/api/v1/documents/178baf4b-69be-4018-95a0-c223bf697bf6/export/pdf?title=hii&type=USER_STORIES",
+  "conversation_id": "d3dd6a09-8cc5-4a39-ab9a-61f772180578",
+  "approved_at": "2026-08-31T17:43:00.801540+00:00"
+}

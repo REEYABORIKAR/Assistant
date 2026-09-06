@@ -1,0 +1,412 @@
+{
+  "readiness_score": 62,
+  "clarity_score": 75,
+  "completeness_score": 55,
+  "security_score": 45,
+  "rtm_score": 40,
+  "summary": "The document outlines a business case and high-level requirements for 'NovaCart', an e-commerce platform for Northfield Retail Group. It defines four core journeys (Registration, Search, Cart/Checkout, Tracking) and establishes business rules for inventory and order management. However, it lacks detailed technical specifications, specific NFR benchmarks for latency (P95), and critical data privacy compliance details (GDPR/CCPA) required for an e-commerce system handling PII and payments.",
+  "risk_factors": [
+    {
+      "title": "Missing GDPR/CCPA Data Privacy Compliance",
+      "category": "DATA_PRIVACY",
+      "severity": "HIGH",
+      "description": "The document mentions PCI-DSS but completely omits GDPR/CCPA requirements for customer PII (email, mobile, address). There is no mention of data retention policies (beyond order history), right to erasure, or consent management.",
+      "mitigation": "Add a dedicated Data Privacy section specifying GDPR/CCPA compliance, including data minimization, encryption at rest for PII, and mechanisms for user data deletion requests.",
+      "source_ref": "Page 1, Page 7",
+      "verification": {
+        "claim_index": 0,
+        "claim": "Risk: Missing GDPR/CCPA Data Privacy Compliance \u2014 The document mentions PCI-DSS but completely omits GDPR/CCPA requirements for customer PII (email, mobile, address). There is no mention of data retention policies (beyond order history), right to erasure, or consent management.",
+        "confidence": 79,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 16 source keywords in document context."
+      }
+    },
+    {
+      "title": "Ambiguous Inventory Synchronization Strategy",
+      "category": "ARCHITECTURE",
+      "severity": "HIGH",
+      "description": "The document states stock is refreshed 'Twice daily from the internal inventory system via batch API' (Page 3). This creates a high risk of overselling or cart inconsistency under concurrent updates, violating the expected benchmark for cart consistency.",
+      "mitigation": "Define a real-time or near-real-time inventory sync mechanism (e.g., Webhooks or Event-Driven Architecture) or implement a reservation system during checkout to prevent overselling between batch updates.",
+      "source_ref": "Page 3",
+      "verification": {
+        "claim_index": 1,
+        "claim": "Risk: Ambiguous Inventory Synchronization Strategy \u2014 The document states stock is refreshed 'Twice daily from the internal inventory system via batch API' (Page 3). This creates a high risk of overselling or cart inconsistency under concurrent updates, violating the expected benchmark for cart consistency.",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 22 source keywords in document context."
+      }
+    },
+    {
+      "title": "Lack of Specific Latency Benchmarks",
+      "category": "OPERATIONAL",
+      "severity": "MEDIUM",
+      "description": "NFRs specify 'Search results within 2 seconds' and 'checkout transitions within 3 seconds' under 'normal load'. This is vague and does not meet the specific P95 checkout latency < 300ms benchmark expected for high-performance e-commerce. It also lacks definitions for 'normal load'.",
+      "mitigation": "Define specific P95/P99 latency targets for critical paths (e.g., P95 checkout < 300ms, P95 search < 200ms) and define load parameters (e.g., 5x average daily load) for performance testing.",
+      "source_ref": "Page 7",
+      "verification": {
+        "claim_index": 2,
+        "claim": "Risk: Lack of Specific Latency Benchmarks \u2014 NFRs specify 'Search results within 2 seconds' and 'checkout transitions within 3 seconds' under 'normal load'. This is vague and does not meet the specific P95 checkout latency < 300ms benchmark expected for high-performance e-commerce. It also lacks definitions for 'normal load'.",
+        "confidence": 82,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 22 source keywords in document context."
+      }
+    },
+    {
+      "title": "Incomplete PCI-DSS Scope Definition",
+      "category": "SECURITY",
+      "severity": "HIGH",
+      "description": "The document states 'no raw cardholder data may be stored locally' but does not specify the integration method (e.g., iframe, redirect, or API) or how tokenization will be handled. It also lacks details on network segmentation or vulnerability scanning requirements.",
+      "mitigation": "Specify the PCI-DSS compliance scope (e.g., SAQ A or SAQ D) and detail the integration pattern with the payment gateway to ensure no card data touches the application servers.",
+      "source_ref": "Page 1, Page 7",
+      "verification": {
+        "claim_index": 3,
+        "claim": "Risk: Incomplete PCI-DSS Scope Definition \u2014 The document states 'no raw cardholder data may be stored locally' but does not specify the integration method (e.g., iframe, redirect, or API) or how tokenization will be handled. It also lacks details on network segmentation or vulnerability scanning requirements.",
+        "confidence": 83,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 21 source keywords in document context."
+      }
+    }
+  ],
+  "conflicts_and_ambiguities": [
+    {
+      "issue": "Conflict between 'Real-time order tracking' and 'Batch inventory sync'",
+      "context": "Page 2 states 'Real-time order tracking', but Page 3 states stock is refreshed 'Twice daily... via batch API'. If stock changes are not real-time, order status (e.g., 'Out of Stock') may be inaccurate in real-time.",
+      "suggested_resolution": "Clarify that order status updates are real-time, but inventory availability checks at cart/checkout time must account for the batch sync delay or use a reservation mechanism.",
+      "source_ref": "Page 2, Page 3",
+      "verification": {
+        "claim_index": 14,
+        "claim": "Ambiguity: Conflict between 'Real-time order tracking' and 'Batch inventory sync' \u2014 Page 2 states 'Real-time order tracking', but Page 3 states stock is refreshed 'Twice daily... via batch API'. If stock changes are not real-time, order status (e.g., 'Out of Stock') may be inaccurate in real-time.",
+        "confidence": 91,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 34 source keywords in document context."
+      }
+    },
+    {
+      "issue": "Ambiguous 'Normal Load' Definition",
+      "context": "Page 7 NFRs state performance targets under 'normal load' but do not define what constitutes normal load (e.g., concurrent users, RPS).",
+      "suggested_resolution": "Define 'normal load' as a specific number of concurrent users or requests per second, and specify performance targets for peak load (5x average) as well.",
+      "source_ref": "Page 7",
+      "verification": {
+        "claim_index": 15,
+        "claim": "Ambiguity: Ambiguous 'Normal Load' Definition \u2014 Page 7 NFRs state performance targets under 'normal load' but do not define what constitutes normal load (e.g., concurrent users, RPS).",
+        "confidence": 81,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 13 source keywords in document context."
+      }
+    },
+    {
+      "issue": "Missing Definition of 'Processing' Status",
+      "context": "BRULE-04 allows cancellation only while status is 'Processing'. The document does not define when an order transitions to 'Processing' (e.g., after payment confirmation, after inventory reservation).",
+      "suggested_resolution": "Define the order state machine, specifying the exact trigger for the 'Processing' status (e.g., 'Processing' begins after successful payment gateway confirmation).",
+      "source_ref": "Page 6",
+      "verification": {
+        "claim_index": 16,
+        "claim": "Ambiguity: Missing Definition of 'Processing' Status \u2014 BRULE-04 allows cancellation only while status is 'Processing'. The document does not define when an order transitions to 'Processing' (e.g., after payment confirmation, after inventory reservation).",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 18 source keywords in document context."
+      }
+    }
+  ],
+  "missing_sections_and_details": [
+    {
+      "section_name": "Data Privacy & GDPR/CCPA Compliance",
+      "priority": "CRITICAL",
+      "why_missing": "E-commerce platforms handling customer PII (email, mobile, address) must comply with GDPR/CCPA. The absence of this section creates legal and security risks.",
+      "recommended_addition": "Add a section detailing data retention policies, encryption at rest for PII, consent management for marketing, and procedures for data subject access requests (DSAR) and right to erasure.",
+      "source_ref": "Page 7",
+      "verification": {
+        "claim_index": 4,
+        "claim": "Missing Gap: Data Privacy & GDPR/CCPA Compliance \u2014 E-commerce platforms handling customer PII (email, mobile, address) must comply with GDPR/CCPA. The absence of this section creates legal and security risks.",
+        "confidence": 75,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 9 source keywords in document context."
+      }
+    },
+    {
+      "section_name": "Detailed Non-Functional Requirements (NFRs)",
+      "priority": "HIGH",
+      "why_missing": "Current NFRs are high-level and lack specific benchmarks (e.g., P95 latency, specific uptime SLA details, scalability metrics).",
+      "recommended_addition": "Add specific P95/P99 latency targets for search, cart, and checkout. Define availability SLA (e.g., 99.9% uptime), scalability metrics (e.g., support 10,000 concurrent users), and reliability metrics (e.g., RPO/RTO for disaster recovery).",
+      "source_ref": "Page 7",
+      "verification": {
+        "claim_index": 5,
+        "claim": "Missing Gap: Detailed Non-Functional Requirements (NFRs) \u2014 Current NFRs are high-level and lack specific benchmarks (e.g., P95 latency, specific uptime SLA details, scalability metrics).",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 11 source keywords in document context."
+      }
+    },
+    {
+      "section_name": "Security Architecture & Threat Model",
+      "priority": "HIGH",
+      "why_missing": "The document mentions security in NFRs but lacks a dedicated security architecture section detailing authentication (OAuth2/OIDC), authorization (RBAC), and threat mitigation (OWASP Top 10).",
+      "recommended_addition": "Add a section specifying authentication protocols (e.g., OAuth2), authorization model (RBAC), and specific OWASP Top 10 mitigations (e.g., SQL injection, XSS, CSRF).",
+      "source_ref": "Page 7",
+      "verification": {
+        "claim_index": 6,
+        "claim": "Missing Gap: Security Architecture & Threat Model \u2014 The document mentions security in NFRs but lacks a dedicated security architecture section detailing authentication (OAuth2/OIDC), authorization (RBAC), and threat mitigation (OWASP Top 10).",
+        "confidence": 75,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 5 source keywords in document context."
+      }
+    },
+    {
+      "section_name": "API Specification & Integration Details",
+      "priority": "MEDIUM",
+      "why_missing": "The document mentions integration with a payment gateway and internal inventory API but lacks details on API contracts, error handling, and retry logic.",
+      "recommended_addition": "Add a section detailing the API integration strategy, including request/response schemas, error codes, and idempotency key handling for payment and inventory APIs.",
+      "source_ref": "Page 3, Page 7",
+      "verification": {
+        "claim_index": 7,
+        "claim": "Missing Gap: API Specification & Integration Details \u2014 The document mentions integration with a payment gateway and internal inventory API but lacks details on API contracts, error handling, and retry logic.",
+        "confidence": 81,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 13 source keywords in document context."
+      }
+    }
+  ],
+  "rtm_matrix": [
+    {
+      "req_id": "BR-001",
+      "business_goal": "Customer Registration",
+      "technical_component": "Customer Module",
+      "test_case_verification": "Verify user can register with email/mobile, receive OTP, and activate account.",
+      "status": "PARTIAL",
+      "source_ref": "Page 6",
+      "verification": {
+        "claim_index": 8,
+        "claim": "Traceability: BR-001 Customer Registration via Customer Module",
+        "confidence": 90,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 6 source keywords in document context."
+      }
+    },
+    {
+      "req_id": "BR-002",
+      "business_goal": "Login",
+      "technical_component": "Customer Module",
+      "test_case_verification": "Verify authenticated user can log in and access account; verify lockout after 3 failed attempts.",
+      "status": "PARTIAL",
+      "source_ref": "Page 6",
+      "verification": {
+        "claim_index": 9,
+        "claim": "Traceability: BR-002 Login via Customer Module",
+        "confidence": 90,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 5 source keywords in document context."
+      }
+    },
+    {
+      "req_id": "BR-003",
+      "business_goal": "Product Search",
+      "technical_component": "Product Module",
+      "test_case_verification": "Verify search returns relevant results within 2s; verify filters (category, price, availability) work correctly.",
+      "status": "PARTIAL",
+      "source_ref": "Page 6",
+      "verification": {
+        "claim_index": 10,
+        "claim": "Traceability: BR-003 Product Search via Product Module",
+        "confidence": 90,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 6 source keywords in document context."
+      }
+    },
+    {
+      "req_id": "BR-004",
+      "business_goal": "Shopping Cart",
+      "technical_component": "Shopping Cart Module",
+      "test_case_verification": "Verify cart persists across sessions; verify stock check prevents adding out-of-stock items.",
+      "status": "PARTIAL",
+      "source_ref": "Page 6",
+      "verification": {
+        "claim_index": 11,
+        "claim": "Traceability: BR-004 Shopping Cart via Shopping Cart Module",
+        "confidence": 91,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 7 source keywords in document context."
+      }
+    },
+    {
+      "req_id": "BR-005",
+      "business_goal": "Checkout",
+      "technical_component": "Order Management Module",
+      "test_case_verification": "Verify checkout flow completes with valid payment; verify idempotency prevents duplicate orders.",
+      "status": "PARTIAL",
+      "source_ref": "Page 6",
+      "verification": {
+        "claim_index": 12,
+        "claim": "Traceability: BR-005 Checkout via Order Management Module",
+        "confidence": 90,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 6 source keywords in document context."
+      }
+    },
+    {
+      "req_id": "BR-006",
+      "business_goal": "Order Tracking",
+      "technical_component": "Order Management Module",
+      "test_case_verification": "Verify customer can view order status and history for 24 months.",
+      "status": "PARTIAL",
+      "source_ref": "Page 6",
+      "verification": {
+        "claim_index": 13,
+        "claim": "Traceability: BR-006 Order Tracking via Order Management Module",
+        "confidence": 91,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 7 source keywords in document context."
+      }
+    }
+  ],
+  "ai_recommendations": [
+    "Implement a real-time inventory synchronization mechanism (e.g., Webhooks or Event-Driven Architecture) to replace the 'twice daily batch' approach, ensuring cart consistency and preventing overselling.",
+    "Add a dedicated Data Privacy section to address GDPR/CCPA compliance, including data retention policies, encryption at rest for PII, and procedures for data subject access requests.",
+    "Define specific P95/P99 latency benchmarks for critical paths (e.g., P95 checkout < 300ms) and clarify the definition of 'normal load' for performance testing.",
+    "Specify the PCI-DSS compliance scope (e.g., SAQ A) and detail the integration pattern with the payment gateway to ensure no card data touches the application servers.",
+    "Define the order state machine, specifying the exact trigger for the 'Processing' status to resolve ambiguity in cancellation rules."
+  ],
+  "domain_profile": {
+    "domain": "ECOMMERCE",
+    "compliance": [
+      "PCI-DSS",
+      "GDPR/CCPA (customer PII)"
+    ],
+    "standard_nfrs": [
+      "cart consistency under concurrent stock updates",
+      "P95 checkout latency < 300ms"
+    ]
+  },
+  "verification_summary": {
+    "verdicts": [
+      {
+        "claim_index": 0,
+        "claim": "Risk: Missing GDPR/CCPA Data Privacy Compliance \u2014 The document mentions PCI-DSS but completely omits GDPR/CCPA requirements for customer PII (email, mobile, address). There is no mention of data retention policies (beyond order history), right to erasure, or consent management.",
+        "confidence": 79,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 16 source keywords in document context."
+      },
+      {
+        "claim_index": 1,
+        "claim": "Risk: Ambiguous Inventory Synchronization Strategy \u2014 The document states stock is refreshed 'Twice daily from the internal inventory system via batch API' (Page 3). This creates a high risk of overselling or cart inconsistency under concurrent updates, violating the expected benchmark for cart consistency.",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 22 source keywords in document context."
+      },
+      {
+        "claim_index": 2,
+        "claim": "Risk: Lack of Specific Latency Benchmarks \u2014 NFRs specify 'Search results within 2 seconds' and 'checkout transitions within 3 seconds' under 'normal load'. This is vague and does not meet the specific P95 checkout latency < 300ms benchmark expected for high-performance e-commerce. It also lacks definitions for 'normal load'.",
+        "confidence": 82,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 22 source keywords in document context."
+      },
+      {
+        "claim_index": 3,
+        "claim": "Risk: Incomplete PCI-DSS Scope Definition \u2014 The document states 'no raw cardholder data may be stored locally' but does not specify the integration method (e.g., iframe, redirect, or API) or how tokenization will be handled. It also lacks details on network segmentation or vulnerability scanning requirements.",
+        "confidence": 83,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 21 source keywords in document context."
+      },
+      {
+        "claim_index": 4,
+        "claim": "Missing Gap: Data Privacy & GDPR/CCPA Compliance \u2014 E-commerce platforms handling customer PII (email, mobile, address) must comply with GDPR/CCPA. The absence of this section creates legal and security risks.",
+        "confidence": 75,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 9 source keywords in document context."
+      },
+      {
+        "claim_index": 5,
+        "claim": "Missing Gap: Detailed Non-Functional Requirements (NFRs) \u2014 Current NFRs are high-level and lack specific benchmarks (e.g., P95 latency, specific uptime SLA details, scalability metrics).",
+        "confidence": 80,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 11 source keywords in document context."
+      },
+      {
+        "claim_index": 6,
+        "claim": "Missing Gap: Security Architecture & Threat Model \u2014 The document mentions security in NFRs but lacks a dedicated security architecture section detailing authentication (OAuth2/OIDC), authorization (RBAC), and threat mitigation (OWASP Top 10).",
+        "confidence": 75,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 5 source keywords in document context."
+      },
+      {
+        "claim_index": 7,
+        "claim": "Missing Gap: API Specification & Integration Details \u2014 The document mentions integration with a payment gateway and internal inventory API but lacks details on API contracts, error handling, and retry logic.",
+        "confidence": 81,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 13 source keywords in document context."
+      },
+      {
+        "claim_index": 8,
+        "claim": "Traceability: BR-001 Customer Registration via Customer Module",
+        "confidence": 90,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 6 source keywords in document context."
+      },
+      {
+        "claim_index": 9,
+        "claim": "Traceability: BR-002 Login via Customer Module",
+        "confidence": 90,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 5 source keywords in document context."
+      },
+      {
+        "claim_index": 10,
+        "claim": "Traceability: BR-003 Product Search via Product Module",
+        "confidence": 90,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 6 source keywords in document context."
+      },
+      {
+        "claim_index": 11,
+        "claim": "Traceability: BR-004 Shopping Cart via Shopping Cart Module",
+        "confidence": 91,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 7 source keywords in document context."
+      },
+      {
+        "claim_index": 12,
+        "claim": "Traceability: BR-005 Checkout via Order Management Module",
+        "confidence": 90,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 6 source keywords in document context."
+      },
+      {
+        "claim_index": 13,
+        "claim": "Traceability: BR-006 Order Tracking via Order Management Module",
+        "confidence": 91,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 7 source keywords in document context."
+      },
+      {
+        "claim_index": 14,
+        "claim": "Ambiguity: Conflict between 'Real-time order tracking' and 'Batch inventory sync' \u2014 Page 2 states 'Real-time order tracking', but Page 3 states stock is refreshed 'Twice daily... via batch API'. If stock changes are not real-time, order status (e.g., 'Out of Stock') may be inaccurate in real-time.",
+        "confidence": 91,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 34 source keywords in document context."
+      },
+      {
+        "claim_index": 15,
+        "claim": "Ambiguity: Ambiguous 'Normal Load' Definition \u2014 Page 7 NFRs state performance targets under 'normal load' but do not define what constitutes normal load (e.g., concurrent users, RPS).",
+        "confidence": 81,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 13 source keywords in document context."
+      },
+      {
+        "claim_index": 16,
+        "claim": "Ambiguity: Missing Definition of 'Processing' Status \u2014 BRULE-04 allows cancellation only while status is 'Processing'. The document does not define when an order transitions to 'Processing' (e.g., after payment confirmation, after inventory reservation).",
+        "confidence": 85,
+        "verdict": "SUPPORTED",
+        "reason": "Grounding verified: matched 18 source keywords in document context."
+      }
+    ],
+    "verified_count": 17,
+    "flagged_count": 0,
+    "flagged_items": [],
+    "total_claims": 17
+  },
+  "content_hash": "a4142f67fa154ab9c022a9ac85d712111b15ed772a45680d2a75702924f9f2cb",
+  "id": "b41d2d56-9bb7-4dc3-b951-e2501bd60020",
+  "analyzed_at": "2026-09-01T18:31:26.804386+00:00",
+  "filename": "AI-Driven Requirement Engineering Assistant1 (1).pdf",
+  "file_id": null,
+  "conversation_id": null
+}

@@ -1,0 +1,313 @@
+{
+  "doc_type": "USER_STORIES",
+  "title": "User Stories — Hospital Management System (HMS)",
+  "version": "v2.0",
+  "status": "APPROVED",
+  "revision_history": [
+    {
+      "version": "v1.0",
+      "updated_at": "2026-08-31T17:30:00+00:00",
+      "summary": "Initial 15 draft user stories."
+    },
+    {
+      "version": "v2.0",
+      "updated_at": "2026-08-31T23:12:00+00:00",
+      "summary": "Comprehensive overhaul: added missing OPD/IPD lifecycles, decomposed pharmacy & staff/inventory, removed ungrounded compliance figures (HIPAA/AES-256/RPO/RTO), and realigned release roadmap strictly to the HMS PDF specification."
+    }
+  ],
+  "parent_id": "9e46e073-8d59-4809-9c62-d25e47677c5f",
+  "sections": [
+    {
+      "title": "1. System Personas & User Roles",
+      "body": "The Hospital Management System (HMS) supports granular role-based access for the 8 authorized user roles explicitly defined in the source specification:\n\n- **Admin:** System configuration, user management, audit logs, backup/recovery, and overall system governance.\n- **Doctor:** Clinical dashboards, patient records, consultation notes, diagnosis, prescriptions, and lab test orders.\n- **Nurse:** Vital signs recording, nursing notes, patient care tasks, and ward transfer assistance.\n- **Receptionist:** Patient registration, profile management, appointment scheduling, and OPD queue management.\n- **Pharmacist:** Prescription fulfillment, medicine dispensing, inventory updates, batch/expiry tracking, and stock alerts.\n- **Lab Technician:** Laboratory test orders processing, sample collection, result entry, and diagnostic report generation.\n- **Accountant:** Outpatient/inpatient billing, payment processing, insurance management, invoices/receipts, and hospital expenses.\n- **Patient:** Self-service portal to view appointments, prescriptions, diagnostic reports, bills, and medical history.\n\nAll user stories strictly conform to the standard format: *As a <Persona>, I want <Capability>, so that <Business Value>*."
+    },
+    {
+      "title": "2. Epics & User Stories Specification Matrix",
+      "table": [
+        [
+          "Story ID",
+          "Epic",
+          "Persona",
+          "Capability Statement",
+          "Business Value",
+          "Priority"
+        ],
+        [
+          "US-OPD-01",
+          "Outpatient & Registration",
+          "Receptionist",
+          "As a Receptionist, I want to register new patients and create complete profiles with demographics and contact details, so that unique records are maintained for all visits.",
+          "Establishes a single source of truth for patient identification and future clinical encounters.",
+          "High"
+        ],
+        [
+          "US-OPD-02",
+          "Outpatient & Registration",
+          "Patient",
+          "As a Patient, I want to log into the patient portal to view and update my profile and medical history, so that my personal information remains accurate.",
+          "Empowers patients and reduces manual front-desk data entry errors.",
+          "Medium"
+        ],
+        [
+          "US-OPD-03",
+          "Appointment & Queues",
+          "Receptionist",
+          "As a Receptionist, I want to schedule appointments against doctor availability calendars, so that patient visits are booked without conflicts.",
+          "Optimizes physician time and prevents double-booking.",
+          "High"
+        ],
+        [
+          "US-OPD-04",
+          "Appointment & Queues",
+          "Doctor",
+          "As a Doctor, I want to manage my schedule, available consultation hours, and view my daily appointment list on a dashboard, so that I can organize clinical consultations effectively.",
+          "Enhances physician preparedness and workflow efficiency.",
+          "High"
+        ],
+        [
+          "US-OPD-05",
+          "Appointment & Queues",
+          "Receptionist / Nurse",
+          "As a Receptionist / OPD Nurse, I want to issue queue tokens and track live consultation statuses, so that outpatient flow proceeds in an orderly sequence.",
+          "Minimizes patient waiting times and streamlines OPD hall operations.",
+          "High"
+        ],
+        [
+          "US-IPD-01",
+          "Inpatient Management",
+          "IPD Staff / Doctor",
+          "As an IPD Staff / Doctor, I want to record formal inpatient admission requests with admitting diagnoses, so that outpatient/emergency patients can transition to inpatient care.",
+          "Initiates the inpatient clinical lifecycle and formal care documentation.",
+          "High"
+        ],
+        [
+          "US-IPD-02",
+          "Inpatient Management",
+          "IPD Coordinator",
+          "As an IPD Coordinator, I want to view real-time ward/room occupancy and allocate available beds to admitted patients, so that patients are assigned appropriate accommodations.",
+          "Optimizes hospital bed capacity and avoids allocation conflicts.",
+          "High"
+        ],
+        [
+          "US-IPD-03",
+          "Inpatient Management",
+          "Nurse / Ward Staff",
+          "As a Nurse / Ward Staff, I want to record patient bed/ward transfers with reasons and timestamps, so that occupancy and differential ward charges stay synchronized.",
+          "Maintains accurate patient location tracking and billing transparency.",
+          "Medium"
+        ],
+        [
+          "US-IPD-04",
+          "Inpatient Management",
+          "Doctor / Head Nurse",
+          "As a Doctor / Head Nurse, I want to process patient discharge and generate discharge summaries, so that clinical closure is recorded and final billing can be finalized.",
+          "Completes the inpatient care cycle and provides clear post-discharge instructions.",
+          "High"
+        ],
+        [
+          "US-EMR-01",
+          "Clinical & EMR",
+          "Doctor",
+          "As a Doctor, I want to record diagnoses, clinical notes, and treatment plans in the EMR, so that an accurate, permanent record of each patient encounter is maintained.",
+          "Ensures clinical continuity of care and comprehensive medical documentation.",
+          "High"
+        ],
+        [
+          "US-EMR-02",
+          "Clinical & EMR",
+          "Doctor / Nurse",
+          "As a Doctor / Nurse, I want to record and flag patient allergies and adverse reactions prominently on the patient record, so that unsafe treatments are prevented.",
+          "Directly protects patient safety by alerting medical staff prior to prescribing or administering care.",
+          "High"
+        ],
+        [
+          "US-EMR-03",
+          "Clinical & EMR",
+          "Nurse",
+          "As a Nurse, I want to record vital signs (BP, temperature, pulse, SpO2) and nursing notes, so that patient physiological progress is actively tracked.",
+          "Provides immediate visibility into clinical stability and recovery trends.",
+          "High"
+        ],
+        [
+          "US-EMR-04",
+          "Clinical & EMR",
+          "Doctor",
+          "As a Doctor, I want to review a consolidated timeline of past consultations, treatments, and prescriptions, so that I have complete historical context for medical decisions.",
+          "Improves diagnostic accuracy and prevents redundant investigations.",
+          "High"
+        ],
+        [
+          "US-LAB-01",
+          "Laboratory Management",
+          "Doctor",
+          "As a Doctor, I want to order laboratory test investigations during consultation, so that the lab receives order details and required test parameters immediately.",
+          "Eliminates paper-based order delays and standardizes test requests.",
+          "High"
+        ],
+        [
+          "US-LAB-02",
+          "Laboratory Management",
+          "Lab Technician",
+          "As a Lab Technician, I want to record sample collection and enter test findings against reference ranges, so that diagnostic results are validated.",
+          "Ensures reliable test data entry and lab workflow traceability.",
+          "High"
+        ],
+        [
+          "US-LAB-03",
+          "Laboratory Management",
+          "Lab Technician / Patient",
+          "As a Lab Technician / Patient, I want to publish and view finalized diagnostic reports through the portal, so that medical staff and patients have immediate access to results.",
+          "Accelerates clinical decision-making and patient access to health data.",
+          "Medium"
+        ],
+        [
+          "US-PHM-01",
+          "Pharmacy & Inventory",
+          "Pharmacist",
+          "As a Pharmacist, I want to view electronic prescriptions and dispense prescribed medications with dosage instructions, so that patients receive accurate medications.",
+          "Prevents medication dispensing errors and streamlines pharmacy counter service.",
+          "High"
+        ],
+        [
+          "US-PHM-02",
+          "Pharmacy & Inventory",
+          "Pharmacist",
+          "As a Pharmacist, I want medicine inventory stock levels to automatically decrement upon dispensing, so that stock records reflect actual on-hand quantities.",
+          "Ensures real-time inventory accuracy without manual stock-taking.",
+          "High"
+        ],
+        [
+          "US-PHM-03",
+          "Pharmacy & Inventory",
+          "Pharmacist",
+          "As a Pharmacist, I want to track medicine batches and expiration dates with automatic alerts, so that expired medicines are never dispensed.",
+          "Guarantees drug safety and compliance with pharmaceutical standards.",
+          "High"
+        ],
+        [
+          "US-PHM-04",
+          "Pharmacy & Inventory",
+          "Pharmacist / Admin",
+          "As a Pharmacist / Admin, I want to receive low-stock alerts when medicine quantities fall below reorder thresholds, so that critical medicines are replenished timely.",
+          "Prevents medication stockouts and guarantees uninterrupted clinical supply.",
+          "Medium"
+        ],
+        [
+          "US-BIL-01",
+          "Billing & Financials",
+          "Accountant",
+          "As an Accountant, I want to generate itemized bills for outpatient consultations, lab tests, and pharmacy purchases, so that charges are collected accurately.",
+          "Captures outpatient revenue and provides clear cost breakdowns to patients.",
+          "High"
+        ],
+        [
+          "US-BIL-02",
+          "Billing & Financials",
+          "Accountant",
+          "As an Accountant, I want to consolidate ward stay, procedures, medications, and investigations into a final inpatient bill upon discharge, so that billing is reconciled.",
+          "Guarantees complete cost capture for complex inpatient stays.",
+          "High"
+        ],
+        [
+          "US-BIL-03",
+          "Billing & Financials",
+          "Accountant",
+          "As an Accountant, I want to record insurance policies, verify coverage amounts, and process claim settlements, so that co-pays and insurance balances are split correctly.",
+          "Streamlines third-party payer processing and reduces patient out-of-pocket delays.",
+          "High"
+        ],
+        [
+          "US-BIL-04",
+          "Billing & Financials",
+          "Accountant / Patient",
+          "As an Accountant / Patient, I want to generate official receipts and view payment transaction history, so that proof of settlement is available and auditable.",
+          "Provides transparent financial records and supports audit compliance.",
+          "Medium"
+        ],
+        [
+          "US-BIL-05",
+          "Billing & Financials",
+          "Accountant / Admin",
+          "As an Accountant / Admin, I want to track hospital operational expenses (utilities, supplier bills, maintenance), so that total institutional cash flow is monitored.",
+          "Enables accurate operational budgeting and financial oversight.",
+          "Medium"
+        ],
+        [
+          "US-ADM-01",
+          "Administration & Governance",
+          "Admin",
+          "As an Admin, I want to manage staff profiles, department assignments, and system user roles, so that personnel directory and system access are structured.",
+          "Organizes human resource records and governs staff organizational units.",
+          "High"
+        ],
+        [
+          "US-ADM-02",
+          "Administration & Governance",
+          "Admin / Procurement",
+          "As an Admin / Procurement Officer, I want to manage general hospital supplies, equipment, and procurement requests, so that non-pharmacy hospital assets are maintained.",
+          "Prevents equipment and consumable shortages across non-clinical departments.",
+          "Medium"
+        ],
+        [
+          "US-ADM-03",
+          "Administration & Governance",
+          "Admin",
+          "As an Admin, I want to configure role-based access control and secure authentication, so that sensitive medical and financial data is restricted to authorized roles.",
+          "Enforces medical privacy and safeguards system boundaries.",
+          "High"
+        ],
+        [
+          "US-ADM-04",
+          "Administration & Governance",
+          "Admin",
+          "As an Admin, I want to review comprehensive system audit logs tracking user logins, medical record views, prescriptions, and billing modifications, so that actions are traceable.",
+          "Guarantees institutional auditability and administrative accountability.",
+          "High"
+        ],
+        [
+          "US-ADM-05",
+          "Administration & Governance",
+          "Admin",
+          "As an Admin, I want the system to perform automated data validation, error handling/logging, and regular database backups, so that system stability and data recovery are ensured.",
+          "Protects data integrity, minimizes downtime, and supports business continuity.",
+          "High"
+        ],
+        [
+          "US-ADM-06",
+          "Administration & Governance",
+          "Admin / Stakeholders",
+          "As an Admin / Stakeholders, I want executive dashboards, operational reports, search/filtering, and automated notifications, so that hospital metrics and alerts are easily accessible.",
+          "Provides actionable operational intelligence and keeps all stakeholders informed.",
+          "Medium"
+        ]
+      ]
+    },
+    {
+      "title": "3. Release Slicing & Implementation Roadmap",
+      "body": "The user stories are structured into three coherent, capability-driven releases aligned directly with the hospital's clinical and administrative workflows:\n\n### Release 1: Outpatient Care, Doctor Availability & Core EMR Foundation\n- **Objective:** Establish patient onboarding, front-desk scheduling, outpatient flow, and core clinical documentation.\n- **User Stories:** US-OPD-01, US-OPD-02, US-OPD-03, US-OPD-04, US-OPD-05, US-EMR-01, US-EMR-02, US-EMR-03, US-EMR-04, US-ADM-03 (Security & RBAC).\n- **Core Deliverables:** Patient registration, appointment booking, OPD queue tokens, vital signs entry, allergy alerts, doctor consultation notes, and secure role-based access.\n\n### Release 2: Inpatient (IPD) Lifecycle, Diagnostic Lab & Pharmacy Operations\n- **Objective:** Expand system to full inpatient admission-to-discharge workflows and integrated diagnostic/pharmaceutical units.\n- **User Stories:** US-IPD-01, US-IPD-02, US-IPD-03, US-IPD-04, US-LAB-01, US-LAB-02, US-LAB-03, US-PHM-01, US-PHM-02, US-PHM-03, US-PHM-04.\n- **Core Deliverables:** Inpatient admissions, visual bed/ward allocations, bed transfer tracking, discharge summaries, lab test requests/results, electronic prescription dispensing, real-time stock decrement, batch/expiry alerts, and low-stock replenishment notifications.\n\n### Release 3: Financials, Expenses, Hospital Administration & Governance\n- **Objective:** Complete the financial lifecycle, insurance processing, general procurement, reporting, and administrative safeguards.\n- **User Stories:** US-BIL-01, US-BIL-02, US-BIL-03, US-BIL-04, US-BIL-05, US-ADM-01, US-ADM-02, US-ADM-04, US-ADM-05, US-ADM-06.\n- **Core Deliverables:** OPD billing, final IPD reconciliation invoices, insurance claims management, receipts, hospital expense tracking, staff profiles, general inventory procurement, audit logging, data validation/backups, and management dashboards."
+    }
+  ],
+  "_source_audit": {},
+  "_domain_profile": {
+    "domain": "HEALTHCARE",
+    "compliance": [
+      "Privacy of Medical Information",
+      "Secure Role-Based Access Control",
+      "Auditability & System Logging",
+      "Database Integrity & Regular Backups"
+    ],
+    "standard_nfrs": [
+      "Responsive Web UI",
+      "Scalability & High Availability",
+      "Fast API Responses",
+      "Secure Authentication & Password Encryption",
+      "Session Management & HTTPS",
+      "Error Handling & Regular Backups"
+    ]
+  },
+  "_doc_excerpt": "File: A Hospital Management System.pdf\n--- Page 1 ---\nHospital Management System \nA Hospital Management System (HMS) should provide a centralized platform for managing hospital operations, patient information, medical records, appointments, doctors, nurses, staff, billing, pharmacy, laboratory, and inventory. The system should support role-based access for Admin, Doctor, Nurse, Receptionist, Pharmacist, Lab Technician, Accountant, and Patient. Core requirements should include patient registration and profile management, appointment scheduling and queue management, doctor availability, OPD/IPD management, admission/discharge/transfer, electronic medical records, diagnosis, prescriptions, treatment history, allergies, vital signs, nursing notes, laboratory test requests and reports, pharmacy prescriptions and medicine inventory, bed/ward management, billing and payments, insurance management, invoices and receipts, hospital expenses, staff management, and inventory/procurement. Patients should be able to view appointments, prescriptions, reports, bills, and medical history through a portal, while doctors should have dashboards for appointments, patient records, diagnosis, prescriptions, and clinical notes. The system should also provide dashboards, notifications, search/filtering, reports, audit logs, data validation, backup/recovery, security, and role-based authorization. Functional requirements should cover complete workflows such as patient registration → appointment → consultation → diagnosis → laboratory/pharmacy → billing → follow-up, and admission → bed allocation → treatment → investigations → discharge → final billing. Non-functional requirements should include responsive web UI, scalability, high availability, fast API responses, secure authentication, password encryption, session management, HTTPS, database integrity, auditability, privacy of medical information, error handling, logging, and regular backups. A suitable architecture can use React/Next.js for frontend, FastAPI/Node.js/Spring Boot for backend, PostgreSQL/MySQL for database, REST APIs, JWT/OAuth-based authentication, Redis for caching/queues, and cloud or on-premise deployment, with separate modules for Authentication, Patients, Appointments, EMR, Doctors, Nursing, Laboratory, Pharmacy, Billing, Inventory, Staff, Reports, Notifications, and Administration.",
+  "id": "9e46e073-8d59-4809-9c62-d25e47677c5f",
+  "pdf_export_url": "/api/v1/documents/9e46e073-8d59-4809-9c62-d25e47677c5f/export/pdf?title=Hospital Management System (HMS)&type=USER_STORIES",
+  "conversation_id": "d3dd6a09-8cc5-4a39-ab9a-61f772180578",
+  "approved_at": "2026-08-31T23:12:00.000000+00:00"
+}
