@@ -17,3 +17,5 @@ coverage/
 
 
 *.db
+
+backend/data/

@@ -97,6 +97,7 @@ async def generate_document_content(
     previous_doc: dict | None = None,
     api_key: str | None = None,
     tenant_id: str | None = None,
+    project_analysis: dict | None = None,
 ) -> dict:
     """Generate structured section & table content tailored specifically to BRD, SRS, RTM, USER_STORIES, or ACCEPTANCE_CRITERIA using LLM and verified audit ground truth."""
     from refyne.llm_service import generate_document_ai, detect_domain
@@ -114,7 +115,8 @@ async def generate_document_content(
         previous_sections=previous_sections,
         previous_doc=previous_doc,
         api_key=api_key,
-        tenant_id=tenant_id
+        tenant_id=tenant_id,
+        project_analysis=project_analysis
     )
 
 
@@ -269,14 +271,22 @@ def build_pdf_document(
                 table_data.append(row_cells)
                 
             num_cols = len(sec_table[0])
-            if num_cols == 6:  # User Stories Matrix: Story ID, Epic, Persona, Statement, Business Value, Priority
-                col_widths = [0.7*inch, 1.2*inch, 1.0*inch, 2.5*inch, 1.3*inch, 0.7*inch]
-            elif num_cols == 5:  # BRD Matrix / RTM: 5 columns
-                col_widths = [0.8*inch, 1.4*inch, 2.5*inch, 0.9*inch, 1.8*inch]
-            elif num_cols == 7:  # RTM or Threat Matrix: 7 columns
-                col_widths = [0.7*inch, 1.2*inch, 0.7*inch, 1.8*inch, 0.8*inch, 0.8*inch, 1.4*inch]
+            available_width = 7.5 * inch
+            if num_cols == 2:
+                col_widths = [2.0 * inch, 5.5 * inch]
+            elif num_cols == 3:
+                col_widths = [1.5 * inch, 2.5 * inch, 3.5 * inch]
+            elif num_cols == 4:
+                col_widths = [1.0 * inch, 1.5 * inch, 3.5 * inch, 1.5 * inch]
+            elif num_cols == 5:  # BRD / RTM 5-column table
+                col_widths = [1.0 * inch, 1.4 * inch, 2.5 * inch, 0.9 * inch, 1.7 * inch]
+            elif num_cols == 6:  # User Stories / Integration table
+                col_widths = [0.8 * inch, 1.2 * inch, 1.0 * inch, 2.4 * inch, 1.2 * inch, 0.9 * inch]
+            elif num_cols == 7:  # Threat / RTM 7-column table
+                col_widths = [0.7 * inch, 1.2 * inch, 0.7 * inch, 1.8 * inch, 0.8 * inch, 0.8 * inch, 1.5 * inch]
             else:
-                col_widths = [1.0*inch, 1.5*inch, 3.5*inch, 1.4*inch]
+                cw = available_width / max(1, num_cols)
+                col_widths = [cw] * num_cols
                 
             t = Table(table_data, colWidths=col_widths)
             t.setStyle(TableStyle([

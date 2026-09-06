@@ -2369,9 +2369,22 @@ async def generate_document_endpoint(
         audit_json = _load_persistent_audit(doc_title.lower())
     
     from refyne.llm_service import detect_domain
+    from refyne.project_analyzer import analyze_project_context
+    from refyne.srs_id_manager import manage_srs_ids
+    from refyne.srs_validator import validate_srs_document
+
     domain_profile = audit_json.get("domain_profile") if audit_json else None
     if not domain_profile:
         domain_profile = detect_domain(doc_context or doc_title)
+
+    # Execute Project Analysis Stage
+    tenant_str = str(session.tenant_id) if session else "default"
+    project_analysis = analyze_project_context(
+        db=db,
+        tenant_id=session.tenant_id if session else None,
+        doc_context=doc_context,
+        audit_json=audit_json or {}
+    )
 
     doc_content = await generate_document_content(
         doc_type=doc_type,
@@ -2380,8 +2393,17 @@ async def generate_document_endpoint(
         audit_json=audit_json or {},
         domain_profile=domain_profile,
         api_key=settings.groq_api_key,
-        tenant_id=str(session.tenant_id) if session else "default"
+        tenant_id=tenant_str,
+        project_analysis=project_analysis
     )
+
+    # Post-generation SRS ID management & pre-output validation
+    if doc_type == "SRS":
+        doc_content = manage_srs_ids(doc_content, previous_doc=None)
+        validation_report = validate_srs_document(doc_content, project_analysis=project_analysis)
+        doc_content["validation_report"] = validation_report
+    
+    doc_content["project_analysis"] = project_analysis
     
     doc_id = str(uuid.uuid4())
     doc_content["id"] = doc_id
@@ -2421,6 +2443,22 @@ async def generate_document_endpoint(
             })
     
     return doc_content
+
+
+@app.get("/api/v1/documents/analyze", tags=["documents"])
+@app.post("/api/v1/documents/analyze", tags=["documents"])
+async def analyze_project_endpoint(
+    project_id: str | None = Query(default=None),
+    authorization: str | None = Header(default=None),
+    db: Session = Depends(get_db),
+) -> dict:
+    user, session = _authenticated_context(authorization, db)
+    from refyne.project_analyzer import analyze_project_context
+    return analyze_project_context(
+        db=db,
+        tenant_id=session.tenant_id if session else None,
+        project_id=project_id
+    )
 
 
 class DocumentDecisionRequest(BaseModel):

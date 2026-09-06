@@ -299,23 +299,23 @@ AUDIT_HASH_CACHE: dict[str, dict] = {}
 
 DOCUMENT_GENERATION_SYSTEM_PROMPT = f"""{SECURITY_GUARDRAIL}
 
-You are a Principal Requirements Engineer producing IEEE-standard software requirements documentation from a real, uploaded project specification.
+You are a Principal Requirements Engineer producing ISO/IEC/IEEE 29148-aligned software requirements documentation from a real project specification and project analysis context.
 
 You will be given:
-1. A condensed excerpt of the source document.
-2. A structured audit (risks, gaps, ambiguities, RTM draft) already computed for this document — treat this as verified ground truth, do not contradict it.
-3. A domain profile naming the applicable compliance frameworks and NFR benchmarks for this project's industry.
+1. A condensed excerpt of the source document/codebase context.
+2. An automated Project Analysis object (modules, APIs, DB entities, user roles, functional & NFR findings).
+3. A structured audit (risks, gaps, ambiguities, RTM draft) already computed for this document — treat this as verified ground truth.
 4. The requested document type: BRD | SRS | RTM | USER_STORIES | ACCEPTANCE_CRITERIA.
 
 RULES:
-- Base every section on the actual source excerpt and audit JSON provided. Never invent features, stakeholders, or modules that aren't implied by the source material.
-- Where the source is silent (a listed "missing section"), state that explicitly as an open item requiring stakeholder input — do not fabricate specifics to fill the gap.
-- Follow the exact section skeleton for the requested doc type (below). Do not add or omit top-level sections.
-- Use the domain profile's compliance frameworks and NFR benchmarks as the standard to measure the source document against, and cite them by name (e.g. "per HIPAA §164.312").
+- Base every section on the actual source excerpt, project analysis, and audit JSON provided. Never invent features, stakeholders, or modules that aren't implied by the source material.
+- Dynamic Section Applicability Rule: Sections are generated dynamically based on actual project evidence. If a specific section (e.g., hardware interface, legacy system adapter, or unrequested regulation) is not applicable or not specified in available project sources, explicitly state "Not applicable to the current project scope." or "Not specified in available project sources." rather than fabricating content.
+- Requirement IDs (FR-[MODULE]-001, NFR-SEC-001, BR-[MODULE]-001, API-001, UC-001) must be unique and consistent across all sections and in Section 19 (Requirements Traceability Matrix).
+- Acceptance criteria for functional requirements should be testable and use Given/When/Then format.
 - Output RAW JSON ONLY with the following structure:
 {{
-  "doc_type": "BRD",
-  "title": "Business Requirements Document — <Title>",
+  "doc_type": "SRS",
+  "title": "Software Requirements Specification (ISO/IEC/IEEE 29148) — <Title>",
   "version": "v1.0",
   "status": "PENDING_APPROVAL",
   "sections": [
@@ -335,61 +335,53 @@ RULES:
 
 DOCUMENT SKELETONS:
 
-BRD → 
-- 1. Document Control (table: Field, Details — Document Title, Project Name, Document ID, Version, Date, Prepared By, Reviewed By, Approved By, Status)
-- 2. Revision History (table: Version, Date, Author, Description of Changes, Approved By)
-- 3. Introduction (body covering: 3.1 Purpose, 3.2 Project Background, 3.3 Business Problem, 3.4 Business Objectives as a table: ID, Objective, Success Measure, 3.5 Expected Business Benefits as a bullet list)
-- 4. Scope (body covering: 4.1 In Scope, 4.2 Out of Scope, 4.3 System Boundaries)
-- 5. Stakeholder Analysis (table: Stakeholder ID, Stakeholder, Role, Responsibilities, Interest)
-- 6. User Classes and Roles (table: Role ID, User Role, Description, Access Level)
-- 7. Business Process Overview (body covering: 7.1 AS-IS Process, 7.2 TO-BE Process, 7.3 Process Flow narrative description)
-- 8. Business Requirements (table: Requirement ID, Business Requirement, Priority, Stakeholder, Acceptance Criteria)
-- 9. Functional Requirements (body: grouped by module, each requirement stated with Description, Preconditions, Input, Processing, Output, Business Rules, and Given/When/Then Acceptance Criteria)
-- 10. Non-Functional Requirements (body covering: 10.1 Performance, 10.2 Security, 10.3 Availability, 10.4 Scalability, 10.5 Usability, 10.6 Maintainability, 10.7 Compatibility)
-- 11. Business Rules (table: Rule ID, Business Rule, Description)
-- 12. Data Requirements (body covering: 12.1 Data Entities list, 12.2 Data Fields as a table: Entity, Field, Data Type, Required, Description, 12.3 Data Validation, 12.4 Data Retention)
-- 13. External System Requirements (table: System, Integration, Direction, Protocol/API)
-- 14. Interface Requirements (body covering: 14.1 User Interface, 14.2 API Interface, 14.3 Hardware Interface)
-- 15. Security Requirements (table: ID, Requirement, Priority)
-- 16. Reporting Requirements (table: Report ID, Report, Users, Frequency, Export)
-- 17. Notifications (table: Notification ID, Event, Recipient, Channel)
-- 18. Assumptions and Dependencies (body covering: Assumptions bullet list, Dependencies bullet list)
-- 19. Constraints (body: budget, timeline, technology, regulatory, team, infrastructure constraints as applicable)
-- 20. Risks (table: Risk ID, Risk, Probability, Impact, Mitigation)
-- 21. Acceptance Criteria (body: overall system acceptance conditions)
-- 22. Traceability Matrix (table: Business Req., Functional Req., Design, Test Case, Status)
-- 23. Change Management (table: Change ID, Requirement, Requested By, Reason, Impact, Approval, Status)
-- 24. Approval and Sign-Off (table: Role, Name, Signature, Date)
-- 25. Appendices (body: list of relevant supporting material implied by the source document — e.g. ER diagrams, glossary, data dictionary — only list items genuinely relevant, do not pad with irrelevant boilerplate)
+ISO/IEC/IEEE 29148 SRS ->
+- 0. Document Control & Revision History (table: Field, Details — Document Title, Project Name, Document ID, Version, Date, Prepared By, Status; Revision Table)
+- 1. Introduction (1.1 Purpose, 1.2 Scope, 1.3 Product Overview, 1.4 Definitions, Acronyms and Abbreviations, 1.5 References, 1.6 Document Conventions)
+- 2. Overall Description (2.1 Product Perspective, 2.2 Product Functions, 2.3 User Classes and Characteristics, 2.4 Operating Environment, 2.5 Design and Implementation Constraints, 2.6 Assumptions and Dependencies)
+- 3. System Features and Functional Requirements (Subsections per detected module: 3.1 [Module Name], FR-[MODULE]-001 with ID, Title, Description, Actor, Preconditions, Inputs, Processing, Outputs, Business Rules, Priority, Dependencies, Given/When/Then Acceptance Criteria)
+- 4. External Interface Requirements (4.1 User Interface, 4.2 Hardware Interface, 4.3 Software Interface, 4.4 Communication Interface)
+- 5. Non-Functional Requirements (5.1 Performance, 5.2 Security, 5.3 Availability, 5.4 Reliability, 5.5 Scalability, 5.6 Usability, 5.7 Maintainability, 5.8 Compatibility, 5.9 Accessibility, 5.10 Backup and Recovery with NFR-PERF-001, NFR-SEC-001, etc.)
+- 6. Data Requirements (6.1 Data Model, 6.2 Entities, 6.3 Database Requirements, 6.4 Data Validation, 6.5 Data Relationships, 6.6 Data Retention, 6.7 Data Integrity)
+- 7. Business Rules (table: Rule ID, Business Rule, Applicable Module, Related Requirement, Priority, Source)
+- 8. Security Requirements (table: Category, Requirement, Mechanism, Priority)
+- 9. Integration Requirements (table: Integration ID, External System, Purpose, Data Exchanged, Direction, Protocol, Auth, Error Handling)
+- 10. System Architecture (Frontend, Backend, Database, Authentication, APIs, Caching, Storage, Deployment)
+- 11. Database Design (Entity list, Tables, Relationships, Primary Keys, Foreign Keys, Constraints)
+- 12. API Requirements (table: API ID, HTTP Method, Endpoint, Purpose, Authentication, Authorization, Status Codes)
+- 13. Use Cases (table: Use Case ID, Name, Primary Actor, Goal, Preconditions, Trigger, Main Flow, Alt Flow, Exception Flow, Related Requirements)
+- 14. Workflows and State Requirements (State transitions & narrative description)
+- 15. Reporting Requirements (table: Report ID, Report Name, Purpose, Target User, Output, Export Format, Frequency)
+- 16. Logging and Audit Requirements (table: Audit Event, Event Type, Logged Data, Retention)
+- 17. Error Handling Requirements (table: Category, Expected System Behavior, Response Code)
+- 18. Testing and Verification Requirements (table: Req ID, Verification Method [Test|Inspection|Analysis|Demonstration], Acceptance Criteria)
+- 19. Requirements Traceability Matrix (table: BRD ID, SRS ID, Business Rule, API/Component, Test Case, Status)
+- 20. Acceptance Criteria (Functional, Security, NFR, UAT)
+- 21. Appendices (Glossary, Data dictionary, Diagrams, API references)
 
-BRD-SPECIFIC RULES:
-- Every section and table above MUST be present in the output — do not skip, merge, or omit any of the 25 sections, even if the source document is sparse for that section.
-- Where the source document provides no information for a section (e.g. no Change Management history exists yet, no prior approvals exist), do NOT fabricate names, dates, or signatures. Instead, populate that section with a clear statement like 'Not yet defined in source documentation — pending stakeholder input' or, for sign-off/date fields, leave them as empty strings or '[Pending]' rather than inventing fake people or dates.
-- Section 1 (Document Control) and Section 2 (Revision History) should reflect actual known metadata (project title, generation date, version 'v1.0', status 'PENDING_APPROVAL') — do not invent fake authors or reviewers.
-- Requirement IDs (BR-xxx, FR-xxx, etc.) must be sequential and consistent across sections 8, 9, 11, 15, and 22 so the Traceability Matrix in Section 22 genuinely links back to real requirement IDs used elsewhere in the same document, not fabricated ones.
-- This is a considerably longer document than before — prioritize accuracy and grounding in the real source/audit data over brevity, but do not pad any single section with repetitive or generic filler text just to appear complete.
+BRD ->
+- 1. Document Control & Revision History
+- 2. Executive Summary & Strategic Rationale
+- 3. Business Objectives & Success Metrics
+- 4. Scope & Operational Boundaries
+- 5. Stakeholder Analysis
+- 6. Business Requirements Specification Matrix
+- 7. Assumptions & Constraints
+- 8. Risk & Baseline Security
 
-SRS (IEEE 830) → 
-- 1. Technical Introduction (Purpose, Scope, Definitions)
-- 2. Overall Description & System Architecture
-- 3. Functional Requirements (table: SRS ID, Subsystem, Technical Specification, Priority, Verification Method)
-- 4. Non-Functional Requirements (Performance, Security, Reliability mapped to domain standards)
-- 5. External Interface Requirements (APIs, UI, Hardware)
-- 6. System Constraints & Compliance Verification
-
-RTM → 
+RTM ->
 - 1. Traceability Overview & Methodology
-- 2. End-to-End Requirement Traceability Matrix (table: Req ID, Business Requirement, Functional Spec Ref, Design Component, Test Case Verification, Verification Status)
+- 2. End-to-End Requirement Traceability Matrix
 - 3. Coverage Analysis & Unresolved Gaps
 
-USER_STORIES → 
+USER_STORIES ->
 - 1. Agile Methodology & Persona Mapping
-- 2. Epics & User Stories Matrix (table: Story ID, Epic, Persona, Capability Statement, Business Value, Priority)
+- 2. Epics & User Stories Matrix
 - 3. Release Slicing & Implementation Dependencies
 
-ACCEPTANCE_CRITERIA → 
+ACCEPTANCE_CRITERIA ->
 - 1. Acceptance Testing Strategy & Standards
-- 2. Given/When/Then Acceptance Criteria Specifications (structured Given/When/Then per requirement/story with edge cases)
+- 2. Given/When/Then Acceptance Criteria Specifications
 - 3. Boundary & Negative Test Case Scenarios
 """
 
@@ -400,7 +392,8 @@ def build_generation_prompt(
     domain_profile: dict,
     project_title: str,
     revision_feedback: str | None = None,
-    previous_sections: str | None = None
+    previous_sections: str | None = None,
+    project_analysis: dict | None = None
 ) -> str:
     base = f"""Document type requested: {doc_type}
 Project title: {project_title}
@@ -409,6 +402,9 @@ DOMAIN PROFILE:
 Industry: {domain_profile.get('domain', 'GENERIC_ENTERPRISE')}
 Applicable compliance frameworks: {', '.join(domain_profile.get('compliance', ['SOC 2', 'ISO 27001']))}
 Standard NFR benchmarks for this domain: {', '.join(domain_profile.get('standard_nfrs', ['P95 latency < 250ms', '99.9% uptime SLA']))}
+
+PROJECT ANALYSIS CONTEXT (Extracted from actual codebase, routes, DB entities, requirements):
+{json.dumps(project_analysis, indent=2) if project_analysis else "No explicit analyzer dump provided."}
 
 SOURCE DOCUMENT EXCERPT (condensed):
 """
@@ -422,7 +418,7 @@ SOURCE DOCUMENT EXCERPT (condensed):
                 clipped = clipped[:last_p]
             base += f"\n{clipped}\n\n[Note: Source document excerpt condensed to fit 20k context boundary. Complete document contains {len(doc_excerpt)} total characters.]"
     else:
-        base += "\nNo raw excerpt provided — base document strictly on verified audit findings below."
+        base += "\nNo raw excerpt provided — base document strictly on verified audit findings and project analysis below."
     base += f"""
 
 VERIFIED AUDIT FINDINGS (already computed — use as ground truth, do not re-derive):
@@ -445,7 +441,7 @@ Produce a revised version that directly addresses this feedback. Keep everything
 PREVIOUS DRAFT (for reference — edit this, don't start over):
 {previous_sections}"""
 
-    base += f"\n\nGenerate the {doc_type} JSON now, following the skeleton and rules exactly."
+    base += f"\n\nGenerate the {doc_type} JSON now, following the ISO/IEC/IEEE 29148 skeleton and rules exactly."
     return base
 
 
@@ -486,7 +482,8 @@ def _build_grounded_fallback_document(
     audit_json: dict,
     domain_profile: dict,
     doc_excerpt: str,
-    revision_feedback: str | None = None
+    revision_feedback: str | None = None,
+    project_analysis: dict | None = None
 ) -> dict:
     dtype = (doc_type or "BRD").upper()
     domain = domain_profile.get("domain", "GENERIC_ENTERPRISE")
@@ -500,7 +497,141 @@ def _build_grounded_fallback_document(
 
     rev_note = f"\n\n*Note on Applied Revision:* Addresses feedback: '{revision_feedback}'." if revision_feedback else ""
 
-    if dtype == "BRD":
+    if dtype == "SRS":
+        pa = project_analysis or {}
+        p_info = pa.get("project_info", {})
+        p_name = p_info.get("name", title)
+        p_desc = p_info.get("description", summary)
+        
+        # Section 0: Document Control
+        doc_control_rows = [
+            ["Field", "Details"],
+            ["Document Title", f"Software Requirements Specification — {p_name}"],
+            ["Project Name", p_name],
+            ["Document ID", "SRS-2026-001"],
+            ["Version", "v1.0"],
+            ["Date", "2026-09-06"],
+            ["Prepared By", "REFYNE AI Requirements Engine"],
+            ["Status", "PENDING_APPROVAL"]
+        ]
+        rev_history_rows = [
+            ["Version", "Date", "Author", "Description of Changes"],
+            ["v1.0", "2026-09-06", "REFYNE AI", "Initial ISO/IEC/IEEE 29148 specification baseline"]
+        ]
+
+        # Section 3: Functional Requirements per detected module
+        fr_body_parts = ["The following subsections detail functional requirements categorized by project module:\n"]
+        fr_table_rows = [["SRS Req ID", "Module", "Functional Requirement Description", "Priority", "Acceptance Criteria"]]
+        
+        freqs = pa.get("functional_requirements", [])
+        if not freqs:
+            freqs = [
+                {
+                    "id": "FR-CORE-001",
+                    "title": f"{p_name} Primary Service Pipeline",
+                    "description": f"The system shall execute primary functional capabilities for {p_name}.",
+                    "priority": "HIGH",
+                    "actor": "Authenticated User",
+                    "preconditions": "Active tenant session",
+                    "acceptance_criteria": "Given valid user request, When pipeline executes, Then system responds with 200 OK."
+                }
+            ]
+
+        for idx, f in enumerate(freqs, 1):
+            fid = f.get("id", f"FR-REQ-{idx:03d}")
+            ftitle = f.get("title", f"Requirement {idx}")
+            fdesc = f.get("description", "")
+            factor = f.get("actor", "User")
+            fpre = f.get("preconditions", "User authenticated")
+            fac = f.get("acceptance_criteria", "Given valid input, When action is performed, Then system returns success.")
+            fprio = f.get("priority", "HIGH")
+            
+            fr_body_parts.append(
+                f"### {fid}: {ftitle}\n"
+                f"- **Description**: {fdesc}\n"
+                f"- **Primary Actor**: {factor}\n"
+                f"- **Preconditions**: {fpre}\n"
+                f"- **Priority**: {fprio}\n"
+                f"- **Acceptance Criteria**: {fac}\n"
+            )
+            fr_table_rows.append([fid, fid.split("-")[1] if "-" in fid else "CORE", ftitle, fprio, fac[:80]])
+
+        # Section 5: NFR Table
+        nfr_rows = [["NFR ID", "Category", "Requirement Specification", "Benchmark Criteria"]]
+        nfr_data = pa.get("non_functional_requirements", {})
+        for cat, items in nfr_data.items():
+            for idx, item in enumerate(items, 1):
+                nfr_rows.append([f"NFR-{cat[:4].upper()}-{idx:02d}", cat.replace("_", " ").title(), item, "Verified"])
+
+        # Section 7: Business Rules
+        br_rows = [["Rule ID", "Business Rule Description", "Applicable Module", "Priority"]]
+        for br in pa.get("business_rules", []):
+            br_rows.append([br.get("rule_id", "BR-01"), br.get("rule_description", ""), br.get("applicable_module", "CORE"), br.get("priority", "HIGH")])
+        if len(br_rows) == 1:
+            br_rows.append(["BR-CORE-001", "Tenant boundary isolation enforced on all database queries.", "CORE", "CRITICAL"])
+
+        # Section 8: Security Requirements
+        sec_rows = [["Category", "Security Requirement", "Mechanism", "Priority"]]
+        for sec in pa.get("security_requirements", []):
+            sec_rows.append([sec.get("category", "General"), sec.get("requirement", ""), sec.get("mechanism", "Enforced"), "HIGH"])
+
+        # Section 9: Integration Requirements
+        int_rows = [["Integration ID", "External System", "Purpose", "Protocol", "Authentication"]]
+        for integ in pa.get("integrations", []):
+            int_rows.append([integ.get("integration_id", "INT-01"), integ.get("external_system", ""), integ.get("purpose", ""), integ.get("protocol", ""), integ.get("authentication", "")])
+        if len(int_rows) == 1:
+            int_rows.append(["INT-NONE", "None", "Not applicable to the current project scope.", "N/A", "N/A"])
+
+        # Section 12: API Requirements
+        api_rows = [["API ID", "Method", "Endpoint", "Purpose", "Authentication"]]
+        for api in pa.get("api_requirements", []):
+            api_rows.append([api.get("api_id", "API-01"), api.get("method", "GET"), api.get("endpoint", "/"), api.get("purpose", "")[:50], api.get("authentication", "Required")])
+
+        # Section 13: Use Cases
+        uc_rows = [["Use Case ID", "Use Case Name", "Primary Actor", "Trigger", "Related Req"]]
+        for uc in pa.get("use_cases", []):
+            uc_rows.append([uc.get("use_case_id", "UC-01"), uc.get("name", ""), uc.get("primary_actor", "User"), uc.get("trigger", ""), ", ".join(uc.get("related_requirements", []))])
+
+        # Section 19: RTM Table
+        rtm_rows = [["BRD ID", "SRS Requirement ID", "Business Rule", "API/Component", "Test Case Verification"]]
+        for idx, fr in enumerate(freqs, 1):
+            fid = fr.get("id", f"FR-{idx:02d}")
+            rtm_rows.append([f"BR-{idx:02d}", fid, f"BR-CORE-{idx:02d}", "FastAPI Backend", f"TC-{fid}-01"])
+
+        return {
+            "doc_type": "SRS",
+            "title": f"Software Requirements Specification (ISO/IEC/IEEE 29148) — {p_name}",
+            "version": "v1.0",
+            "status": "PENDING_APPROVAL",
+            "sections": [
+                {"title": "0. Document Control", "table": doc_control_rows},
+                {"title": "0.1 Revision History", "table": rev_history_rows},
+                {"title": "1. Introduction", "body": f"### 1.1 Purpose\nThis Software Requirements Specification defines engineering requirements for **{p_name}** aligned with ISO/IEC/IEEE 29148.\n\n### 1.2 Scope\n{p_desc}\n\n### 1.3 Product Overview\nEnterprise requirements engineering suite with multi-tenant isolation.\n\n### 1.4 Definitions and Acronyms\n• SRS: Software Requirements Specification\n• RTM: Requirements Traceability Matrix\n\n### 1.5 References\nISO/IEC/IEEE 29148:2018 Systems and software engineering — Life cycle processes — Requirements engineering.{rev_note}"},
+                {"title": "2. Overall Description", "body": f"### 2.1 Product Perspective\nSelf-contained software suite operating in cloud / docker containers.\n\n### 2.2 Product Functions\nAutomated requirements discovery, specification compilation, and risk matrix validation.\n\n### 2.3 User Classes and Characteristics\nAdministrative users, software architects, compliance auditors, and QA leads.\n\n### 2.4 Operating Environment\nPython 3.12, FastAPI, PostgreSQL 16, React 18 SPA.\n\n### 2.5 Constraints\nEnforces multi-tenant isolation and security policy controls.\n\n### 2.6 Assumptions and Dependencies\nRequires valid database connection and API keys."},
+                {"title": "3. System Features and Functional Requirements", "body": "\n".join(fr_body_parts)},
+                {"title": "3.1 Functional Requirements Specification Matrix", "table": fr_table_rows},
+                {"title": "4. External Interface Requirements", "body": "### 4.1 User Interface Requirements\nReact SPA glassmorphism dashboard.\n\n### 4.2 Hardware Interface Requirements\nNot applicable to the current project scope.\n\n### 4.3 Software Interface Requirements\nFastAPI REST APIs & PostgreSQL database driver.\n\n### 4.4 Communication Interface Requirements\nHTTPS/TLS 1.3 encrypted communication protocols."},
+                {"title": "5. Non-Functional Requirements", "table": nfr_rows},
+                {"title": "6. Data Requirements", "body": f"### 6.1 Data Model\nRelational schema with foreign keys and multi-tenant scoping.\n\n### 6.2 Entities\n" + ", ".join([e.get("entity_name", "") for e in pa.get("data_requirements", {}).get("entities", [])]) + "\n\n### 6.3 Data Validation\nJSON schema parameter validation on all API endpoints."},
+                {"title": "7. Business Rules", "table": br_rows},
+                {"title": "8. Security Requirements", "table": sec_rows},
+                {"title": "9. Integration Requirements", "table": int_rows},
+                {"title": "10. System Architecture", "body": f"### Architecture Overview\nFrontend: React 18 SPA | Backend: FastAPI REST Gateway | Persistence: PostgreSQL 16 | Vector Engine: ReportLab."},
+                {"title": "11. Database Design", "body": f"Relational tables: " + ", ".join([t.get("table_name", "") for t in pa.get("database_design", {}).get("tables", [])])},
+                {"title": "12. API Requirements", "table": api_rows},
+                {"title": "13. Use Cases", "table": uc_rows},
+                {"title": "14. Workflows and State Requirements", "body": "State machine: INGESTED -> AUDITED -> DRAFTED -> PENDING_APPROVAL -> APPROVED."},
+                {"title": "15. Reporting Requirements", "body": "Generates vector PDF reports for BRD, SRS, and RTM specifications."},
+                {"title": "16. Logging and Audit Requirements", "body": "Structured JSON logging for user authentication, SRS compilation, and approval actions."},
+                {"title": "17. Error Handling Requirements", "body": "Returns standard HTTP error status codes (400, 401, 403, 500) with detailed error details."},
+                {"title": "18. Testing and Verification Requirements", "body": "All functional requirements are verified via automated pytest integration tests."},
+                {"title": "19. Requirements Traceability Matrix", "table": rtm_rows},
+                {"title": "20. Acceptance Criteria", "body": "### System Acceptance Conditions\n• 100% of API endpoints pass authorization tests.\n• ISO/IEC/IEEE 29148 validation score exceeds 80/100.\n• Multi-page PDF exports render cleanly without truncation."},
+                {"title": "21. Appendices", "body": "### Glossary & Reference Material\n• SRS: Software Requirements Specification\n• ISO/IEC/IEEE 29148: International Standard for Requirements Engineering"}
+            ]
+        }
+
+    elif dtype == "BRD":
         br_rows = [["BRD ID", "Requirement Title", "Business Description & Rationale", "Priority", "Acceptance Criteria"]]
         if rtm_matrix:
             for idx, r in enumerate(rtm_matrix, 1):
@@ -539,65 +670,12 @@ def _build_grounded_fallback_document(
                     "body": f"1. **Enterprise Product Sponsor**: Approves strategic requirements and business scope.\n2. **Lead Solutions Architect**: Validates domain architecture for {domain} industry standards.\n3. **Compliance & Security Auditor**: Enforces adherence to {compliance_str}.\n4. **Lead QA Engineer**: Certifies acceptance criteria and RTM coverage."
                 },
                 {
-                    "title": "5. Business Requirements Specification Matrix",
-                    "table": br_rows
-                },
-                {
                     "title": "6. Assumptions & Operational Constraints",
                     "body": f"• **Compliance Constraint**: System must enforce {compliance_str} safeguards at all data boundaries.\n• **NFR Benchmarks**: {', '.join(nfr_list)}.\n• **Identified Gaps**: " + (", ".join([m.get("section_name", "") for m in missing_sections]) if missing_sections else "None identified.")
                 },
                 {
                     "title": "7. Risk & Compliance Baseline",
                     "body": "\n".join([f"• **[{rf.get('severity', 'HIGH')} Risk] {rf.get('title', 'Risk')}**: {rf.get('description', '')} *(Mitigation: {rf.get('mitigation', 'Implement automated controls')})*" for rf in risk_factors[:4]]) if risk_factors else f"No critical risks identified. Baseline security policies adhere to {compliance_str}."
-                }
-            ]
-        }
-
-    elif dtype == "SRS":
-        fr_rows = [["SRS ID", "Subsystem", "Technical Specification & Behavior", "Priority", "Verification Method"]]
-        if rtm_matrix:
-            for idx, r in enumerate(rtm_matrix, 1):
-                raw_goal = r.get("business_goal", f"Requirement {idx}")
-                title_text = _synthesize_clean_title(raw_goal, f"Functional Spec {idx:02d}")
-                fr_rows.append([
-                    f"FR-{idx:02d}",
-                    r.get("technical_component", "Core Engine"),
-                    f"Shall implement {title_text}. Detail: {raw_goal}",
-                    "CRITICAL" if idx <= 2 else "HIGH",
-                    r.get("test_case_verification", "Automated Integration Test")
-                ])
-        else:
-            fr_rows.append(["FR-01", "Core Service Engine", f"Execute business processing pipeline for {title}.", "CRITICAL", "Automated Integration Suite"])
-
-        return {
-            "doc_type": "SRS",
-            "title": f"Software Requirements Specification (IEEE 830) — {title}",
-            "version": "v1.0",
-            "status": "PENDING_APPROVAL",
-            "sections": [
-                {
-                    "title": "1. Technical Introduction & Purpose",
-                    "body": f"This Software Requirements Specification (SRS) defines the formal technical and engineering requirements for **{title}** in the **{domain}** domain.\n\n{summary}{rev_note}"
-                },
-                {
-                    "title": "2. Overall Description & System Architecture",
-                    "body": f"The platform is architected as an enterprise-grade service complying with {compliance_str}.\n\nIt interfaces with secure API endpoints, relational persistence layers, and client-facing interfaces with strict multi-tenant boundary isolation."
-                },
-                {
-                    "title": "3. Detailed Functional Requirements Specification",
-                    "table": fr_rows
-                },
-                {
-                    "title": "4. Non-Functional Requirements (NFR)",
-                    "body": f"• **Domain Standards ({domain})**: Enforces {compliance_str}.\n" + "\n".join([f"• **NFR-{i+1}**: {nfr}" for i, nfr in enumerate(nfr_list)])
-                },
-                {
-                    "title": "5. External Interface Requirements",
-                    "body": f"• **API Protocols**: RESTful HTTPS endpoints with JSON schema payload validation.\n• **Security Layer**: OAuth2 / JWT authentication with role-based access control.\n• **Data Protection**: TLS 1.3 in-transit and AES-256 at-rest per {compliance_str}."
-                },
-                {
-                    "title": "6. System Constraints & Compliance Verification",
-                    "body": f"System operation is bounded by {compliance_str} specifications. Any unquantified requirements from the source document are tracked as open architecture items requiring stakeholder signoff."
                 }
             ]
         }
@@ -843,6 +921,7 @@ async def generate_document_ai(
     previous_doc: dict | None = None,
     api_key: str | None = None,
     tenant_id: str | None = None,
+    project_analysis: dict | None = None
 ) -> dict:
     dtype = (doc_type or "BRD").upper()
     doc_title = title or f"{dtype} Specification"
@@ -871,7 +950,8 @@ async def generate_document_ai(
         domain_profile=domain_profile,
         project_title=doc_title,
         revision_feedback=revision_feedback,
-        previous_sections=previous_sections
+        previous_sections=previous_sections,
+        project_analysis=project_analysis
     )
 
     ai_result = await _call_groq_json(
@@ -903,7 +983,8 @@ async def generate_document_ai(
             audit_json=audit_json or {},
             domain_profile=domain_profile,
             doc_excerpt=doc_excerpt,
-            revision_feedback=revision_feedback
+            revision_feedback=revision_feedback,
+            project_analysis=project_analysis
         )
         fallback_doc["revision_history"] = []
         fallback_doc["parent_id"] = None

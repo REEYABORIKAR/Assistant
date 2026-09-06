@@ -37,16 +37,41 @@ const Documents = () => {
     setLoading(true);
     setError('');
     try {
-      const response = await api.get('/api/v1/files', {
-        params: { project_id: projectId }
-      });
-      const fileList = Array.isArray(response.data)
-        ? response.data
-        : (response.data?.files || response.data?.items || []);
-      
-      if (fileList.length > 0) {
-        setDocuments(fileList);
-        setSelectedDoc(fileList[0]);
+      const [filesRes, docsRes] = await Promise.allSettled([
+        api.get('/api/v1/files', { params: { project_id: projectId } }),
+        api.get('/api/v1/documents')
+      ]);
+
+      let combined = [];
+
+      if (docsRes.status === 'fulfilled' && Array.isArray(docsRes.data)) {
+        combined = docsRes.data.map(d => ({
+          id: d.id,
+          name: d.title || `${d.doc_type || 'SRS'} Specification`,
+          filename: d.title || `${d.doc_type || 'SRS'} Specification`,
+          type: d.doc_type || 'SRS',
+          version: d.version || 'v1.0',
+          status: d.status || 'APPROVED',
+          sections: d.sections || [],
+          validation_report: d.validation_report,
+          isCompiledDoc: true
+        }));
+      }
+
+      if (filesRes.status === 'fulfilled') {
+        const fileList = Array.isArray(filesRes.data)
+          ? filesRes.data
+          : (filesRes.data?.files || filesRes.data?.items || []);
+        const formattedFiles = fileList.map(f => ({
+          ...f,
+          type: f.type || (f.name?.endsWith('.pdf') ? 'PDF' : 'DOC')
+        }));
+        combined = [...combined, ...formattedFiles];
+      }
+
+      if (combined.length > 0) {
+        setDocuments(combined);
+        setSelectedDoc(combined[0]);
       } else {
         setDocuments([]);
         setSelectedDoc(null);
@@ -256,6 +281,10 @@ const Documents = () => {
 
               <div className="p-3 rounded-lg bg-slate-950/70 border border-slate-800 text-xs space-y-2">
                 <div className="flex justify-between">
+                  <span className="text-slate-400">Standard:</span>
+                  <span className="text-cyan-300 font-mono font-bold">ISO/IEC/IEEE 29148</span>
+                </div>
+                <div className="flex justify-between">
                   <span className="text-slate-400">Version:</span>
                   <span className="text-cyan-300 font-mono font-bold">{selectedDoc.version || 'v1.0'}</span>
                 </div>
@@ -263,6 +292,14 @@ const Documents = () => {
                   <span className="text-slate-400">Status:</span>
                   <span className="text-emerald-400 font-semibold">{selectedDoc.status || 'DRAFT'}</span>
                 </div>
+                {selectedDoc.validation_report && (
+                  <div className="flex justify-between pt-1 border-t border-slate-800">
+                    <span className="text-slate-400">Quality Score:</span>
+                    <span className={`font-mono font-bold ${selectedDoc.validation_report.score >= 80 ? 'text-emerald-400' : 'text-amber-400'}`}>
+                      {selectedDoc.validation_report.score}/100
+                    </span>
+                  </div>
+                )}
                 <div className="flex justify-between">
                   <span className="text-slate-400">Traceability:</span>
                   <span className="text-slate-200">Full (RTM Synced)</span>
