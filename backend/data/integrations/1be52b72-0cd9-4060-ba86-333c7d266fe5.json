@@ -9,13 +9,38 @@
       "projectKey": "Req",
       "issueType": "Task"
     },
-    "last_synced_at": "2026-09-04T19:29:09.016894+00:00",
+    "last_synced_at": "2026-09-06T17:17:56.849109+00:00",
     "last_sync_status": "SUCCESS",
     "sync_stats": {
-      "items_synced": 55,
+      "items_synced": 88,
       "last_action": "Exported 7 items to Jira"
     },
     "recent_events": [
+      {
+        "time": "17:17:56",
+        "level": "SUCCESS",
+        "message": "Synchronized 7 requirement items to JIRA (REFYNE SRS & RTM Traceability Specificat...)."
+      },
+      {
+        "time": "17:17:50",
+        "level": "SUCCESS",
+        "message": "Synchronized 7 requirement items to JIRA (REFYNE SRS & RTM Traceability Specificat...)."
+      },
+      {
+        "time": "17:17:00",
+        "level": "SUCCESS",
+        "message": "Synchronized 7 requirement items to JIRA (REFYNE SRS & RTM Traceability Specificat...)."
+      },
+      {
+        "time": "17:16:54",
+        "level": "SUCCESS",
+        "message": "Synchronized 5 requirement items to JIRA (Document Generation & Approval Queue Exe...)."
+      },
+      {
+        "time": "17:16:37",
+        "level": "SUCCESS",
+        "message": "Synchronized 7 requirement items to JIRA (REFYNE SRS & RTM Traceability Specificat...)."
+      },
       {
         "time": "19:29:09",
         "level": "SUCCESS",
@@ -65,16 +90,6 @@
         "time": "19:00:15",
         "level": "WARN",
         "message": "Integration JIRA disconnected by tenant administrator."
-      },
-      {
-        "time": "18:42:33",
-        "level": "SUCCESS",
-        "message": "Synchronized 7 requirement items to JIRA (REFYNE SRS & RTM Traceability Specificat...)."
-      },
-      {
-        "time": "18:42:27",
-        "level": "INFO",
-        "message": "Connection credentials updated for JIRA."
       }
     ],
     "updated_at": "2026-09-04T19:00:31.356892+00:00"
