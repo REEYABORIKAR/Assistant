@@ -848,16 +848,6 @@ The goal is not simply to generate text with an LLM, but to connect AI-assisted 
 
 ---
 
-## License
-
-The repository currently specifies:
-
-```text
-ISC
-```
-
----
-
 ## Repository
 
 GitHub:
